@@ -20,12 +20,31 @@ class RolesSeeder extends Seeder
         $staff = Role::create(['name' => 'staff', 'guard_name' => 'api']);
 
 
-        $owner->syncPermissions([ModelsPermission::all()]);
-        $admin->syncPermissions([ModelsPermission::where('name', 'not like', 'user.%')->get()]);
-        $staff->syncPermissions([ModelsPermission::where('name', 'like', 'product.%')
-            ->orWhere('name', 'like', 'supplier.%')
-            ->orWhere('name', 'like', 'bussiness.%')
-            ->get()]);
-            
+        $owner->syncPermissions(ModelsPermission::all());
+
+        $admin->syncPermissions(
+            ModelsPermission::where('name', 'not like', 'user.%')
+                ->where('name', 'not like', 'bussiness.%')
+                ->get()
+        );
+
+
+        $staff->syncPermissions(
+            ModelsPermission::where('name', 'like', 'product.view')
+                ->orWhere('name', 'like', 'supplier.view')
+                ->orWhere('name', 'like', 'category.view')
+                ->orWhere('name', 'like', 'stockTransaction.create')
+                ->orWhere('name', 'like', 'stockTransaction.view')
+                ->orWhere('name', 'like', 'sales.create')
+                ->orWhere('name', 'like', 'sales.view')
+                ->orWhere('name', 'like', 'hppComponents.view')
+                ->orWhere('name', 'like', 'financialCategory.view')
+                ->orWhere('name', 'like', 'financialTransaction.create')
+                ->orWhere('name', 'like', 'financialTransaction.view')
+                ->orWhere('name', 'like', 'bussiness.me')
+                ->get()
+        );
     }
-}
+
+    }
+

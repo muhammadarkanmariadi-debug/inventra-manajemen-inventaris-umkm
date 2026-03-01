@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Observers\StockTransactionObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 
 class StockTransactions extends Model

@@ -22,6 +22,7 @@ class PermissionSeeder extends Seeder
             'bussiness.update',
             'bussiness.delete',
             'bussiness.view',
+            'bussiness.me',
             'supplier.create',
             'supplier.view',
             'supplier.update',
@@ -49,13 +50,19 @@ class PermissionSeeder extends Seeder
             'sales.create',
             'sales.view',
             'sales.update',
-            'sales.delete'
+            'sales.delete',
+            'financialCategory.create',
+            'financialCategory.view',
+            'financialCategory.update',
+            'financialCategory.delete',
+            'financialTransaction.create',
+            'financialTransaction.view',
+            'financialTransaction.update',
+            'financialTransaction.delete',
         ];
-
 
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission, 'guard_name' => 'api']);
         }
     }
 }
-

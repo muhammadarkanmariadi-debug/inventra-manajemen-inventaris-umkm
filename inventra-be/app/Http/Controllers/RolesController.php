@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ApiHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Services\RequestService;
 use App\Models\Roles;
@@ -21,59 +22,22 @@ class RolesController extends Controller
     {
         try {
             $rules = [
-                'name' => 'required|string|unique:roles,name',
-                'permissions' => 'required|array',
+                'name'          => 'required|string|unique:roles,name',
+                'permissions'   => 'required|array',
                 'permissions.*' => 'string|exists:permissions,name',
             ];
 
-
-            $this->requestService->postData(Roles::class, $request, $rules);
-            $role = $request->input('name');
+            $data = $this->requestService->postData(Roles::class, $request, $rules);
             $permissions = $request->input('permissions', []);
-            $role->syncPermissions($permissions);
-            return response()->json(['message' => 'Roles created successfully'], 201);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to create roles', 'message' => $e->getMessage()], 500);
-        }
-    }
+            $data->syncPermissions($permissions);
 
-    public function getRoles()
-    {
-        try {
-            $roles = Roles::get();
-            if (count($roles) == 0) {
-                return response()->json(['error' => 'No roles found'], 404);
+            if (!$data) {
+                ApiHelper::error('Failed to create role', 500);
+            } else {
+                ApiHelper::success('Role was successfully created', $data, 201);
             }
-            return response()->json(['message' => 'Roles retrieved successfully', 'data' => $roles], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'An error occurred', 'message' => $e->getMessage()], 500);
-        }
-    }
-
-    public function getRoleById($id)
-    {
-        try {
-            $role = Roles::with('permissions')->find($id);
-            if (!$role) {
-                return response()->json(['error' => 'Role not found'], 404);
-            }
-            return response()->json(['message' => 'Role retrieved successfully', 'data' => $role], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'An error occurred', 'message' => $e->getMessage()], 500);
-        }
-    }
-
-    public function deleteRole($id)
-    {
-        try {
-            $role = Roles::find($id);
-            if (!$role) {
-                return response()->json(['error' => 'Role not found'], 404);
-            }
-            $role->delete();
-            return response()->json(['message' => 'Role deleted successfully'], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'An error occurred', 'message' => $e->getMessage()], 500);
+            ApiHelper::error($e->getMessage(), 500);
         }
     }
 
@@ -81,31 +45,82 @@ class RolesController extends Controller
     {
         try {
             $rules = [
-                'name' => 'required|string|unique:roles,name,' . $id,
-                'permissions' => 'required|array',
+                'name'          => 'sometimes|string|unique:roles,name,' . $id,
+                'permissions'   => 'sometimes|array',
                 'permissions.*' => 'string|exists:permissions,name',
             ];
 
-            $this->requestService->updateDataById(Roles::class, $id, $request, $rules);
-            $role = Roles::find($id);
+            $data = $this->requestService->updateDataById(Roles::class, $id, $request, $rules);
             $permissions = $request->input('permissions', []);
-            $role->syncPermissions($permissions);
-            return response()->json(['message' => 'Role updated successfully'], 200);
+            $data->syncPermissions($permissions);
+
+            if (!$data) {
+                ApiHelper::error('Failed to update role', 500);
+            } else {
+                ApiHelper::success('Role was successfully updated', $data, 200);
+            }
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to update role', 'message' => $e->getMessage()], 500);
+            ApiHelper::error($e->getMessage(), 500);
+        }
+    }
+
+    public function deleteRole($id)
+    {
+        try {
+            $data = $this->requestService->deleteDataById(Roles::class, $id);
+
+            if (!$data) {
+                ApiHelper::error('Failed to delete role', 500);
+            } else {
+                ApiHelper::success('Role was successfully deleted', null, 200);
+            }
+        } catch (\Exception $e) {
+            ApiHelper::error($e->getMessage(), 500);
+        }
+    }
+
+    public function getRoles()
+    {
+        try {
+            $data = Roles::get();
+
+            if (!$data) {
+                ApiHelper::error('Failed to get roles', 500);
+            } else {
+                ApiHelper::success('Roles was successfully retrieved', $data, 200);
+            }
+        } catch (\Exception $e) {
+            ApiHelper::error($e->getMessage(), 500);
+        }
+    }
+
+    public function getRoleById($id)
+    {
+        try {
+            $data = Roles::with('permissions')->where('id', $id)->first();
+
+            if (!$data) {
+                ApiHelper::error('Role not found', 404);
+            } else {
+                ApiHelper::success('Role was successfully retrieved', $data, 200);
+            }
+        } catch (\Exception $e) {
+            ApiHelper::error($e->getMessage(), 500);
         }
     }
 
     public function getPermissions()
     {
         try {
-            $permissions = Permission::get();
-            if (count($permissions) == 0) {
-                return response()->json(['error' => 'No permissions found'], 404);
+            $data = Permission::get();
+
+            if (!$data) {
+                ApiHelper::error('Failed to get permissions', 500);
+            } else {
+                ApiHelper::success('Permissions was successfully retrieved', $data, 200);
             }
-            return response()->json(['message' => 'Permissions retrieved successfully', 'data' => $permissions], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'An error occurred', 'message' => $e->getMessage()], 500);
+            ApiHelper::error($e->getMessage(), 500);
         }
     }
 }

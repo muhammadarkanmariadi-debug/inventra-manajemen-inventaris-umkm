@@ -38,7 +38,7 @@ class HppComponentsController extends Controller
                 return ApiHelper::success('HPP Component created successfully', $data, 201);
             }
         } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred', $e->getMessage(), 500);
+          ApiHelper::error($e->getMessage(), 500);
         }
     }
 
@@ -52,7 +52,7 @@ class HppComponentsController extends Controller
 
             return ApiHelper::success('HPP Components retrieved successfully', $hppComponents);
         } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred', $e->getMessage(), 500);
+              ApiHelper::error($e->getMessage(), 500);
         }
     }
 
@@ -71,7 +71,7 @@ class HppComponentsController extends Controller
 
             return ApiHelper::success('HPP Component retrieved successfully', $hppComponent);
         } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred', $e->getMessage(), 500);
+              ApiHelper::error($e->getMessage(), 500);
         }
     }
 
@@ -81,7 +81,7 @@ class HppComponentsController extends Controller
             $hppComponent = $this->requestService->deleteDataById(HppComponents::class, $id);
             return ApiHelper::success('HPP Component deleted successfully');
         } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred', $e->getMessage(), 500);
+              ApiHelper::error($e->getMessage(), 500);
         }
     }
 
@@ -102,7 +102,7 @@ class HppComponentsController extends Controller
                 return ApiHelper::success('HPP Component updated successfully', $data);
             }
         } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred', $e->getMessage(), 500);
+              ApiHelper::error($e->getMessage(), 500);
         }
     }
 }

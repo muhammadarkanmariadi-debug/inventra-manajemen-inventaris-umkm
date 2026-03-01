@@ -48,7 +48,7 @@ class RequestService
         }
 
         $data->delete();
-        return response()->json(['message' => 'Data deleted successfully'], 200);
+        return $data;
     }
 
 

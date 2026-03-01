@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\BussinessController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\FinancialCategoryController;
+use App\Http\Controllers\FinancialTransactionController;
 use App\Http\Controllers\HppComponentsController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\RolesController;
@@ -105,4 +107,20 @@ Route::middleware(MiddlewareAuthenticate::class)->group(function () {
         Route::put('/{id}', 'updateHppComponent')->middleware(PermissionMiddleware::class . ':hppComponents.update');
         Route::delete('/{id}', 'deleteHppComponent')->middleware(PermissionMiddleware::class . ':hppComponents.delete');
     });
+
+    Route::controller(FinancialCategoryController::class)->prefix('financial-categories')->group(function () {
+    Route::post('/', 'createFinancialCategory')->middleware(PermissionMiddleware::class . ':financialCategory.create');
+    Route::get('/', 'getAllFinancialCategory')->middleware(PermissionMiddleware::class . ':financialCategory.view');
+    Route::get('/{id}', 'getFinancialCategoryById')->middleware(PermissionMiddleware::class . ':financialCategory.view');
+    Route::put('/{id}', 'updateFinancialCategory')->middleware(PermissionMiddleware::class . ':financialCategory.update');
+    Route::delete('/{id}', 'deleteFinancialCategory')->middleware(PermissionMiddleware::class . ':financialCategory.delete');
+});
+
+Route::controller(FinancialTransactionController::class)->prefix('financial-transactions')->group(function () {
+    Route::post('/', 'createFinancialTransaction')->middleware(PermissionMiddleware::class . ':financialTransaction.create');
+    Route::get('/', 'getAllFinancialTransaction')->middleware(PermissionMiddleware::class . ':financialTransaction.view');
+    Route::get('/{id}', 'getFinancialTransactionById')->middleware(PermissionMiddleware::class . ':financialTransaction.view');
+    Route::put('/{id}', 'updateFinancialTransaction')->middleware(PermissionMiddleware::class . ':financialTransaction.update');
+    Route::delete('/{id}', 'deleteFinancialTransaction')->middleware(PermissionMiddleware::class . ':financialTransaction.delete');
+});
 });

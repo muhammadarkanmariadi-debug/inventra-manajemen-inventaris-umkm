@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class FinancialCategory extends Model
 {
-    //
+    protected $guarded = ['id'];
+
+    public function financialTransaction(){
+        $this->hasMany(FinancialCategory::class, 'financial_category_id', 'id');
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\Bussiness;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -22,6 +23,7 @@ class BussinessEvent
     {
 
         $this->bussiness = $bussiness;
+        
     }
 
     /**
