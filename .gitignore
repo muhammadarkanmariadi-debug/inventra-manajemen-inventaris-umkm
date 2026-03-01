@@ -1,0 +1,96 @@
+/inventra-fe/node_modules
+/inventra-fe/dist
+/inventra-fe/.env
+
+
+
+/inventra-be/*.log
+/inventra-be/.DS_Store
+/inventra-be/.env
+/inventra-be/.env.backup
+/inventra-be/.env.production
+/inventra-be/.phpactor.json
+/inventra-be/.phpunit.result.cache
+/inventra-be/.fleet
+/inventra-be/.idea
+/inventra-be/.nova
+/inventra-be/.phpunit.cache
+/inventra-be/.vscode
+/inventra-be/.zed
+/inventra-be/auth.json
+/inventra-be/node_modules
+/inventra-be/public/build
+/inventra-be/public/hot
+/inventra-be/public/storage
+/inventra-be/storage/*.key
+/inventra-be/storage/pail
+/inventra-be/vendor
+/inventra-be/Homestead.json
+/inventra-be/Homestead.yaml
+/inventra-be/Thumbs.db
+
+**/caddy
+/inventra-be/frankenphp
+/inventra-be/frankenphp-worker.php
+
+
+/inventra-fe/node_modules
+/inventra-fe/.pnp
+/inventra-fe/.pnp.*
+/inventra-fe/.yarn/*
+!/inventra-fe/.yarn/patches
+!/inventra-fe/.yarn/plugins
+!/inventra-fe/.yarn/releases
+!/inventra-fe/.yarn/versions
+
+# Build output
+/inventra-fe/.next/
+/inventra-fe/out/
+
+# Production build
+/inventra-fe/build
+
+# Environment variables
+/inventra-fe/.env
+/inventra-fe/.env.local
+/inventra-fe/.env.development.local
+/inventra-fe/.env.test.local
+/inventra-fe/.env.production.local
+
+# Debug logs
+/inventra-fe/npm-debug.log*
+/inventra-fe/yarn-debug.log*
+/inventra-fe/yarn-error.log*
+
+# Turbopack
+/inventra-fe/.turbo
+
+# TypeScript
+/inventra-fe/*.tsbuildinfo
+/inventra-fe/next-env.d.ts
+
+# Cache
+/inventra-fe/.cache
+/inventra-fe/.eslintcache
+/inventra-fe/.swc
+
+# Testing
+/inventra-fe/coverage
+/inventra-fe/.nyc_output
+
+# OS
+/inventra-fe/.DS_Store
+/inventra-fe/Thumbs.db
+
+# IDE / Editor
+/inventra-fe/.idea
+/inventra-fe/.vscode
+/inventra-fe/*.suo
+/inventra-fe/*.ntvs*
+/inventra-fe/*.njsproj
+/inventra-fe/*.sln
+/inventra-fe/*.sw?
+
+# Misc
+/inventra-fe/*.pem
+/inventra-fe/vercel.json

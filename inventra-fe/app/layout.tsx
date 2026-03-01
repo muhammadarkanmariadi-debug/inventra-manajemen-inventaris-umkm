@@ -1,0 +1,43 @@
+import type { Metadata } from "next";
+import { Geist, Geist_Mono, Poppins } from "next/font/google";
+import "./globals.css";
+import Navbar from "./components/Navbar";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "Inventra",
+  description: "Your umkm solution",
+};
+
+export const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-poppins",
+})
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <Navbar/>      
+      <body
+        className={`${poppins.variable} antialiased`}
+      >
+        {children}
+      </body>
+    </html>
+  );
+}
+
