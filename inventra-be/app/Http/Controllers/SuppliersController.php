@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LoggingEvent;
 use App\Helpers\ApiHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Services\RequestService;
 use App\Models\Suppliers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class SuppliersController extends Controller
 {
@@ -32,6 +34,7 @@ class SuppliersController extends Controller
             if (!$data) {
                 ApiHelper::error('Failed to create supplier', 500);
             } else {
+                event(new LoggingEvent('Supplier was successfully created', 'suppliers'));
                 ApiHelper::success('Supplier was successfully created', $data, 201);
             }
         } catch (\Exception $e) {
@@ -54,6 +57,7 @@ class SuppliersController extends Controller
             if (!$data) {
                 ApiHelper::error('Failed to update supplier', 500);
             } else {
+                event(new LoggingEvent('Supplier with id ' . $id . ' updated successfully', 'suppliers'));
                 ApiHelper::success('Supplier was successfully updated', $data, 200);
             }
         } catch (\Exception $e) {
@@ -69,6 +73,7 @@ class SuppliersController extends Controller
             if (!$data) {
                 ApiHelper::error('Failed to delete supplier', 500);
             } else {
+                event(new LoggingEvent('Supplier with id ' . $id . ' deleted successfully', 'suppliers'));
                 ApiHelper::success('Supplier was successfully deleted', null, 200);
             }
         } catch (\Exception $e) {
@@ -79,7 +84,10 @@ class SuppliersController extends Controller
     public function getAllSupplier()
     {
         try {
-            $data = Suppliers::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)  ->get();
+            $data = Cache::remember('suppliers', 7200, function () {
+                return Suppliers::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)->get();
+            });
+
 
             if (!$data) {
                 ApiHelper::error('Failed to get suppliers', 500);

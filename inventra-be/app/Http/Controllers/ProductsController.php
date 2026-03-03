@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LoggingEvent;
 use App\Helpers\ApiHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Services\RequestService;
@@ -53,10 +54,11 @@ class ProductsController extends Controller
             if (!$data) {
                 return ApiHelper::error('Gagal membuat Data Product', 500);
             } else {
+                event(new LoggingEvent('Product with id created successfully', 'products'));
                 return ApiHelper::success('Data Product berhasil dibuat', $data, 201);
             }
         } catch (\Exception $e) {
-             ApiHelper::error($e->getMessage(), 500);
+            ApiHelper::error($e->getMessage(), 500);
         }
     }
 
@@ -66,29 +68,24 @@ class ProductsController extends Controller
         try {
             $products = FacadesCache::remember('products', 60, function () {
                 return Products::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)->get();
-
             });
 
-
             if ($request->has('include')) {
-                    $includes = explode(',', $request->query('include'));
-                    if (in_array('category', $includes)) {
-                        $products->load('category');
-                    }
-                    if (in_array('supplier', $includes)) {
-                        $products->load('supplier');
-                    }
+                $includes = explode(',', $request->query('include'));
+                if (in_array('category', $includes)) {
+                    $products->load('category');
+                }
+                if (in_array('supplier', $includes)) {
+                    $products->load('supplier');
+                }
             }
-
-
-
 
             if ($products->isEmpty()) {
                 return ApiHelper::error('No products found', 404);
             }
             return ApiHelper::success('Products retrieved successfully', $products, 200);
         } catch (\Exception $e) {
-               ApiHelper::error($e->getMessage(), 500);
+            ApiHelper::error($e->getMessage(), 500);
         }
     }
 
@@ -97,14 +94,14 @@ class ProductsController extends Controller
     public function getProduct($id)
     {
         try {
-            $products = Products::with(['category', 'supplier'])->where('id'. $id)->where('bussiness_id', auth()->guard('api')->user()->bussiness_id);
+            $products = Products::with(['category', 'supplier'])->where('id', $id)->where('bussiness_id', auth()->guard('api')->user()->bussiness_id);
 
             if (!$products) {
                 return ApiHelper::error('Product not found', 404);
             }
             return ApiHelper::success('Product retrieved successfully', $products, 200);
         } catch (\Exception $e) {
-             ApiHelper::error($e->getMessage(), 500);
+            ApiHelper::error($e->getMessage(), 500);
         }
     }
 
@@ -134,10 +131,11 @@ class ProductsController extends Controller
             if (!$data) {
                 return ApiHelper::error('Failed to update product', 500);
             } else {
+                event(new LoggingEvent('Product with id ' . $id . ' updated successfully', 'products'));
                 return ApiHelper::success('Product updated successfully', $data);
             }
         } catch (\Exception $e) {
-               ApiHelper::error($e->getMessage(), 500);
+            ApiHelper::error($e->getMessage(), 500);
         }
     }
 
@@ -150,12 +148,10 @@ class ProductsController extends Controller
             }
 
             $product->supplier()->detach();
-
+            event(new LoggingEvent('Product with id ' . $id . ' deleted successfully', 'products'));
             return ApiHelper::success('Product deleted successfully', [], 200);
         } catch (\Exception $e) {
-               ApiHelper::error($e->getMessage(), 500);
+            ApiHelper::error($e->getMessage(), 500);
         }
     }
 }
-
-

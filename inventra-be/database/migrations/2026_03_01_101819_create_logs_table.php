@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
+            $table->string('message');
+            $table->enum('categories', ['users', 'products', 'suppliers', 'categories', 'financialTransactions', 'hppComponents', 'stockTransactions', 'financialCategories', 'sales']);
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

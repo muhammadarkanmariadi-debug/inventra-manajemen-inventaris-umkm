@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LoggingEvent;
 use App\Helpers\ApiHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Services\RequestService;
 use App\Models\FinancialCategory;
 use Google\Service\ApigeeRegistry\Api;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class FinancialCategoryController extends Controller
 {
@@ -29,10 +31,11 @@ class FinancialCategoryController extends Controller
             if (!$data) {
                 ApiHelper::error('Failed to create financial category', 500);
             } else {
+                event(new LoggingEvent('Financial category was successfully created', 'financialCategories'));
                 ApiHelper::success('Financial category was successfully created', $data, 201);
             }
         } catch (\Exception $e) {
-           ApiHelper::error($e->getMessage(), 500);
+            ApiHelper::error($e->getMessage(), 500);
         }
     }
 
@@ -43,15 +46,16 @@ class FinancialCategoryController extends Controller
                 'name' => 'sometimes|string',
                 'type' => 'sometimes|string|in:income,expense'
             ];
-            $data = $this->requestService->updateDataById(FinancialCategory::class, $id, $request,$rules);
+            $data = $this->requestService->updateDataById(FinancialCategory::class, $id, $request, $rules);
 
             if (!$data) {
                 ApiHelper::error('Failed to update financial category', 500);
             } else {
+                event(new LoggingEvent('Financial category with id: ' . $id . ' updated successfully', 'financialCategories'));
                 ApiHelper::success('Financial category was successfully updated', $data, 200);
             }
         } catch (\Exception $e) {
-              ApiHelper::error($e->getMessage(), 500);
+            ApiHelper::error($e->getMessage(), 500);
         }
     }
 
@@ -63,25 +67,29 @@ class FinancialCategoryController extends Controller
             if (!$data) {
                 ApiHelper::error('Failed to delete financial category', 500);
             } else {
+                event(new LoggingEvent('Financial category with id: ' . $id . ' deleted successfully', 'financialCategories'));
                 ApiHelper::success('Financial category was successfully deleted', null, 200);
             }
         } catch (\Exception $e) {
-       ApiHelper::error($e->getMessage(), 500);
+            ApiHelper::error($e->getMessage(), 500);
         }
     }
 
     public function getAllFinancialCategory()
     {
         try {
-            $data = FinancialCategory::where('bussiness_id', auth()->guard('api')->user()->bussiness_id);
+            $data = Cache::remember('financial_categories', 7200, function () {
+                return FinancialCategory::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)->get();
+            });
 
             if (!$data) {
                 ApiHelper::error('Failed to get financial categories', 500);
             } else {
+
                 ApiHelper::success('Financial categories was successfully retrieved', $data, 200);
             }
         } catch (\Exception $e) {
-               ApiHelper::error($e->getMessage(), 500);
+            ApiHelper::error($e->getMessage(), 500);
         }
     }
 
@@ -96,7 +104,7 @@ class FinancialCategoryController extends Controller
                 ApiHelper::success('Financial category was successfully retrieved', $data, 200);
             }
         } catch (\Exception $e) {
-             ApiHelper::error($e->getMessage(), 500);
+            ApiHelper::error($e->getMessage(), 500);
         }
     }
 }

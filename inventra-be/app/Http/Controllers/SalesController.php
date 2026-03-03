@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LoggingEvent;
 use App\Helpers\ApiHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Services\RequestService;
@@ -9,6 +10,7 @@ use App\Models\Products;
 use App\Models\Sales;
 use App\Models\HppComponents;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class SalesController extends Controller
@@ -65,6 +67,7 @@ class SalesController extends Controller
                 if (!$data) {
                     return ApiHelper::error('Failed to create sale', 500);
                 } else {
+                    event(new LoggingEvent('Sale was successfully created', 'sales'));
                     return ApiHelper::success('Sale was successfully created', $data, 201);
                 }
             });
@@ -123,6 +126,7 @@ class SalesController extends Controller
                 if (!$data) {
                     return ApiHelper::error('Failed to update sale', 500);
                 } else {
+                    event(new LoggingEvent('Sale with id: ' . $id . ' updated successfully', 'sales'));
                     return ApiHelper::success('Sale was successfully updated', $sale->fresh(), 200);
                 }
             });
@@ -139,6 +143,7 @@ class SalesController extends Controller
             if (!$data) {
                 ApiHelper::error('Failed to delete sale', 500);
             } else {
+                event(new LoggingEvent('Sale with id: ' . $id . ' deleted successfully', 'sales'));
                 ApiHelper::success('Sale was successfully deleted', null, 200);
             }
         } catch (\Exception $e) {
@@ -146,16 +151,14 @@ class SalesController extends Controller
         }
     }
 
-    public function getAllSale(Request $request)
+    public function getAllSale()
     {
         try {
-            $data = Sales::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
-                ->with('product')
-                ->get();
-
-
-
-        
+            $data = Cache::remember('sales', 7200, function () {
+                return   Sales::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
+                    ->with('product')
+                    ->get();
+            });
 
             if (!$data) {
                 ApiHelper::error('Failed to get sales', 500);

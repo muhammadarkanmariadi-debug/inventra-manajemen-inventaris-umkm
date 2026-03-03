@@ -6,7 +6,7 @@ use App\Observers\AttachBID;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 
-
+#[ObservedBy(AttachBID::class)]
 class Bussiness extends Model
 {
 
@@ -41,6 +41,10 @@ class Bussiness extends Model
     {
         return $this->hasMany(FinancialTransactions::class, 'bussiness_id', 'id');
     }
+    public function financialCategories()
+    {
+        return $this->hasMany(FinancialCategory::class, 'bussiness_id', 'id');
+    }
 
     public function hppComponents()
     {
@@ -51,4 +55,6 @@ class Bussiness extends Model
     {
         return $this->hasMany(StockTransactions::class, 'bussiness_id', 'id');
     }
+
+
 }

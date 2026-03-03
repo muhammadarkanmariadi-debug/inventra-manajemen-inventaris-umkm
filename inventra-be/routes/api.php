@@ -37,7 +37,7 @@ Route::middleware(MiddlewareAuthenticate::class)->group(function () {
 
     Route::controller(BussinessController::class)->prefix('bussiness')->group(function () {
         Route::post('/', 'createBusiness')->withoutMiddleware(PermissionMiddleware::class . ':bussiness.*');
-        Route::get('/me', 'getMyBussiness')->middleware(PermissionMiddleware::class . ':bussiness.view');
+        Route::get('/me', 'getMyBussiness')->middleware(PermissionMiddleware::class . ':bussiness.me');
         Route::get('/', 'getAllBussiness')->middleware(PermissionMiddleware::class . ':bussiness.view')->middleware(RolesMiddleware::class . ':SUPERADMIN');
         Route::get('/{id}', 'getBussinessById')->middleware(PermissionMiddleware::class . ':bussiness.view')->middleware(RolesMiddleware::class . ':SUPERADMIN');
         Route::put('/{id}', 'updateBussiness')->middleware(PermissionMiddleware::class . ':bussiness.update');
@@ -86,8 +86,8 @@ Route::middleware(MiddlewareAuthenticate::class)->group(function () {
 
     Route::controller(StockTransactionController::class)->prefix('stock-transactions')->group(function () {
         Route::post('/', 'createStockTransaction')->middleware(PermissionMiddleware::class . ':stockTransaction.create');
-        Route::get('/', 'getStockTransactions')->middleware(PermissionMiddleware::class . ':stockTransaction.view');
-        Route::get('/{id}', 'getStockTransaction')->middleware(PermissionMiddleware::class . ':stockTransaction.view');
+        Route::get('/', 'getAllStockTransaction')->middleware(PermissionMiddleware::class . ':stockTransaction.view');
+        Route::get('/{id}', 'getStockTransactionById')->middleware(PermissionMiddleware::class . ':stockTransaction.view');
         Route::put('/{id}', 'updateStockTransaction')->middleware(PermissionMiddleware::class . ':stockTransaction.update');
         Route::delete('/{id}', 'deleteStockTransaction')->middleware(PermissionMiddleware::class . ':stockTransaction.delete');
     });

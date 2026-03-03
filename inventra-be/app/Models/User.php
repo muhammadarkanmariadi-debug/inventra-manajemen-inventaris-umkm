@@ -16,7 +16,7 @@ class User extends Authenticatable implements JWTSubject
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
 
-use HasFactory, Notifiable, HasApiTokens, HasRoles;
+    use HasFactory, Notifiable, HasApiTokens, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -55,7 +55,7 @@ use HasFactory, Notifiable, HasApiTokens, HasRoles;
         ];
     }
 
-     /**
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed
@@ -79,5 +79,9 @@ use HasFactory, Notifiable, HasApiTokens, HasRoles;
     public function bussiness()
     {
         return $this->belongsTo(Bussiness::class, 'bussiness_id', 'id');
+    }
+    public function logs()
+    {
+        $this->belongsTo(logs::class, 'id', 'user_id');
     }
 }

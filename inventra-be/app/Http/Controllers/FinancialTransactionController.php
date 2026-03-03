@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LoggingEvent;
 use App\Helpers\ApiHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Services\RequestService;
 
 use App\Models\FinancialTransactions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class FinancialTransactionController extends Controller
 {
@@ -33,6 +35,7 @@ class FinancialTransactionController extends Controller
             if (!$data) {
                 ApiHelper::error('Failed to create financial transaction', 500);
             } else {
+                event(new LoggingEvent('Financial transaction was successfully created', 'financialTransactions'));
                 ApiHelper::success('Financial transaction was successfully created', $data, 201);
             }
         } catch (\Exception $e) {
@@ -55,6 +58,7 @@ class FinancialTransactionController extends Controller
             if (!$data) {
                 ApiHelper::error('Failed to update financial transaction', 500);
             } else {
+                event(new LoggingEvent('Financial transaction with id: ' . $id . ' updated successfully', 'financialTransactions'));
                 ApiHelper::success('Financial transaction was successfully updated', $data, 200);
             }
         } catch (\Exception $e) {
@@ -70,6 +74,7 @@ class FinancialTransactionController extends Controller
             if (!$data) {
                 ApiHelper::error('Failed to delete financial transaction', 500);
             } else {
+                event(new LoggingEvent('Financial transaction with id: ' . $id . ' deleted successfully', 'financialTransactions'));
                 ApiHelper::success('Financial transaction was successfully deleted', null, 200);
             }
         } catch (\Exception $e) {
@@ -80,8 +85,10 @@ class FinancialTransactionController extends Controller
     public function getAllFinancialTransaction()
     {
         try {
-            $data = FinancialTransactions::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)->get();
-            
+            $data = Cache::remember('financial_transactions', 7200, function () {
+                return FinancialTransactions::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)->get();
+            });
+
             if (!$data) {
                 ApiHelper::error('Failed to get financial transactions', 500);
             } else {

@@ -24,7 +24,7 @@ class RolesSeeder extends Seeder
 
         $admin->syncPermissions(
             ModelsPermission::where('name', 'not like', 'user.%')
-                ->where('name', 'not like', 'bussiness.%')
+                ->where('name', 'not like', 'bussiness.view')
                 ->get()
         );
 

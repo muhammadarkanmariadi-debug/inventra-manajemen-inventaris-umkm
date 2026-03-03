@@ -2,7 +2,9 @@
 
 namespace App\Listeners;
 
+use App\Events\LoggingEvent;
 use App\Events\StockTransactionEvent;
+use App\Models\logs;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -19,8 +21,13 @@ class RecordLog
     /**
      * Handle the event.
      */
-    public function handle(StockTransactionEvent $event): void
+    public function handle(LoggingEvent $event): void
     {
-        //
+        $user = auth()->guard('api')->id();
+        logs::create([
+            'message' => $event->message,
+            'categories' => $event->categories,
+            'user_id' => $user
+        ]);
     }
 }

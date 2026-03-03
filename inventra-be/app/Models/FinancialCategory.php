@@ -11,4 +11,7 @@ class FinancialCategory extends Model
     public function financialTransaction(){
         $this->hasMany(FinancialCategory::class, 'financial_category_id', 'id');
     }
+    public function bussiness(){
+        $this->belongsTo(Bussiness::class, 'bussiness_id', 'id');
+    }
 }

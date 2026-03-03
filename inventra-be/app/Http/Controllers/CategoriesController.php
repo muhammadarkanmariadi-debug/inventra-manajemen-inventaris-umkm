@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LoggingEvent;
 use App\Helpers\ApiHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Services\RequestService;
 use App\Models\Categories;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 
 class CategoriesController extends Controller
@@ -40,6 +42,8 @@ class CategoriesController extends Controller
             if (!$data) {
                 return ApiHelper::error('Failed to create category', 500);
             } else {
+
+                event(new LoggingEvent('Category created successfully', 'categories'));
                 return ApiHelper::success('Category created successfully', $data, 201);
             }
         } catch (\Exception $e) {
@@ -48,15 +52,17 @@ class CategoriesController extends Controller
     }
     public function getCategories()
     {
-      try{
-          $categories = Categories::with('products')->get();
-        if (count($categories) == 0) {
-            return ApiHelper::error('No categories found', 404);
+        try {
+            $categories = Cache::remember('categories', 7200, function () {
+                return Categories::with('products')->get();
+            });
+            if (count($categories) == 0) {
+                return ApiHelper::error('No categories found', 404);
+            }
+            return ApiHelper::success('Categories retrieved successfully', $categories, 200);
+        } catch (\Exception $e) {
+            return ApiHelper::error('An error occurred', $e->getMessage(), 500);
         }
-        return ApiHelper::success('Categories retrieved successfully', $categories, 200);
-      }catch (\Exception $e) {
-          return ApiHelper::error('An error occurred', $e->getMessage(), 500);
-      }
     }
 
     public function getCategory($id)
@@ -87,6 +93,7 @@ class CategoriesController extends Controller
             if (!$data) {
                 return ApiHelper::error('Failed to update category', 500);
             } else {
+                event(new LoggingEvent('Category with id ' . $id . ' updated successfully', 'categories'));
                 return ApiHelper::success('Category updated successfully', $data, 200);
             }
         } catch (\Exception $e) {
@@ -97,11 +104,12 @@ class CategoriesController extends Controller
 
     public function deleteCategory($id)
     {
-       try {
+        try {
             $data = $this->requestService->deleteDataById(Categories::class, $id);
             if (!$data) {
                 return ApiHelper::error('Failed to delete category', 500);
-        } else {
+            } else {
+                event(new LoggingEvent('Category with id ' . $id . ' deleted successfully', 'categories'));
                 return ApiHelper::success('Category deleted successfully', null, 200);
             }
         } catch (\Exception $e) {

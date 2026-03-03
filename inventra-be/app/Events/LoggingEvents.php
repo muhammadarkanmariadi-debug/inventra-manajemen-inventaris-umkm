@@ -12,18 +12,19 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class BussinessEvent
+class LoggingEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(public Bussiness $bussiness)
+    public function __construct(public string $message, public string $categories)
     {
 
-        $this->bussiness = $bussiness;
-        
+        $this->$message = $message;
+        $this->$categories = $categories;
+
     }
 
     /**

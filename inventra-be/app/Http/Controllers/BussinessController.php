@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\BussinessEvent;
+use App\Events\LoggingEvent;
 use App\Helpers\ApiHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Services\RequestService;
@@ -34,55 +35,87 @@ class BussinessController extends Controller
             ];
 
             $data = $this->requestService->postData(Bussiness::class, $request, $rules);
-            event(new BussinessEvent($data));
+
             if (!$data) {
                 return ApiHelper::error('Failed to create business', 500);
             } else {
+             
                 return ApiHelper::success('Business created successfully', $data, 201);
             }
         } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred', $e->getMessage(), 500);
+            return ApiHelper::error('An error occurred',  500);
         }
     }
 
 
-    public function getMyBussiness()
+
+    public function getAllBussiness()
+    {
+        try {
+            $bussiness = Bussiness::get();
+            if ($bussiness->isEmpty()) {
+                return ApiHelper::error('Bussiness not found',  404);
+            }
+
+            return ApiHelper::success('Bussiness retrieved successfully', $bussiness, 200);
+        } catch (\Exception $e) {
+            return ApiHelper::error('An error occurred',  500);
+        }
+    }
+
+
+    public function getMyBussiness(Request $request)
     {
         try {
             $userId = auth()->guard('api')->id();
             $bussiness = User::findOrFail($userId)->bussiness;
+
             if (!$bussiness) {
-                return ApiHelper::error('Bussiness not found', 'Failed to retrieve bussiness', 404);
+                return ApiHelper::error('Bussiness not found', 404);
             }
+
+
+            if ($request->has('include')) {
+                $includes = explode(',', $request->query('include'));
+
+                $allowed = ['users', 'products', 'suppliers', 'categories', 'financialTransactions', 'hppComponents', 'stockTransactions', 'financialCategories'];
+                $validIncludes = array_intersect($includes, $allowed);
+
+                if (!empty($validIncludes)) {
+                    $bussiness->load($validIncludes);
+                }
+            }
+
             return ApiHelper::success('Bussiness retrieved successfully', $bussiness, 200);
         } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred', $e->getMessage(), 500);
-        }
-    }
-    public function getAllBussiness()
-    {
-        try {
-            $bussiness = Bussiness::lazy();
-            if ($bussiness->isEmpty()) {
-                return ApiHelper::error('Bussiness not found', 'Failed to retrieve bussiness', 404);
-            }
-            return ApiHelper::success('Bussiness retrieved successfully', $bussiness, 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred', $e->getMessage(), 500);
+            return ApiHelper::error('An error occurred', 500);
         }
     }
 
-
-    public function getBussinessById($id)
+    public function getBussinessById($id, Request $request)
     {
         try {
             $bussiness = Bussiness::find($id);
+
             if (!$bussiness) {
-                return ApiHelper::error('Bussiness not found', 'Failed to retrieve bussiness', 404);
+                return ApiHelper::error('Bussiness not found', 404);
             }
+
+
+            if ($request->has('include')) {
+                $includes = explode(',', $request->query('include'));
+
+                $allowed = ['users', 'products', 'suppliers', 'categories', 'financialTransactions', 'hppComponents', 'stockTransactions', 'financialCategories'];
+                $validIncludes = array_intersect($includes, $allowed);
+
+                if (!empty($validIncludes)) {
+                    $bussiness->load($validIncludes);
+                }
+            }
+
             return ApiHelper::success('Bussiness retrieved successfully', $bussiness, 200);
         } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred', $e->getMessage(), 500);
+            return ApiHelper::error('An error occurred', 500);
         }
     }
 
@@ -98,14 +131,14 @@ class BussinessController extends Controller
             ];
 
             $data = $this->requestService->updateDataById(Bussiness::class, $id, $request, $rules);
-            event(new BussinessEvent($data));
+
             if (!$data) {
                 return response()->json(['message' => 'Failed to update business'], 500);
             } else {
                 return ApiHelper::success('Business updated successfully', $data, 200);
             }
         } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred', $e->getMessage(), 500);
+            return ApiHelper::error('An error occurred',  500);
         }
     }
 
@@ -121,7 +154,7 @@ class BussinessController extends Controller
                 return ApiHelper::success('Business deleted successfully', 200);
             }
         } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred', $e->getMessage(), 500);
+            return ApiHelper::error('An error occurred',  500);
         }
     }
 }

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LoggingEvent;
 use App\Helpers\ApiHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Services\RequestService;
 use App\Models\HppComponents;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class HppComponentsController extends Controller
 {
@@ -35,10 +37,11 @@ class HppComponentsController extends Controller
             if (!$data instanceof HppComponents) {
                 return ApiHelper::error('Failed to create HPP Component', 500);
             } else {
+                event(new LoggingEvent('HPP Component was successfully created', 'hppComponents'));
                 return ApiHelper::success('HPP Component created successfully', $data, 201);
             }
         } catch (\Exception $e) {
-          ApiHelper::error($e->getMessage(), 500);
+            ApiHelper::error($e->getMessage(), 500);
         }
     }
 
@@ -46,13 +49,15 @@ class HppComponentsController extends Controller
     public function getHppComponentsByProduct($productId)
     {
         try {
-            $hppComponents = HppComponents::where('product_id', $productId)
-                ->where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
-                ->get();
+            $hppComponents = Cache::remember('hpp', 7200, function () use ($productId) {
+                return  HppComponents::where('product_id', $productId)
+                    ->where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
+                    ->get();
+            });
 
             return ApiHelper::success('HPP Components retrieved successfully', $hppComponents);
         } catch (\Exception $e) {
-              ApiHelper::error($e->getMessage(), 500);
+            ApiHelper::error($e->getMessage(), 500);
         }
     }
 
@@ -60,7 +65,7 @@ class HppComponentsController extends Controller
 
     public function getHppComponent($id)
     {
-     try {
+        try {
             $hppComponent = HppComponents::where('id', $id)
                 ->where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
                 ->first();
@@ -71,7 +76,7 @@ class HppComponentsController extends Controller
 
             return ApiHelper::success('HPP Component retrieved successfully', $hppComponent);
         } catch (\Exception $e) {
-              ApiHelper::error($e->getMessage(), 500);
+            ApiHelper::error($e->getMessage(), 500);
         }
     }
 
@@ -81,13 +86,13 @@ class HppComponentsController extends Controller
             $hppComponent = $this->requestService->deleteDataById(HppComponents::class, $id);
             return ApiHelper::success('HPP Component deleted successfully');
         } catch (\Exception $e) {
-              ApiHelper::error($e->getMessage(), 500);
+            ApiHelper::error($e->getMessage(), 500);
         }
     }
 
     public function updateHppComponent(Request $request, $id)
     {
-      try {
+        try {
             $rules = [
                 'name' => 'sometimes|required|string|max:255',
                 'product_id' => 'sometimes|required|integer|exists:products,id',
@@ -99,10 +104,12 @@ class HppComponentsController extends Controller
             if (!$data) {
                 return ApiHelper::error('Failed to update HPP Component', 500);
             } else {
+                event(new LoggingEvent('HPP Component with id: ' . $id . ' updated successfully', 'hppComponents'));
+
                 return ApiHelper::success('HPP Component updated successfully', $data);
             }
         } catch (\Exception $e) {
-              ApiHelper::error($e->getMessage(), 500);
+            ApiHelper::error($e->getMessage(), 500);
         }
     }
 }

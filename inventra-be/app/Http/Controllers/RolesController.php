@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\RequestService;
 use App\Models\Roles;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Permission\Models\Permission;
 
 class RolesController extends Controller
@@ -82,7 +83,9 @@ class RolesController extends Controller
     public function getRoles()
     {
         try {
-            $data = Roles::get();
+            $data = Cache::remember('roles', 7200, function () {
+              return  Roles::get();
+            });
 
             if (!$data) {
                 ApiHelper::error('Failed to get roles', 500);
