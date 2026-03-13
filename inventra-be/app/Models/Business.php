@@ -2,18 +2,16 @@
 
 namespace App\Models;
 
-use App\Observers\AttachBID;
+use App\Observers\AttachBusinessId;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 
-#[ObservedBy(AttachBID::class)]
-class Bussiness extends Model
+#[ObservedBy(AttachBusinessId::class)]
+class Business extends Model
 {
-
     protected $guarded = ['id'];
+
     protected $table = 'bussinesses';
-
-
 
     public function users()
     {
@@ -22,25 +20,24 @@ class Bussiness extends Model
 
     public function products()
     {
-        return $this->hasMany(Products::class, 'bussiness_id', 'id');
+        return $this->hasMany(Product::class, 'bussiness_id', 'id');
     }
 
     public function suppliers()
     {
-        return $this->hasMany(Suppliers::class, 'bussiness_id', 'id');
+        return $this->hasMany(Supplier::class, 'bussiness_id', 'id');
     }
 
     public function categories()
     {
-        return $this->hasMany(Categories::class, 'bussiness_id', 'id');
+        return $this->hasMany(Category::class, 'bussiness_id', 'id');
     }
-
-
 
     public function financialTransactions()
     {
-        return $this->hasMany(FinancialTransactions::class, 'bussiness_id', 'id');
+        return $this->hasMany(FinancialTransaction::class, 'bussiness_id', 'id');
     }
+
     public function financialCategories()
     {
         return $this->hasMany(FinancialCategory::class, 'bussiness_id', 'id');
@@ -48,13 +45,11 @@ class Bussiness extends Model
 
     public function hppComponents()
     {
-        return $this->hasMany(HppComponents::class, 'bussiness_id', 'id');
+        return $this->hasMany(HppComponent::class, 'bussiness_id', 'id');
     }
 
     public function stockTransactions()
     {
-        return $this->hasMany(StockTransactions::class, 'bussiness_id', 'id');
+        return $this->hasMany(StockTransaction::class, 'bussiness_id', 'id');
     }
-
-
 }

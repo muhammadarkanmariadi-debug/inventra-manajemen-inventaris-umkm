@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FinancialCategory extends Model
+class StockTransaction extends Model
 {
     protected $guarded = ['id'];
 
-    public function financialTransactions()
+    public function product()
     {
-        return $this->hasMany(FinancialTransaction::class, 'financial_category_id', 'id');
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 
     public function business()

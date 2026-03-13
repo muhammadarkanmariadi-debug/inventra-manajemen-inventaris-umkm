@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Categories;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
@@ -13,7 +12,7 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        Categories::create([
+        Category::create([
             'name' => 'Elektronik',
             'description' => 'Kategori untuk produk elektronik seperti smartphone, laptop, dan televisi.',
             'bussiness_id' => 1

@@ -2,13 +2,11 @@
 
 namespace Database\Seeders;
 
-use Google\Service\AndroidEnterprise\Permission;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission as ModelsPermission;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class RolesSeeder extends Seeder
+class RoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,18 +17,16 @@ class RolesSeeder extends Seeder
         $admin = Role::create(['name' => 'admin', 'guard_name' => 'api']);
         $staff = Role::create(['name' => 'staff', 'guard_name' => 'api']);
 
-
-        $owner->syncPermissions(ModelsPermission::all());
+        $owner->syncPermissions(Permission::all());
 
         $admin->syncPermissions(
-            ModelsPermission::where('name', 'not like', 'user.%')
+            Permission::where('name', 'not like', 'user.%')
                 ->where('name', 'not like', 'bussiness.view')
                 ->get()
         );
 
-
         $staff->syncPermissions(
-            ModelsPermission::where('name', 'like', 'product.view')
+            Permission::where('name', 'like', 'product.view')
                 ->orWhere('name', 'like', 'supplier.view')
                 ->orWhere('name', 'like', 'category.view')
                 ->orWhere('name', 'like', 'stockTransaction.create')
@@ -45,6 +41,4 @@ class RolesSeeder extends Seeder
                 ->get()
         );
     }
-
-    }
-
+}

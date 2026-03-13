@@ -4,16 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Events\LoggingEvent;
 use App\Helpers\ApiHelper;
-use App\Http\Controllers\Controller;
-use App\Http\Services\RequestService;
-use App\Models\Products;
-use App\Models\Sales;
-use App\Models\HppComponents;
+use App\Models\HppComponent;
+use App\Models\Product;
+use App\Models\Sale;
+use App\Services\RequestService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
-class SalesController extends Controller
+class SaleController extends Controller
 {
     protected $requestService;
 
@@ -22,7 +21,10 @@ class SalesController extends Controller
         $this->requestService = $requestService;
     }
 
-    public function createSale(Request $request)
+    /**
+     * Create a new sale.
+     */
+    public function store(Request $request)
     {
         try {
             $request->validate([
@@ -33,13 +35,13 @@ class SalesController extends Controller
             ]);
 
             return DB::transaction(function () use ($request) {
-                $product = Products::findOrFail($request->product_id);
+                $product = Product::findOrFail($request->product_id);
 
                 if ($product->stock < $request->quantity) {
                     return ApiHelper::error('Stock tidak cukup', 422);
                 }
 
-                $hppPerUnit = HppComponents::where('product_id', $request->product_id)
+                $hppPerUnit = HppComponent::where('product_id', $request->product_id)
                     ->where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
                     ->sum('cost');
 
@@ -51,7 +53,7 @@ class SalesController extends Controller
                 $totalHpp   = $hppPerUnit * $request->quantity;
                 $profit     = $totalPrice - $totalHpp;
 
-                $data = Sales::create([
+                $data = Sale::create([
                     'product_id'    => $request->product_id,
                     'user_id'       => auth()->guard('api')->user()->id,
                     'quantity'      => $request->quantity,
@@ -66,17 +68,21 @@ class SalesController extends Controller
 
                 if (!$data) {
                     return ApiHelper::error('Failed to create sale', 500);
-                } else {
-                    event(new LoggingEvent('Sale was successfully created', 'sales'));
-                    return ApiHelper::success('Sale was successfully created', $data, 201);
                 }
+
+                event(new LoggingEvent('Sale was successfully created', 'sales'));
+
+                return ApiHelper::success('Sale was successfully created', $data, 201);
             });
         } catch (\Exception $e) {
-            ApiHelper::error($e->getMessage(), 500);
+            return ApiHelper::error($e->getMessage(), 500);
         }
     }
 
-    public function updateSale(Request $request, $id)
+    /**
+     * Update a sale by ID.
+     */
+    public function update(Request $request, $id)
     {
         try {
             $request->validate([
@@ -87,14 +93,14 @@ class SalesController extends Controller
             ]);
 
             return DB::transaction(function () use ($request, $id) {
-                $sale    = Sales::findOrFail($id);
-                $product = Products::findOrFail($request->product_id ?? $sale->product_id);
+                $sale    = Sale::findOrFail($id);
+                $product = Product::findOrFail($request->product_id ?? $sale->product_id);
 
                 if ($product->stock + $sale->quantity < $request->quantity) {
                     return ApiHelper::error('Stock tidak cukup', 422);
                 }
 
-                $hppPerUnit = HppComponents::where('product_id', $product->id)
+                $hppPerUnit = HppComponent::where('product_id', $product->id)
                     ->where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
                     ->sum('cost');
 
@@ -110,7 +116,7 @@ class SalesController extends Controller
 
                 $product->increment('stock', $sale->quantity);
 
-                $data = $sale->update([
+                $sale->update([
                     'product_id'    => $product->id,
                     'user_id'       => auth()->guard('api')->user()->id,
                     'quantity'      => $quantity,
@@ -123,68 +129,75 @@ class SalesController extends Controller
 
                 $product->decrement('stock', $quantity);
 
-                if (!$data) {
-                    return ApiHelper::error('Failed to update sale', 500);
-                } else {
-                    event(new LoggingEvent('Sale with id: ' . $id . ' updated successfully', 'sales'));
-                    return ApiHelper::success('Sale was successfully updated', $sale->fresh(), 200);
-                }
+                event(new LoggingEvent('Sale with id: ' . $id . ' updated successfully', 'sales'));
+
+                return ApiHelper::success('Sale was successfully updated', $sale->fresh(), 200);
             });
         } catch (\Exception $e) {
-            ApiHelper::error($e->getMessage(), 500);
+            return ApiHelper::error($e->getMessage(), 500);
         }
     }
 
-    public function deleteSale($id)
+    /**
+     * Delete a sale by ID.
+     */
+    public function destroy($id)
     {
         try {
-            $data = $this->requestService->deleteDataById(Sales::class, $id);
+            $data = $this->requestService->deleteDataById(Sale::class, $id);
 
             if (!$data) {
-                ApiHelper::error('Failed to delete sale', 500);
-            } else {
-                event(new LoggingEvent('Sale with id: ' . $id . ' deleted successfully', 'sales'));
-                ApiHelper::success('Sale was successfully deleted', null, 200);
+                return ApiHelper::error('Failed to delete sale', 500);
             }
+
+            event(new LoggingEvent('Sale with id: ' . $id . ' deleted successfully', 'sales'));
+
+            return ApiHelper::success('Sale was successfully deleted', null, 200);
         } catch (\Exception $e) {
-            ApiHelper::error($e->getMessage(), 500);
+            return ApiHelper::error($e->getMessage(), 500);
         }
     }
 
-    public function getAllSale()
+    /**
+     * Get all sales.
+     */
+    public function index()
     {
         try {
             $data = Cache::remember('sales', 7200, function () {
-                return   Sales::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
+                return Sale::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
                     ->with('product')
                     ->get();
             });
 
-            if (!$data) {
-                ApiHelper::error('Failed to get sales', 500);
-            } else {
-                ApiHelper::success('Sales was successfully retrieved', $data, 200);
+            if ($data->isEmpty()) {
+                return ApiHelper::error('No sales found', 404);
             }
+
+            return ApiHelper::success('Sales retrieved successfully', $data, 200);
         } catch (\Exception $e) {
-            ApiHelper::error($e->getMessage(), 500);
+            return ApiHelper::error($e->getMessage(), 500);
         }
     }
 
-    public function getSaleById($id)
+    /**
+     * Get a sale by ID.
+     */
+    public function show($id)
     {
         try {
-            $data = Sales::where('id', $id)
+            $data = Sale::where('id', $id)
                 ->where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
                 ->with('product')
                 ->first();
 
             if (!$data) {
-                ApiHelper::error('Sale not found', 404);
-            } else {
-                ApiHelper::success('Sale was successfully retrieved', $data, 200);
+                return ApiHelper::error('Sale not found', 404);
             }
+
+            return ApiHelper::success('Sale retrieved successfully', $data, 200);
         } catch (\Exception $e) {
-            ApiHelper::error($e->getMessage(), 500);
+            return ApiHelper::error($e->getMessage(), 500);
         }
     }
 }

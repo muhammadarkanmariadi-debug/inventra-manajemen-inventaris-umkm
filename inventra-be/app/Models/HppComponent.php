@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class HppComponents extends Model
+class HppComponent extends Model
 {
     protected $guarded = ['id'];
 
+    protected $table = 'hpp_components';
 
     public function product()
     {
-        return $this->belongsTo(Products::class, 'product_id', 'id');
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 }

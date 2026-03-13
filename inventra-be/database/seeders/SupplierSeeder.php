@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Suppliers;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Supplier;
 use Illuminate\Database\Seeder;
 
 class SupplierSeeder extends Seeder
@@ -13,7 +12,7 @@ class SupplierSeeder extends Seeder
      */
     public function run(): void
     {
-        Suppliers::create([
+        Supplier::create([
             'name' => 'PT. Sumber Rejeki',
             'address' => 'Jl. Contoh Alamat No. 456, Kota Contoh, Negara Contoh',
             'phone' => '+62 812-9876-5432',
