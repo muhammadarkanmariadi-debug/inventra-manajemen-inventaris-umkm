@@ -7,7 +7,6 @@ use App\Helpers\ApiHelper;
 use App\Models\HppComponent;
 use App\Services\RequestService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class HppComponentController extends Controller
 {
@@ -51,14 +50,13 @@ class HppComponentController extends Controller
     /**
      * Get HPP components by product ID.
      */
-    public function indexByProduct($productId)
+    public function indexByProduct(Request $request, $productId)
     {
         try {
-            $hppComponents = Cache::remember('hpp_product_' . $productId, 7200, function () use ($productId) {
-                return HppComponent::where('product_id', $productId)
-                    ->where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
-                    ->get();
-            });
+            $perPage       = (int) $request->query('items', 10);
+            $hppComponents = HppComponent::where('product_id', $productId)
+                ->where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
+                ->paginate($perPage);
 
             return ApiHelper::success('HPP Components retrieved successfully', $hppComponents, 200);
         } catch (\Exception $e) {

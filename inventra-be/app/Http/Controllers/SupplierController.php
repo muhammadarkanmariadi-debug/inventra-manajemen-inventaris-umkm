@@ -7,7 +7,6 @@ use App\Helpers\ApiHelper;
 use App\Models\Supplier;
 use App\Services\RequestService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class SupplierController extends Controller
 {
@@ -78,11 +77,7 @@ class SupplierController extends Controller
     public function destroy($id)
     {
         try {
-            $data = $this->requestService->deleteDataById(Supplier::class, $id);
-
-            if (!$data) {
-                return ApiHelper::error('Failed to delete supplier', 500);
-            }
+            $this->requestService->deleteDataById(Supplier::class, $id);
 
             event(new LoggingEvent('Supplier with id ' . $id . ' deleted successfully', 'suppliers'));
 
@@ -95,12 +90,12 @@ class SupplierController extends Controller
     /**
      * Get all suppliers.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $data = Cache::remember('suppliers', 7200, function () {
-                return Supplier::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)->get();
-            });
+            $perPage = (int) $request->query('items', 10);
+            $data    = Supplier::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
+                ->paginate($perPage);
 
             if ($data->isEmpty()) {
                 return ApiHelper::error('No suppliers found', 404);

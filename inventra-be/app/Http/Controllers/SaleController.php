@@ -9,7 +9,6 @@ use App\Models\Product;
 use App\Models\Sale;
 use App\Services\RequestService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
@@ -144,11 +143,7 @@ class SaleController extends Controller
     public function destroy($id)
     {
         try {
-            $data = $this->requestService->deleteDataById(Sale::class, $id);
-
-            if (!$data) {
-                return ApiHelper::error('Failed to delete sale', 500);
-            }
+            $this->requestService->deleteDataById(Sale::class, $id);
 
             event(new LoggingEvent('Sale with id: ' . $id . ' deleted successfully', 'sales'));
 
@@ -161,14 +156,13 @@ class SaleController extends Controller
     /**
      * Get all sales.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $data = Cache::remember('sales', 7200, function () {
-                return Sale::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
-                    ->with('product')
-                    ->get();
-            });
+            $perPage = (int) $request->query('items', 10);
+            $data    = Sale::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
+                ->with('product')
+                ->paginate($perPage);
 
             if ($data->isEmpty()) {
                 return ApiHelper::error('No sales found', 404);

@@ -7,7 +7,6 @@ use App\Helpers\ApiHelper;
 use App\Models\Product;
 use App\Services\RequestService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class ProductController extends Controller
 {
@@ -65,20 +64,21 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         try {
-            $products = Cache::remember('products', 60, function () {
-                return Product::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)->get();
-            });
+            $perPage  = (int) $request->query('items', 10);
+            $query    = Product::where('bussiness_id', auth()->guard('api')->user()->bussiness_id);
 
             if ($request->has('include')) {
                 $includes = explode(',', $request->query('include'));
 
                 if (in_array('category', $includes)) {
-                    $products->load('category');
+                    $query->with('category');
                 }
                 if (in_array('suppliers', $includes)) {
-                    $products->load('suppliers');
+                    $query->with('suppliers');
                 }
             }
+
+            $products = $query->paginate($perPage);
 
             if ($products->isEmpty()) {
                 return ApiHelper::error('No products found', 404);
@@ -155,11 +155,6 @@ class ProductController extends Controller
     {
         try {
             $product = $this->requestService->deleteDataById(Product::class, $id);
-
-            if (!$product) {
-                return ApiHelper::error('Product not found', 404);
-            }
-
             $product->suppliers()->detach();
 
             event(new LoggingEvent('Product with id ' . $id . ' deleted successfully', 'products'));

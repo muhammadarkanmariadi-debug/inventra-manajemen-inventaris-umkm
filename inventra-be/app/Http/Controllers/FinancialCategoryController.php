@@ -7,7 +7,6 @@ use App\Helpers\ApiHelper;
 use App\Models\FinancialCategory;
 use App\Services\RequestService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class FinancialCategoryController extends Controller
 {
@@ -74,11 +73,7 @@ class FinancialCategoryController extends Controller
     public function destroy($id)
     {
         try {
-            $data = $this->requestService->deleteDataById(FinancialCategory::class, $id);
-
-            if (!$data) {
-                return ApiHelper::error('Failed to delete financial category', 500);
-            }
+            $this->requestService->deleteDataById(FinancialCategory::class, $id);
 
             event(new LoggingEvent('Financial category with id: ' . $id . ' deleted successfully', 'financialCategories'));
 
@@ -91,12 +86,12 @@ class FinancialCategoryController extends Controller
     /**
      * Get all financial categories.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $data = Cache::remember('financial_categories', 7200, function () {
-                return FinancialCategory::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)->get();
-            });
+            $perPage = (int) $request->query('items', 10);
+            $data    = FinancialCategory::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
+                ->paginate($perPage);
 
             if ($data->isEmpty()) {
                 return ApiHelper::error('No financial categories found', 404);

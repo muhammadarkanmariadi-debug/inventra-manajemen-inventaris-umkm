@@ -7,7 +7,6 @@ use App\Helpers\ApiHelper;
 use App\Models\User;
 use App\Services\RequestService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -149,11 +148,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
-            $data = $this->requestService->deleteDataById(User::class, $id);
-
-            if (!$data) {
-                return ApiHelper::error('Failed to delete user', 500);
-            }
+            $this->requestService->deleteDataById(User::class, $id);
 
             event(new LoggingEvent('User with id ' . $id . ' deleted successfully', 'users'));
 
@@ -166,12 +161,11 @@ class UserController extends Controller
     /**
      * Get all users.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $data = Cache::remember('users', 7200, function () {
-                return User::with('roles')->get();
-            });
+            $perPage = (int) $request->query('items', 10);
+            $data    = User::with('roles')->paginate($perPage);
 
             if ($data->isEmpty()) {
                 return ApiHelper::error('No users found', 404);

@@ -8,7 +8,6 @@ use App\Models\Product;
 use App\Models\StockTransaction;
 use App\Services\RequestService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -28,7 +27,7 @@ class StockTransactionController extends Controller
     {
         try {
             $rules = [
-                'transactions'             => 'required|array|min:1',
+                'transactions'              => 'required|array|min:1',
                 'transactions.*.product_id' => 'required|integer|exists:products,id',
                 'transactions.*.quantity'   => 'required|integer',
                 'transactions.*.type'       => 'required|string|in:IN,OUT,ADJUST',
@@ -92,7 +91,7 @@ class StockTransactionController extends Controller
     {
         try {
             $rules = [
-                'transactions'             => 'required|array|min:1',
+                'transactions'              => 'required|array|min:1',
                 'transactions.*.product_id' => 'required|integer|exists:products,id',
                 'transactions.*.quantity'   => 'required|integer',
                 'transactions.*.type'       => 'required|string|in:IN,OUT,ADJUST',
@@ -106,8 +105,6 @@ class StockTransactionController extends Controller
             }
 
             return DB::transaction(function () use ($request, $id) {
-                $stockTransaction = StockTransaction::findOrFail($id);
-
                 $data = [];
 
                 foreach ($request->transactions as $transaction) {
@@ -167,11 +164,7 @@ class StockTransactionController extends Controller
                     $product->increment('stock', $stockTransaction->quantity);
                 }
 
-                $data = $this->requestService->deleteDataById(StockTransaction::class, $id);
-
-                if (!$data) {
-                    return ApiHelper::error('Failed to delete stock transaction', 500);
-                }
+                $this->requestService->deleteDataById(StockTransaction::class, $id);
 
                 event(new LoggingEvent('Stock transaction with id: ' . $id . ' deleted successfully', 'stockTransactions'));
 
@@ -185,14 +178,13 @@ class StockTransactionController extends Controller
     /**
      * Get all stock transactions.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $data = Cache::remember('stock_transactions', 7200, function () {
-                return StockTransaction::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
-                    ->with('product')
-                    ->get();
-            });
+            $perPage = (int) $request->query('items', 10);
+            $data    = StockTransaction::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
+                ->with('product')
+                ->paginate($perPage);
 
             if ($data->isEmpty()) {
                 return ApiHelper::error('No stock transactions found', 404);

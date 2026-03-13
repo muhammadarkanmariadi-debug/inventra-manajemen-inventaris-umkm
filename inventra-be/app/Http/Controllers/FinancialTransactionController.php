@@ -7,7 +7,6 @@ use App\Helpers\ApiHelper;
 use App\Models\FinancialTransaction;
 use App\Services\RequestService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class FinancialTransactionController extends Controller
 {
@@ -80,11 +79,7 @@ class FinancialTransactionController extends Controller
     public function destroy($id)
     {
         try {
-            $data = $this->requestService->deleteDataById(FinancialTransaction::class, $id);
-
-            if (!$data) {
-                return ApiHelper::error('Failed to delete financial transaction', 500);
-            }
+            $this->requestService->deleteDataById(FinancialTransaction::class, $id);
 
             event(new LoggingEvent('Financial transaction with id: ' . $id . ' deleted successfully', 'financialTransactions'));
 
@@ -97,12 +92,12 @@ class FinancialTransactionController extends Controller
     /**
      * Get all financial transactions.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $data = Cache::remember('financial_transactions', 7200, function () {
-                return FinancialTransaction::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)->get();
-            });
+            $perPage = (int) $request->query('items', 10);
+            $data    = FinancialTransaction::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
+                ->paginate($perPage);
 
             if ($data->isEmpty()) {
                 return ApiHelper::error('No financial transactions found', 404);

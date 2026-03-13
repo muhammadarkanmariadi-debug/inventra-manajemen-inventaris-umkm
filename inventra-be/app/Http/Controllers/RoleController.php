@@ -6,7 +6,6 @@ use App\Helpers\ApiHelper;
 use App\Models\Role;
 use App\Services\RequestService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
@@ -78,11 +77,7 @@ class RoleController extends Controller
     public function destroy($id)
     {
         try {
-            $data = $this->requestService->deleteDataById(Role::class, $id);
-
-            if (!$data) {
-                return ApiHelper::error('Failed to delete role', 500);
-            }
+            $this->requestService->deleteDataById(Role::class, $id);
 
             return ApiHelper::success('Role was successfully deleted', null, 200);
         } catch (\Exception $e) {
@@ -93,12 +88,11 @@ class RoleController extends Controller
     /**
      * Get all roles.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $data = Cache::remember('roles', 7200, function () {
-                return Role::get();
-            });
+            $perPage = (int) $request->query('items', 10);
+            $data    = Role::paginate($perPage);
 
             if ($data->isEmpty()) {
                 return ApiHelper::error('No roles found', 404);
@@ -131,10 +125,11 @@ class RoleController extends Controller
     /**
      * Get all permissions.
      */
-    public function getPermissions()
+    public function getPermissions(Request $request)
     {
         try {
-            $data = Permission::get();
+            $perPage = (int) $request->query('items', 10);
+            $data    = Permission::paginate($perPage);
 
             if ($data->isEmpty()) {
                 return ApiHelper::error('No permissions found', 404);

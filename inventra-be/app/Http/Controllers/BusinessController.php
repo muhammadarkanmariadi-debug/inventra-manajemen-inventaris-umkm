@@ -47,10 +47,11 @@ class BusinessController extends Controller
     /**
      * Get all businesses.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $businesses = Business::get();
+            $perPage    = (int) $request->query('items', 10);
+            $businesses = Business::paginate($perPage);
 
             if ($businesses->isEmpty()) {
                 return ApiHelper::error('Business not found', 404);
@@ -163,11 +164,7 @@ class BusinessController extends Controller
     public function destroy($id)
     {
         try {
-            $data = $this->requestService->deleteDataById(Business::class, $id);
-
-            if (!$data) {
-                return ApiHelper::error('Failed to delete business', 500);
-            }
+            $this->requestService->deleteDataById(Business::class, $id);
 
             return ApiHelper::success('Business deleted successfully', null, 200);
         } catch (\Exception $e) {

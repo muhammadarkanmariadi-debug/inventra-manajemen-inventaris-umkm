@@ -7,7 +7,6 @@ use App\Helpers\ApiHelper;
 use App\Models\Category;
 use App\Services\RequestService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class CategoryController extends Controller
 {
@@ -50,12 +49,11 @@ class CategoryController extends Controller
     /**
      * Get all categories.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $categories = Cache::remember('categories', 7200, function () {
-                return Category::with('products')->get();
-            });
+            $perPage    = (int) $request->query('items', 10);
+            $categories = Category::with('products')->paginate($perPage);
 
             if ($categories->isEmpty()) {
                 return ApiHelper::error('No categories found', 404);
@@ -116,11 +114,7 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         try {
-            $data = $this->requestService->deleteDataById(Category::class, $id);
-
-            if (!$data) {
-                return ApiHelper::error('Failed to delete category', 500);
-            }
+            $this->requestService->deleteDataById(Category::class, $id);
 
             event(new LoggingEvent('Category with id ' . $id . ' deleted successfully', 'categories'));
 
