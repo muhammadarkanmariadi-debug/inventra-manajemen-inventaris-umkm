@@ -11,8 +11,10 @@ class PermissionController extends Controller
 {
     public function index(Request $request)
     {
+
         try {
-            $data = Permission::all();
+            $perPage = (int) $request->query('items', 10);
+            $data = Permission::paginate($perPage);
             return ApiHelper::success('Permissions retrieved successfully', $data, 200);
         } catch (\Exception $e) {
             return ApiHelper::error($e->getMessage(), 500);

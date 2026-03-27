@@ -115,6 +115,11 @@ export interface Permission {
   updated_at: string;
 }
 
+export interface CreatePermissionPayload {
+  name: string;
+  guard_name: string;
+}
+
 export interface Sale {
   id: number;
   product_id: number;
