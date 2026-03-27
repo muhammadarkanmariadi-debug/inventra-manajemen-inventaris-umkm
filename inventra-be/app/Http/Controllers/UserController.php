@@ -23,23 +23,15 @@ class UserController extends Controller
      */
     public function register(Request $request)
     {
-        try {
-            $rules = [
-                'username' => 'required|string|max:255|unique:users,username',
-                'email'    => 'required|string|email|max:255|unique:users,email',
-                'password' => 'required|string|min:8',
-            ];
+        $rules = [
+            'username' => 'required|string|max:255|unique:users,username',
+            'email'    => 'required|string|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8',
+        ];
 
-            $data = $this->requestService->postData(User::class, $request, $rules);
+        $data = $this->requestService->postData(User::class, $request, $rules);
 
-            if (!$data) {
-                return ApiHelper::error('Failed to register user', 500);
-            }
-
-            return ApiHelper::success('User was successfully registered', $data, 201);
-        } catch (\Exception $e) {
-            return ApiHelper::error($e->getMessage(), 500);
-        }
+        return ApiHelper::success('User was successfully registered', $data, 201);
     }
 
     /**
@@ -47,23 +39,19 @@ class UserController extends Controller
      */
     public function login(Request $request)
     {
-        try {
-            $credentials = $request->only('email', 'password');
-            $user        = User::where('email', $credentials['email'])->first();
+        $credentials = $request->only('email', 'password');
+        $user        = User::where('email', $credentials['email'])->first();
 
-            if (!$user || !Hash::check($credentials['password'], $user->password)) {
-                return ApiHelper::error('Invalid credentials', 401);
-            }
-
-            $token = auth()->guard('api')->login($user);
-
-            return ApiHelper::success('Login was successful', [
-                'token'      => $token,
-                'token_type' => 'bearer',
-            ], 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error($e->getMessage(), 500);
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
+            return ApiHelper::error('Invalid credentials', 401);
         }
+   
+        $token = auth()->guard('api')->login($user);
+
+        return ApiHelper::success('Login was successful', [
+            'token'      => $token,
+            'token_type' => 'bearer',
+        ], 200);
     }
 
     /**
@@ -71,13 +59,9 @@ class UserController extends Controller
      */
     public function logout()
     {
-        try {
-            auth()->guard('api')->logout();
+        auth()->guard('api')->logout();
 
-            return ApiHelper::success('Successfully logged out', null, 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error($e->getMessage(), 500);
-        }
+        return ApiHelper::success('Successfully logged out', null, 200);
     }
 
     /**
@@ -85,77 +69,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $rules = [
-                'username' => 'required|string|max:255|unique:users,username',
-                'email'    => 'required|string|email|max:255|unique:users,email',
-                'password' => 'required|string|min:8',
-                'roles'    => 'required|array',
-                'roles.*'  => 'string|exists:roles,name',
-            ];
+        $rules = [
+            'username' => 'required|string|max:255|unique:users,username',
+            'email'    => 'required|string|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8',
+            'roles'    => 'required|array',
+            'roles.*'  => 'string|exists:roles,name',
+        ];
 
-            $data = $this->requestService->postData(User::class, $request, $rules);
+        $data = $this->requestService->postData(User::class, $request, $rules);
 
-            /** @disregard */
-            $data->assignRole($request->input('roles', []));
+        /** @disregard */
+        $data->assignRole($request->input('roles', []));
 
-            if (!$data) {
-                return ApiHelper::error('Failed to create user', 500);
-            }
+        event(new LoggingEvent('User created successfully', 'users'));
 
-            event(new LoggingEvent('User created successfully', 'users'));
-
-            return ApiHelper::success('User was successfully created', $data, 201);
-        } catch (\Exception $e) {
-            return ApiHelper::error($e->getMessage(), 500);
-        }
-    }
-
-    /**
-     * Update a user by ID.
-     */
-    public function update(Request $request, $id)
-    {
-        try {
-            $rules = [
-                'username' => 'required|string|max:255|unique:users,username,' . $id,
-                'email'    => 'required|string|email|max:255|unique:users,email,' . $id,
-                'password' => 'required|string|min:8',
-                'roles'    => 'required|array',
-                'roles.*'  => 'string|exists:roles,name',
-            ];
-
-            $data = $this->requestService->updateDataById(User::class, $id, $request, $rules);
-
-            /** @disregard */
-            $data->assignRole($request->input('roles', []));
-
-            if (!$data) {
-                return ApiHelper::error('Failed to update user', 500);
-            }
-
-            event(new LoggingEvent('User with id ' . $id . ' updated successfully', 'users'));
-
-            return ApiHelper::success('User was successfully updated', $data, 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error($e->getMessage(), 500);
-        }
-    }
-
-    /**
-     * Delete a user by ID.
-     */
-    public function destroy($id)
-    {
-        try {
-            $this->requestService->deleteDataById(User::class, $id);
-
-            event(new LoggingEvent('User with id ' . $id . ' deleted successfully', 'users'));
-
-            return ApiHelper::success('User was successfully deleted', null, 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error($e->getMessage(), 500);
-        }
+        return ApiHelper::success('User was successfully created', $data, 201);
     }
 
     /**
@@ -163,18 +92,14 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        try {
-            $perPage = (int) $request->query('items', 10);
-            $data    = User::with('roles')->paginate($perPage);
+        $perPage = (int) $request->query('items', 10);
+        $data    = User::with('roles')->paginate($perPage);
 
-            if ($data->isEmpty()) {
-                return ApiHelper::error('No users found', 404);
-            }
-
-            return ApiHelper::success('Users retrieved successfully', $data, 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error($e->getMessage(), 500);
+        if ($data->isEmpty()) {
+            return ApiHelper::error('No users found', 404);
         }
+
+        return ApiHelper::success('Users retrieved successfully', $data, 200);
     }
 
     /**
@@ -182,17 +107,48 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        try {
-            $data = User::with('roles')->where('id', $id)->first();
+        $data = User::with('roles')->where('id', $id)->first();
 
-            if (!$data) {
-                return ApiHelper::error('User not found', 404);
-            }
-
-            return ApiHelper::success('User retrieved successfully', $data, 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error($e->getMessage(), 500);
+        if (!$data) {
+            return ApiHelper::error('User not found', 404);
         }
+
+        return ApiHelper::success('User retrieved successfully', $data, 200);
+    }
+
+    /**
+     * Update a user by ID.
+     */
+    public function update(Request $request, $id)
+    {
+        $rules = [
+            'username' => 'required|string|max:255|unique:users,username,' . $id,
+            'email'    => 'required|string|email|max:255|unique:users,email,' . $id,
+            'password' => 'required|string|min:8',
+            'roles'    => 'required|array',
+            'roles.*'  => 'string|exists:roles,name',
+        ];
+
+        $data = $this->requestService->updateDataById(User::class, $id, $request, $rules);
+
+        /** @disregard */
+        $data->syncRoles($request->input('roles', []));    
+
+        event(new LoggingEvent('User with id ' . $id . ' updated successfully', 'users'));
+
+        return ApiHelper::success('User was successfully updated', $data, 200);
+    }
+
+    /**
+     * Delete a user by ID.
+     */
+    public function destroy($id)
+    {
+        $this->requestService->deleteDataById(User::class, $id);
+
+        event(new LoggingEvent('User with id ' . $id . ' deleted successfully', 'users'));
+
+        return ApiHelper::success('User was successfully deleted', null, 200);
     }
 
     /**
@@ -200,16 +156,12 @@ class UserController extends Controller
      */
     public function getProfile()
     {
-        try {
-            $user = auth()->guard('api')->user();
+        $user = auth()->guard('api')->user();
 
-            /** @disregard */
-            $roles = $user->getRoleNames();
+        /** @disregard */
+        $roles = $user->getRoleNames();
 
-            return ApiHelper::success('User profile retrieved successfully', compact('user', 'roles'), 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error($e->getMessage(), 500);
-        }
+        return ApiHelper::success('User profile retrieved successfully', compact('user', 'roles'), 200);
     }
 
     /**
@@ -217,24 +169,16 @@ class UserController extends Controller
      */
     public function updateProfile(Request $request)
     {
-        try {
-            $userId = auth()->guard('api')->id();
+        $userId = auth()->guard('api')->id();
 
-            $rules = [
-                'username' => 'sometimes|string|max:255|unique:users,username,' . $userId,
-                'email'    => 'sometimes|string|email|max:255|unique:users,email,' . $userId,
-                'password' => 'sometimes|string|min:8',
-            ];
+        $rules = [
+            'username' => 'sometimes|string|max:255|unique:users,username,' . $userId,
+            'email'    => 'sometimes|string|email|max:255|unique:users,email,' . $userId,
+            'password' => 'sometimes|string|min:8',
+        ];
 
-            $data = $this->requestService->updateDataById(User::class, $userId, $request, $rules);
+        $data = $this->requestService->updateDataById(User::class, $userId, $request, $rules);
 
-            if (!$data) {
-                return ApiHelper::error('Failed to update profile', 500);
-            }
-
-            return ApiHelper::success('User profile was successfully updated', $data, 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error($e->getMessage(), 500);
-        }
+        return ApiHelper::success('User profile was successfully updated', $data, 200);
     }
 }

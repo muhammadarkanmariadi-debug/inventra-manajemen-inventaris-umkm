@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum('type', ['income', 'expense']);
             $table->unsignedBigInteger('bussiness_id');
             $table->foreign('bussiness_id')->references('id')->on('bussinesses')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

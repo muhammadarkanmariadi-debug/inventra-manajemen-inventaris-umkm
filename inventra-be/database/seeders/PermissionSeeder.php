@@ -59,6 +59,13 @@ class PermissionSeeder extends Seeder
             'financialTransaction.view',
             'financialTransaction.update',
             'financialTransaction.delete',
+            'dashboard.view',
+            'permission.create',
+            'permission.view',
+            'permission.update',
+            'permission.delete',
+        
+
         ];
 
         foreach ($permissions as $permission) {

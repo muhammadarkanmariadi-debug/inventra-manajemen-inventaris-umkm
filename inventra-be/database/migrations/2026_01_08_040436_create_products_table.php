@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->string('name');
+            $table->string('image')->nullable();
             $table->string('sku')->unique();
             $table->enum('product_type', ['kuliner', 'barang']);
             $table->string('unit');

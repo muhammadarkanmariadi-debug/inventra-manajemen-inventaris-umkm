@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\LoggingEvent;
+use App\Exceptions\ApiException;
 use App\Helpers\ApiHelper;
 use App\Models\Business;
 use App\Models\User;
 use App\Services\RequestService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class BusinessController extends Controller
 {
@@ -23,25 +24,17 @@ class BusinessController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $rules = [
-                'name'    => 'required|string|max:255',
-                'address' => 'required|string',
-                'phone'   => 'required|string|max:20',
-                'email'   => 'required|string|email|max:255',
-                'website' => 'nullable|string|max:255',
-            ];
+        $rules = [
+            'name'    => 'required|string|unique:bussinesses,name',
+            'address' => 'required|string',
+            'phone'   => 'required|string|max:20',
+            'email'   => 'required|string|email|max:255',
+            'website' => 'nullable|string|max:255',
+        ];
 
-            $data = $this->requestService->postData(Business::class, $request, $rules);
+        $data = $this->requestService->postData(Business::class, $request, $rules);
 
-            if (!$data) {
-                return ApiHelper::error('Failed to create business', 500);
-            }
-
-            return ApiHelper::success('Business created successfully', $data, 201);
-        } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred', 500);
-        }
+        return ApiHelper::success('Business created successfully', $data, 201);
     }
 
     /**
@@ -49,18 +42,14 @@ class BusinessController extends Controller
      */
     public function index(Request $request)
     {
-        try {
-            $perPage    = (int) $request->query('items', 10);
-            $businesses = Business::paginate($perPage);
+        $perPage    = (int) $request->query('items', 10);
+        $businesses = Business::paginate($perPage);
 
-            if ($businesses->isEmpty()) {
-                return ApiHelper::error('Business not found', 404);
-            }
-
-            return ApiHelper::success('Business retrieved successfully', $businesses, 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred', 500);
+        if ($businesses->isEmpty()) {
+            return ApiHelper::error('Business not found', 404);
         }
+
+        return ApiHelper::success('Business retrieved successfully', $businesses, 200);
     }
 
     /**
@@ -68,34 +57,31 @@ class BusinessController extends Controller
      */
     public function showOwn(Request $request)
     {
-        try {
-            $userId   = auth()->guard('api')->id();
-            $business = User::findOrFail($userId)->business;
+        $userId   = auth()->guard('api')->id();
+        $business = User::findOrFail($userId)->business;
 
-            if (!$business) {
-                return ApiHelper::error('Business not found', 404);
-            }
-
-            if ($request->has('include')) {
-                $includes = explode(',', $request->query('include'));
-
-                $allowed = [
-                    'users', 'products', 'suppliers', 'categories',
-                    'financialTransactions', 'hppComponents',
-                    'stockTransactions', 'financialCategories',
-                ];
-
-                $validIncludes = array_intersect($includes, $allowed);
-
-                if (!empty($validIncludes)) {
-                    $business->load($validIncludes);
-                }
-            }
-
-            return ApiHelper::success('Business retrieved successfully', $business, 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred', 500);
+        if (!$business) {
+            return ApiHelper::error('Business not found', 404);
         }
+
+        if ($request->has('include')) {
+            $allowed = [
+                'users', 'products', 'suppliers', 'categories',
+                'financialTransactions', 'hppComponents',
+                'stockTransactions', 'financialCategories',
+            ];
+
+            $validIncludes = array_intersect(
+                explode(',', $request->query('include')),
+                $allowed
+            );
+
+            if (!empty($validIncludes)) {
+                $business->load($validIncludes);
+            }
+        }
+
+        return ApiHelper::success('Business retrieved successfully', $business, 200);
     }
 
     /**
@@ -103,33 +89,30 @@ class BusinessController extends Controller
      */
     public function show($id, Request $request)
     {
-        try {
-            $business = Business::find($id);
+        $business = Business::find($id);
 
-            if (!$business) {
-                return ApiHelper::error('Business not found', 404);
-            }
-
-            if ($request->has('include')) {
-                $includes = explode(',', $request->query('include'));
-
-                $allowed = [
-                    'users', 'products', 'suppliers', 'categories',
-                    'financialTransactions', 'hppComponents',
-                    'stockTransactions', 'financialCategories',
-                ];
-
-                $validIncludes = array_intersect($includes, $allowed);
-
-                if (!empty($validIncludes)) {
-                    $business->load($validIncludes);
-                }
-            }
-
-            return ApiHelper::success('Business retrieved successfully', $business, 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred', 500);
+        if (!$business) {
+            return ApiHelper::error('Business not found', 404);
         }
+
+        if ($request->has('include')) {
+            $allowed = [
+                'users', 'products', 'suppliers', 'categories',
+                'financialTransactions', 'hppComponents',
+                'stockTransactions', 'financialCategories',
+            ];
+
+            $validIncludes = array_intersect(
+                explode(',', $request->query('include')),
+                $allowed
+            );
+
+            if (!empty($validIncludes)) {
+                $business->load($validIncludes);
+            }
+        }
+
+        return ApiHelper::success('Business retrieved successfully', $business, 200);
     }
 
     /**
@@ -137,25 +120,17 @@ class BusinessController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
-            $rules = [
-                'name'    => 'required|string|max:255',
-                'address' => 'required|string',
-                'phone'   => 'required|string|max:20',
-                'email'   => 'required|string|email|max:255',
-                'website' => 'nullable|string|max:255',
-            ];
+        $rules = [
+            'name'    => 'required|string|max:255|unique:bussinesses,name',
+            'address' => 'required|string',
+            'phone'   => 'required|string|max:20',
+            'email'   => 'required|string|email|max:255',
+            'website' => 'nullable|string|max:255',
+        ];
 
-            $data = $this->requestService->updateDataById(Business::class, $id, $request, $rules);
+        $data = $this->requestService->updateDataById(Business::class, $id, $request, $rules);
 
-            if (!$data) {
-                return ApiHelper::error('Failed to update business', 500);
-            }
-
-            return ApiHelper::success('Business updated successfully', $data, 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred', 500);
-        }
+        return ApiHelper::success('Business updated successfully', $data, 200);
     }
 
     /**
@@ -163,12 +138,8 @@ class BusinessController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $this->requestService->deleteDataById(Business::class, $id);
+        $this->requestService->deleteDataById(Business::class, $id);
 
-            return ApiHelper::success('Business deleted successfully', null, 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred', 500);
-        }
+        return ApiHelper::success('Business deleted successfully', null, 200);
     }
 }

@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
             SupplierSeeder::class,
             CategorySeeder::class,
             ProductSeeder::class,
+            HppComponentSeeder::class,
+            SaleSeeder::class,
 
         ]);
     }

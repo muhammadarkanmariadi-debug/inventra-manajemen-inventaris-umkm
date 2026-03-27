@@ -4,30 +4,47 @@ use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FinancialCategoryController;
 use App\Http\Controllers\FinancialTransactionController;
+use App\Http\Controllers\GeminiController;
+
 use App\Http\Controllers\HppComponentController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\StatisticController;
 use App\Http\Controllers\StockTransactionController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\AuthenticateMiddleware;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Route;
-use Spatie\Permission\Middleware\PermissionMiddleware;
+use  App\Http\Middleware\PermissionMiddleware;
 use Tymon\JWTAuth\Http\Middleware\Authenticate as MiddlewareAuthenticate;
+use App\Http\Controllers\PermissionController;
 
 Route::controller(UserController::class)->group(function () {
     Route::post('/register', 'register');
     Route::post('/login', 'login');
 });
 
-Route::middleware(MiddlewareAuthenticate::class)->group(function () {
 
+
+
+Route::middleware(AuthenticateMiddleware::class)->group(function () {
+
+    Route::controller(GeminiController::class)->prefix('gemini')->group(function () {
+        Route::get('/inventory', 'analyzeInventory');
+        Route::get('/sales',     'analyzeSales');
+        Route::get('/financial', 'analyzeFinancial');
+        Route::post('/ask',      'ask');
+    });
     Route::controller(UserController::class)->group(function () {
         Route::get('/profile', 'getProfile');
         Route::post('/logout', 'logout');
-        Route::put('/profile', 'updateProfile');
+        Route::put('/update-profile', 'updateProfile');
     });
+
+    Route::get('/logs', [LogController::class, 'index']);
 
     Route::controller(BusinessController::class)->prefix('bussiness')->group(function () {
         Route::post('/', 'store')->withoutMiddleware(PermissionMiddleware::class . ':bussiness.*');
@@ -116,5 +133,18 @@ Route::middleware(MiddlewareAuthenticate::class)->group(function () {
         Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':financialTransaction.view');
         Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':financialTransaction.update');
         Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':financialTransaction.delete');
+    });
+
+    Route::controller(StatisticController::class)->prefix('statistic')->group(function () {
+        Route::get('/products', 'produk');
+        Route::get('/sales', 'penjualan');
+    });
+
+    Route::controller(PermissionController::class)->prefix('permissions')->group(function () {
+        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':permission.view');
+        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':permission.create');
+        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':permission.view');
+        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':permission.update');
+        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':permission.delete');
     });
 });

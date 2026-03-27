@@ -30,7 +30,7 @@ class SaleController extends Controller
                 'product_id'    => 'required|exists:products,id',
                 'quantity'      => 'required|integer|min:1',
                 'selling_price' => 'required|numeric|min:0',
-                'bussiness_id'  => 'required|exists:bussinesses,id',
+              
             ]);
 
             return DB::transaction(function () use ($request) {
@@ -39,6 +39,10 @@ class SaleController extends Controller
                 if ($product->stock < $request->quantity) {
                     return ApiHelper::error('Stock tidak cukup', 422);
                 }
+
+                $request->merge([
+                    'bussiness_id' => auth()->guard('api')->user()->bussiness_id,
+                ]);
 
                 $hppPerUnit = HppComponent::where('product_id', $request->product_id)
                     ->where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
@@ -50,104 +54,23 @@ class SaleController extends Controller
 
                 $totalPrice = $request->selling_price * $request->quantity;
                 $totalHpp   = $hppPerUnit * $request->quantity;
-                $profit     = $totalPrice - $totalHpp;
 
                 $data = Sale::create([
                     'product_id'    => $request->product_id,
-                    'user_id'       => auth()->guard('api')->user()->id,
                     'quantity'      => $request->quantity,
                     'selling_price' => $request->selling_price,
                     'total_price'   => $totalPrice,
                     'hpp'           => $totalHpp,
-                    'profit'        => $profit,
-                    'bussiness_id'  => $request->bussiness_id,
+                    'profit'        => $totalPrice - $totalHpp,
+                    'bussiness_id'  => auth()->guard('api')->user()->bussiness_id,
                 ]);
 
                 $product->decrement('stock', $request->quantity);
-
-                if (!$data) {
-                    return ApiHelper::error('Failed to create sale', 500);
-                }
 
                 event(new LoggingEvent('Sale was successfully created', 'sales'));
 
                 return ApiHelper::success('Sale was successfully created', $data, 201);
             });
-        } catch (\Exception $e) {
-            return ApiHelper::error($e->getMessage(), 500);
-        }
-    }
-
-    /**
-     * Update a sale by ID.
-     */
-    public function update(Request $request, $id)
-    {
-        try {
-            $request->validate([
-                'product_id'    => 'sometimes|exists:products,id',
-                'quantity'      => 'sometimes|integer|min:1',
-                'selling_price' => 'sometimes|numeric|min:0',
-                'bussiness_id'  => 'sometimes|exists:bussinesses,id',
-            ]);
-
-            return DB::transaction(function () use ($request, $id) {
-                $sale    = Sale::findOrFail($id);
-                $product = Product::findOrFail($request->product_id ?? $sale->product_id);
-
-                if ($product->stock + $sale->quantity < $request->quantity) {
-                    return ApiHelper::error('Stock tidak cukup', 422);
-                }
-
-                $hppPerUnit = HppComponent::where('product_id', $product->id)
-                    ->where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
-                    ->sum('cost');
-
-                if ($hppPerUnit <= 0) {
-                    return ApiHelper::error('HPP belum diset untuk produk ini', 422);
-                }
-
-                $sellingPrice = $request->selling_price ?? $sale->selling_price;
-                $quantity     = $request->quantity ?? $sale->quantity;
-                $totalPrice   = $sellingPrice * $quantity;
-                $totalHpp     = $hppPerUnit * $quantity;
-                $profit       = $totalPrice - $totalHpp;
-
-                $product->increment('stock', $sale->quantity);
-
-                $sale->update([
-                    'product_id'    => $product->id,
-                    'user_id'       => auth()->guard('api')->user()->id,
-                    'quantity'      => $quantity,
-                    'selling_price' => $sellingPrice,
-                    'total_price'   => $totalPrice,
-                    'hpp'           => $totalHpp,
-                    'profit'        => $profit,
-                    'bussiness_id'  => $request->bussiness_id ?? $sale->bussiness_id,
-                ]);
-
-                $product->decrement('stock', $quantity);
-
-                event(new LoggingEvent('Sale with id: ' . $id . ' updated successfully', 'sales'));
-
-                return ApiHelper::success('Sale was successfully updated', $sale->fresh(), 200);
-            });
-        } catch (\Exception $e) {
-            return ApiHelper::error($e->getMessage(), 500);
-        }
-    }
-
-    /**
-     * Delete a sale by ID.
-     */
-    public function destroy($id)
-    {
-        try {
-            $this->requestService->deleteDataById(Sale::class, $id);
-
-            event(new LoggingEvent('Sale with id: ' . $id . ' deleted successfully', 'sales'));
-
-            return ApiHelper::success('Sale was successfully deleted', null, 200);
         } catch (\Exception $e) {
             return ApiHelper::error($e->getMessage(), 500);
         }
@@ -190,6 +113,78 @@ class SaleController extends Controller
             }
 
             return ApiHelper::success('Sale retrieved successfully', $data, 200);
+        } catch (\Exception $e) {
+            return ApiHelper::error($e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * Update a sale by ID.
+     */
+    public function update(Request $request, $id)
+    {
+        try {
+            $request->validate([
+                'product_id'    => 'sometimes|exists:products,id',
+                'quantity'      => 'sometimes|integer|min:1',
+                'selling_price' => 'sometimes|numeric|min:0',
+                'bussiness_id'  => 'sometimes|exists:bussinesses,id',
+            ]);
+
+            return DB::transaction(function () use ($request, $id) {
+                $sale    = Sale::findOrFail($id);
+                $product = Product::findOrFail($request->product_id ?? $sale->product_id);
+
+                if ($product->stock + $sale->quantity < $request->quantity) {
+                    return ApiHelper::error('Stock tidak cukup', 422);
+                }
+
+                $hppPerUnit = HppComponent::where('product_id', $product->id)
+                    ->where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
+                    ->sum('cost');
+
+                if ($hppPerUnit <= 0) {
+                    return ApiHelper::error('HPP belum diset untuk produk ini', 422);
+                }
+
+                $sellingPrice = $request->selling_price ?? $sale->selling_price;
+                $quantity     = $request->quantity ?? $sale->quantity;
+                $totalPrice   = $sellingPrice * $quantity;
+                $totalHpp     = $hppPerUnit * $quantity;
+
+                $product->increment('stock', $sale->quantity);
+
+                $sale->update([
+                    'product_id'    => $request->product_id,
+                    'quantity'      => $request->quantity,
+                    'selling_price' => $request->selling_price,
+                    'total_price'   => $totalPrice,
+                    'hpp'           => $totalHpp,
+                    'profit'        => $totalPrice - $totalHpp,
+                ]);
+
+                $product->decrement('stock', $quantity);
+
+                event(new LoggingEvent('Sale with id: ' . $id . ' updated successfully', 'sales'));
+
+                return ApiHelper::success('Sale was successfully updated', $sale->fresh(), 200);
+            });
+        } catch (\Exception $e) {
+            return ApiHelper::error($e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * Delete a sale by ID.
+     */
+    public function destroy($id)
+    {
+        try {
+            $this->requestService->deleteDataById(Sale::class, $id);
+
+            event(new LoggingEvent('Sale with id: ' . $id . ' deleted successfully', 'sales'));
+
+            return ApiHelper::success('Sale was successfully deleted', null, 200);
         } catch (\Exception $e) {
             return ApiHelper::error($e->getMessage(), 500);
         }

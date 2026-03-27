@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('email')->unique();
+            $table->string('image')->nullable();
             $table->string('username')->unique();
             $table->enum('role', ['SUPERADMIN', 'USER'])->default('USER')->nullable();
             $table->timestamp('email_verified_at')->nullable();

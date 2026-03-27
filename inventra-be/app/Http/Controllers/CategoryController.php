@@ -22,28 +22,18 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $userBusinessId = auth()->guard('api')->user()->bussiness_id;
+        $rules = [
+            'name'        => 'required|string|max:255|unique:categories,name',
+            'description' => 'nullable|string',
+        ];
 
-            $rules = [
-                'name'        => 'required|string|max:255|unique:categories,name',
-                'description' => 'nullable|string',
-            ];
+        $request->merge(['bussiness_id' => auth()->guard('api')->user()->bussiness_id]);
 
-            $request->merge(['bussiness_id' => $userBusinessId]);
+        $data = $this->requestService->postData(Category::class, $request, $rules);
 
-            $data = $this->requestService->postData(Category::class, $request, $rules);
+        event(new LoggingEvent('Category created successfully', 'categories'));
 
-            if (!$data) {
-                return ApiHelper::error('Failed to create category', 500);
-            }
-
-            event(new LoggingEvent('Category created successfully', 'categories'));
-
-            return ApiHelper::success('Category created successfully', $data, 201);
-        } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred: ' . $e->getMessage(), 500);
-        }
+        return ApiHelper::success('Category created successfully', $data, 201);
     }
 
     /**
@@ -51,18 +41,14 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        try {
-            $perPage    = (int) $request->query('items', 10);
-            $categories = Category::with('products')->paginate($perPage);
+        $perPage    = (int) $request->query('items', 10);
+        $categories = Category::with('products')->paginate($perPage);
 
-            if ($categories->isEmpty()) {
-                return ApiHelper::error('No categories found', 404);
-            }
-
-            return ApiHelper::success('Categories retrieved successfully', $categories, 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred: ' . $e->getMessage(), 500);
+        if ($categories->isEmpty()) {
+            return ApiHelper::error('No categories found', 404);
         }
+
+        return ApiHelper::success('Categories retrieved successfully', $categories, 200);
     }
 
     /**
@@ -70,17 +56,13 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        try {
-            $category = Category::with('products')->find($id);
+        $category = Category::with('products')->find($id);
 
-            if (!$category) {
-                return ApiHelper::error('Category not found', 404);
-            }
-
-            return ApiHelper::success('Category retrieved successfully', $category, 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred: ' . $e->getMessage(), 500);
+        if (!$category) {
+            return ApiHelper::error('Category not found', 404);
         }
+
+        return ApiHelper::success('Category retrieved successfully', $category, 200);
     }
 
     /**
@@ -88,24 +70,16 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
-            $rules = [
-                'name'        => 'required|string|max:255|unique:categories,name,' . $id,
-                'description' => 'nullable|string',
-            ];
+        $rules = [
+            'name'        => 'required|string|max:255|unique:categories,name,' . $id,
+            'description' => 'nullable|string',
+        ];
 
-            $data = $this->requestService->updateDataById(Category::class, $id, $request, $rules);
+        $data = $this->requestService->updateDataById(Category::class, $id, $request, $rules);
 
-            if (!$data) {
-                return ApiHelper::error('Failed to update category', 500);
-            }
+        event(new LoggingEvent('Category with id ' . $id . ' updated successfully', 'categories'));
 
-            event(new LoggingEvent('Category with id ' . $id . ' updated successfully', 'categories'));
-
-            return ApiHelper::success('Category updated successfully', $data, 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred: ' . $e->getMessage(), 500);
-        }
+        return ApiHelper::success('Category updated successfully', $data, 200);
     }
 
     /**
@@ -113,14 +87,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $this->requestService->deleteDataById(Category::class, $id);
+        $this->requestService->deleteDataById(Category::class, $id);
 
-            event(new LoggingEvent('Category with id ' . $id . ' deleted successfully', 'categories'));
+        event(new LoggingEvent('Category with id ' . $id . ' deleted successfully', 'categories'));
 
-            return ApiHelper::success('Category deleted successfully', null, 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error('An error occurred: ' . $e->getMessage(), 500);
-        }
+        return ApiHelper::success('Category deleted successfully', null, 200);
     }
 }

@@ -21,11 +21,13 @@ class RecordLog
     public function handle(LoggingEvent $event): void
     {
         $userId = auth()->guard('api')->id();
+        $bussinessId = auth()->guard('api')->user()->bussiness_id;
 
         Log::create([
             'message'    => $event->message,
             'categories' => $event->categories,
             'user_id'    => $userId,
+            'bussiness_id' => $bussinessId
         ]);
     }
 }

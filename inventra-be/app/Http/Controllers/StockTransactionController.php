@@ -10,6 +10,7 @@ use App\Services\RequestService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class StockTransactionController extends Controller
 {
@@ -25,154 +26,46 @@ class StockTransactionController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $rules = [
-                'transactions'              => 'required|array|min:1',
-                'transactions.*.product_id' => 'required|integer|exists:products,id',
-                'transactions.*.quantity'   => 'required|integer',
-                'transactions.*.type'       => 'required|string|in:IN,OUT,ADJUST',
-                'transactions.*.note'       => 'sometimes|nullable|string',
-            ];
+        $rules = [
+            'transactions'              => 'required|array|min:1',
+            'transactions.*.product_id' => 'required|integer|exists:products,id',
+            'transactions.*.quantity'   => 'required|integer',
+            'transactions.*.type'       => 'required|string|in:IN,OUT,ADJUST',
+            'transactions.*.note'       => 'sometimes|nullable|string',
+        ];
 
-            $validator = Validator::make($request->all(), $rules);
+        $validator = Validator::make($request->all(), $rules);
 
-            if ($validator->fails()) {
-                throw new \Illuminate\Validation\ValidationException($validator);
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
+        }
+
+        return DB::transaction(function () use ($request) {
+            $data = collect($request->transactions)->map(fn ($t) => [
+                'product_id'   => $t['product_id'],
+                'quantity'     => $t['quantity'],
+                'type'         => $t['type'],
+                'note'         => $t['note'] ?? null,
+                'bussiness_id' => auth()->guard('api')->user()->bussiness_id,
+                'user_id'      => auth()->guard('api')->user()->id,
+            ])->all();
+
+            StockTransaction::insert($data);
+
+            foreach ($data as $d) {
+                $product = Product::findOrFail($d['product_id']);
+
+                match ($d['type']) {
+                    'IN'     => $product->increment('stock', $d['quantity']),
+                    'OUT'    => $product->decrement('stock', $d['quantity']),
+                    'ADJUST' => tap($product)->forceFill(['stock' => $d['quantity']])->save(),
+                };
             }
 
-            return DB::transaction(function () use ($request) {
-                $data = [];
+            event(new LoggingEvent('Stock transaction was successfully created', 'stockTransactions'));
 
-                foreach ($request->transactions as $transaction) {
-                    $data[] = [
-                        'product_id'   => $transaction['product_id'],
-                        'quantity'     => $transaction['quantity'],
-                        'type'         => $transaction['type'],
-                        'note'         => $transaction['note'] ?? null,
-                        'bussiness_id' => auth()->guard('api')->user()->bussiness_id,
-                        'user_id'      => auth()->guard('api')->user()->id,
-                    ];
-                }
-
-                $insert = StockTransaction::insert($data);
-
-                foreach ($data as $d) {
-                    $product  = Product::findOrFail($d['product_id']);
-                    $type     = $d['type'];
-                    $quantity = $d['quantity'];
-
-                    if ($type === 'IN') {
-                        $product->increment('stock', $quantity);
-                    } elseif ($type === 'OUT') {
-                        $product->decrement('stock', $quantity);
-                    } elseif ($type === 'ADJUST') {
-                        $product->stock = $quantity;
-                        $product->save();
-                    }
-                }
-
-                if (!$insert) {
-                    return ApiHelper::error('Failed to create stock transaction', 500);
-                }
-
-                event(new LoggingEvent('Stock transaction was successfully created', 'stockTransactions'));
-
-                return ApiHelper::success('Stock transaction was successfully created', $insert, 201);
-            });
-        } catch (\Exception $e) {
-            return ApiHelper::error($e->getMessage(), 500);
-        }
-    }
-
-    /**
-     * Update a stock transaction by ID.
-     */
-    public function update(Request $request, $id)
-    {
-        try {
-            $rules = [
-                'transactions'              => 'required|array|min:1',
-                'transactions.*.product_id' => 'required|integer|exists:products,id',
-                'transactions.*.quantity'   => 'required|integer',
-                'transactions.*.type'       => 'required|string|in:IN,OUT,ADJUST',
-                'transactions.*.note'       => 'sometimes|nullable|string',
-            ];
-
-            $validator = Validator::make($request->all(), $rules);
-
-            if ($validator->fails()) {
-                throw new \Illuminate\Validation\ValidationException($validator);
-            }
-
-            return DB::transaction(function () use ($request, $id) {
-                $data = [];
-
-                foreach ($request->transactions as $transaction) {
-                    $data[] = [
-                        'product_id'   => $transaction['product_id'],
-                        'quantity'     => $transaction['quantity'],
-                        'type'         => $transaction['type'],
-                        'note'         => $transaction['note'] ?? null,
-                        'bussiness_id' => auth()->guard('api')->user()->bussiness_id,
-                        'user_id'      => auth()->guard('api')->user()->id,
-                    ];
-                }
-
-                $insert = StockTransaction::insert($data);
-
-                foreach ($data as $d) {
-                    $product  = Product::findOrFail($d['product_id']);
-                    $type     = $d['type'];
-                    $quantity = $d['quantity'];
-
-                    if ($type === 'IN') {
-                        $product->increment('stock', $quantity);
-                    } elseif ($type === 'OUT') {
-                        $product->decrement('stock', $quantity);
-                    } elseif ($type === 'ADJUST') {
-                        $product->stock = $quantity;
-                        $product->save();
-                    }
-                }
-
-                if (!$insert) {
-                    return ApiHelper::error('Failed to update stock transaction', 500);
-                }
-
-                event(new LoggingEvent('Stock transaction with id: ' . $id . ' updated successfully', 'stockTransactions'));
-
-                return ApiHelper::success('Stock transaction was successfully updated', $insert, 200);
-            });
-        } catch (\Exception $e) {
-            return ApiHelper::error($e->getMessage(), 500);
-        }
-    }
-
-    /**
-     * Delete a stock transaction by ID.
-     */
-    public function destroy($id)
-    {
-        try {
-            return DB::transaction(function () use ($id) {
-                $stockTransaction = StockTransaction::findOrFail($id);
-                $product          = Product::findOrFail($stockTransaction->product_id);
-
-                if ($stockTransaction->type === 'IN') {
-                    $product->decrement('stock', $stockTransaction->quantity);
-                } elseif ($stockTransaction->type === 'OUT') {
-                    $product->increment('stock', $stockTransaction->quantity);
-                }
-
-                $this->requestService->deleteDataById(StockTransaction::class, $id);
-
-                event(new LoggingEvent('Stock transaction with id: ' . $id . ' deleted successfully', 'stockTransactions'));
-
-                return ApiHelper::success('Stock transaction was successfully deleted', null, 200);
-            });
-        } catch (\Exception $e) {
-            return ApiHelper::error($e->getMessage(), 500);
-        }
+            return ApiHelper::success('Stock transaction was successfully created', null, 201);
+        });
     }
 
     /**
@@ -180,20 +73,16 @@ class StockTransactionController extends Controller
      */
     public function index(Request $request)
     {
-        try {
-            $perPage = (int) $request->query('items', 10);
-            $data    = StockTransaction::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
-                ->with('product')
-                ->paginate($perPage);
+        $perPage = (int) $request->query('items', 10);
+        $data    = StockTransaction::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
+            ->with('product')
+            ->paginate($perPage);
 
-            if ($data->isEmpty()) {
-                return ApiHelper::error('No stock transactions found', 404);
-            }
-
-            return ApiHelper::success('Stock transactions retrieved successfully', $data, 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error($e->getMessage(), 500);
+        if ($data->isEmpty()) {
+            return ApiHelper::error('No stock transactions found', 404);
         }
+
+        return ApiHelper::success('Stock transactions retrieved successfully', $data, 200);
     }
 
     /**
@@ -201,19 +90,85 @@ class StockTransactionController extends Controller
      */
     public function show($id)
     {
-        try {
-            $data = StockTransaction::where('id', $id)
-                ->where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
-                ->with('product')
-                ->first();
+        $data = StockTransaction::where('id', $id)
+            ->where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
+            ->with('product')
+            ->first();
 
-            if (!$data) {
-                return ApiHelper::error('Stock transaction not found', 404);
+        if (!$data) {
+            return ApiHelper::error('Stock transaction not found', 404);
+        }
+
+        return ApiHelper::success('Stock transaction retrieved successfully', $data, 200);
+    }
+
+    /**
+     * Update a stock transaction by ID.
+     */
+    public function update(Request $request, $id)
+    {
+        $rules = [
+            'transactions'              => 'required|array|min:1',
+            'transactions.*.product_id' => 'required|integer|exists:products,id',
+            'transactions.*.quantity'   => 'required|integer',
+            'transactions.*.type'       => 'required|string|in:IN,OUT,ADJUST',
+            'transactions.*.note'       => 'sometimes|nullable|string',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
+        }
+
+        return DB::transaction(function () use ($request, $id) {
+            $data = collect($request->transactions)->map(fn ($t) => [
+                'product_id'   => $t['product_id'],
+                'quantity'     => $t['quantity'],
+                'type'         => $t['type'],
+                'note'         => $t['note'] ?? null,
+                'bussiness_id' => auth()->guard('api')->user()->bussiness_id,
+                'user_id'      => auth()->guard('api')->user()->id,
+            ])->all();
+
+            StockTransaction::insert($data);
+
+            foreach ($data as $d) {
+                $product = Product::findOrFail($d['product_id']);
+
+                match ($d['type']) {
+                    'IN'     => $product->increment('stock', $d['quantity']),
+                    'OUT'    => $product->decrement('stock', $d['quantity']),
+                    'ADJUST' => tap($product)->forceFill(['stock' => $d['quantity']])->save(),
+                };
             }
 
-            return ApiHelper::success('Stock transaction retrieved successfully', $data, 200);
-        } catch (\Exception $e) {
-            return ApiHelper::error($e->getMessage(), 500);
-        }
+            event(new LoggingEvent('Stock transaction with id: ' . $id . ' updated successfully', 'stockTransactions'));
+
+            return ApiHelper::success('Stock transaction was successfully updated', null, 200);
+        });
+    }
+
+    /**
+     * Delete a stock transaction by ID.
+     */
+    public function destroy($id)
+    {
+        return DB::transaction(function () use ($id) {
+            $stockTransaction = StockTransaction::findOrFail($id);
+            $product          = Product::findOrFail($stockTransaction->product_id);
+
+            match ($stockTransaction->type) {
+                'IN'  => $product->decrement('stock', $stockTransaction->quantity),
+                'OUT' => $product->increment('stock', $stockTransaction->quantity),
+                default => null,
+            };
+
+            $this->requestService->deleteDataById(StockTransaction::class, $id);
+
+            event(new LoggingEvent('Stock transaction with id: ' . $id . ' deleted successfully', 'stockTransactions'));
+
+            return ApiHelper::success('Stock transaction was successfully deleted', null, 200);
+        });
     }
 }

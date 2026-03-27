@@ -33,13 +33,13 @@ jobs:
         
         defaults:
             run:
-                working-directory: frontend
+                working-directory: inventra-fe
         
         steps:
             - uses: actions/checkout@v4        
         
             - name: Setup NodeJS
-              uses: action/setup-node@v6
+              uses: actions/setup-node@v6
               with:
                     node-version: 22
                     cache: 'npm'
@@ -63,7 +63,7 @@ jobs:
 
         defaults:
           run:
-            working-directory: backend
+            working-directory: inventra-be
         services:
             mysql:
                 image: mariadb:10.6

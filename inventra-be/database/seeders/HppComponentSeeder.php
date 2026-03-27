@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\HppComponent;
 
 class HppComponentSeeder extends Seeder
 {
@@ -12,6 +13,6 @@ class HppComponentSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+    HppComponent::factory(10)->create();
     }
 }

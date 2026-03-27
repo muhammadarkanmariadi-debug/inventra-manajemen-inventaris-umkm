@@ -1,0 +1,24 @@
+"use server";
+
+import { apiGet, apiPost, apiPut, apiDelete } from "../lib/api";
+import type { ApiResponse, PaginatedData, User, CreateUserPayload } from "../types";
+
+export async function getUsers(page = 1, items = 10): Promise<ApiResponse<PaginatedData<User>>> {
+  return apiGet("/user", { page, items });
+}
+
+export async function getUser(id: number): Promise<ApiResponse<User>> {
+  return apiGet(`/user/${id}`);
+}
+
+export async function createUser(payload: CreateUserPayload): Promise<ApiResponse<User>> {
+  return apiPost("/user", payload);
+}
+
+export async function updateUser(id: number, payload: Partial<CreateUserPayload>): Promise<ApiResponse<User>> {
+  return apiPut(`/user/${id}`, payload);
+}
+
+export async function deleteUser(id: number): Promise<ApiResponse<null>> {
+  return apiDelete(`/user/${id}`);
+}
