@@ -1,7 +1,7 @@
 "use server";
 
 import { apiGet, apiPost, apiPut, apiDelete } from "../lib/api";
-import type { ApiResponse, PaginatedData, User, CreateUserPayload } from "../types";
+import type { ApiResponse, PaginatedData, User, CreateUserPayload, Business } from "../types";
 
 export async function getUsers(page = 1, items = 10): Promise<ApiResponse<PaginatedData<User>>> {
   return apiGet("/user", { page, items });
@@ -21,4 +21,16 @@ export async function updateUser(id: number, payload: Partial<CreateUserPayload>
 
 export async function deleteUser(id: number): Promise<ApiResponse<null>> {
   return apiDelete(`/user/${id}`);
+}
+
+export async function getProfile(): Promise<ApiResponse<{ user: User, roles: string[], permissions: string[] }>> {
+  return apiGet("/profile");
+}
+
+export async function updateProfile(payload: Partial<User>): Promise<ApiResponse<User>> {
+  return apiPut("/update-profile", payload);
+}
+
+export async function updateBusiness(id: number, payload: Partial<Business>): Promise<ApiResponse<Business>> {
+  return apiPut(`/bussiness/${id}`, payload);
 }

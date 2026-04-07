@@ -16,13 +16,15 @@ import {
   UserIcon,
   Robot,
 } from "../icons/index";
-import SidebarWidget from "./SidebarWidget";
+import { useAuth } from "../context/AuthContext";
+import SidebarWidget from "./SidebarWidget";      
 
 type NavItem = {
   name: string;
   icon: React.ReactNode;
   path?: string;
-  subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
+  permission?: string;
+  subItems?: { name: string; path: string; pro?: boolean; new?: boolean; permission?: string }[];
 };
 
 const navItems: NavItem[] = [
@@ -35,26 +37,26 @@ const navItems: NavItem[] = [
     icon: <BoxCubeIcon />,
     name: "Inventaris",
     subItems: [
-      { name: "Produk", path: "/products", pro: false },
-      { name: "Kategori", path: "/categories", pro: false },
-      { name: "Supplier", path: "/suppliers", pro: false },
-      { name: "HPP Component", path: "/hpp", pro: false },
+      { name: "Produk", path: "/products", pro: false, permission: "product.view" },
+      { name: "Kategori", path: "/categories", pro: false, permission: "category.view" },
+      { name: "Supplier", path: "/suppliers", pro: false, permission: "supplier.view" },
+      { name: "HPP Component", path: "/hpp", pro: false, permission: "hppComponents.view" },
     ],
   },
   {
     icon: <ShootingStarIcon />,
     name: "Penjualan",
     subItems: [
-      { name: "Data Penjualan", path: "/sales", pro: false },
-      { name: "Transaksi Stok", path: "/stock-transactions", pro: false },
+      { name: "Data Penjualan", path: "/sales", pro: false, permission: "sales.view" },
+      { name: "Transaksi Stok", path: "/stock-transactions", pro: false, permission: "stockTransaction.view" },
     ],
   },
   {
     icon: <DollarLineIcon />,
     name: "Keuangan",
     subItems: [
-      { name: "Kategori Keuangan", path: "/financial-categories", pro: false },
-      { name: "Transaksi Keuangan", path: "/financial-transactions", pro: false },
+      { name: "Kategori Keuangan", path: "/financial-categories", pro: false, permission: "financialCategory.view" },
+      { name: "Transaksi Keuangan", path: "/financial-transactions", pro: false, permission: "financialTransaction.view" },
     ],
   },
   {
@@ -69,9 +71,9 @@ const navItems: NavItem[] = [
     icon: <UserIcon />,
     name: "Manajemen",
     subItems: [
-      { name: "Users", path: "/users", pro: false },
-      { name: "Roles", path: "/roles", pro: false },
-      { name: "Permissions", path: "/permissions", pro: false },
+      { name: "Users", path: "/users", pro: false, permission: "user.view" },
+      { name: "Roles", path: "/roles", pro: false, permission: "roles.view" },
+      { name: "Permissions", path: "/permissions", pro: false, permission: "permission.view" },
     ],
   },
   {
@@ -86,13 +88,21 @@ const othersItems: NavItem[] = [];
 const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const pathname = usePathname();
+  const { hasPermission } = useAuth();
 
   const renderMenuItems = (
     navItems: NavItem[],
     menuType: "main" | "others"
   ) => (
     <ul className="flex flex-col gap-4">
-      {navItems.map((nav, index) => (
+      {navItems.filter(nav => {
+        if (!nav.permission && !nav.subItems) return true;
+        if (nav.permission && hasPermission(nav.permission)) return true;
+        if (nav.subItems) {
+           return nav.subItems.some(sub => !sub.permission || hasPermission(sub.permission));
+        }
+        return false;
+      }).map((nav, index) => (
         <li key={nav.name}>
           {nav.subItems ? (
             <button
@@ -167,7 +177,7 @@ const AppSidebar: React.FC = () => {
               }}
             >
               <ul className="mt-2 space-y-1 ml-9">
-                {nav.subItems.map((subItem) => (
+                {nav.subItems.filter(subItem => !subItem.permission || hasPermission(subItem.permission)).map((subItem) => (
                   <li key={subItem.name}>
                     <Link
                       href={subItem.path}

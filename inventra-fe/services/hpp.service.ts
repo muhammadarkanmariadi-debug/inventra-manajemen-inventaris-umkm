@@ -6,7 +6,7 @@ import type { ApiResponse, PaginatedData, HppComponent, CreateHppComponentPayloa
 export async function getHppComponents(page = 1, items = 10, productId?: number): Promise<ApiResponse<PaginatedData<HppComponent>>> {
   const params: any = { page, items };
   if (productId) params.product_id = productId;
-  return apiGet("/hpp-components", params);
+  return apiGet("/hpp-components", {params, include: 'product'});
 }
 
 export async function getHppComponent(id: number): Promise<ApiResponse<HppComponent>> {

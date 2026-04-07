@@ -47,7 +47,9 @@ class HppComponentController extends Controller
 
         if ($request->has('product_id')) {
             $query->where('product_id', $request->query('product_id'));
-        }
+        }else if($request->has('include') == 'product'){
+            $query->with('product');
+        }   
 
         $hppComponents = $query->paginate($perPage);
 

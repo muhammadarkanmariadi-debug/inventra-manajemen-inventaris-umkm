@@ -159,9 +159,16 @@ class UserController extends Controller
         $user = auth()->guard('api')->user();
 
         /** @disregard */
-        $roles = $user->getRoleNames();
+       $bussiness = $user->load('business');
 
-        return ApiHelper::success('User profile retrieved successfully', compact('user', 'roles'), 200);
+        /** @disregard */
+        $roles = $user->getRoleNames();
+        
+        /** @disregard */
+        $permissions = $user->getAllPermissions()->pluck('name');
+
+
+        return ApiHelper::success('User profile retrieved successfully', compact('user', 'bussiness', 'roles', 'permissions'), 200);
     }
 
     /**
@@ -175,6 +182,7 @@ class UserController extends Controller
             'username' => 'sometimes|string|max:255|unique:users,username,' . $userId,
             'email'    => 'sometimes|string|email|max:255|unique:users,email,' . $userId,
             'password' => 'sometimes|string|min:8',
+            'image'    => 'sometimes|string', 
         ];
 
         $data = $this->requestService->updateDataById(User::class, $userId, $request, $rules);

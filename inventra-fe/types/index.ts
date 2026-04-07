@@ -16,7 +16,7 @@ export interface PaginatedData<T> {
   to: number;
 }
 
-// ========== Resource Types ==========
+
 
 export interface Product {
   id: number;
@@ -62,10 +62,25 @@ export interface CreateCategoryPayload {
   description?: string;
 }
 
+export interface Business {
+  id: number;
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+  website: string | null;
+  logo: string | null;
+  description: string | null;
+  status: "active" | "inactive";
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Supplier {
   id: number;
   name: string;
-  contact_info: string | null;
+  address?: string;
+  phone?: string;
   bussiness_id: number;
   created_at: string;
   updated_at: string;
@@ -73,17 +88,21 @@ export interface Supplier {
 
 export interface CreateSupplierPayload {
   name: string;
-  contact_info?: string;
+  address?: string;
+  phone?: string;
 }
 
 export interface User {
   id: number;
   username: string;
   email: string;
-  bussiness_id: number;
+  image: string | null;
+  role: "SUPERADMIN" | "USER";
+  bussiness_id: number | null;
   created_at: string;
   updated_at: string;
   roles?: Role[];
+  business?: Business;
 }
 
 export interface CreateUserPayload {

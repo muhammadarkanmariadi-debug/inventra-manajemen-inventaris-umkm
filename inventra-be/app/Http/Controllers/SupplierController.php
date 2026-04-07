@@ -24,7 +24,8 @@ class SupplierController extends Controller
     {
         $rules = [
             'name'         => 'required|string|max:255',
-            'contact_info' => 'nullable|string',
+            'phone' =>  'nullable|string',
+            'address' => 'nullable|string',
         ];
 
         $request->merge(['bussiness_id' => auth()->guard('api')->user()->bussiness_id]);
@@ -75,7 +76,8 @@ class SupplierController extends Controller
     {
         $rules = [
             'name'         => 'sometimes|string|max:255',
-            'contact_info' => 'nullable|string',
+            'phone' =>  'nullable|string',
+            'address' => 'nullable|string',
             'products'     => 'nullable|array',
             'products.*'   => 'exists:products,id',
         ];

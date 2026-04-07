@@ -1,5 +1,6 @@
 "use server";
 
+import { toast } from "sonner";
 import { API_URL } from "../global";
 import { getCookies } from "./server-cookie";
 import { redirect } from "next/navigation";
@@ -8,7 +9,7 @@ export async function authFetch(
   url: string,
   options: RequestInit = {}
 ): Promise<any> {
-  let shouldRedirect = false;
+
 
   try {
     const token = await getCookies("token");
@@ -22,11 +23,8 @@ export async function authFetch(
       },
     });
 
-    if (res.status === 401) {
-      shouldRedirect = true;
-    }
 
-    if (!shouldRedirect) {
+
       const contentType = res.headers.get("content-type");
       if (!contentType?.includes("application/json")) {
         return {
@@ -45,15 +43,18 @@ export async function authFetch(
         };
       }
 
+      console.error(res)
       return await res.json();
-    }
+    
   } catch (error) {
 
-    if (error instanceof Error && error.message.includes("NEXT_REDIRECT")) {
+    if (error instanceof Error) {
+
       throw error;
+
     }
 
-    console.error("[authFetch] Exception:", error);
+
     return {
       status: false,
       message: "Terjadi kesalahan koneksi",
@@ -62,9 +63,6 @@ export async function authFetch(
   }
 
 
-  if (shouldRedirect) {
-    redirect("/auth/signin");
-  }
 }
 
 export async function apiGet(
@@ -88,6 +86,7 @@ export async function apiPost(endpoint: string, payload: any) {
     method: "POST",
     body: JSON.stringify(payload),
   });
+
 }
 
 export async function apiPut(endpoint: string, payload: any) {

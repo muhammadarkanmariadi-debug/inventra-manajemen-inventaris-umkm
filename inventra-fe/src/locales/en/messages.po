@@ -1,0 +1,1336 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-04-07 09:31+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/page.tsx:88
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/page.tsx:91
+msgid "Ringkasan bisnis Anda"
+msgstr "Your Business Summary"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/page.tsx:124
+msgid "Total Penjualan"
+msgstr "Total Sales"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/page.tsx:139
+msgid "Total Keuntungan"
+msgstr "Total Profit"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/page.tsx:154
+msgid "Penjualan Bulan Ini"
+msgstr "This Month's Sales"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/page.tsx:169
+msgid "Keuntungan Bulan Ini"
+msgstr "This Month's Profit"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/page.tsx:179
+msgid "From"
+msgstr "From"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/page.tsx:189
+msgid "To"
+msgstr "To"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/page.tsx:206
+msgid "Produk Terlaris"
+msgstr "Best Selling Products"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/categories/categories.tsx:160
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:141
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:179
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:224
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:168
+#: src/app/(page)/(others-pages)/products/products.tsx:272
+#: src/app/(page)/(others-pages)/roles/roles.tsx:251
+#: src/app/(page)/(others-pages)/sales/sales.tsx:186
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:168
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:169
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:148
+#: src/app/(page)/(others-pages)/users/users.tsx:180
+#: src/app/(page)/page.tsx:210
+msgid "Memuat data..."
+msgstr "Loading data..."
+
+#. js-lingui-explicit-id
+#: src/app/(page)/page.tsx:214
+msgid "Belum ada data produk"
+msgstr "No product data yet"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/page.tsx:229
+msgid "terjual"
+msgstr "sold"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/users/users.tsx:159
+#: src/app/(page)/(others-pages)/users/users.tsx:226
+msgid "Tambah User"
+msgstr "Add User"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/categories/categories.tsx:151
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:132
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:170
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:215
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:159
+#: src/app/(page)/(others-pages)/products/products.tsx:263
+#: src/app/(page)/(others-pages)/roles/roles.tsx:242
+#: src/app/(page)/(others-pages)/sales/sales.tsx:177
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:160
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:139
+#: src/app/(page)/(others-pages)/users/users.tsx:171
+msgid "Aksi"
+msgstr "Actions"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/users/users.tsx:185
+msgid "Tidak ada data user"
+msgstr "No user data"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/categories/categories.tsx:177
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:160
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:204
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:244
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:193
+#: src/app/(page)/(others-pages)/products/products.tsx:302
+#: src/app/(page)/(others-pages)/roles/roles.tsx:274
+#: src/app/(page)/(others-pages)/sales/sales.tsx:209
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:164
+#: src/app/(page)/(others-pages)/users/users.tsx:203
+msgid "Edit"
+msgstr "Edit"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/categories/categories.tsx:180
+#: src/app/(page)/(others-pages)/categories/categories.tsx:228
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:161
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:213
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:205
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:277
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:245
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:301
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:196
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:265
+#: src/app/(page)/(others-pages)/products/products.tsx:303
+#: src/app/(page)/(others-pages)/products/products.tsx:398
+#: src/app/(page)/(others-pages)/roles/roles.tsx:277
+#: src/app/(page)/(others-pages)/roles/roles.tsx:418
+#: src/app/(page)/(others-pages)/sales/sales.tsx:210
+#: src/app/(page)/(others-pages)/sales/sales.tsx:267
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:190
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:215
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:269
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:165
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:214
+#: src/app/(page)/(others-pages)/users/users.tsx:206
+#: src/app/(page)/(others-pages)/users/users.tsx:264
+msgid "Hapus"
+msgstr "Delete"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/users/users.tsx:226
+msgid "Edit User"
+msgstr "Edit User"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/users/users.tsx:238
+msgid "Password (kosongkan jika tidak diubah)"
+msgstr "Password (leave blank if unchanged)"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/categories/categories.tsx:214
+#: src/app/(page)/(others-pages)/categories/categories.tsx:226
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:200
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:211
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:264
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:275
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:287
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:299
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:248
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:263
+#: src/app/(page)/(others-pages)/products/products.tsx:384
+#: src/app/(page)/(others-pages)/products/products.tsx:396
+#: src/app/(page)/(others-pages)/roles/roles.tsx:369
+#: src/app/(page)/(others-pages)/roles/roles.tsx:416
+#: src/app/(page)/(others-pages)/sales/sales.tsx:254
+#: src/app/(page)/(others-pages)/sales/sales.tsx:265
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:256
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:267
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:201
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:212
+#: src/app/(page)/(others-pages)/users/users.tsx:251
+#: src/app/(page)/(others-pages)/users/users.tsx:262
+msgid "Batal"
+msgstr "Cancel"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/categories/categories.tsx:215
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:201
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:265
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:288
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:251
+#: src/app/(page)/(others-pages)/products/products.tsx:385
+#: src/app/(page)/(others-pages)/roles/roles.tsx:372
+#: src/app/(page)/(others-pages)/sales/sales.tsx:255
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:257
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:202
+#: src/app/(page)/(others-pages)/users/users.tsx:252
+msgid "Menyimpan..."
+msgstr "Saving..."
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/categories/categories.tsx:215
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:201
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:265
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:288
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:251
+#: src/app/(page)/(others-pages)/products/products.tsx:385
+#: src/app/(page)/(others-pages)/roles/roles.tsx:372
+#: src/app/(page)/(others-pages)/sales/sales.tsx:255
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:257
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:202
+#: src/app/(page)/(others-pages)/users/users.tsx:252
+msgid "Simpan"
+msgstr "Save"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/users/users.tsx:257
+msgid "Hapus User"
+msgstr "Delete User"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/users/users.tsx:259
+msgid "Apakah Anda yakin ingin menghapus user"
+msgstr "Are you sure you want to delete user"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/categories/categories.tsx:228
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:213
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:277
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:301
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:265
+#: src/app/(page)/(others-pages)/products/products.tsx:398
+#: src/app/(page)/(others-pages)/roles/roles.tsx:418
+#: src/app/(page)/(others-pages)/sales/sales.tsx:267
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:269
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:214
+#: src/app/(page)/(others-pages)/users/users.tsx:264
+msgid "Menghapus..."
+msgstr "Deleting..."
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:93
+msgid "Produk Stok Kritis (≤5)"
+msgstr "Critical Stock Products (≤5)"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:97
+msgid "Produk Stok Rendah (6-15)"
+msgstr "Low Stock Products (6-15)"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:101
+msgid "Produk Stok Aman (> 15)"
+msgstr "Safe Stock Products (> 15)"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:109
+msgid "Prediksi AI (Gemini)"
+msgstr "AI Prediction (Gemini)"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:110
+msgid "AI akan menganalisis inventori dan memberikan rekomendasi restock, risiko kehabisan stok, dan strategi pengelolaan"
+msgstr "AI will analyze inventory and provide restock recommendations, out-of-stock risks, and management strategies"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:116
+msgid "Menganalisis..."
+msgstr "Analyzing..."
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:118
+msgid "Analisis Stok"
+msgstr "Analyze Stock"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:125
+msgid "AI sedang menganalisis produk..."
+msgstr "AI is analyzing products..."
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:139
+msgid "Klik \"Analisis Stok\" untuk mendapatkan prediksi dan rekomendasi dari AI"
+msgstr "Click \"Analyze Stock\" to get predictions and recommendations from AI"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:147
+msgid "Status Stok Seluruh Produk"
+msgstr "Stock Status of All Products"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:213
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:273
+#: src/app/(page)/(others-pages)/sales/sales.tsx:171
+#: src/app/(page)/(others-pages)/sales/sales.tsx:234
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:154
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:155
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:220
+msgid "Produk"
+msgstr "Product"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/products/products.tsx:260
+#: src/app/(page)/(others-pages)/products/products.tsx:347
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:156
+msgid "Kategori"
+msgstr "Category"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/products/products.tsx:259
+#: src/app/(page)/(others-pages)/products/products.tsx:341
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:157
+msgid "Stok"
+msgstr "Stock"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:131
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:188
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:166
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:238
+#: src/app/(page)/(others-pages)/products/products.tsx:261
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:159
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:156
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:229
+msgid "Tipe"
+msgstr "Type"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/products/products.tsx:278
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:174
+msgid "Tidak ada data produk"
+msgstr "No product data"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/products/products.tsx:246
+#: src/app/(page)/(others-pages)/products/products.tsx:324
+msgid "Tambah Produk"
+msgstr "Add Product"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/categories/categories.tsx:148
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:130
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:184
+#: src/app/(page)/(others-pages)/products/products.tsx:256
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:136
+msgid "Nama"
+msgstr "Name"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/products/products.tsx:258
+#: src/app/(page)/(others-pages)/products/products.tsx:337
+#: src/app/(page)/(others-pages)/sales/sales.tsx:173
+#: src/app/(page)/(others-pages)/sales/sales.tsx:248
+msgid "Harga Jual"
+msgstr "Selling Price"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/products/products.tsx:262
+#: src/app/(page)/(others-pages)/products/products.tsx:366
+msgid "Satuan"
+msgstr "Unit"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/products/products.tsx:324
+msgid "Edit Produk"
+msgstr "Edit Product"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/products/products.tsx:328
+msgid "Nama Produk"
+msgstr "Product Name"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/products/products.tsx:356
+msgid "Tipe Produk"
+msgstr "Product Type"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/products/products.tsx:370
+msgid "Tanggal Kadaluarsa"
+msgstr "Expiry Date"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/products/products.tsx:391
+msgid "Hapus Produk"
+msgstr "Delete Product"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/products/products.tsx:393
+msgid "Apakah Anda yakin ingin menghapus produk"
+msgstr "Are you sure you want to delete product"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:147
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:221
+msgid "Tambah Permission"
+msgstr "Add Permission"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:157
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:226
+msgid "Nama Permission"
+msgstr "Permission Name"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:175
+msgid "Tidak ada data permission"
+msgstr "No permission data"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:221
+msgid "Edit Permission"
+msgstr "Edit Permission"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:258
+msgid "Hapus Permission"
+msgstr "Delete Permission"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:260
+msgid "Apakah Anda yakin ingin menghapus permission"
+msgstr "Are you sure you want to delete permission"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/roles/roles.tsx:231
+#: src/app/(page)/(others-pages)/roles/roles.tsx:302
+msgid "Tambah Role"
+msgstr "Add Role"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/roles/roles.tsx:240
+#: src/app/(page)/(others-pages)/roles/roles.tsx:307
+msgid "Nama Role"
+msgstr "Role Name"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/roles/roles.tsx:258
+msgid "Tidak ada data role"
+msgstr "No role data"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/roles/roles.tsx:302
+msgid "Edit Role"
+msgstr "Edit Role"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/roles/roles.tsx:341
+msgid "Hapus Semua"
+msgstr "Remove All"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/roles/roles.tsx:341
+msgid "Pilih Semua"
+msgstr "Select All"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/roles/roles.tsx:400
+msgid "Tidak ada permissions"
+msgstr "No permissions"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/roles/roles.tsx:404
+msgid "Tutup"
+msgstr "Close"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/roles/roles.tsx:411
+msgid "Hapus Role"
+msgstr "Delete Role"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/roles/roles.tsx:413
+msgid "Apakah Anda yakin ingin menghapus role"
+msgstr "Are you sure you want to delete role"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:157
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:147
+msgid "Tambah Transaksi"
+msgstr "Add Transaction"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:167
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:250
+#: src/app/(page)/(others-pages)/sales/sales.tsx:244
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:157
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:241
+msgid "Jumlah"
+msgstr "Quantity"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:168
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:259
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:158
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:245
+msgid "Catatan"
+msgstr "Note"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:169
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:159
+msgid "Tanggal"
+msgstr "Date"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:174
+msgid "Tidak ada data transaksi stok"
+msgstr "No stock transaction data"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:208
+msgid "Tambah Transaksi Stok"
+msgstr "Add Stock Transaction"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:253
+msgid "Tambah Item"
+msgstr "Add Item"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:270
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:262
+msgid "Hapus Transaksi"
+msgstr "Delete Transaction"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:264
+msgid "Apakah Anda yakin ingin menghapus transaksi stok ini? Stok produk akan dikembalikan sesuai tipe transaksi."
+msgstr "Are you sure you want to delete this stock transaction? Product stock will be reverted according to the transaction type."
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/sales/sales.tsx:161
+#: src/app/(page)/(others-pages)/sales/sales.tsx:230
+msgid "Tambah Penjualan"
+msgstr "Add Sale"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/sales/sales.tsx:191
+msgid "Tidak ada data penjualan"
+msgstr "No sales data"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/sales/sales.tsx:230
+msgid "Edit Penjualan"
+msgstr "Edit Sale"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/sales/sales.tsx:260
+msgid "Hapus Penjualan"
+msgstr "Delete Sale"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/sales/sales.tsx:262
+msgid "Apakah Anda yakin ingin menghapus penjualan ini?"
+msgstr "Are you sure you want to delete this sale?"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:127
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:184
+msgid "Tambah Supplier"
+msgstr "Add Supplier"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:137
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:196
+msgid "No.Telp"
+msgstr "Phone"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:138
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:192
+msgid "Alamat"
+msgstr "Address"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:153
+msgid "Tidak ada data supplier"
+msgstr "No supplier data"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:184
+msgid "Edit Supplier"
+msgstr "Edit Supplier"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:188
+msgid "Nama Supplier"
+msgstr "Supplier Name"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:207
+msgid "Hapus Supplier"
+msgstr "Delete Supplier"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:209
+msgid "Apakah Anda yakin ingin menghapus supplier"
+msgstr "Are you sure you want to delete supplier"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:184
+msgid "Tidak ada data transaksi keuangan"
+msgstr "No financial transaction data"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:155
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:190
+msgid "Pemasukan"
+msgstr "Income"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:155
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:190
+msgid "Pengeluaran"
+msgstr "Expense"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:225
+msgid "Edit Transaksi Keuangan"
+msgstr "Edit Financial Transaction"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:225
+msgid "Tambah Transaksi Keuangan"
+msgstr "Add Financial Transaction"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:229
+msgid "Kategori Keuangan"
+msgstr "Financial Category"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:254
+msgid "Tanggal Transaksi"
+msgstr "Transaction Date"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:272
+msgid "Apakah Anda yakin ingin menghapus transaksi keuangan ini?"
+msgstr "Are you sure you want to delete this financial transaction?"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/categories/categories.tsx:137
+#: src/app/(page)/(others-pages)/categories/categories.tsx:201
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:122
+msgid "Tambah Kategori"
+msgstr "Add Category"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:146
+msgid "Tidak ada data kategori keuangan"
+msgstr "No financial category data"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:180
+msgid "Edit Kategori Keuangan"
+msgstr "Edit Financial Category"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:180
+msgid "Tambah Kategori Keuangan"
+msgstr "Add Financial Category"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:206
+msgid "Hapus Kategori Keuangan"
+msgstr "Delete Financial Category"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/categories/categories.tsx:223
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:208
+msgid "Apakah Anda yakin ingin menghapus kategori"
+msgstr "Are you sure you want to delete category"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:160
+msgid "Pertanyaan cepat:"
+msgstr "Quick questions:"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:213
+msgid "AI menganalisis data produk, penjualan, dan keuangan bisnis Anda secara real-time"
+msgstr "AI analyzes your business product, sales, and financial data in real-time"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:202
+msgid "Tambah HPP"
+msgstr "Add HPP"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:212
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:269
+msgid "Nama Komponen"
+msgstr "Component Name"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:214
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:282
+msgid "Biaya"
+msgstr "Cost"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:229
+msgid "Tidak ada data HPP"
+msgstr "No HPP data"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:265
+msgid "Edit HPP Component"
+msgstr "Edit HPP Component"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:265
+msgid "Tambah HPP Component"
+msgstr "Add HPP Component"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:294
+msgid "Hapus HPP"
+msgstr "Delete HPP"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:296
+msgid "Apakah Anda yakin ingin menghapus komponen HPP"
+msgstr "Are you sure you want to delete HPP component"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/categories/categories.tsx:149
+#: src/app/(page)/(others-pages)/categories/categories.tsx:209
+msgid "Deskripsi"
+msgstr "Description"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/categories/categories.tsx:150
+msgid "Jumlah Produk"
+msgstr "Product Count"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/categories/categories.tsx:165
+msgid "Tidak ada data kategori"
+msgstr "No category data"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/categories/categories.tsx:201
+msgid "Edit Kategori"
+msgstr "Edit Category"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/categories/categories.tsx:205
+msgid "Nama Kategori"
+msgstr "Category Name"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/categories/categories.tsx:221
+msgid "Hapus Kategori"
+msgstr "Delete Category"
+
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:193
+msgid "Alamat supplier"
+msgstr "Supplier address"
+
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:69
+msgid "Aman"
+msgstr "Safe"
+
+#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:24
+msgid "Bagaimana kondisi keuangan bisnis saya?"
+msgstr "How is my business's financial condition?"
+
+#: src/app/(page)/(others-pages)/products/products.tsx:55
+#: src/app/(page)/(others-pages)/products/products.tsx:358
+msgid "Barang"
+msgstr "Goods"
+
+#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:27
+msgid "Berapa total pemasukan dan pengeluaran?"
+msgstr "What is the total income and expenses?"
+
+#: src/app/(page)/(others-pages)/categories/categories.tsx:130
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:118
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:153
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:191
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:136
+#: src/app/(page)/(others-pages)/products/products.tsx:236
+#: src/app/(page)/(others-pages)/roles/roles.tsx:220
+#: src/app/(page)/(others-pages)/sales/sales.tsx:156
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:143
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:122
+#: src/app/(page)/(others-pages)/users/users.tsx:154
+msgid "Berhasil"
+msgstr "Success"
+
+#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:26
+msgid "Berikan analisis keuntungan bisnis saya"
+msgstr "Give me a profit analysis of my business"
+
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:283
+msgid "Biaya komponen"
+msgstr "Component cost"
+
+#: src/app/(page)/(others-pages)/categories/categories.tsx:133
+msgid "Cari kategori berdasarkan nama"
+msgstr "Search category by name"
+
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:56
+msgid "Cari komponen hpp atau nama produk..."
+msgstr "Search HPP component or product name..."
+
+#: src/app/(page)/(others-pages)/sales/sales.tsx:159
+msgid "Cari penjualan berdasarkan nama"
+msgstr "Search sales by name"
+
+#: src/app/(page)/(others-pages)/products/products.tsx:68
+msgid "Cari produk..."
+msgstr "Search products..."
+
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:125
+msgid "Cari supplier berdasarkan nama"
+msgstr "Search supplier by name"
+
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:260
+msgid "Catatan (opsional)"
+msgstr "Notes (optional)"
+
+#: src/app/(page)/(others-pages)/roles/roles.tsx:361
+msgid "dari"
+msgstr "of"
+
+#: src/app/(page)/(others-pages)/categories/categories.tsx:210
+msgid "Deskripsi kategori (opsional)"
+msgstr "Category description (optional)"
+
+#: src/app/(page)/page.tsx:97
+msgid "Error"
+msgstr "Error"
+
+#: src/app/(page)/page.tsx:65
+msgid "Gagal memuat data dashboard"
+msgstr "Failed to load dashboard data"
+
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:75
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:78
+msgid "Gagal memuat data HPP"
+msgstr "Failed to load HPP data"
+
+#: src/app/(page)/(others-pages)/categories/categories.tsx:53
+#: src/app/(page)/(others-pages)/categories/categories.tsx:56
+msgid "Gagal memuat data kategori"
+msgstr "Failed to load category data"
+
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:47
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:50
+msgid "Gagal memuat data kategori keuangan"
+msgstr "Failed to load financial category data"
+
+#: src/app/(page)/(others-pages)/sales/sales.tsx:53
+#: src/app/(page)/(others-pages)/sales/sales.tsx:56
+msgid "Gagal memuat data penjualan"
+msgstr "Failed to load sales data"
+
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:48
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:51
+msgid "Gagal memuat data permission"
+msgstr "Failed to load permission data"
+
+#: src/app/(page)/(others-pages)/products/products.tsx:95
+#: src/app/(page)/(others-pages)/products/products.tsx:98
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:32
+msgid "Gagal memuat data produk"
+msgstr "Failed to load product data"
+
+#: src/app/(page)/(others-pages)/roles/roles.tsx:65
+#: src/app/(page)/(others-pages)/roles/roles.tsx:68
+msgid "Gagal memuat data role"
+msgstr "Failed to load role data"
+
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:47
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:50
+msgid "Gagal memuat data supplier"
+msgstr "Failed to load supplier data"
+
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:52
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:55
+msgid "Gagal memuat data transaksi keuangan"
+msgstr "Failed to load financial transaction data"
+
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:51
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:54
+msgid "Gagal memuat data transaksi stok"
+msgstr "Failed to load stock transaction data"
+
+#: src/app/(page)/(others-pages)/users/users.tsx:53
+#: src/app/(page)/(others-pages)/users/users.tsx:56
+msgid "Gagal memuat data user"
+msgstr "Failed to load user data"
+
+#: src/app/(page)/(others-pages)/roles/roles.tsx:127
+#: src/app/(page)/(others-pages)/roles/roles.tsx:139
+msgid "Gagal memuat detail role"
+msgstr "Failed to load role detail"
+
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:54
+msgid "Gagal menganalisis stok"
+msgstr "Failed to analyze stock"
+
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:153
+msgid "Gagal menghapus HPP"
+msgstr "Failed to delete HPP"
+
+#: src/app/(page)/(others-pages)/categories/categories.tsx:111
+msgid "Gagal menghapus kategori"
+msgstr "Failed to delete category"
+
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:105
+msgid "Gagal menghapus kategori keuangan"
+msgstr "Failed to delete financial category"
+
+#: src/app/(page)/(others-pages)/sales/sales.tsx:139
+msgid "Gagal menghapus penjualan"
+msgstr "Failed to delete sale"
+
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:120
+msgid "Gagal menghapus permission"
+msgstr "Failed to delete permission"
+
+#: src/app/(page)/(others-pages)/products/products.tsx:204
+msgid "Gagal menghapus produk"
+msgstr "Failed to delete product"
+
+#: src/app/(page)/(others-pages)/roles/roles.tsx:205
+msgid "Gagal menghapus role"
+msgstr "Failed to delete role"
+
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:105
+msgid "Gagal menghapus supplier"
+msgstr "Failed to delete supplier"
+
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:136
+msgid "Gagal menghapus transaksi keuangan"
+msgstr "Failed to delete financial transaction"
+
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:121
+msgid "Gagal menghapus transaksi stok"
+msgstr "Failed to delete stock transaction"
+
+#: src/app/(page)/(others-pages)/users/users.tsx:140
+msgid "Gagal menghapus user"
+msgstr "Failed to delete user"
+
+#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:93
+msgid "Gagal mengirim pesan. Silakan coba lagi."
+msgstr "Failed to send message. Please try again."
+
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:132
+msgid "Gagal menyimpan HPP"
+msgstr "Failed to save HPP"
+
+#: src/app/(page)/(others-pages)/categories/categories.tsx:90
+msgid "Gagal menyimpan kategori"
+msgstr "Failed to save category"
+
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:84
+msgid "Gagal menyimpan kategori keuangan"
+msgstr "Failed to save financial category"
+
+#: src/app/(page)/(others-pages)/sales/sales.tsx:118
+msgid "Gagal menyimpan penjualan"
+msgstr "Failed to save sale"
+
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:99
+msgid "Gagal menyimpan permission"
+msgstr "Failed to save permission"
+
+#: src/app/(page)/(others-pages)/products/products.tsx:183
+msgid "Gagal menyimpan produk"
+msgstr "Failed to save product"
+
+#: src/app/(page)/(others-pages)/roles/roles.tsx:184
+msgid "Gagal menyimpan role"
+msgstr "Failed to save role"
+
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:84
+msgid "Gagal menyimpan supplier"
+msgstr "Failed to save supplier"
+
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:115
+msgid "Gagal menyimpan transaksi keuangan"
+msgstr "Failed to save financial transaction"
+
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:100
+msgid "Gagal menyimpan transaksi stok"
+msgstr "Failed to save stock transaction"
+
+#: src/app/(page)/(others-pages)/users/users.tsx:105
+#: src/app/(page)/(others-pages)/users/users.tsx:118
+msgid "Gagal menyimpan user"
+msgstr "Failed to save user"
+
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:65
+msgid "Habis"
+msgstr "Out of Stock"
+
+#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:34
+msgid ""
+"Halo! 👋 Saya adalah asisten AI Inventra. Saya bisa membantu Anda menganalisis data bisnis:\n"
+"\n"
+"• 📦 Stok & inventori\n"
+"• 💰 Keuangan & profit\n"
+"• 📊 Penjualan & tren\n"
+"\n"
+"Silakan tanyakan apa saja tentang bisnis Anda!"
+msgstr ""
+"Hello! 👋 I am Inventra's AI assistant. I can help you analyze business data:\n"
+"\n"
+"• 📦 Stock & inventory\n"
+"• 💰 Finance & profit\n"
+"• 📊 Sales & trends\n"
+"\n"
+"Feel free to ask anything about your business!"
+
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:147
+msgid "HPP berhasil dihapus"
+msgstr "HPP deleted successfully"
+
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:126
+msgid "HPP berhasil diperbarui"
+msgstr "HPP updated successfully"
+
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:126
+msgid "HPP berhasil ditambahkan"
+msgstr "HPP added successfully"
+
+#: src/app/(page)/(others-pages)/products/products.tsx:60
+msgid "Kategori"
+msgstr "Category"
+
+#: src/app/(page)/(others-pages)/categories/categories.tsx:105
+msgid "Kategori berhasil dihapus"
+msgstr "Category deleted successfully"
+
+#: src/app/(page)/(others-pages)/categories/categories.tsx:84
+msgid "Kategori berhasil diperbarui"
+msgstr "Category updated successfully"
+
+#: src/app/(page)/(others-pages)/categories/categories.tsx:84
+msgid "Kategori berhasil ditambahkan"
+msgstr "Category added successfully"
+
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:116
+msgid "Kategori Keuangan"
+msgstr "Financial Category"
+
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:99
+msgid "Kategori keuangan berhasil dihapus"
+msgstr "Financial category deleted successfully"
+
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:78
+msgid "Kategori keuangan berhasil diperbarui"
+msgstr "Financial category updated successfully"
+
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:78
+msgid "Kategori keuangan berhasil ditambahkan"
+msgstr "Financial category added successfully"
+
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:233
+msgid "Keluar (OUT)"
+msgstr "Out (OUT)"
+
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:66
+msgid "Kritis"
+msgstr "Critical"
+
+#: src/app/(page)/(others-pages)/products/products.tsx:56
+#: src/app/(page)/(others-pages)/products/products.tsx:358
+msgid "Kuliner"
+msgstr "Culinary"
+
+#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:82
+msgid "Maaf, saya tidak bisa menjawab saat ini."
+msgstr "Sorry, I cannot answer right now."
+
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:232
+msgid "Masuk (IN)"
+msgstr "In (IN)"
+
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:270
+msgid "Misal: Bahan Baku, Packaging, dll"
+msgstr "e.g.: Raw Materials, Packaging, etc"
+
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:115
+msgid "Mohon lengkapi semua field dengan benar"
+msgstr "Please fill in all fields correctly"
+
+#: src/app/(page)/(others-pages)/categories/categories.tsx:206
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:185
+msgid "Nama kategori"
+msgstr "Category name"
+
+#: src/app/(page)/(others-pages)/products/products.tsx:329
+msgid "Nama produk"
+msgstr "Product name"
+
+#: src/app/(page)/(others-pages)/roles/roles.tsx:310
+msgid "Nama role"
+msgstr "Role name"
+
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:189
+msgid "Nama supplier"
+msgstr "Supplier name"
+
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:197
+msgid "Nomor telepon supplier"
+msgstr "Supplier phone number"
+
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:246
+msgid "Opsional"
+msgstr "Optional"
+
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:191
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:231
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:241
+msgid "Pemasukan"
+msgstr "Income"
+
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:192
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:231
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:242
+msgid "Pengeluaran"
+msgstr "Expense"
+
+#: src/app/(page)/(others-pages)/sales/sales.tsx:154
+msgid "Penjualan"
+msgstr "Sales"
+
+#: src/app/(page)/(others-pages)/sales/sales.tsx:133
+msgid "Penjualan berhasil dihapus"
+msgstr "Sale deleted successfully"
+
+#: src/app/(page)/(others-pages)/sales/sales.tsx:112
+msgid "Penjualan berhasil diperbarui"
+msgstr "Sale updated successfully"
+
+#: src/app/(page)/(others-pages)/sales/sales.tsx:112
+msgid "Penjualan berhasil ditambahkan"
+msgstr "Sale added successfully"
+
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:234
+msgid "Penyesuaian (ADJUST)"
+msgstr "Adjustment (ADJUST)"
+
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:114
+msgid "Permission berhasil dihapus"
+msgstr "Permission deleted successfully"
+
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:93
+msgid "Permission berhasil diperbarui"
+msgstr "Permission updated successfully"
+
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:93
+msgid "Permission berhasil ditambahkan"
+msgstr "Permission added successfully"
+
+#: src/app/(page)/(others-pages)/roles/roles.tsx:361
+msgid "permission dipilih"
+msgstr "permissions selected"
+
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:232
+#: src/app/(page)/(others-pages)/products/products.tsx:350
+msgid "Pilih kategori"
+msgstr "Select category"
+
+#: src/app/(page)/(others-pages)/sales/sales.tsx:237
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:223
+msgid "Pilih produk"
+msgstr "Select product"
+
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:276
+msgid "Pilih Produk"
+msgstr "Select Product"
+
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:85
+msgid "Prediksi & Analisis Stok"
+msgstr "Stock Prediction & Analysis"
+
+#: src/app/(page)/(others-pages)/products/products.tsx:235
+msgid "Produk"
+msgstr "Product"
+
+#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:23
+msgid "Produk apa yang paling laris bulan ini?"
+msgstr "What is the best selling product this month?"
+
+#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:25
+msgid "Produk apa yang perlu di-restock?"
+msgstr "Which products need to be restocked?"
+
+#: src/app/(page)/(others-pages)/products/products.tsx:198
+msgid "Produk berhasil dihapus"
+msgstr "Product deleted successfully"
+
+#: src/app/(page)/(others-pages)/products/products.tsx:177
+msgid "Produk berhasil diperbarui"
+msgstr "Product updated successfully"
+
+#: src/app/(page)/(others-pages)/products/products.tsx:177
+msgid "Produk berhasil ditambahkan"
+msgstr "Product added successfully"
+
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:67
+msgid "Rendah"
+msgstr "Low"
+
+#: src/app/(page)/(others-pages)/roles/roles.tsx:199
+msgid "Role berhasil dihapus"
+msgstr "Role deleted successfully"
+
+#: src/app/(page)/(others-pages)/roles/roles.tsx:178
+msgid "Role berhasil diperbarui"
+msgstr "Role updated successfully"
+
+#: src/app/(page)/(others-pages)/roles/roles.tsx:178
+msgid "Role berhasil ditambahkan"
+msgstr "Role added successfully"
+
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:68
+msgid "Sedang"
+msgstr "Medium"
+
+#: src/app/(page)/(others-pages)/sales/sales.tsx:236
+msgid "Stok"
+msgstr "Stock"
+
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:99
+msgid "Supplier berhasil dihapus"
+msgstr "Supplier deleted successfully"
+
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:78
+msgid "Supplier berhasil diperbarui"
+msgstr "Supplier updated successfully"
+
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:78
+msgid "Supplier berhasil ditambahkan"
+msgstr "Supplier added successfully"
+
+#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:185
+msgid "Tanyakan sesuatu tentang bisnis Anda..."
+msgstr "Ask something about your business..."
+
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:48
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:59
+msgid "Terendah ke Tertinggi"
+msgstr "Lowest to Highest"
+
+#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:57
+msgid "Terjadi kesalahan saat menganalisis"
+msgstr "An error occurred while analyzing"
+
+#: src/app/(page)/(others-pages)/categories/categories.tsx:114
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:108
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:139
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:156
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:123
+#: src/app/(page)/(others-pages)/products/products.tsx:207
+#: src/app/(page)/(others-pages)/roles/roles.tsx:208
+#: src/app/(page)/(others-pages)/sales/sales.tsx:142
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:124
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:108
+#: src/app/(page)/(others-pages)/users/users.tsx:143
+msgid "Terjadi kesalahan saat menghapus"
+msgstr "An error occurred while deleting"
+
+#: src/app/(page)/(others-pages)/categories/categories.tsx:93
+#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:87
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:118
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:135
+#: src/app/(page)/(others-pages)/permissions/permissions.tsx:102
+#: src/app/(page)/(others-pages)/products/products.tsx:186
+#: src/app/(page)/(others-pages)/roles/roles.tsx:187
+#: src/app/(page)/(others-pages)/sales/sales.tsx:121
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:103
+#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:87
+#: src/app/(page)/(others-pages)/users/users.tsx:122
+msgid "Terjadi kesalahan saat menyimpan"
+msgstr "An error occurred while saving"
+
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:51
+#: src/app/(page)/(others-pages)/hpp/hpp.tsx:62
+msgid "Tertinggi ke Terendah"
+msgstr "Highest to Lowest"
+
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:151
+msgid "Transaksi Keuangan"
+msgstr "Financial Transactions"
+
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:130
+msgid "Transaksi keuangan berhasil dihapus"
+msgstr "Financial transaction deleted successfully"
+
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:109
+msgid "Transaksi keuangan berhasil diperbarui"
+msgstr "Financial transaction updated successfully"
+
+#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:109
+msgid "Transaksi keuangan berhasil ditambahkan"
+msgstr "Financial transaction added successfully"
+
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:141
+msgid "Transaksi Stok"
+msgstr "Stock Transactions"
+
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:94
+msgid "Transaksi stok berhasil dibuat"
+msgstr "Stock transaction created successfully"
+
+#: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:115
+msgid "Transaksi stok berhasil dihapus"
+msgstr "Stock transaction deleted successfully"
+
+#: src/app/(page)/(others-pages)/users/users.tsx:134
+msgid "User berhasil dihapus"
+msgstr "User deleted successfully"
+
+#: src/app/(page)/(others-pages)/users/users.tsx:99
+#: src/app/(page)/(others-pages)/users/users.tsx:112
+msgid "User berhasil diperbarui"
+msgstr "User updated successfully"
+
+#: src/app/(page)/(others-pages)/users/users.tsx:112
+msgid "User berhasil ditambahkan"
+msgstr "User added successfully"

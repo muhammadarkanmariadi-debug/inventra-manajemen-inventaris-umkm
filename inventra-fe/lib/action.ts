@@ -98,7 +98,7 @@ export const put = async (
 };
 export const get = async (
   url: string,
-  payload: string | FormData,
+
   token?: string,
 
 ): Promise<TypedResponse> => {
@@ -109,7 +109,7 @@ export const get = async (
       headers: {
         Authorization: token ? `Bearer ${token}` : ''
       },
-      body: typeof payload == "string" ? decryptFromClient(payload) : payload,
+
 
     });
 

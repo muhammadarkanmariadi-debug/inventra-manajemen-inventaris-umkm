@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   getStatisticSales,
   getStatisticProducts,
@@ -14,6 +14,9 @@ import {
 import LineChartOne from '@/components/charts/line/LineChartOne';
 import DatePicker from '@/components/form/date-picker';
 import Label from '@/components/form/Label';
+import { Trans } from '@lingui/react';
+import { useLingui } from '@lingui/react';
+import { msg } from '@lingui/core/macro';
 
 interface SalesStat {
   yearmonth: string;
@@ -29,13 +32,13 @@ interface TopProduct {
 }
 
 export default function DashboardPage() {
+  const { _ } = useLingui();
   const [salesStats, setSalesStats] = useState<SalesStat[]>([]);
   const [topProducts, setTopProducts] = useState<TopProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [totalSales, setTotalSales] = useState(0);
   const [totalProfit, setTotalProfit] = useState(0);
-
 
   const [startDate, setStartDate] = useState(`${new Date().getFullYear()}-01-01`);
   const [endDate, setEndDate] = useState(`${new Date().getFullYear()}-12-31`);
@@ -44,7 +47,6 @@ export default function DashboardPage() {
     setLoading(true);
     setError('');
     try {
-
       const [salesRes, productsRes] = await Promise.all([
         getStatisticSales(startDate, endDate),
         getStatisticProducts(),
@@ -59,19 +61,16 @@ export default function DashboardPage() {
       if (productsRes.status) {
         setTopProducts(productsRes.data || []);
       }
-
     } catch {
-      setError('Gagal memuat data dashboard');
+      setError(_(msg`Gagal memuat data dashboard`));
     } finally {
       setLoading(false);
     }
-  }; 
+  };
 
   useEffect(() => {
     fetchData();
   }, [startDate, endDate]);
-
-
 
   const latestMonth = salesStats.at(-1) ?? null;
   const prevMonth = salesStats.length > 1 ? salesStats.at(-2) : null;
@@ -85,14 +84,24 @@ export default function DashboardPage() {
   return (
     <div>
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-white/90">Dashboard</h2>
-        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Ringkasan bisnis Anda</p>
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-white/90">
+          <Trans id="Dashboard" />
+        </h2>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          <Trans id="Ringkasan bisnis Anda" />
+        </p>
       </div>
 
-      {error && <div className="mb-4"><Alert variant="error" title="Error" message={error} /></div>}
+      {error && (
+        <div className="mb-4">
+          <Alert variant="error" title={_(msg`Error`)} message={error} />
+        </div>
+      )}
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 mb-6">
+
+        {/* Total Penjualan */}
         <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
           <div className="flex items-center justify-between">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 dark:bg-brand-500/10">
@@ -111,10 +120,13 @@ export default function DashboardPage() {
             <h3 className="text-2xl font-bold text-gray-800 dark:text-white/90">
               {loading ? '...' : totalSales}
             </h3>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Total Penjualan</p>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              <Trans id="Total Penjualan" />
+            </p>
           </div>
         </div>
 
+        {/* Total Keuntungan */}
         <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-success-50 dark:bg-success-500/10">
             <DollarLineIcon className="text-success-500" />
@@ -123,10 +135,13 @@ export default function DashboardPage() {
             <h3 className="text-2xl font-bold text-gray-800 dark:text-white/90">
               {loading ? '...' : formatCurrency(totalProfit)}
             </h3>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Total Keuntungan</p>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              <Trans id="Total Keuntungan" />
+            </p>
           </div>
         </div>
 
+        {/* Penjualan Bulan Ini */}
         <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-warning-50 dark:bg-warning-500/10">
             <BoxIconLine className="text-warning-500" />
@@ -135,10 +150,13 @@ export default function DashboardPage() {
             <h3 className="text-2xl font-bold text-gray-800 dark:text-white/90">
               {loading ? '...' : (latestMonth?.total_penjualan ?? 0)}
             </h3>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Penjualan Bulan Ini</p>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              <Trans id="Penjualan Bulan Ini" />
+            </p>
           </div>
         </div>
 
+        {/* Keuntungan Bulan Ini */}
         <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-error-50 dark:bg-error-500/10">
             <GroupIcon className="text-error-500" />
@@ -147,34 +165,33 @@ export default function DashboardPage() {
             <h3 className="text-2xl font-bold text-gray-800 dark:text-white/90">
               {loading ? '...' : formatCurrency(latestMonth?.keuntungan ?? 0)}
             </h3>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Keuntungan Bulan Ini</p>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              <Trans id="Keuntungan Bulan Ini" />
+            </p>
           </div>
         </div>
       </div>
 
       <div className="block">
         <div className="rounded-xl shadow-lg p-4">
-          <div className='flex justify-end gap-4'>
-            {/* ✅ id unik, onChange pakai nilai yang dipilih */}
-            <div className='items-center gap-2 flex'>
-              <Label htmlFor='start-date'>From</Label>
+          <div className="flex justify-end gap-4">
+            <div className="items-center gap-2 flex">
+              <Label htmlFor="start-date"><Trans id="From" /></Label>
               <DatePicker
-                id='start-date'
-                placeholder='dd/mm/yy'
-                onChange={(date :any) => {
+                id="start-date"
+                placeholder="dd/mm/yy"
+                onChange={(date: any) => {
                   if (date) setStartDate(new Date(date).toISOString().split('T')[0]);
-   
                 }}
               />
             </div>
-            <div className='items-center gap-2 flex'>
-              <Label htmlFor='end-date'>To</Label>
+            <div className="items-center gap-2 flex">
+              <Label htmlFor="end-date"><Trans id="To" /></Label>
               <DatePicker
-                id='end-date'
-                placeholder='dd/mm/yy'
-                onChange={(date : any) => {
+                id="end-date"
+                placeholder="dd/mm/yy"
+                onChange={(date: any) => {
                   if (date) setEndDate(new Date(date).toISOString().split('T')[0]);
-             
                 }}
               />
             </div>
@@ -185,11 +202,17 @@ export default function DashboardPage() {
         {/* Top Products */}
         <div className="mt-5">
           <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <h4 className="mb-4 text-lg font-semibold text-gray-800 dark:text-white/90">Produk Terlaris</h4>
+            <h4 className="mb-4 text-lg font-semibold text-gray-800 dark:text-white/90">
+              <Trans id="Produk Terlaris" />
+            </h4>
             {loading ? (
-              <div className="flex h-40 items-center justify-center text-gray-400">Memuat data...</div>
+              <div className="flex h-40 items-center justify-center text-gray-400">
+                <Trans id="Memuat data..." />
+              </div>
             ) : topProducts.length === 0 ? (
-              <div className="flex h-40 items-center justify-center text-gray-400">Belum ada data produk</div>
+              <div className="flex h-40 items-center justify-center text-gray-400">
+                <Trans id="Belum ada data produk" />
+              </div>
             ) : (
               <div className="space-y-4">
                 {topProducts.map((product, index) => (
@@ -203,7 +226,7 @@ export default function DashboardPage() {
                     </div>
                     <div className="text-right">
                       <span className="text-lg font-bold text-brand-500">{product.penjualan_produk}</span>
-                      <p className="text-xs text-gray-400">terjual</p>
+                      <p className="text-xs text-gray-400"><Trans id="terjual" /></p>
                     </div>
                   </div>
                 ))}

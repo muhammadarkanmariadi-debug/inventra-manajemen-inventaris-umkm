@@ -1,61 +1,101 @@
-"use client";
-import React from "react";
+"use client"
+import React, { useState, useEffect } from "react";
 import { useModal } from "../../hooks/useModal";
 import { Modal } from "../ui/modal";
 import Button from "../ui/button/Button";
 import Input from "../form/input/InputField";
 import Label from "../form/Label";
+import { useAuth } from "../../context/AuthContext";
+import { updateBusiness } from "../../../services/user.service";
+import { toast } from "sonner";
 
 export default function UserAddressCard() {
+  const { business, refreshProfile } = useAuth();
   const { isOpen, openModal, closeModal } = useModal();
-  const handleSave = () => {
-    // Handle save logic here
-    console.log("Saving changes...");
-    closeModal();
+  const [isSaving, setIsSaving] = useState(false);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    address: "",
+    phone: "",
+    website: "",
+  });
+
+  useEffect(() => {
+    if (business) {
+      setFormData({
+        name: business.name || "",
+        address: business.address || "",
+        phone: business.phone || "",
+        website: business.website || "",
+      });
+    }
+  }, [business]);
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!business) return;
+    
+    setIsSaving(true);
+    try {
+      const response = await updateBusiness(business.id, formData);
+      if (response.status) {
+        toast.success("Business information updated successfully");
+        await refreshProfile();
+        closeModal();
+      } else {
+        toast.error(response.message || "Failed to update business");
+      }
+    } catch (error) {
+      toast.error("An error occurred while updating business");
+    } finally {
+      setIsSaving(false);
+    }
   };
+
   return (
     <>
       <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div>
             <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
-              Address
+              Business Information
             </h4>
 
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32">
               <div>
                 <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                  Country
+                  Business Name
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  United States
+                  {business?.name || "No Business Linked"}
                 </p>
               </div>
 
               <div>
                 <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                  City/State
+                  Address
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  Phoenix, Arizona, United States.
+                  {business?.address || "-"}
                 </p>
               </div>
 
               <div>
                 <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                  Postal Code
+                  Phone
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  ERT 2489
+                  {business?.phone || "-"}
                 </p>
               </div>
 
               <div>
                 <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                  TAX ID
+                  Website
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  AS4568384
+                  {business?.website || "-"}
                 </p>
               </div>
             </div>
@@ -88,42 +128,58 @@ export default function UserAddressCard() {
         <div className="relative w-full p-4 overflow-y-auto bg-white no-scrollbar rounded-3xl dark:bg-gray-900 lg:p-11">
           <div className="px-2 pr-14">
             <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
-              Edit Address
+              Edit Business Details
             </h4>
             <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
-              Update your details to keep your profile up-to-date.
+              Update your business information.
             </p>
           </div>
-          <form className="flex flex-col">
+          <form className="flex flex-col" onSubmit={handleSave}>
             <div className="px-2 overflow-y-auto custom-scrollbar">
               <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                 <div>
-                  <Label>Country</Label>
-                  <Input type="text" defaultValue="United States" />
+                  <Label>Business Name</Label>
+                  <Input 
+                    type="text" 
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  />
                 </div>
 
                 <div>
-                  <Label>City/State</Label>
-                  <Input type="text" defaultValue="Arizona, United States." />
+                  <Label>Phone</Label>
+                  <Input 
+                    type="text" 
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  />
                 </div>
 
-                <div>
-                  <Label>Postal Code</Label>
-                  <Input type="text" defaultValue="ERT 2489" />
+                <div className="lg:col-span-2">
+                  <Label>Address</Label>
+                  <Input 
+                    type="text" 
+                    value={formData.address}
+                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                  />
                 </div>
 
-                <div>
-                  <Label>TAX ID</Label>
-                  <Input type="text" defaultValue="AS4568384" />
+                <div className="lg:col-span-2">
+                  <Label>Website</Label>
+                  <Input 
+                    type="text" 
+                    value={formData.website}
+                    onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                  />
                 </div>
               </div>
             </div>
             <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
-              <Button size="sm" variant="outline" onClick={closeModal}>
+              <Button size="sm" variant="outline" onClick={closeModal} type="button">
                 Close
               </Button>
-              <Button size="sm" onClick={handleSave}>
-                Save Changes
+              <Button size="sm" type="submit" disabled={isSaving}>
+                {isSaving ? "Saving..." : "Save Changes"}
               </Button>
             </div>
           </form>
