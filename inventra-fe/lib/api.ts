@@ -15,9 +15,11 @@ export async function authFetch(
     const token = await getCookies("token");
 
     const res = await fetch(url, {
+      cache: "no-store",
       ...options,
       headers: {
         "Content-Type": "application/json",
+        "Accept": "application/json",
         Authorization: token ? `Bearer ${token}` : "",
         ...options.headers,
       },
@@ -43,7 +45,7 @@ export async function authFetch(
         };
       }
 
-      console.error(res)
+    
       return await res.json();
     
   } catch (error) {

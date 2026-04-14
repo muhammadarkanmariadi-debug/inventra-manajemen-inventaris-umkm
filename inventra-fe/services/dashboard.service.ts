@@ -14,6 +14,13 @@ export async function getStatisticProducts() {
   return apiGet("/statistic/products");
 }
 
+export async function getStatisticFinancial(startDate?: string, endDate?: string) {
+  const params: Record<string, string> = {};
+  if (startDate) params.startDate = startDate;
+  if (endDate) params.endDate = endDate;
+  return apiGet("/statistic/financial", params);
+}
+
 // ===== Gemini AI Endpoints =====
 export async function analyzeInventory() {
   return apiGet("/gemini/inventory");

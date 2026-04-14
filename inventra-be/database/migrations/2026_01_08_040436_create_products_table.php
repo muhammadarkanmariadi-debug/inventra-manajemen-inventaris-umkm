@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('sku')->unique();
             $table->enum('product_type', ['kuliner', 'barang']);
             $table->string('unit');
-            $table->integer('stock')->default(0);
             $table->unsignedBigInteger('bussiness_id');
             $table->foreign('bussiness_id')->references('id')->on('bussinesses')->onDelete('cascade');
             $table->decimal('selling_price', 12, 2);

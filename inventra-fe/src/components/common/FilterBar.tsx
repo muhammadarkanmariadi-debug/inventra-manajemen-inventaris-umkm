@@ -152,7 +152,7 @@ const selectStyles: StylesConfig<SelectOption> = {
 };
 
 function FilterSelect({ label, options, value, onChange }: FilterSelectProps) {
-  console.log(options)
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
       <label style={{

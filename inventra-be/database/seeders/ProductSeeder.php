@@ -12,18 +12,25 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $product = Product::create([
+        $product = Product::firstOrCreate(
+            ['sku' => 'SKU002'],
+            [
             'category_id'   => 1,
             'name'          => 'Smartphone XYZ',
-            'sku'           => 'SKU002',
             'product_type'  => 'barang',
             'unit'          => 'pcs',
-            'stock'         => 16,
             'bussiness_id'  => 1,
             'selling_price' => '5000.00',
             'expired_date'  => null,
         ]);
 
-        $product->suppliers()->attach(1);
+      
+        \App\Models\Inventory::firstOrCreate(
+            ['inventory_code' => 'INV-SEED-01'],
+            [
+            'product_id' => $product->id,
+            'current_status_id' => \App\Models\InventoryStatus::where('code', 'READY')->first()->id,
+            'quantity' => 16,
+        ]);
     }
 }

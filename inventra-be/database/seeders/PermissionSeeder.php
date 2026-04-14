@@ -43,10 +43,7 @@ class PermissionSeeder extends Seeder
             'stockTransaction.view',
             'stockTransaction.update',
             'stockTransaction.delete',
-            'hppComponents.create',
-            'hppComponents.view',
-            'hppComponents.update',
-            'hppComponents.delete',
+
             'sales.create',
             'sales.view',
             'sales.update',
@@ -64,12 +61,15 @@ class PermissionSeeder extends Seeder
             'permission.view',
             'permission.update',
             'permission.delete',
-        
+            'purchase.create',
+            'purchase.view',
+            'purchase.update',
+            'purchase.delete',
 
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission, 'guard_name' => 'api']);
+            Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'api']);
         }
     }
 }

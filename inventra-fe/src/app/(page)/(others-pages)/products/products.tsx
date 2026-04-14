@@ -14,20 +14,23 @@ import Alert from '@/components/ui/alert/Alert';
 import MultiSelect from '@/components/form/MultiSelect';
 import { getProducts, createProduct, updateProduct, deleteProduct } from '../../../../../services/product.service';
 import { getAllCategories, getCategories } from '../../../../../services/category.service';
-import { getAllSuppliers } from '../../../../../services/supplier.service';
-import type { Product, Category, Supplier, CreateProductPayload } from '../../../../../types';
+import type { Product, Category, CreateProductPayload } from '../../../../../types';
 import { Search } from 'lucide-react';
 import SearchBar from '@/components/form/input/SearchBar';
 import { FilterBar, FilterBarProps, FilterValues } from '@/components/common/FilterBar';
+import { PrintableQRModal } from '@/components/common/PrintableQRModal';
 import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
+import { CldUploadWidget, CloudinaryUploadWidgetInfo } from 'next-cloudinary';
+import { CloudUpload } from "lucide-react";
+import QRCode from "react-qr-code";
+import Image from "next/image";
 
 export default function Products() {
   const { _ } = useLingui();
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -39,9 +42,11 @@ export default function Products() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [deletingProduct, setDeletingProduct] = useState<Product | null>(null);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const [detailProduct, setDetailProduct] = useState<Product | null>(null);
   const [submitting, setSubmitting] = useState(false);
-
-
+  const [qrModalOpen, setQrModalOpen] = useState(false);
+  const [qrCodeData, setQrCodeData] = useState({ code: '', title: '', subtitle: '' });
 
 
   const handleFetchCategories = async () => {
@@ -71,14 +76,13 @@ export default function Products() {
 
   const [formData, setFormData] = useState<CreateProductPayload>({
     name: '',
+    image: '',
     sku: '',
     selling_price: 0,
-    stock: 0,
     category_id: 0,
     product_type: 'barang',
     unit: '',
     expired_date: null,
-    supplier_id: [],
   });
 
   const fetchProducts = useCallback(async () => {
@@ -105,9 +109,8 @@ export default function Products() {
 
   const fetchDropdownData = useCallback(async () => {
     try {
-      const [catRes, supRes] = await Promise.all([getAllCategories(), getAllSuppliers()]);
+      const catRes = await getAllCategories();
       if (catRes.status) setCategories(catRes.data.data);
-      if (supRes.status) setSuppliers(supRes.data.data);
     } catch {
 
     }
@@ -131,9 +134,9 @@ export default function Products() {
 
   const resetForm = () => {
     setFormData({
-      name: '', sku: '', selling_price: 0, stock: 0,
+      name: '', sku: '', image: '', selling_price: 0,
       category_id: 0, product_type: 'barang', unit: '',
-      expired_date: null, supplier_id: [],
+      expired_date: null,
     });
     setEditingProduct(null);
   };
@@ -143,19 +146,23 @@ export default function Products() {
     setShowFormModal(true);
   };
 
+  const openDetailModal = (product: Product) => {
+    setDetailProduct(product);
+    setShowDetailModal(true);
+  };
+
 
   const openEditModal = (product: Product) => {
     setEditingProduct(product);
     setFormData({
       name: product.name,
+      image: product.image || '',
       sku: product.sku,
       selling_price: product.selling_price,
-      stock: product.stock,
       category_id: product.category_id,
       product_type: product.product_type,
       unit: product.unit,
       expired_date: product.expired_date,
-      supplier_id: product.suppliers?.map((s) => s.id) || [],
     });
     setShowFormModal(true);
   };
@@ -281,7 +288,14 @@ export default function Products() {
                   prod.map((product) => (
                     <TableRow key={product.id}>
                       <TableCell className="px-5 py-4 text-start">
-                        <span className="font-medium text-gray-800 text-theme-sm dark:text-white/90">{product.name}</span>
+                        <div className="flex items-center gap-3">
+                          {product.image ? (
+                            <Image src={product.image} alt={product.name} width={40} height={40} className="rounded-md object-cover w-10 h-10 border border-gray-200" />
+                          ) : (
+                            <div className="w-10 h-10 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md flex items-center justify-center text-gray-500 text-[10px] leading-tight text-center px-1">No<br/>Img</div>
+                          )}
+                          <span className="font-medium text-gray-800 text-theme-sm dark:text-white/90">{product.name}</span>
+                        </div>
                       </TableCell>
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">{product.sku}</TableCell>
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">{formatCurrency(product.selling_price)}</TableCell>
@@ -297,26 +311,36 @@ export default function Products() {
                         </Badge>
                       </TableCell>
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">{product.unit}</TableCell>
-                      <TableCell className="px-4 py-3 text-start">
-                        <div className="flex items-center gap-2">
-                          <button onClick={() => openEditModal(product)} className="text-brand-500 hover:text-brand-700 text-sm"><Trans id="Edit" /></button>
-                          <button onClick={() => openDeleteModal(product)} className="text-error-500 hover:text-error-700 text-sm"><Trans id="Hapus" /></button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
+                        <TableCell className="px-4 py-3 text-start">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <button onClick={() => openDetailModal(product)} className="text-blue-500 hover:text-blue-700 text-sm"><Trans id="Detail" /></button>
+                            <button onClick={() => openEditModal(product)} className="text-brand-500 hover:text-brand-700 text-sm"><Trans id="Edit" /></button>
+                            <button onClick={() => openDeleteModal(product)} className="text-error-500 hover:text-error-700 text-sm"><Trans id="Hapus" /></button>
+                            <button onClick={() => { setQrCodeData({ code: product.sku, title: 'QR Produk', subtitle: product.name }); setQrModalOpen(true); }} className="text-gray-500 hover:text-gray-700 text-sm border border-gray-200 px-2 py-0.5 rounded"><Trans id="Cetak QR" /></button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  )}
+                </TableBody>
+              </Table>
+            </div>
           </div>
         </div>
-      </div>
 
       {totalPages > 1 && (
         <div className="mt-4 flex justify-end">
           <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
         </div>
       )}
+
+      <PrintableQRModal 
+        isOpen={qrModalOpen} 
+        onClose={() => setQrModalOpen(false)} 
+        code={qrCodeData.code} 
+        title={qrCodeData.title}
+        subtitle={qrCodeData.subtitle}
+      />
 
       {/* Create/Edit Modal */}
       <Modal isOpen={showFormModal} onClose={() => { setShowFormModal(false); resetForm(); }} className="max-w-lg p-6 lg:p-10">
@@ -325,6 +349,34 @@ export default function Products() {
         </h4>
         <div className="space-y-4">
           <div>
+            <Label><Trans id="Gambar Produk" /></Label>
+            <div className="mb-2 w-full">
+              {formData.image && (
+                <div className="relative w-32 h-32 mb-3 overflow-hidden rounded-lg border border-gray-200">
+                  <Image src={formData.image} alt="Preview" fill className="object-cover" />
+                </div>
+              )}
+              <CldUploadWidget
+                uploadPreset="inventra"
+                onSuccess={(result) => {
+                  const res = result.info as CloudinaryUploadWidgetInfo;
+                  setFormData({...formData, image: res.secure_url});
+                }}
+              >
+                {({ open }) => (
+                  <button
+                    type="button"
+                    className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-gray-50 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 transition"
+                    onClick={() => open()}
+                  >
+                    <CloudUpload className="w-4 h-4" />
+                    <span><Trans id="Upload Gambar" /></span>
+                  </button>
+                )}
+              </CldUploadWidget>
+            </div>
+          </div>
+          <div>
             <Label><Trans id="Nama Produk" /></Label>
             <Input type="text" placeholder={_(msg`Nama produk`)} defaultValue={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
           </div>
@@ -332,15 +384,9 @@ export default function Products() {
             <Label>SKU</Label>
             <Input type="text" placeholder="SKU" defaultValue={formData.sku} onChange={(e) => setFormData({ ...formData, sku: e.target.value })} />
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label><Trans id="Harga Jual" /></Label>
-              <Input type="number" placeholder="0" defaultValue={formData.selling_price} onChange={(e) => setFormData({ ...formData, selling_price: Number(e.target.value) })} />
-            </div>
-            <div>
-              <Label><Trans id="Stok" /></Label>
-              <Input type="number" placeholder="0" defaultValue={formData.stock} onChange={(e) => setFormData({ ...formData, stock: Number(e.target.value) })} />
-            </div>
+          <div>
+            <Label><Trans id="Harga Jual" /></Label>
+            <Input type="number" placeholder="0" defaultValue={formData.selling_price} onChange={(e) => setFormData({ ...formData, selling_price: Number(e.target.value) })} />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -372,12 +418,11 @@ export default function Products() {
             </div>
           </div>
           <div>
-            <MultiSelect
-              label="Supplier"
-              options={suppliers.map((s) => ({ value: String(s.id), text: s.name, selected: false }))}
-              defaultSelected={formData.supplier_id?.map(String) || []}
-              onChange={(selected) => setFormData({ ...formData, supplier_id: selected.map(Number) })}
-            />
+            <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20">
+              <p className="text-sm text-blue-700 dark:text-blue-300">
+                ℹ️ <Trans id="Supplier dikelola melalui halaman Pembelian" />
+              </p>
+            </div>
           </div>
         </div>
         <div className="mt-6 flex justify-end gap-3">
@@ -397,6 +442,35 @@ export default function Products() {
           <Button size="sm" onClick={handleDelete} disabled={submitting} className="bg-error-500 hover:bg-error-600">
             {submitting ? <Trans id="Menghapus..." /> : <Trans id="Hapus" />}
           </Button>
+        </div>
+      </Modal>
+
+      {/* Detail & QR Modal */}
+      <Modal isOpen={showDetailModal} onClose={() => setShowDetailModal(false)} className="max-w-sm p-6 lg:p-8">
+        <h4 className="mb-4 text-lg font-semibold text-gray-800 dark:text-white/90 text-center"><Trans id="Detail Produk" /></h4>
+        {detailProduct && (
+          <div className="flex flex-col items-center gap-5">
+            {detailProduct?.image ? (
+              <Image src={detailProduct.image} alt={detailProduct.name || ''} width={200} height={200} className="w-full h-48 object-cover rounded-xl border border-gray-200" />
+            ) : (
+              <div className="w-full h-48 bg-gray-50 dark:bg-gray-800/50 rounded-xl flex items-center justify-center text-gray-400 border border-gray-100 dark:border-gray-800">
+                <Trans id="Tidak ada gambar" />
+              </div>
+            )}
+            
+            <div className="w-full text-center">
+              <h5 className="text-xl font-bold text-gray-900 dark:text-white mb-1">{detailProduct?.name}</h5>
+              <p className="text-gray-500 text-sm mb-1">{detailProduct?.sku} • {detailProduct ? formatCurrency(detailProduct.selling_price) : ''}</p>
+            </div>
+            
+            <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex flex-col items-center w-full max-w-[200px]">
+              <p className="text-[10px] font-semibold mb-3 text-gray-400 uppercase tracking-wider"><Trans id="QR Code Produk" /></p>
+              <QRCode value={String(detailProduct?.id || '')} size={140} />
+            </div>
+          </div>
+        )}
+        <div className="mt-6 flex justify-center w-full">
+          <Button size="sm" variant="outline" className="w-full" onClick={() => setShowDetailModal(false)}><Trans id="Tutup" /></Button>
         </div>
       </Modal>
     </div>

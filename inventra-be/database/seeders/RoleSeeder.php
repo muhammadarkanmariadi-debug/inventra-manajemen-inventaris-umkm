@@ -13,9 +13,9 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $owner = Role::create(['name' => 'owner', 'guard_name' => 'api']);
-        $admin = Role::create(['name' => 'admin', 'guard_name' => 'api']);
-        $staff = Role::create(['name' => 'staff', 'guard_name' => 'api']);
+        $owner = Role::firstOrCreate(['name' => 'owner', 'guard_name' => 'api']);
+        $admin = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'api']);
+        $staff = Role::firstOrCreate(['name' => 'staff', 'guard_name' => 'api']);
 
         $owner->syncPermissions(Permission::all());
 
@@ -33,7 +33,6 @@ class RoleSeeder extends Seeder
                 ->orWhere('name', 'like', 'stockTransaction.view')
                 ->orWhere('name', 'like', 'sales.create')
                 ->orWhere('name', 'like', 'sales.view')
-                ->orWhere('name', 'like', 'hppComponents.view')
                 ->orWhere('name', 'like', 'financialCategory.view')
                 ->orWhere('name', 'like', 'financialTransaction.create')
                 ->orWhere('name', 'like', 'financialTransaction.view')

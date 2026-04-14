@@ -13,6 +13,7 @@ import Select from '@/components/form/Select';
 import Alert from '@/components/ui/alert/Alert';
 import { getFinancialCategories, createFinancialCategory, updateFinancialCategory, deleteFinancialCategory } from '../../../../../services/financial-category.service';
 import type { FinancialCategory, CreateFinancialCategoryPayload } from '../../../../../types';
+import { FilterBar, FilterValues } from '@/components/common/FilterBar';
 import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
@@ -25,6 +26,7 @@ export default function FinancialCategories() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [filters, setFilters] = useState<FilterValues | null>(null);
 
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -111,6 +113,33 @@ export default function FinancialCategories() {
     }
   };
 
+  const filterConfig = {
+    selects: [
+      {
+        label: _(msg`Urutkan`),
+        key: 'sort',
+        options: [
+          { label: _(msg`A-Z`), value: 'name_asc' },
+          { label: _(msg`Z-A`), value: 'name_desc' }
+        ]
+      }
+    ],
+    searchPlaceholder: _(msg`Cari kategori berdasarkan nama...`),
+  };
+
+  let filteredCategories = categories.filter(cat => 
+    cat.name.toLowerCase().includes((filters?.search || '').toLowerCase())
+  );
+
+  if (filters?.selects?.['sort']) {
+    const sortValue = filters.selects['sort'];
+    filteredCategories = [...filteredCategories].sort((a, b) => {
+      if (sortValue === 'name_asc') return a.name.localeCompare(b.name);
+      if (sortValue === 'name_desc') return b.name.localeCompare(a.name);
+      return 0;
+    });
+  }
+
   return (
     <div>
       <PageBreadcrumb pageTitle={_(msg`Kategori Keuangan`)} />
@@ -118,8 +147,11 @@ export default function FinancialCategories() {
       {successMsg && <div className="mb-4"><Alert variant="success" title={_(msg`Berhasil`)} message={successMsg} /></div>}
       {error && <div className="mb-4"><Alert variant="error" title="Error" message={error} /></div>}
 
-      <div className="mb-4 flex justify-end">
-        <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Kategori" /></Button>
+      <div className='flex flex-col gap-4 mb-4'>
+        <FilterBar {...filterConfig} onFilterChange={setFilters} />
+        <div className="flex justify-end">
+          <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Kategori" /></Button>
+        </div>
       </div>
 
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
@@ -142,10 +174,10 @@ export default function FinancialCategories() {
                     </div>
                   </TableCell>
                 </TableRow>
-              ) : categories.length === 0 ? (
+              ) : filteredCategories.length === 0 ? (
                 <TableRow><TableCell className="px-5 py-8 text-center text-gray-500"><Trans id="Tidak ada data kategori keuangan" /></TableCell></TableRow>
               ) : (
-                categories.map((cat) => (
+                filteredCategories.map((cat) => (
                   <TableRow key={cat.id}>
                     <TableCell className="px-5 py-4 text-start">
                       <span className="font-medium text-gray-800 text-theme-sm dark:text-white/90">{cat.name}</span>

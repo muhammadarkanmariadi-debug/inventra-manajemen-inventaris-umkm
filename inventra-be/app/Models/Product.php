@@ -7,15 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $guarded = ['id'];
+    protected $appends = ['stock'];
+
+    public function getStockAttribute()
+    {
+        return $this->inventories()->whereHas('status', function ($query) {
+            $query->where('is_usable', true);
+        })->sum('quantity');
+    }
 
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
-    }
-
-    public function hppComponents()
-    {
-        return $this->hasMany(HppComponent::class, 'product_id', 'id');
     }
 
     public function business()
@@ -23,9 +26,9 @@ class Product extends Model
         return $this->belongsTo(Business::class, 'bussiness_id', 'id');
     }
 
-    public function stockTransactions()
+    public function inventories()
     {
-        return $this->hasMany(StockTransaction::class, 'product_id', 'id');
+        return $this->hasMany(Inventory::class, 'product_id', 'id');
     }
 
     public function sales()
@@ -33,8 +36,33 @@ class Product extends Model
         return $this->hasMany(Sale::class, 'product_id', 'id');
     }
 
-    public function suppliers()
+    public function purchaseItems()
     {
-        return $this->belongsToMany(Supplier::class, 'product_suppliers', 'product_id', 'supplier_id');
+        return $this->hasMany(PurchaseItem::class, 'product_id', 'id');
+    }
+
+    /**
+     * Get the latest purchase price for this product.
+     */
+    public function getLatestPurchasePriceAttribute()
+    {
+        $latestItem = $this->purchaseItems()
+            ->join('purchases', 'purchase_items.purchase_id', '=', 'purchases.id')
+            ->orderBy('purchases.purchase_date', 'desc')
+            ->orderBy('purchase_items.created_at', 'desc')
+            ->select('purchase_items.price')
+            ->first();
+
+        return $latestItem ? (float) $latestItem->price : null;
+    }
+
+    /**
+     * Get the average purchase price for this product.
+     */
+    public function getAveragePurchasePriceAttribute()
+    {
+        $avg = $this->purchaseItems()->avg('price');
+
+        return $avg ? round((float) $avg, 2) : null;
     }
 }

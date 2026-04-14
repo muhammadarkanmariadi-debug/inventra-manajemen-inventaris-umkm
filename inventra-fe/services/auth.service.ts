@@ -1,5 +1,6 @@
 import { API_URL } from "../global"
 import { encryptClient, get, post } from "../lib/action"
+import { getCookies } from "../lib/server-cookie"
 
 
 interface register {
@@ -31,4 +32,17 @@ export async function verifyRoles(){
     const url = `${API_URL}/profile`
     const data = await get(url)
     return data.data
+}
+
+
+export async function logout() {
+    const url = `${API_URL}/logout`
+    const data = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${await getCookies('token')}`
+        }
+    })
+    return data
 }

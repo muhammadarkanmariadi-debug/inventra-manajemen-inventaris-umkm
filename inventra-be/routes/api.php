@@ -6,13 +6,17 @@ use App\Http\Controllers\FinancialCategoryController;
 use App\Http\Controllers\FinancialTransactionController;
 use App\Http\Controllers\GeminiController;
 
-use App\Http\Controllers\HppComponentController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\StatisticController;
 use App\Http\Controllers\StockTransactionController;
+use App\Http\Controllers\ScanController;
+use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AuthenticateMiddleware;
@@ -87,20 +91,18 @@ Route::middleware(AuthenticateMiddleware::class)->group(function () {
         Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':supplier.delete');
     });
 
+    Route::controller(PurchaseController::class)->prefix('purchases')->group(function () {
+        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':purchase.create');
+        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':purchase.view');
+        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':purchase.view');
+    });
+
     Route::controller(RoleController::class)->prefix('roles')->group(function () {
         Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':roles.create');
         Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':roles.view');
         Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':roles.view');
         Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':roles.update');
         Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':roles.delete');
-    });
-
-    Route::controller(StockTransactionController::class)->prefix('stock-transactions')->group(function () {
-        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':stockTransaction.create');
-        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':stockTransaction.view');
-        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':stockTransaction.view');
-        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':stockTransaction.update');
-        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':stockTransaction.delete');
     });
 
     Route::controller(SaleController::class)->prefix('sales')->group(function () {
@@ -111,13 +113,6 @@ Route::middleware(AuthenticateMiddleware::class)->group(function () {
         Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':sales.delete');
     });
 
-    Route::controller(HppComponentController::class)->prefix('hpp-components')->group(function () {
-        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':hppComponents.create');
-        Route::get('/', 'indexByProduct')->middleware(PermissionMiddleware::class . ':hppComponents.view');
-        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':hppComponents.view');
-        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':hppComponents.update');
-        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':hppComponents.delete');
-    });
 
     Route::controller(FinancialCategoryController::class)->prefix('financial-categories')->group(function () {
         Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':financialCategory.create');
@@ -138,6 +133,21 @@ Route::middleware(AuthenticateMiddleware::class)->group(function () {
     Route::controller(StatisticController::class)->prefix('statistic')->group(function () {
         Route::get('/products', 'produk');
         Route::get('/sales', 'penjualan');
+        Route::get('/financial', 'keuangan');
+    });
+
+    Route::post('/scan', [ScanController::class, 'scan'])->middleware(PermissionMiddleware::class . ':product.view');
+    Route::get('/inventories', [InventoryController::class, 'index'])->middleware(PermissionMiddleware::class . ':product.view');
+    Route::get('/inventories/{id}', [InventoryController::class, 'show'])->middleware(PermissionMiddleware::class . ':product.view');
+    Route::put('/inventory/{id}/status', [InventoryController::class, 'updateStatus'])->middleware(PermissionMiddleware::class . ':stockTransaction.create');
+    Route::post('/transactions', [TransactionController::class, 'store'])->middleware(PermissionMiddleware::class . ':stockTransaction.create');
+
+    Route::controller(LocationController::class)->prefix('locations')->group(function () {
+        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':product.create');
+        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':product.view');
+        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':product.view');
+        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':product.update');
+        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':product.delete');
     });
 
     Route::controller(PermissionController::class)->prefix('permissions')->group(function () {

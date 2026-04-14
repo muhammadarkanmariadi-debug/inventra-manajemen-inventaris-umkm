@@ -4,8 +4,8 @@ import { useLocale } from "@/context/LocaleProvider";
 import Image from "next/image";
 
 const LOCALES = [
-  { value: "id" as const, label: "ID", image : 'https://www.flaticon.com/free-icons/indonesia-flag' },
-  { value: "en" as const, label: "EN", image : 'https://www.flaticon.com/free-icons/united-states' },
+  { value: "id" as const, label: "ID", image: '/images/country/country-09.png' },
+  { value: "en" as const, label: "EN", image: '/images/country/country-10.png' },
 ];
 
 export function LanguageSwitcher() {
@@ -28,8 +28,10 @@ export function LanguageSwitcher() {
             fontWeight: locale === l.value ? 600 : 400,
           }}
         >
-          <Image src={l.image} alt={l.label} width={24} height={24} />
-          {l.label}
+          <div className="flex items-center gap-4">
+            <Image src={l.image} alt={l.label} width={24} height={24} />
+            {l.label}
+          </div>
         </button>
       ))}
     </div>

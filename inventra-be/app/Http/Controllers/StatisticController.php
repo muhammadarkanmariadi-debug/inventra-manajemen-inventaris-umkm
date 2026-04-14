@@ -23,8 +23,7 @@ class StatisticController extends Controller
    
 
             $totalPenjualan = Sale::count();
-            $totalKeuntungan = Sale::sum('profit');
-            $query = Sale::select(DB::raw('date_format(created_at, "%M %Y") as yearmonth'), DB::raw('count(*) as total_penjualan, sum(profit) as keuntungan'));
+            $query = Sale::select(DB::raw('date_format(created_at, "%M %Y") as yearmonth'), DB::raw('count(*) as total_penjualan'));
             if ($request->has($startDate) || $endDate) {
                 $query->whereBetween('created_at', [$startDate, $endDate]);
             }
@@ -34,7 +33,7 @@ class StatisticController extends Controller
             if ($data->isEmpty()) {
                 return ApiHelper::error('Statistik penjualan tidak ditemukan', 404);
             }
-            return ApiHelper::success('Statistik penjualan ', ['data' => $data , 'total_keuntungan' => $totalKeuntungan, 'total_penjualan' => $totalPenjualan], 200);
+            return ApiHelper::success('Statistik penjualan ', ['data' => $data, 'total_penjualan' => $totalPenjualan], 200);
         } catch (\Exception $e) {
             return ApiHelper::error('An error occurred ' . $e->getMessage(), 500);
         }
@@ -59,6 +58,29 @@ class StatisticController extends Controller
                 return ApiHelper::error('Statistik penjualan produk tidak ditemukan', 404);
             }
             return ApiHelper::success('Statistik penjualan produk', $data, 200);
+        } catch (\Exception $e) {
+            return ApiHelper::error('An error occurred ' . $e->getMessage(), 500);
+        }
+    }
+
+    public function keuangan(Request $request)
+    {
+        try {
+            $query = \App\Models\FinancialTransaction::query();
+            
+            if ($request->has('startDate') && $request->has('endDate')) {
+                $startDate = Carbon::parse($request->startDate)->startOfDay();
+                $endDate = Carbon::parse($request->endDate)->endOfDay();
+                $query->whereBetween('transaction_date', [$startDate, $endDate]);
+            }
+
+            $income = (clone $query)->where('type', 'income')->sum('amount');
+            $expense = (clone $query)->where('type', 'expense')->sum('amount');
+
+            return ApiHelper::success('Statistik keuangan', [
+                'income' => $income,
+                'expense' => $expense
+            ], 200);
         } catch (\Exception $e) {
             return ApiHelper::error('An error occurred ' . $e->getMessage(), 500);
         }

@@ -10,7 +10,7 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
-export default function LineChartOne({data}: {data: {yearmonth: string, total_penjualan: number, keuntungan: number}[]}) {
+export default function LineChartOne({data}: {data: {yearmonth: string, total_penjualan: number}[]}) {
   const options: ApexOptions = {
     legend: {
       show: false, // Hide legend
@@ -100,10 +100,6 @@ export default function LineChartOne({data}: {data: {yearmonth: string, total_pe
     {
       name: "Sales",
       data: data.map((item) => item.total_penjualan),
-    },
-    {
-      name: "Revenue",
-      data: data.map((item) => item.keuntungan),
     },
   ];
   return (

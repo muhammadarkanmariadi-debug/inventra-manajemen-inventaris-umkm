@@ -14,8 +14,7 @@ import { getCategories, createCategory, updateCategory, deleteCategory } from '.
 import type { Category, CreateCategoryPayload } from '../../../../../types';
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 import { Can } from '@/components/common/Can';
-import SearchBar from '@/components/form/input/SearchBar';
-import { FilterBar, FilterBarProps, FilterValues } from '@/components/common/FilterBar';
+import { FilterBar, FilterValues } from '@/components/common/FilterBar';
 import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
@@ -28,7 +27,7 @@ export default function Categories() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
-  const [Search, setSearch] = useState('');
+  const [filters, setFilters] = useState<FilterValues | null>(null);
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
@@ -118,9 +117,32 @@ export default function Categories() {
   };
 
 
-  const filteredSearch = categories.filter(item => {
-    return item.name.toLowerCase().includes((Search || '').toLowerCase())
-  })
+  const filterConfig = {
+    selects: [
+      {
+        label: _(msg`Urutkan`),
+        key: 'sort',
+        options: [
+          { label: _(msg`A-Z`), value: 'name_asc' },
+          { label: _(msg`Z-A`), value: 'name_desc' }
+        ]
+      }
+    ],
+    searchPlaceholder: _(msg`Cari kategori berdasarkan nama...`),
+  };
+
+  let filteredSearch = categories.filter(item => {
+    return item.name.toLowerCase().includes((filters?.search || '').toLowerCase())
+  });
+
+  if (filters?.selects?.['sort']) {
+    const sortValue = filters.selects['sort'];
+    filteredSearch = [...filteredSearch].sort((a, b) => {
+      if (sortValue === 'name_asc') return a.name.localeCompare(b.name);
+      if (sortValue === 'name_desc') return b.name.localeCompare(a.name);
+      return 0;
+    });
+  }
 
   return (
     <PermissionWrapper permission="category.view" breadcrumb="Kategori">
@@ -129,11 +151,11 @@ export default function Categories() {
         <PageBreadcrumb pageTitle="Categories" />
         {successMsg && <div className="mb-4"><Alert variant="success" title={_(msg`Berhasil`)} message={successMsg} /></div>}
         {error && <div className="mb-4"><Alert variant="error" title="Error" message={error} /></div>}
-        <div className='flex items-center justify-between '>
-          <SearchBar placeholder={_(msg`Cari kategori berdasarkan nama`)} onChange={(e) => setSearch(e)}/>
+        
+        <div className='flex flex-col gap-4 mb-4'>
+          <FilterBar {...filterConfig} onFilterChange={setFilters} />
           <Can permission="category.create">
-            <div className="mb-4 flex justify-end">
-
+            <div className="flex justify-end">
               <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Kategori" /></Button>
             </div>
           </Can>

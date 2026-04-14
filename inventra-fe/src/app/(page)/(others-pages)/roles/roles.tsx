@@ -15,6 +15,7 @@ import type { Role, Permission, CreateRolePayload } from '../../../../../types';
 import Switch from '@/components/form/switch/Switch';
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 import { Can } from '@/components/common/Can';
+import { FilterBar, FilterValues } from '@/components/common/FilterBar';
 import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
@@ -38,6 +39,7 @@ export default function Roles() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [filters, setFilters] = useState<FilterValues | null>(null);
 
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -211,6 +213,22 @@ export default function Roles() {
     }
   };
 
+  const uniqueGuards = Array.from(new Set(roles.map(r => r.guard_name))).filter(Boolean);
+
+  const filterConfig = {
+    tabs: [
+      { label: _(msg`Semua`), value: "all" },
+      ...uniqueGuards.map(g => ({ label: g, value: g }))
+    ],
+    searchPlaceholder: _(msg`Cari role berdasarkan nama...`),
+  };
+
+  const filteredRoles = roles.filter(role => {
+    const matchSearch = role.name.toLowerCase().includes((filters?.search || '').toLowerCase());
+    const matchTab = !filters?.tab || filters.tab === 'all' || role.guard_name === filters.tab;
+    return matchSearch && matchTab;
+  });
+
   return (
     <PermissionWrapper permission="roles.view" breadcrumb="Roles">
       <div>
@@ -226,11 +244,14 @@ export default function Roles() {
         </div>
       )}
 
-      <Can permission="roles.create">
-        <div className="mb-4 flex justify-end">
-          <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Role" /></Button>
-        </div>
-      </Can>
+      <div className='flex flex-col gap-4 mb-4'>
+        <FilterBar {...filterConfig} onFilterChange={setFilters} />
+        <Can permission="roles.create">
+          <div className="flex justify-end">
+            <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Role" /></Button>
+          </div>
+        </Can>
+      </div>
 
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
         <div className="max-w-full overflow-x-auto">
@@ -252,14 +273,14 @@ export default function Roles() {
                     </div>
                   </TableCell>
                 </TableRow>
-              ) : roles.length === 0 ? (
+              ) : filteredRoles.length === 0 ? (
                 <TableRow>
                   <TableCell className="px-5 py-8 text-center text-gray-500" colSpan={3}>
                     <Trans id="Tidak ada data role" />
                   </TableCell>
                 </TableRow>
               ) : (
-                roles.map((role) => (
+                filteredRoles.map((role) => (
                   <TableRow key={role.id}>
                     <TableCell className="px-5 py-4 text-start">
                       <span className="font-medium text-gray-800 text-theme-sm dark:text-white/90">{role.name}</span>
