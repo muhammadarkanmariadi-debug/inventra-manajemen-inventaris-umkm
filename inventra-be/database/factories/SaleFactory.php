@@ -21,16 +21,11 @@ class SaleFactory extends Factory
         $total_price = $quantity * $selling_price;
         
 
-        $hpp = $total_price * $this->faker->randomFloat(2, 0.60, 0.80);
-        $profit = $total_price - $hpp;
-
         return [
             'product_id'    => 1,
             'quantity'      => $quantity,
             'selling_price' => $selling_price,
             'total_price'   => $total_price,
-            'hpp'           => round($hpp, 2),
-            'profit'        => round($profit, 2),
             'bussiness_id'  => 1,
             'created_at'    => $this->faker->dateTimeBetween('-12 months', 'now'),
             'updated_at'    => now(),

@@ -16,6 +16,7 @@ import { getAllRoles } from '../../../../../services/role.service';
 import type { User, Role, CreateUserPayload } from '../../../../../types';
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 import { Can } from '@/components/common/Can';
+import { FilterBar, FilterValues } from '@/components/common/FilterBar';
 import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
@@ -29,6 +30,7 @@ export default function Users() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [filters, setFilters] = useState<FilterValues | null>(null);
 
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -146,6 +148,28 @@ export default function Users() {
     }
   };
 
+  const uniqueRoles = Array.from(new Set(users.flatMap(u => u.roles?.map(r => r.name) || [])));
+
+  const filterConfig = {
+    selects: [
+      {
+        label: _(msg`Role`),
+        key: "role",
+        options: uniqueRoles.map(r => ({ label: r, value: r }))
+      }
+    ],
+    searchPlaceholder: _(msg`Cari user berdasarkan username atau email...`),
+  };
+
+  const filteredUsers = users.filter(user => {
+    const matchSearch = user.username.toLowerCase().includes((filters?.search || '').toLowerCase()) ||
+      user.email.toLowerCase().includes((filters?.search || '').toLowerCase());
+    
+    const matchRole = !filters?.selects?.['role'] || user.roles?.some(r => r.name === filters.selects?.['role']);
+
+    return matchSearch && matchRole;
+  });
+
   return (
     <PermissionWrapper permission="user.view" breadcrumb="Users">
       <div>
@@ -154,11 +178,14 @@ export default function Users() {
       {successMsg && <div className="mb-4"><Alert variant="success" title={_(msg`Berhasil`)} message={successMsg} /></div>}
       {error && <div className="mb-4"><Alert variant="error" title="Error" message={error} /></div>}
 
-      <Can permission="user.create">
-        <div className="mb-4 flex justify-end">
-          <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah User" /></Button>
-        </div>
-      </Can>
+      <div className='flex flex-col gap-4 mb-4'>
+        <FilterBar {...filterConfig} onFilterChange={setFilters} />
+        <Can permission="user.create">
+          <div className="flex justify-end">
+            <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah User" /></Button>
+          </div>
+        </Can>
+      </div>
 
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
         <div className="max-w-full overflow-x-auto">
@@ -181,10 +208,10 @@ export default function Users() {
                     </div>
                   </TableCell>
                 </TableRow>
-              ) : users.length === 0 ? (
+              ) : filteredUsers.length === 0 ? (
                 <TableRow><TableCell className="px-5 py-8 text-center text-gray-500"><Trans id="Tidak ada data user" /></TableCell></TableRow>
               ) : (
-                users.map((user) => (
+                filteredUsers.map((user) => (
                   <TableRow key={user.id}>
                     <TableCell className="px-5 py-4 text-start">
                       <span className="font-medium text-gray-800 text-theme-sm dark:text-white/90">{user.username}</span>

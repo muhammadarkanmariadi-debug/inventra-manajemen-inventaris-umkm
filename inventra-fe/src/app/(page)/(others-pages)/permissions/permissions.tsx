@@ -14,6 +14,7 @@ import { getPermissions, createPermission, updatePermission, deletePermission } 
 import type { Permission, CreatePermissionPayload } from '../../../../../types';
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 import { Can } from '@/components/common/Can';
+import { FilterBar, FilterValues } from '@/components/common/FilterBar';
 import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
@@ -26,6 +27,7 @@ export default function Permissions() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [filters, setFilters] = useState<FilterValues | null>(null);
 
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -126,6 +128,25 @@ export default function Permissions() {
     }
   };
 
+  const uniqueModules = Array.from(new Set(permissions.map(p => p.name.split('.')[0]))).filter(Boolean);
+
+  const filterConfig = {
+    selects: [
+      {
+        label: _(msg`Modul`),
+        key: "module",
+        options: uniqueModules.map(m => ({ label: m, value: m }))
+      }
+    ],
+    searchPlaceholder: _(msg`Cari permission berdasarkan nama...`),
+  };
+
+  const filteredPermissions = permissions.filter(permission => {
+    const matchSearch = permission.name.toLowerCase().includes((filters?.search || '').toLowerCase());
+    const matchModule = !filters?.selects?.['module'] || permission.name.startsWith(filters.selects['module'] + '.');
+    return matchSearch && matchModule;
+  });
+
   return (
     <PermissionWrapper permission="permission.view" breadcrumb="Permissions">
       <div>
@@ -142,11 +163,14 @@ export default function Permissions() {
         </div>
       )}
 
-      <Can permission="permission.create">
-        <div className="mb-4 flex justify-end">
-          <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Permission" /></Button>
-        </div>
-      </Can>
+      <div className='flex flex-col gap-4 mb-4'>
+        <FilterBar {...filterConfig} onFilterChange={setFilters} />
+        <Can permission="permission.create">
+          <div className="flex justify-end">
+            <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Permission" /></Button>
+          </div>
+        </Can>
+      </div>
 
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
         <div className="max-w-full overflow-x-auto">
@@ -169,14 +193,14 @@ export default function Permissions() {
                     </div>
                   </TableCell>
                 </TableRow>
-              ) : permissions.length === 0 ? (
+              ) : filteredPermissions.length === 0 ? (
                 <TableRow>
                   <TableCell className="px-5 py-8 text-center text-gray-500" colSpan={4}>
                     <Trans id="Tidak ada data permission" />
                   </TableCell>
                 </TableRow>
               ) : (
-                permissions.map((permission) => (
+                filteredPermissions.map((permission) => (
                   <TableRow key={permission.id}>
                     <TableCell className="px-5 py-4 text-start">
                       <span className="text-gray-500 text-theme-sm">{permission.id}</span>

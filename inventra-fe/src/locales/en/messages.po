@@ -1334,3 +1334,74 @@ msgstr "User updated successfully"
 #: src/app/(page)/(others-pages)/users/users.tsx:112
 msgid "User berhasil ditambahkan"
 msgstr "User added successfully"
+
+
+
+msgid "Pengaturan Akun"
+msgstr "Account Settings"
+
+msgid "Keamanan"
+msgstr "Security"
+
+msgid "Preferensi Notifikasi"
+msgstr "Notification Preferences"
+
+msgid "Tampilan"
+msgstr "Appearance"
+
+msgid "Ubah Password"
+msgstr "Change Password"
+
+msgid "Password Baru"
+msgstr "New Password"
+
+msgid "Masukkan password baru"
+msgstr "Enter new password"
+
+msgid "Konfirmasi Password Baru"
+msgstr "Confirm New Password"
+
+msgid "Konfirmasi password baru"
+msgstr "Confirm new password"
+
+msgid "Simpan Perubahan"
+msgstr "Save Changes"
+
+msgid "Silakan isi password baru dan konfirmasinya."
+msgstr "Please fill in the new password and its confirmation."
+
+msgid "Konfirmasi password tidak cocok."
+msgstr "Password confirmation does not match."
+
+msgid "Password harus minimal 8 karakter."
+msgstr "Password must be at least 8 characters."
+
+msgid "Password berhasil diperbarui!"
+msgstr "Password updated successfully!"
+
+msgid "Gagal memperbarui password."
+msgstr "Failed to update password."
+
+msgid "Terjadi kesalahan saat menyimpan."
+msgstr "An error occurred while saving."
+
+msgid "Bantuan & FAQ"
+msgstr "Help & FAQ"
+
+msgid "Pertanyaan yang Sering Diajukan"
+msgstr "Frequently Asked Questions"
+
+msgid "Temukan jawaban atas pertanyaan umum terkait manajemen Inventra UMKM."
+msgstr "Find answers to common questions regarding Inventra UMKM management."
+
+msgid "Masih butuh bantuan?"
+msgstr "Still need help?"
+
+msgid "Tim support kami siap membantu Anda menyelesaikan masalah apa pun."
+msgstr "Our support team is ready to help you solve any problems."
+
+msgid "Hubungi Support"
+msgstr "Contact Support"
+
+msgid "Menu"
+msgstr "Menu"

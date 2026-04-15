@@ -15,6 +15,7 @@ import Alert from '@/components/ui/alert/Alert';
 import { getFinancialTransactions, createFinancialTransaction, updateFinancialTransaction, deleteFinancialTransaction } from '../../../../../services/financial-transaction.service';
 import { getAllFinancialCategories } from '../../../../../services/financial-category.service';
 import type { FinancialTransaction, FinancialCategory, CreateFinancialTransactionPayload } from '../../../../../types';
+import { FilterBar, FilterValues } from '@/components/common/FilterBar';
 import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
@@ -28,6 +29,7 @@ export default function FinancialTransactions() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [filters, setFilters] = useState<FilterValues | null>(null);
 
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -146,6 +148,32 @@ export default function FinancialTransactions() {
     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(value);
   };
 
+  const filterConfig = {
+    tabs: [
+      { label: _(msg`Semua`), value: "all" },
+      { label: _(msg`Pemasukan`), value: "income" },
+      { label: _(msg`Pengeluaran`), value: "expense" }
+    ],
+    selects: [
+      {
+        label: _(msg`Kategori`),
+        key: "category",
+        options: categories.map(c => ({ label: c.name, value: String(c.id) }))
+      }
+    ],
+    searchPlaceholder: _(msg`Cari transaksi berdasarkan catatan atau tipe...`),
+  };
+
+  const filteredTransactions = transactions.filter(tx => {
+    const matchSearch = tx.note?.toLowerCase().includes((filters?.search || '').toLowerCase()) ||
+      (filters?.search ? tx.type.toLowerCase().includes(filters?.search.toLowerCase()) : true);
+    
+    const matchTab = !filters?.tab || filters.tab === 'all' || tx.type === filters.tab;
+    const matchCat = !filters?.selects?.['category'] || String(tx.financial_category_id) === filters.selects['category'];
+
+    return matchSearch && matchTab && matchCat;
+  });
+
   return (
     <div>
       <PageBreadcrumb pageTitle={_(msg`Transaksi Keuangan`)} />
@@ -153,8 +181,11 @@ export default function FinancialTransactions() {
       {successMsg && <div className="mb-4"><Alert variant="success" title={_(msg`Berhasil`)} message={successMsg} /></div>}
       {error && <div className="mb-4"><Alert variant="error" title="Error" message={error} /></div>}
 
-      <div className="mb-4 flex justify-end">
-        <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Transaksi" /></Button>
+      <div className='flex flex-col gap-4 mb-4'>
+        <FilterBar {...filterConfig} onFilterChange={setFilters} />
+        <div className="flex justify-end">
+          <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Transaksi" /></Button>
+        </div>
       </div>
 
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
@@ -180,10 +211,10 @@ export default function FinancialTransactions() {
                       </div>
                     </TableCell>
                   </TableRow>
-                ) : transactions.length === 0 ? (
+                ) : filteredTransactions.length === 0 ? (
                   <TableRow><TableCell className="px-5 py-8 text-center text-gray-500"><Trans id="Tidak ada data transaksi keuangan" /></TableCell></TableRow>
                 ) : (
-                  transactions.map((tx) => (
+                  filteredTransactions.map((tx) => (
                     <TableRow key={tx.id}>
                       <TableCell className="px-4 py-3 text-start">
                         <Badge size="sm" color={tx.type === 'income' ? 'success' : 'error'}>

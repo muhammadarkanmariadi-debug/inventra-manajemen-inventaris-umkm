@@ -126,7 +126,9 @@ class UserController extends Controller
             'email'    => 'required|string|email|max:255|unique:users,email,' . $id,
             'password' => 'required|string|min:8',
             'roles'    => 'required|array',
+            
             'roles.*'  => 'string|exists:roles,name',
+            
         ];
 
         $data = $this->requestService->updateDataById(User::class, $id, $request, $rules);
@@ -182,6 +184,7 @@ class UserController extends Controller
             'username' => 'sometimes|string|max:255|unique:users,username,' . $userId,
             'email'    => 'sometimes|string|email|max:255|unique:users,email,' . $userId,
             'password' => 'sometimes|string|min:8',
+            'password_confirmation' => 'sometimes|string|min:8',
             'image'    => 'sometimes|string', 
         ];
 

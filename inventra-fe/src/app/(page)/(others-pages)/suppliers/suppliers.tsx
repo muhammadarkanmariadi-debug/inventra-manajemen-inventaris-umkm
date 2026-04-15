@@ -12,7 +12,7 @@ import TextArea from '@/components/form/input/TextArea';
 import Alert from '@/components/ui/alert/Alert';
 import { getSuppliers, createSupplier, updateSupplier, deleteSupplier } from '../../../../../services/supplier.service';
 import type { Supplier, CreateSupplierPayload } from '../../../../../types';
-import SearchBar from '@/components/form/input/SearchBar';
+import { FilterBar, FilterValues } from '@/components/common/FilterBar';
 import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
@@ -25,7 +25,7 @@ export default function Suppliers() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
-  const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState<FilterValues | null>(null);
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
@@ -111,9 +111,32 @@ export default function Suppliers() {
     }
   };
 
-  const filteredSearch = suppliers.filter(item => {
-    return item.name.toLowerCase().includes(search.toLowerCase())
-  })
+  const filterConfig = {
+    selects: [
+      {
+        label: _(msg`Urutkan`),
+        key: 'sort',
+        options: [
+          { label: _(msg`A-Z`), value: 'name_asc' },
+          { label: _(msg`Z-A`), value: 'name_desc' }
+        ]
+      }
+    ],
+    searchPlaceholder: _(msg`Cari supplier berdasarkan nama...`),
+  };
+
+  let filteredSearch = suppliers.filter(item => {
+    return item.name.toLowerCase().includes((filters?.search || '').toLowerCase())
+  });
+
+  if (filters?.selects?.['sort']) {
+    const sortValue = filters.selects['sort'];
+    filteredSearch = [...filteredSearch].sort((a, b) => {
+      if (sortValue === 'name_asc') return a.name.localeCompare(b.name);
+      if (sortValue === 'name_desc') return b.name.localeCompare(a.name);
+      return 0;
+    });
+  }
 
   return (
     <div>
@@ -121,9 +144,9 @@ export default function Suppliers() {
 
       {successMsg && <div className="mb-4"><Alert variant="success" title={_(msg`Berhasil`)} message={successMsg} /></div>}
       {error && <div className="mb-4"><Alert variant="error" title="Error" message={error} /></div>}
-      <div className='flex items-center justify-between'>
-        <SearchBar placeholder={_(msg`Cari supplier berdasarkan nama`)} onChange={(e) => setSearch(e)} />
-        <div className="mb-4 flex justify-end">
+      <div className='flex flex-col gap-4 mb-4'>
+        <FilterBar {...filterConfig} onFilterChange={setFilters} />
+        <div className="flex justify-end">
           <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Supplier" /></Button>
         </div>
       </div>

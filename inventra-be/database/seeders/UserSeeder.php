@@ -49,10 +49,10 @@ class UserSeeder extends Seeder
         ];
 
         foreach ($users as $user) {
-            User::create(
+            User::firstOrCreate(
+                ['email' => $user['email']],
                 [
                     'username' => $user['username'],
-                    'email' => $user['email'],
                     'password' => $user['password'],
                     'role' => $user['role'],
                     'bussiness_id' => 1,

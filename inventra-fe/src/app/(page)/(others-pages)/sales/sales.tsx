@@ -14,7 +14,7 @@ import Alert from '@/components/ui/alert/Alert';
 import { getSales, createSale, updateSale, deleteSale } from '../../../../../services/sale.service';
 import { getProducts } from '../../../../../services/product.service';
 import type { Sale, Product, CreateSalePayload } from '../../../../../types';
-import SearchBar from '@/components/form/input/SearchBar';
+import { FilterBar, FilterValues } from '@/components/common/FilterBar';
 import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
@@ -28,7 +28,7 @@ export default function Sales() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
-  const [search, setSearch] = useState('')
+  const [filters, setFilters] = useState<FilterValues | null>(null);
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [editingSale, setEditingSale] = useState<Sale | null>(null);
@@ -107,7 +107,7 @@ export default function Sales() {
         ? await updateSale(editingSale.id, formData)
         : await createSale(formData);
 
-      console.log(res)
+
       if (res.status) {
         setSuccessMsg(editingSale ? _(msg`Penjualan berhasil diperbarui`) : _(msg`Penjualan berhasil ditambahkan`));
         setShowFormModal(false);
@@ -149,15 +149,42 @@ export default function Sales() {
     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(value);
   };
 
+  const filterConfig = {
+    selects: [
+      {
+        label: _(msg`Urutkan`),
+        key: 'sort',
+        options: [
+          { label: _(msg`Default (Terbaru)`), value: 'default' },
+          { label: _(msg`Total Terbesar`), value: 'highest_total' }
+        ]
+      }
+    ],
+    searchPlaceholder: _(msg`Cari penjualan berdasarkan produk...`),
+  };
+
+  let filteredSales = sales.filter(sale => 
+    sale.product?.name.toLowerCase().includes((filters?.search || '').toLowerCase())
+  );
+
+  if (filters?.selects?.['sort']) {
+    const sortValue = filters.selects['sort'];
+    filteredSales = [...filteredSales].sort((a, b) => {
+      if (sortValue === 'highest_total') return b.total_price - a.total_price;
+      return 0;
+    });
+  }
+
   return (
     <div>
       <PageBreadcrumb pageTitle={_(msg`Penjualan`)} />
 
       {successMsg && <div className="mb-4"><Alert variant="success" title={_(msg`Berhasil`)} message={successMsg} /></div>}
       {error && <div className="mb-4"><Alert variant="error" title="Error" message={error} /></div>}
-      <div className='flex items-center justify-between '>
-        <SearchBar placeholder={_(msg`Cari penjualan berdasarkan nama`)} onChange={e => setSearch(e)} />
-        <div className="mb-4 flex justify-end">
+      
+      <div className='flex flex-col gap-4 mb-4'>
+        <FilterBar {...filterConfig} onFilterChange={setFilters} />
+        <div className="flex justify-end">
           <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Penjualan" /></Button>
         </div>
       </div>
@@ -171,9 +198,7 @@ export default function Sales() {
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Produk" /></TableCell>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Qty</TableCell>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Harga Jual" /></TableCell>
-                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Total</TableCell>
-                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">HPP</TableCell>
-                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Profit</TableCell>
+                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Total Harga" /></TableCell>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Aksi" /></TableCell>
                 </TableRow>
               </TableHeader>
@@ -187,10 +212,10 @@ export default function Sales() {
                       </div>
                     </TableCell>
                   </TableRow>
-                ) : sales.length === 0 ? (
+                ) : filteredSales.length === 0 ? (
                   <TableRow><TableCell className="px-5 py-8 text-center text-gray-500"><Trans id="Tidak ada data penjualan" /></TableCell></TableRow>
                 ) : (
-                  sales.map((sale) => (
+                  filteredSales.map((sale) => (
                     <TableRow key={sale.id}>
                       <TableCell className="px-5 py-4 text-start">
                         <span className="font-medium text-gray-800 text-theme-sm dark:text-white/90">{sale.product?.name || '-'}</span>
@@ -198,12 +223,6 @@ export default function Sales() {
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">{sale.quantity}</TableCell>
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">{formatCurrency(sale.selling_price)}</TableCell>
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">{formatCurrency(sale.total_price)}</TableCell>
-                      <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">{formatCurrency(sale.hpp)}</TableCell>
-                      <TableCell className="px-4 py-3 text-start">
-                        <Badge size="sm" color={sale.profit >= 0 ? 'success' : 'error'}>
-                          {formatCurrency(sale.profit)}
-                        </Badge>
-                      </TableCell>
                       <TableCell className="px-4 py-3 text-start">
                         <div className="flex items-center gap-2">
                           <button onClick={() => openEditModal(sale)} className="text-brand-500 hover:text-brand-700 text-sm"><Trans id="Edit" /></button>

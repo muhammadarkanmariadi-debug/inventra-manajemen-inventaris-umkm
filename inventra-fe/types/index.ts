@@ -21,6 +21,7 @@ export interface PaginatedData<T> {
 export interface Product {
   id: number;
   name: string;
+  image?: string | null;
   sku: string;
   selling_price: number;
   stock: number;
@@ -32,19 +33,17 @@ export interface Product {
   created_at: string;
   updated_at: string;
   category?: Category;
-  suppliers?: Supplier[];
 }
 
 export interface CreateProductPayload {
   name: string;
+  image?: string | null;
   sku: string;
   selling_price: number;
-  stock: number;
   category_id: number;
   product_type: "kuliner" | "barang";
   unit: string;
   expired_date?: string | null;
-  supplier_id?: number[];
 }
 
 export interface Category {
@@ -145,8 +144,6 @@ export interface Sale {
   quantity: number;
   selling_price: number;
   total_price: number;
-  hpp: number;
-  profit: number;
   bussiness_id: number;
   created_at: string;
   updated_at: string;
@@ -218,21 +215,42 @@ export interface CreateFinancialTransactionPayload {
   transaction_date: string;
 }
 
-// ========== HPP Component Types ==========
+// ========== Purchase Types ==========
 
-export interface HppComponent {
+export interface Purchase {
   id: number;
-  name: string;
-  product_id: number;
-  cost: number;
+  supplier_id: number;
   bussiness_id: number;
+  purchase_date: string;
+  total_amount: number;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+  supplier?: Supplier;
+  items?: PurchaseItem[];
+}
+
+export interface PurchaseItem {
+  id: number;
+  purchase_id: number;
+  product_id: number;
+  quantity: number;
+  price: number;
+  subtotal: number;
   created_at: string;
   updated_at: string;
   product?: Product;
 }
 
-export interface CreateHppComponentPayload {
-  name: string;
+export interface CreatePurchasePayload {
+  supplier_id: number;
+  purchase_date: string;
+  notes?: string;
+  items: CreatePurchaseItemPayload[];
+}
+
+export interface CreatePurchaseItemPayload {
   product_id: number;
-  cost: number;
+  quantity: number;
+  price: number;
 }

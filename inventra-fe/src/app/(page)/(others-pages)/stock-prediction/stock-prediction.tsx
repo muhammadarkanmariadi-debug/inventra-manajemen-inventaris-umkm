@@ -9,6 +9,7 @@ import { Table, TableHeader, TableBody, TableRow, TableCell } from '@/components
 import { analyzeInventory } from '../../../../../services/dashboard.service';
 import { getProducts } from '../../../../../services/product.service';
 import type { Product } from '../../../../../types';
+import { FilterBar, FilterValues } from '@/components/common/FilterBar';
 import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
@@ -20,6 +21,7 @@ export default function StockPrediction() {
   const [loading, setLoading] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
   const [error, setError] = useState('');
+  const [filters, setFilters] = useState<FilterValues | null>(null);
 
   const fetchProducts = useCallback(async () => {
     setLoading(true);
@@ -79,6 +81,30 @@ export default function StockPrediction() {
   const criticalCount = products.filter((p) => p.stock <= 5).length;
   const lowCount = products.filter((p) => p.stock > 5 && p.stock <= 15).length;
   const safeCount = products.filter((p) => p.stock > 15).length;
+
+  const filterConfig = {
+    tabs: [
+      { label: _(msg`Semua`), value: "all" },
+      { label: _(msg`Kritis`), value: "critical" },
+      { label: _(msg`Rendah`), value: "low" },
+      { label: _(msg`Aman`), value: "safe" }
+    ],
+    searchPlaceholder: _(msg`Cari produk...`),
+  };
+
+  const filteredSortedProducts = sortedProducts.filter(product => {
+    const matchSearch = product.name.toLowerCase().includes((filters?.search || '').toLowerCase());
+    
+    let matchTab = true;
+    if (filters?.tab && filters?.tab !== 'all') {
+      const s = product.stock;
+      if (filters.tab === 'critical') matchTab = s <= 5;
+      else if (filters.tab === 'low') matchTab = s > 5 && s <= 15;
+      else if (filters.tab === 'safe') matchTab = s > 15;
+    }
+    
+    return matchSearch && matchTab;
+  });
 
   return (
     <div>
@@ -142,6 +168,10 @@ export default function StockPrediction() {
       </div>
 
       {/* Stock Status Table */}
+      <div className='flex flex-col gap-4 mb-4'>
+        <FilterBar {...filterConfig} onFilterChange={setFilters} />
+      </div>
+
       <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
         <div className="p-5 border-b border-gray-200 dark:border-gray-800">
           <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90"><Trans id="Status Stok Seluruh Produk" /></h4>
@@ -169,12 +199,12 @@ export default function StockPrediction() {
                       </div>
                     </TableCell>
                   </TableRow>
-                ) : sortedProducts.length === 0 ? (
+                ) : filteredSortedProducts.length === 0 ? (
                   <TableRow>
                     <TableCell className="px-5 py-8 text-center text-gray-500"><Trans id="Tidak ada data produk" /></TableCell>
                   </TableRow>
                 ) : (
-                  sortedProducts.map((product) => {
+                  filteredSortedProducts.map((product) => {
                     const status = getStockStatus(product.stock);
                     return (
                       <TableRow key={product.id} className={product.stock <= 5 ? 'bg-error-50/50 dark:bg-error-500/5' : ''}>

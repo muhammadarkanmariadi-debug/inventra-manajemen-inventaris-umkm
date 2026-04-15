@@ -31,7 +31,7 @@ export default function Chatbot() {
     {
       id: 0,
       role: 'assistant',
-      content: _(msg`Halo! 👋 Saya adalah asisten AI Inventra. Saya bisa membantu Anda menganalisis data bisnis:\n\n• 📦 Stok & inventori\n• 💰 Keuangan & profit\n• 📊 Penjualan & tren\n\nSilakan tanyakan apa saja tentang bisnis Anda!`),
+      content: _(msg`Halo! 👋 Saya adalah asisten AI Inventra. Saya bisa membantu Anda menganalisis data bisnis:\n\n• 📦 Stok & inventori\n• 💰 Keuangan & transaksi\n• 📊 Penjualan & tren\n\nSilakan tanyakan apa saja tentang bisnis Anda!`),
       timestamp: new Date(),
     },
   ]);

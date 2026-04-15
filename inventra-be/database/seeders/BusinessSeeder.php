@@ -12,8 +12,7 @@ class BusinessSeeder extends Seeder
      */
     public function run(): void
     {
-        Business::create([
-            'name'    => 'Inventra',
+        Business::firstOrCreate(['name' => 'Inventra'], [
             'address' => 'Jl. Contoh Alamat No. 123, Kota Contoh, Negara Contoh',
             'phone'   => '+62 812-3456-7890',
             'email'   => 'info@inventra.com',

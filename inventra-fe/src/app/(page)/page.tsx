@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import {
   getStatisticSales,
   getStatisticProducts,
+  getStatisticFinancial,
 } from '../../../services/dashboard.service';
 import Badge from '@/components/ui/badge/Badge';
 import Alert from '@/components/ui/alert/Alert';
@@ -21,7 +22,6 @@ import { msg } from '@lingui/core/macro';
 interface SalesStat {
   yearmonth: string;
   total_penjualan: number;
-  keuntungan: number;
 }
 
 interface TopProduct {
@@ -38,28 +38,31 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [totalSales, setTotalSales] = useState(0);
-  const [totalProfit, setTotalProfit] = useState(0);
-
   const [startDate, setStartDate] = useState(`${new Date().getFullYear()}-01-01`);
   const [endDate, setEndDate] = useState(`${new Date().getFullYear()}-12-31`);
+  const [financialStats, setFinancialStats] = useState({ income: 0, expense: 0 });
 
   const fetchData = async () => {
     setLoading(true);
     setError('');
     try {
-      const [salesRes, productsRes] = await Promise.all([
+      const [salesRes, productsRes, financialRes] = await Promise.all([
         getStatisticSales(startDate, endDate),
         getStatisticProducts(),
+        getStatisticFinancial(startDate, endDate),
       ]);
 
       if (salesRes.status) {
         setSalesStats(salesRes.data.data || []);
         setTotalSales(salesRes.data.total_penjualan);
-        setTotalProfit(salesRes.data.total_keuntungan);
       }
 
       if (productsRes.status) {
         setTopProducts(productsRes.data || []);
+      }
+
+      if (financialRes.status) {
+        setFinancialStats(financialRes.data || { income: 0, expense: 0 });
       }
     } catch {
       setError(_(msg`Gagal memuat data dashboard`));
@@ -113,6 +116,7 @@ export default function DashboardPage() {
                   {salesTrend > 0 ? <ArrowUpIcon className="w-3 h-3" /> : <ArrowDownIcon className="w-3 h-3" />}
                   {Math.abs(salesTrend).toFixed(1)}%
                 </span>
+                Lebih rendah dari bulan lalu
               </Badge>
             )}
           </div>
@@ -126,17 +130,31 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Total Keuntungan */}
+        {/* Income Card */}
         <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-success-50 dark:bg-success-500/10">
             <DollarLineIcon className="text-success-500" />
           </div>
           <div className="mt-4">
             <h3 className="text-2xl font-bold text-gray-800 dark:text-white/90">
-              {loading ? '...' : formatCurrency(totalProfit)}
+              {loading ? '...' : formatCurrency(financialStats.income)}
             </h3>
             <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              <Trans id="Total Keuntungan" />
+              <Trans id="Pemasukan" />
+            </p>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-error-50 dark:bg-error-500/10">
+            <DollarLineIcon className="text-error-500" />
+          </div>
+          <div className="mt-4">
+            <h3 className="text-2xl font-bold text-gray-800 dark:text-white/90">
+              {loading ? '...' : formatCurrency(financialStats.expense)}
+            </h3>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              <Trans id="Pengeluaran" />
             </p>
           </div>
         </div>
@@ -152,21 +170,6 @@ export default function DashboardPage() {
             </h3>
             <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
               <Trans id="Penjualan Bulan Ini" />
-            </p>
-          </div>
-        </div>
-
-        {/* Keuntungan Bulan Ini */}
-        <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-error-50 dark:bg-error-500/10">
-            <GroupIcon className="text-error-500" />
-          </div>
-          <div className="mt-4">
-            <h3 className="text-2xl font-bold text-gray-800 dark:text-white/90">
-              {loading ? '...' : formatCurrency(latestMonth?.keuntungan ?? 0)}
-            </h3>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              <Trans id="Keuntungan Bulan Ini" />
             </p>
           </div>
         </div>

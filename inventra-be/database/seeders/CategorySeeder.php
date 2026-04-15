@@ -12,8 +12,7 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        Category::create([
-            'name' => 'Elektronik',
+        Category::firstOrCreate(['name' => 'Elektronik'], [
             'description' => 'Kategori untuk produk elektronik seperti smartphone, laptop, dan televisi.',
             'bussiness_id' => 1
         ]);

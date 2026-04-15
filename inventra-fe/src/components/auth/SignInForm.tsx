@@ -37,17 +37,19 @@ export default function SignInForm() {
   }, []);
 
   const handleSubmit = async (e: FormEvent) => {
-    console.log(`data sent`, data)
+
     e.preventDefault();
     try {
       const sign = await signIn({ ...data, email: data.email, password: data.password });
   
-      setCookies('token', sign.data.token)
       if (!sign || sign.status !== true) {
         toast.error("Login Failed", {
           description: sign?.message ?? "Server error",
         });
+        return;
       }
+
+      setCookies('token', sign.data.token);
 
       if (isChecked) {
         localStorage.setItem("rememberedEmail", data.email);
@@ -55,15 +57,11 @@ export default function SignInForm() {
         localStorage.removeItem("rememberedEmail");
       }
 
-
-
-      if (sign.status === true) {
-        setData({ ...data, password: '' })
-        router.push('/');
-        toast.success("Login Success", {
-          description: sign.message,
-        });
-      }
+      setData({ ...data, password: '' });
+      router.push('/');
+      toast.success("Login Success", {
+        description: sign.message,
+      });
     } catch (error) {
       toast.error("Something went wrong", {
         description: (error as Error)?.message ?? "Unknown error",

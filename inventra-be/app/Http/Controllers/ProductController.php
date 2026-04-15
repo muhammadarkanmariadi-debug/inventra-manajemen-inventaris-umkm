@@ -24,24 +24,18 @@ class ProductController extends Controller
     {
         $rules = [
             'name'          => 'required|string|max:255',
+            'image'         => 'nullable|string',
             'sku'           => 'required|string|max:255|unique:products,sku',
             'selling_price' => 'required|numeric|min:0',
-            'stock'         => 'required|integer|min:0',
             'category_id'   => 'required|integer|exists:categories,id',
             'product_type'  => 'required|in:kuliner,barang',
             'unit'          => 'required|string|max:255',
             'expired_date'  => 'nullable|date',
-            'supplier_id'   => 'nullable|array',
-            'supplier_id.*' => 'integer|exists:suppliers,id',
         ];
 
         $request->merge(['bussiness_id' => auth()->guard('api')->user()->bussiness_id]);
 
         $data = $this->requestService->postData(Product::class, $request, $rules);
-
-        if ($request->has('supplier_id')) {
-            $data->suppliers()->attach($request->input('supplier_id', []));
-        }
 
         event(new LoggingEvent('Product created successfully', 'products'));
 
@@ -62,9 +56,6 @@ class ProductController extends Controller
             if (in_array('category', $includes)) {
                 $query->with('category');
             }
-            if (in_array('suppliers', $includes)) {
-                $query->with('suppliers');
-            }
         }
 
         $products = $query->paginate($perPage);
@@ -81,7 +72,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::with(['category', 'suppliers'])
+        $product = Product::with(['category'])
             ->where('id', $id)
             ->where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
             ->first();
@@ -100,22 +91,16 @@ class ProductController extends Controller
     {
         $rules = [
             'name'          => 'sometimes|required|string|max:255',
+            'image'         => 'sometimes|nullable|string',
             'sku'           => 'sometimes|required|string|max:255|unique:products,sku,' . $id,
             'selling_price' => 'sometimes|required|numeric|min:0',
-            'stock'         => 'sometimes|required|integer|min:0',
             'category_id'   => 'sometimes|required|integer|exists:categories,id',
             'product_type'  => 'sometimes|required|in:kuliner,barang',
             'unit'          => 'sometimes|required|string|max:255',
             'expired_date'  => 'sometimes|nullable|date',
-            'supplier_id'   => 'sometimes|nullable|array',
-            'supplier_id.*' => 'integer|exists:suppliers,id',
         ];
 
         $data = $this->requestService->updateDataById(Product::class, $id, $request, $rules);
-
-        if ($request->has('supplier_id')) {
-            $data->suppliers()->sync($request->input('supplier_id', []));
-        }
 
         event(new LoggingEvent('Product with id ' . $id . ' updated successfully', 'products'));
 
@@ -127,8 +112,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = $this->requestService->deleteDataById(Product::class, $id);
-        $product->suppliers()->detach();
+        $this->requestService->deleteDataById(Product::class, $id);
 
         event(new LoggingEvent('Product with id ' . $id . ' deleted successfully', 'products'));
 

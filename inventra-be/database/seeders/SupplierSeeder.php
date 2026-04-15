@@ -12,8 +12,7 @@ class SupplierSeeder extends Seeder
      */
     public function run(): void
     {
-        Supplier::create([
-            'name' => 'PT. Sumber Rejeki',
+        Supplier::firstOrCreate(['name' => 'PT. Sumber Rejeki'], [
             'address' => 'Jl. Contoh Alamat No. 456, Kota Contoh, Negara Contoh',
             'phone' => '+62 812-9876-5432',
             'bussiness_id' => 1,

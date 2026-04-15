@@ -13,8 +13,8 @@ class Supplier extends Model
         return $this->belongsTo(Business::class, 'bussiness_id', 'id');
     }
 
-    public function products()
+    public function purchases()
     {
-        return $this->belongsToMany(Product::class, 'product_supplier', 'supplier_id', 'product_id');
+        return $this->hasMany(Purchase::class, 'supplier_id', 'id');
     }
 }
