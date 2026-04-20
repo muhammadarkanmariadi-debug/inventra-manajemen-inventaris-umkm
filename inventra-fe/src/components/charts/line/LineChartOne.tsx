@@ -17,7 +17,7 @@ export default function LineChartOne({data}: {data: {yearmonth: string, total_pe
       position: "top",
       horizontalAlign: "left",
     },
-    colors: ["#465FFF", "#9CB9FF"], // Define line colors
+    colors: ["var(--color-brand-400)", "var(--color-brand-200)"], // Define line colors
     chart: {
       fontFamily: "Outfit, sans-serif",
       height: 310,

@@ -18,7 +18,8 @@ import {
 } from "../icons/index";
 import { useAuth } from "../context/AuthContext";
 import SidebarWidget from "./SidebarWidget";
-import { ChartAreaIcon, Settings, ShoppingCartIcon } from "lucide-react";
+import { ChartAreaIcon, Settings, ShoppingCartIcon, LayersIcon, FileTextIcon } from "lucide-react";
+import { CldImage } from "next-cloudinary";
 
 type NavItem = {
   name: string;
@@ -32,51 +33,40 @@ const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
-    path: "/",
+    path: "/dashboard",
   },
 
-  // 🟩 PENGADAAN (BARANG MASUK)
+  // 📦 MANAJEMEN KATALOG / PRODUK
   {
-    icon: <ShoppingCartIcon />,
-    name: "Pengadaan",
+    icon: <LayersIcon />,
+    name: "Katalog Produk",
     subItems: [
-      { name: "Data Pembelian", path: "/purchases", permission: "purchase.view" },
-      { name: "Supplier", path: "/suppliers", permission: "supplier.view" },
+      { name: "Data Produk", path: "/dashboard/products", permission: "product.view" },
+      { name: "Kategori Produk", path: "/dashboard/categories", permission: "category.view" },
+      { name: "Lokasi Penyimpanan", path: "/dashboard/locations", permission: "product.view" },
     ],
   },
 
-  // 📦 INVENTARIS
-  {
-    icon: <BoxCubeIcon />,
-    name: "Inventaris",
-    subItems: [
-
-      { name: "Produk", path: "/products", permission: "product.view" },
-      { name: "Kategori", path: "/categories", permission: "category.view" },
-      { name: "Lokasi", path: "/locations", permission: "product.view" },
-    ],
-  },
-
-  // 🟦 PENJUALAN (BARANG KELUAR)
-  {
-    icon: <ChartAreaIcon />,
-    name: "Penjualan",
-    path: "/sales",
-    permission: "sales.view"
-
-  },
-
-  // 🟨 KONTROL STOK (INTERNAL)
+  // 🟨 INVENTARIS & STOK
   {
     icon: <BoxCubeIcon />,
     name: "Kontrol Stok",
     subItems: [
-      { name: "Data Stok", path: "/inventories", permission: "product.view" },
-      { name: "Pelacakan Stok (QR)", path: "/scan", permission: "product.view" },
-      { name: "Penyesuaian Stok", path: "/stock-adjustment", permission: "stockTransaction.view" },
-      { name: "Prediksi Stok", path: "/stock-prediction", permission: "stockTransaction.view" }
+      { name: "Data Stok Inventaris", path: "/dashboard/inventories", permission: "product.view" },
+      { name: "Penyesuaian Stok", path: "/dashboard/stock-adjustment", permission: "stockTransaction.view" },
+      { name: "QC Scanner (QR)", path: "/dashboard/scan", permission: "product.view" },
     ],
+  },
 
+  // 🔄 ARUS BARANG / TRANSAKSI
+  {
+    icon: <ShoppingCartIcon />,
+    name: "Arus Barang",
+    subItems: [
+      { name: "Penjualan (Keluar)", path: "/dashboard/sales", permission: "sales.view" },
+      { name: "Pembelian (Masuk)", path: "/dashboard/purchases", permission: "purchase.view" },
+      { name: "Data Supplier", path: "/dashboard/suppliers", permission: "supplier.view" },
+    ],
   },
 
   // 💰 KEUANGAN
@@ -84,35 +74,42 @@ const navItems: NavItem[] = [
     icon: <DollarLineIcon />,
     name: "Keuangan",
     subItems: [
-      { name: "Kategori Keuangan", path: "/financial-categories", permission: "financialCategory.view" },
-      { name: "Transaksi Keuangan", path: "/financial-transactions", permission: "financialTransaction.view" },
+      { name: "Transaksi Keuangan", path: "/dashboard/financial-transactions", permission: "financialTransaction.view" },
+      { name: "Kategori Keuangan", path: "/dashboard/financial-categories", permission: "financialCategory.view" },
+    ],
+  },
+
+  // 📄 DOKUMEN INVENTARIS
+  {
+    icon: <FileTextIcon />,
+    name: "Dokumen",
+    subItems: [
+      { name: "Buat Dokumen", path: "/dashboard/documents", new: true },
+      { name: "Arsip Dokumen", path: "/dashboard/documents/archive" },
     ],
   },
 
   // 🤖 AI & ANALITIK
-
-
-  // 👥 MANAJEMEN
   {
-    icon: <UserIcon />,
-    name: "Manajemen",
+    icon: <Robot />,
+    name: "AI & Analitik",
     subItems: [
-      { name: "Pengguna", path: "/users", permission: "user.view" },
-      { name: "Peran", path: "/roles", permission: "roles.view" },
-      { name: "Hak Akses", path: "/permissions", permission: "permission.view" },
+      { name: "Prediksi Cerdas", path: "/dashboard/stock-prediction", permission: "stockTransaction.view" },
     ],
   },
 
+  // ⚙️ MANAJEMEN & PENGATURAN
   {
     icon: <Settings />,
-    name: "Pengaturan & bantuan",
-    path: '/settings'
-
-  },
-  {
-    icon: <UserCircleIcon />,
-    name: "Profil",
-    path: "/profile",
+    name: "Pengaturan & Sistem",
+    subItems: [
+      { name: "Profil Akun", path: "/dashboard/profile" },
+      { name: "Pengguna & Tim", path: "/dashboard/users", permission: "user.view" },
+      { name: "Peran / Jabatan", path: "/dashboard/roles", permission: "roles.view" },
+      { name: "Hak Akses", path: "/dashboard/permissions", permission: "permission.view" },
+      { name: "Pengaturan ", path: "/dashboard/settings" },
+      { name: "Bantuan & FAQ", path: "/dashboard/help" },
+    ],
   },
 ];
 const othersItems: NavItem[] = [];
@@ -121,6 +118,8 @@ const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const pathname = usePathname();
   const { hasPermission } = useAuth();
+
+
 
   const renderMenuItems = (
     navItems: NavItem[],
@@ -309,7 +308,7 @@ const AppSidebar: React.FC = () => {
       return { type: menuType, index };
     });
   };
-
+  const { business } = useAuth()
   return (
     <aside
       className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
@@ -328,31 +327,41 @@ const AppSidebar: React.FC = () => {
         className={`py-8 flex  ${!isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
           }`}
       >
-        <Link href="/">
+        <Link href="/dashboard">
           {isExpanded || isHovered || isMobileOpen ? (
             <>
               <Image
                 className="dark:hidden"
-                src="/images/logo/logo.svg"
+                src={'/images/logo/logo.svg'}
                 alt="Logo"
                 width={150}
                 height={40}
               />
               <Image
                 className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
+                src={'/images/logo/logo-dark.svg'}
                 alt="Logo"
                 width={150}
                 height={40}
               />
             </>
           ) : (
-            <Image
-              src="/images/logo/logo-icon.svg"
-              alt="Logo"
-              width={32}
-              height={32}
-            />
+            <>
+              <CldImage
+                className="dark:hidden"
+                src={business?.logo || '/images/logo/logo.svg'}
+                alt="Logo"
+                width={32}
+                height={32}
+              />
+              <CldImage
+                className="hidden dark:block"
+                src={business?.logo_dark || '/images/logo/logo.svg'}
+                alt="Logo"
+                width={32}
+                height={32}
+              />
+            </>
           )}
         </Link>
       </div>

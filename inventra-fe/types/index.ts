@@ -69,6 +69,7 @@ export interface Business {
   email: string;
   website: string | null;
   logo: string | null;
+  logo_dark: string | null;
   description: string | null;
   status: "active" | "inactive";
   created_at: string;
@@ -151,9 +152,21 @@ export interface Sale {
 }
 
 export interface CreateSalePayload {
-  product_id: number;
+  inventory_id: number;
   quantity: number;
   selling_price: number;
+}
+
+export interface Inventory {
+  id: number;
+  inventory_code: string;
+  product_id: number;
+  current_status_id: number;
+  quantity: number;
+  location_id: number | null;
+  created_at: string;
+  updated_at: string;
+  product?: Product;
 }
 
 export interface StockTransaction {
@@ -254,3 +267,60 @@ export interface CreatePurchaseItemPayload {
   quantity: number;
   price: number;
 }
+
+// ========== AI Prediction Types (FastAPI) ==========
+
+export interface SalesRecord {
+  product_id: number;
+  stock: number;
+  sales: number;
+}
+
+export interface ProphetForecast {
+  ds: string;
+  yhat: number;
+  yhat_lower: number;
+  yhat_upper: number;
+}
+
+export interface StockStatus {
+  status: 'CRITICAL' | 'LOW' | 'WARNING' | 'SAFE' | 'UNKNOWN';
+  message: string;
+  reorder_point: number;
+  days_until_stockout: number;
+}
+
+export interface LinearRegressionResult {
+  next_period_sales: number;
+  trend: 'NAIK' | 'TURUN' | 'STABIL' | 'INSUFFICIENT_DATA';
+  slope: number;
+  r_squared: number;
+  confidence: 'TINGGI' | 'SEDANG' | 'RENDAH' | 'LOW';
+}
+
+export interface PredictionResult {
+  product_id: number;
+  current_stock: number;
+  total_sales: number;
+  average_daily_sales: number;
+  stock_status: StockStatus;
+  linear_regression: LinearRegressionResult;
+  prophet_forecast: ProphetForecast[];
+  recommendation: string;
+}
+
+export interface DefectRecord {
+  product_id: number;
+  total_unreleased: number;
+  total_rejected: number;
+  current_unreleased_stock: number;
+}
+
+export interface DefectPredictionResponse {
+  product_id: number;
+  historical_reject_rate: number;
+  projected_defects: number;
+  qc_recommendation: string;
+  risk_level: 'HIGH' | 'MEDIUM' | 'LOW' | 'UNKNOWN';
+}
+

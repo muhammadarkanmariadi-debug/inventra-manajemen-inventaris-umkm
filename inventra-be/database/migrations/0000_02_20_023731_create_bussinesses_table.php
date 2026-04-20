@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('website')->unique();
             $table->string('logo')->nullable();
+            $table->string('logo_dark')->nullable();
             $table->string('description')->nullable();
             $table->string('status')->default('active');
             $table->timestamps();

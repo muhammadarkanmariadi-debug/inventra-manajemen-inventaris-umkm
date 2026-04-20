@@ -15,15 +15,17 @@ export function LanguageSwitcher() {
     <div style={{ display: "flex", gap: "8px" }}>
       {LOCALES.map((l) => (
         <button
+          className={locale == l.value ? 'border-brand-500 text-brand-500' : ""}
           key={l.value}
           onClick={() => setLocale(l.value)}
           style={{
             padding: "6px 12px",
             borderRadius: "8px",
             border: "1.5px solid",
-            borderColor: locale === l.value ? "#465fff" : "#e5e7eb",
-            background: locale === l.value ? "#ecf3ff" : "#fff",
-            color: locale === l.value ? "#3641f5" : "#6b7280",
+          
+      
+     
+        
             cursor: "pointer",
             fontWeight: locale === l.value ? 600 : 400,
           }}

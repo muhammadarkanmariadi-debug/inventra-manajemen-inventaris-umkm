@@ -5,7 +5,7 @@ import { SidebarProvider } from '@/context/SidebarContext';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { AuthProvider } from '@/context/AuthContext';
 import { cn } from "@/lib/utils";
-import { ToastProvider } from '@/components/providers/ToastProvider';
+import { ToastProvider } from '@/context/ToastContext';
 import { LocaleProvider } from '@/context/LocaleProvider';
 import { loadCatalog } from '@/lib/i18n';
 
@@ -26,7 +26,7 @@ export default async function RootLayout({
       <body className={`${outfit.className} dark:bg-gray-900`}>
 
         <ThemeProvider>
-          <ToastProvider />
+          <ToastProvider  >
           <AuthProvider>
             <LocaleProvider >
               <SidebarProvider>
@@ -34,6 +34,7 @@ export default async function RootLayout({
               </SidebarProvider>
             </LocaleProvider>
           </AuthProvider>
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>

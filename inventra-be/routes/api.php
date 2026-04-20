@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 use  App\Http\Middleware\PermissionMiddleware;
 use Tymon\JWTAuth\Http\Middleware\Authenticate as MiddlewareAuthenticate;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\DocumentController;
 
 Route::controller(UserController::class)->group(function () {
     Route::post('/register', 'register');
@@ -134,6 +135,8 @@ Route::middleware(AuthenticateMiddleware::class)->group(function () {
         Route::get('/products', 'produk');
         Route::get('/sales', 'penjualan');
         Route::get('/financial', 'keuangan');
+        Route::get('/prediksi/{id}', 'prediksi');
+        Route::get('/defect/{id}', 'defect');
     });
 
     Route::post('/scan', [ScanController::class, 'scan'])->middleware(PermissionMiddleware::class . ':product.view');
@@ -156,5 +159,13 @@ Route::middleware(AuthenticateMiddleware::class)->group(function () {
         Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':permission.view');
         Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':permission.update');
         Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':permission.delete');
+    });
+
+    Route::controller(DocumentController::class)->prefix('documents')->group(function () {
+        Route::get('/', 'index');
+        Route::post('/', 'store');
+        Route::get('/{id}', 'show');
+        Route::get('/{id}/download', 'download');
+        Route::delete('/{id}', 'destroy');
     });
 });

@@ -1,20 +1,7 @@
 import { useState } from "react";
+import Select, { SingleValue, StylesConfig } from "react-select";
 
-const brandVars: React.CSSProperties = {
-  "--color-brand-25": "#f2f7ff",
-  "--color-brand-50": "#ecf3ff",
-  "--color-brand-100": "#dde9ff",
-  "--color-brand-200": "#c2d6ff",
-  "--color-brand-300": "#9cb9ff",
-  "--color-brand-400": "#7592ff",
-  "--color-brand-500": "#465fff",
-  "--color-brand-600": "#3641f5",
-  "--color-brand-700": "#2a31d8",
-  "--color-brand-800": "#252dae",
-  "--color-brand-900": "#262e89",
-  "--color-brand-950": "#161950",
-} as React.CSSProperties;
-
+// ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface TabOption {
   label: string;
@@ -69,112 +56,142 @@ interface ActiveFilterBadgeProps {
   onRemove: () => void;
 }
 
+// ─── FilterChip ───────────────────────────────────────────────────────────────
 
 function FilterChip({ label, active, onClick }: FilterChipProps) {
   return (
     <button
+      type="button"
       onClick={onClick}
-      style={{
-        fontFamily: "'DM Sans', sans-serif",
-        fontSize: "13px",
-        fontWeight: active ? 600 : 400,
-        padding: "6px 14px",
-        borderRadius: "999px",
-        border: active
-          ? "1.5px solid var(--color-brand-500)"
-          : "1.5px solid #e5e7eb",
-        background: active ? "var(--color-brand-50)" : "#ffffff",
-        color: active ? "var(--color-brand-600)" : "#6b7280",
-        cursor: "pointer",
-        transition: "all 0.18s ease",
-        whiteSpace: "nowrap",
-        outline: "none",
-        boxShadow: active
-          ? "0 0 0 3px var(--color-brand-100)"
-          : "0 1px 2px rgba(0,0,0,0.05)",
-      }}
-      onMouseEnter={(e) => {
-        if (!active) {
-          (e.target as HTMLButtonElement).style.borderColor = "var(--color-brand-300)";
-          (e.target as HTMLButtonElement).style.color = "var(--color-brand-500)";
-        }
-      }}
-      onMouseLeave={(e) => {
-        if (!active) {
-          (e.target as HTMLButtonElement).style.borderColor = "#e5e7eb";
-          (e.target as HTMLButtonElement).style.color = "#6b7280";
-        }
-      }}
+      className={[
+        "inline-flex items-center px-3.5 py-1.5 rounded-full text-[13px] font-dm-sans",
+        "border transition-all duration-150 outline-none whitespace-nowrap cursor-pointer",
+        active
+          ? "border-brand-500 bg-brand-50 text-brand-600 font-semibold ring-2 ring-brand-100 dark:border-brand-400 dark:bg-brand-950 dark:text-brand-300 dark:ring-brand-900"
+          : "border-gray-200 bg-white text-gray-500 font-normal shadow-sm hover:border-brand-300 hover:text-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-400 dark:hover:border-brand-600 dark:hover:text-brand-400",
+      ].join(" ")}
     >
       {label}
     </button>
   );
 }
 
-
-import Select, { SingleValue, StylesConfig } from "react-select";
-
-const selectStyles: StylesConfig<SelectOption> = {
-  container: (base) => ({ ...base, minWidth: 140 }),
-  control: (base, state) => ({
-    ...base,
-    fontFamily: "'DM Sans', sans-serif",
-    fontSize: "13px",
-    borderRadius: "10px",
-    borderColor: state.isFocused ? "var(--color-brand-400)" : "#e5e7eb",
-    borderWidth: "1.5px",
-    boxShadow: state.isFocused ? "0 0 0 3px var(--color-brand-100)" : "none",
-    minHeight: "38px",
-    cursor: "pointer",
-    "&:hover": { borderColor: "var(--color-brand-300)" },
-  }),
-  placeholder: (base) => ({ ...base, color: "#9ca3af", fontSize: "13px" }),
-  singleValue: (base) => ({ ...base, color: "var(--color-brand-700)", fontWeight: 500, fontSize: "13px" }),
-  option: (base, state) => ({
-    ...base,
-    fontFamily: "'DM Sans', sans-serif",
-    fontSize: "13px",
-    backgroundColor: state.isSelected ? "var(--color-brand-50)" : state.isFocused ? "var(--color-brand-25)" : "white",
-    color: state.isSelected ? "var(--color-brand-700)" : "#374151",
-    cursor: "pointer",
-    "&:active": { backgroundColor: "var(--color-brand-100)" },
-  }),
-  menu: (base) => ({
-    ...base,
-    borderRadius: "10px",
-    border: "1.5px solid #e5e7eb",
-    boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
-  }),
-  menuList: (base) => ({ ...base, padding: "4px" }),
-  dropdownIndicator: (base) => ({ ...base, color: "#9ca3af" }),
-  indicatorSeparator: () => ({ display: "none" }),
-  clearIndicator: (base) => ({ ...base, color: "#9ca3af", "&:hover": { color: "#ef4444" } }),
-};
+// ─── FilterSelect ─────────────────────────────────────────────────────────────
 
 function FilterSelect({ label, options, value, onChange }: FilterSelectProps) {
+  // react-select styles are JS objects, so we use getComputedStyle to read
+  // Tailwind CSS variables at runtime for consistent theming.
+  const isDark =
+    typeof window !== "undefined" &&
+    document.documentElement.classList.contains("dark");
+
+  const selectStyles: StylesConfig<SelectOption> = {
+    container: (base) => ({ ...base, minWidth: 140 }),
+    control: (base, state) => ({
+      ...base,
+      fontFamily: "inherit",
+      fontSize: "13px",
+      borderRadius: "10px",
+      borderColor: state.isFocused
+        ? "var(--color-brand-400)"
+        : isDark
+        ? "#374151"
+        : "#e5e7eb",
+      borderWidth: "1.5px",
+      boxShadow: state.isFocused
+        ? "0 0 0 3px var(--color-brand-100)"
+        : "none",
+      minHeight: "38px",
+      cursor: "pointer",
+      backgroundColor: isDark ? "#111827" : "#ffffff",
+      "&:hover": {
+        borderColor: "var(--color-brand-300)",
+      },
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: isDark ? "#6b7280" : "#9ca3af",
+      fontSize: "13px",
+    }),
+    singleValue: (base) => ({
+      ...base,
+      color: isDark ? "var(--color-brand-300)" : "var(--color-brand-700)",
+      fontWeight: 500,
+      fontSize: "13px",
+    }),
+    option: (base, state) => ({
+      ...base,
+      fontFamily: "inherit",
+      fontSize: "13px",
+      backgroundColor: state.isSelected
+        ? isDark
+          ? "var(--color-brand-950)"
+          : "var(--color-brand-50)"
+        : state.isFocused
+        ? isDark
+          ? "#1f2937"
+          : "var(--color-brand-25)"
+        : isDark
+        ? "#111827"
+        : "white",
+      color: state.isSelected
+        ? isDark
+          ? "var(--color-brand-300)"
+          : "var(--color-brand-700)"
+        : isDark
+        ? "#d1d5db"
+        : "#374151",
+      cursor: "pointer",
+      borderRadius: "6px",
+      "&:active": {
+        backgroundColor: isDark
+          ? "var(--color-brand-900)"
+          : "var(--color-brand-100)",
+      },
+    }),
+    menu: (base) => ({
+      ...base,
+      borderRadius: "10px",
+      border: `1.5px solid ${isDark ? "#374151" : "#e5e7eb"}`,
+      boxShadow: isDark
+        ? "0 4px 16px rgba(0,0,0,0.4)"
+        : "0 4px 16px rgba(0,0,0,0.08)",
+      backgroundColor: isDark ? "#111827" : "#ffffff",
+    }),
+    menuList: (base) => ({ ...base, padding: "4px" }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: isDark ? "#4b5563" : "#9ca3af",
+    }),
+    indicatorSeparator: () => ({ display: "none" }),
+    clearIndicator: (base) => ({
+      ...base,
+      color: isDark ? "#4b5563" : "#9ca3af",
+      "&:hover": { color: "#ef4444" },
+    }),
+    input: (base) => ({
+      ...base,
+      color: isDark ? "#f9fafb" : "#111827",
+    }),
+  };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-      <label style={{
-        fontFamily: "'DM Sans', sans-serif",
-        fontSize: "11px",
-        fontWeight: 600,
-        letterSpacing: "0.08em",
-        textTransform: "uppercase",
-        color: "#9ca3af",
-      }}>
+    <div className="flex flex-col gap-1.5">
+      <label className="text-[11px] font-semibold tracking-widest uppercase text-gray-400 dark:text-gray-500">
         {label}
       </label>
       <Select<SelectOption>
         options={options}
         value={options.find((o) => o.value === value) ?? null}
-        onChange={(newValue, _actionMeta) => {
+        onChange={(newValue) => {
           const opt = newValue as SingleValue<SelectOption>;
           onChange(opt?.value ?? "");
         }}
         placeholder="Semua"
         isClearable
-        menuPortalTarget={document.body}
+        menuPortalTarget={
+          typeof document !== "undefined" ? document.body : undefined
+        }
         menuPosition="fixed"
         styles={{
           ...selectStyles,
@@ -182,22 +199,21 @@ function FilterSelect({ label, options, value, onChange }: FilterSelectProps) {
         }}
       />
     </div>
-
-
   );
 }
 
-function FilterSearch({ value, onChange, placeholder = "Cari..." }: FilterSearchProps) {
+// ─── FilterSearch ─────────────────────────────────────────────────────────────
+
+function FilterSearch({
+  value,
+  onChange,
+  placeholder = "Cari...",
+}: FilterSearchProps) {
   return (
-    <div style={{ position: "relative", flex: 1, minWidth: "180px" }}>
+    <div className="relative flex-1 min-w-[180px]">
+      {/* Search icon */}
       <svg
-        style={{
-          position: "absolute",
-          left: "12px",
-          top: "50%",
-          transform: "translateY(-50%)",
-          color: "#9ca3af",
-        }}
+        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none"
         width="15"
         height="15"
         viewBox="0 0 24 24"
@@ -213,65 +229,44 @@ function FilterSearch({ value, onChange, placeholder = "Cari..." }: FilterSearch
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        style={{
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: "13px",
-          padding: "9px 12px 9px 36px",
-          borderRadius: "10px",
-          border: "1.5px solid #e5e7eb",
-          background: "#ffffff",
-          color: "#111827",
-          width: "100%",
-          outline: "none",
-          transition: "border-color 0.18s, box-shadow 0.18s",
-          boxSizing: "border-box",
-        }}
-        onFocus={(e) => {
-          e.target.style.borderColor = "var(--color-brand-400)";
-          e.target.style.boxShadow = "0 0 0 3px var(--color-brand-100)";
-        }}
-        onBlur={(e) => {
-          e.target.style.borderColor = "#e5e7eb";
-          e.target.style.boxShadow = "none";
-        }}
+        className={[
+          "w-full pl-9 pr-3 py-2.5 text-[13px] rounded-[10px]",
+          "border border-gray-200 bg-white text-gray-900 placeholder-gray-400",
+          "outline-none transition-all duration-150",
+          "focus:border-brand-400 focus:ring-2 focus:ring-brand-100",
+          "dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:placeholder-gray-600",
+          "dark:focus:border-brand-500 dark:focus:ring-brand-900",
+        ].join(" ")}
       />
     </div>
   );
 }
 
+// ─── ActiveFilterBadge ────────────────────────────────────────────────────────
 
 function ActiveFilterBadge({ label, onRemove }: ActiveFilterBadgeProps) {
   return (
     <span
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: "5px",
-        padding: "3px 10px",
-        borderRadius: "999px",
-        background: "var(--color-brand-50)",
-        border: "1px solid var(--color-brand-200)",
-        color: "var(--color-brand-700)",
-        fontFamily: "'DM Sans', sans-serif",
-        fontSize: "12px",
-        fontWeight: 500,
-      }}
+      className={[
+        "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full",
+        "border border-brand-200 bg-brand-50 text-brand-700 text-[12px] font-medium",
+        "dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300",
+      ].join(" ")}
     >
       {label}
       <button
+        type="button"
         onClick={onRemove}
-        style={{
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          padding: "0",
-          color: "var(--color-brand-400)",
-          display: "flex",
-          alignItems: "center",
-          lineHeight: 1,
-        }}
+        className="flex items-center text-brand-400 hover:text-brand-600 dark:text-brand-500 dark:hover:text-brand-300 transition-colors"
       >
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+        >
           <line x1="18" y1="6" x2="6" y2="18" />
           <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
@@ -279,6 +274,8 @@ function ActiveFilterBadge({ label, onRemove }: ActiveFilterBadgeProps) {
     </span>
   );
 }
+
+// ─── FilterBar ────────────────────────────────────────────────────────────────
 
 export function FilterBar({
   tabs = [],
@@ -332,7 +329,9 @@ export function FilterBar({
       .filter((s) => selectValues[s.key])
       .map((s) => ({
         key: s.key,
-        label: `${s.label}: ${s.options.find((o) => o.value === selectValues[s.key])?.label}`,
+        label: `${s.label}: ${
+          s.options.find((o) => o.value === selectValues[s.key])?.label
+        }`,
       })),
     ...(search ? [{ key: "__search__", label: `"${search}"` }] : []),
   ];
@@ -341,28 +340,18 @@ export function FilterBar({
     activeBadges.length > 0 || activeTab !== (tabs[0]?.value ?? "");
 
   return (
-    <div style={{ ...brandVars, fontFamily: "'DM Sans', sans-serif" }}>
+    <div className="font-sans">
       <div
-        style={{
-          background: "#ffffff",
-          borderRadius: "16px",
-          border: "1px solid #f3f4f6",
-          boxShadow: "0 1px 4px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.02)",
-          overflow: "hidden",
-        }}
+        className={[
+          "rounded-2xl overflow-hidden",
+          "border border-gray-200 dark:border-gray-700",
+          "bg-white dark:bg-gray-950",
+          "divide-y divide-gray-100 dark:divide-gray-800",
+        ].join(" ")}
       >
-        {/* Tab row */}
+        {/* ── Tab row ── */}
         {tabs.length > 0 && (
-          <div
-            style={{
-              borderBottom: "1px solid #f3f4f6",
-              padding: "12px 16px",
-              display: "flex",
-              gap: "8px",
-              flexWrap: "wrap",
-              alignItems: "center",
-            }}
-          >
+          <div className="flex flex-wrap gap-2 items-center px-4 py-3 bg-gray-50 dark:bg-gray-900">
             {tabs.map((t) => (
               <FilterChip
                 key={t.value}
@@ -374,16 +363,8 @@ export function FilterBar({
           </div>
         )}
 
-
-        <div
-          style={{
-            padding: "14px 16px",
-            display: "flex",
-            gap: "12px",
-            flexWrap: "wrap",
-            alignItems: "flex-end",
-          }}
-        >
+        {/* ── Controls row ── */}
+        <div className="flex flex-wrap gap-3 items-end px-4 py-3.5">
           <FilterSearch
             value={search}
             onChange={handleSearch}
@@ -402,49 +383,26 @@ export function FilterBar({
 
           {hasFilters && (
             <button
+              type="button"
               onClick={resetAll}
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: "13px",
-                fontWeight: 500,
-                padding: "8px 14px",
-                borderRadius: "10px",
-                border: "1.5px solid #fee2e2",
-                background: "#fff5f5",
-                color: "#ef4444",
-                cursor: "pointer",
-                whiteSpace: "nowrap",
-                transition: "all 0.15s",
-                alignSelf: "flex-end",
-              }}
+              className={[
+                "self-end px-3.5 py-2 text-[13px] font-medium rounded-[10px]",
+                "border border-red-200 bg-red-50 text-red-500",
+                "hover:bg-red-100 hover:border-red-300",
+                "dark:border-red-900 dark:bg-red-950 dark:text-red-400",
+                "dark:hover:bg-red-900 dark:hover:border-red-700",
+                "transition-all duration-150 whitespace-nowrap cursor-pointer",
+              ].join(" ")}
             >
               Reset
             </button>
           )}
         </div>
 
-        {/* Active badges */}
+        {/* ── Active badges row ── */}
         {activeBadges.length > 0 && (
-          <div
-            style={{
-              borderTop: "1px solid #f9fafb",
-              padding: "10px 16px",
-              display: "flex",
-              gap: "8px",
-              flexWrap: "wrap",
-              alignItems: "center",
-            }}
-          >
-            <span
-              style={{
-                fontSize: "11px",
-                fontWeight: 600,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                color: "#d1d5db",
-                marginRight: "4px",
-              }}
-            >
+          <div className="flex flex-wrap gap-2 items-center px-4 py-2.5 bg-gray-50 dark:bg-gray-900">
+            <span className="text-[11px] font-semibold tracking-widest uppercase text-gray-300 dark:text-gray-600 mr-1">
               Aktif
             </span>
             {activeBadges.map((b) => (
@@ -463,5 +421,3 @@ export function FilterBar({
     </div>
   );
 }
-
-

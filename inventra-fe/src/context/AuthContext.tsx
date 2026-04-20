@@ -47,7 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
 
-      if (response.status === false) {
+      if (response.status === false || '') {
         router.push("/auth/signin");
         toast.error(response.message);
       }

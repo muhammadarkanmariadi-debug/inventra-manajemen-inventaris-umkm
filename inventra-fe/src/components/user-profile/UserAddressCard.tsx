@@ -8,6 +8,8 @@ import Label from "../form/Label";
 import { useAuth } from "../../context/AuthContext";
 import { updateBusiness } from "../../../services/user.service";
 import { toast } from "sonner";
+import { CldImage, CldUploadWidget, CloudinaryUploadWidgetInfo } from "next-cloudinary";
+import { CloudUpload } from "lucide-react";
 
 export default function UserAddressCard() {
   const { business, refreshProfile } = useAuth();
@@ -19,6 +21,10 @@ export default function UserAddressCard() {
     address: "",
     phone: "",
     website: "",
+    logo: "",
+    logo_dark: "",
+    email: "",
+    description: ""
   });
 
   useEffect(() => {
@@ -28,6 +34,10 @@ export default function UserAddressCard() {
         address: business.address || "",
         phone: business.phone || "",
         website: business.website || "",
+        logo: business.logo || "",
+        email: business.email || " ",
+        description: business.description || "",
+        logo_dark: business.logo_dark || ""
       });
     }
   }, [business]);
@@ -35,7 +45,7 @@ export default function UserAddressCard() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!business) return;
-    
+
     setIsSaving(true);
     try {
       const response = await updateBusiness(business.id, formData);
@@ -98,6 +108,21 @@ export default function UserAddressCard() {
                   {business?.website || "-"}
                 </p>
               </div>
+              <div>
+                <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
+                  Description
+                </p>
+                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                  {business?.description || "-"}
+                </p>
+                <div>
+                  <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
+                    Logo
+                  </p>
+                  <CldImage className="dark:hidden" alt="image" width={200} height={200} src={business?.logo || "new"} />
+                  <CldImage className="dark:block hidden" alt="image" width={200} height={200} src={business?.logo_dark || "new"} />
+                </div>
+              </div>
             </div>
           </div>
 
@@ -139,8 +164,8 @@ export default function UserAddressCard() {
               <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                 <div>
                   <Label>Business Name</Label>
-                  <Input 
-                    type="text" 
+                  <Input
+                    type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   />
@@ -148,8 +173,8 @@ export default function UserAddressCard() {
 
                 <div>
                   <Label>Phone</Label>
-                  <Input 
-                    type="text" 
+                  <Input
+                    type="text"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   />
@@ -157,8 +182,8 @@ export default function UserAddressCard() {
 
                 <div className="lg:col-span-2">
                   <Label>Address</Label>
-                  <Input 
-                    type="text" 
+                  <Input
+                    type="text"
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                   />
@@ -166,12 +191,64 @@ export default function UserAddressCard() {
 
                 <div className="lg:col-span-2">
                   <Label>Website</Label>
-                  <Input 
-                    type="text" 
+                  <Input
+                    type="text"
                     value={formData.website}
                     onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                   />
                 </div>
+                <div className="lg:col-span-2">
+                  <Label>Description</Label>
+                  <Input
+                    type="text-area"
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  />
+                </div>
+
+
+                <CldUploadWidget
+
+                  uploadPreset="inventra"
+                  onSuccess={async (result) => {
+                    const res = result.info as CloudinaryUploadWidgetInfo
+                    setFormData({ ...formData, logo: res.secure_url })
+                  }}
+                >
+                  {({ open }) => {
+                    return (
+                      <button
+                        type="button"
+                        className="flex flex-col items-center py-4 justify-center focus:border-ring-brand-300 h-30 w-full overflow-hidden rounded-lg border border-gray-300 bg-transparent text-sm text-gray-500 shadow-theme-xs transition-colors file:mr-5 file:border-collapse file:cursor-pointer file:rounded-l-lg file:border-0 file:border-r file:border-solid file:border-gray-200 file:bg-gray-50 file:py-3 file:pl-3.5 file:pr-3 file:text-sm file:text-gray-700 placeholder:text-gray-400 hover:file:bg-gray-100 focus:outline-hidden focus:file:ring-brand-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-400 dark:text-white/90 dark:file:border-gray-800 dark:file:bg-white/[0.03] dark:file:text-gray-400 dark:placeholder:text-gray-400 cursor-pointer"
+                        onClick={() => open()}
+                      >
+                        <CloudUpload className="w-full h-full" />
+                        <span>  Upload Logo Bisnis Anda untuk mode terang</span>
+                      </button>
+                    );
+                  }}
+                </CldUploadWidget>
+                <CldUploadWidget
+
+                  uploadPreset="inventra"
+                  onSuccess={async (result) => {
+                    const res = result.info as CloudinaryUploadWidgetInfo
+                    setFormData({ ...formData, logo_dark: res.secure_url })
+                  }}
+                >
+                  {({ open }) => {
+                    return (
+                      <button
+                        type="button"
+                        className="flex flex-col items-center py-4 justify-center focus:border-ring-brand-300 h-30 w-full overflow-hidden rounded-lg border border-gray-300 bg-transparent text-sm text-gray-500 shadow-theme-xs transition-colors file:mr-5 file:border-collapse file:cursor-pointer file:rounded-l-lg file:border-0 file:border-r file:border-solid file:border-gray-200 file:bg-gray-50 file:py-3 file:pl-3.5 file:pr-3 file:text-sm file:text-gray-700 placeholder:text-gray-400 hover:file:bg-gray-100 focus:outline-hidden focus:file:ring-brand-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-400 dark:text-white/90 dark:file:border-gray-800 dark:file:bg-white/[0.03] dark:file:text-gray-400 dark:placeholder:text-gray-400 cursor-pointer"
+                        onClick={() => open()}
+                      >
+                        <CloudUpload className="w-full h-full" />
+                        <span>  Upload Logo Bisnis Anda untuk mode gelap</span>
+                      </button>
+                    );
+                  }}
+                </CldUploadWidget>
               </div>
             </div>
             <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">

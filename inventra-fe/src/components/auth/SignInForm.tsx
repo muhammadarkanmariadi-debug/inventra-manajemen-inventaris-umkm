@@ -58,7 +58,7 @@ export default function SignInForm() {
       }
 
       setData({ ...data, password: '' });
-      router.push('/');
+      router.push('/dashboard');
       toast.success("Login Success", {
         description: sign.message,
       });

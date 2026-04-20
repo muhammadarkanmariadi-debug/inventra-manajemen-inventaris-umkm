@@ -30,6 +30,9 @@ class BusinessController extends Controller
             'phone'   => 'required|string|max:20',
             'email'   => 'required|string|email|max:255',
             'website' => 'nullable|string|max:255',
+            'logo' => 'nullable:string',
+            'logo_dark' => 'nullable:string',
+            'description' => 'nullable:string|max:255'
         ];
 
         $data = $this->requestService->postData(Business::class, $request, $rules);
@@ -66,9 +69,14 @@ class BusinessController extends Controller
 
         if ($request->has('include')) {
             $allowed = [
-                'users', 'products', 'suppliers', 'categories',
-                'financialTransactions', 'hppComponents',
-                'stockTransactions', 'financialCategories',
+                'users',
+                'products',
+                'suppliers',
+                'categories',
+                'financialTransactions',
+                'hppComponents',
+                'stockTransactions',
+                'financialCategories',
             ];
 
             $validIncludes = array_intersect(
@@ -97,9 +105,14 @@ class BusinessController extends Controller
 
         if ($request->has('include')) {
             $allowed = [
-                'users', 'products', 'suppliers', 'categories',
-                'financialTransactions', 'hppComponents',
-                'stockTransactions', 'financialCategories',
+                'users',
+                'products',
+                'suppliers',
+                'categories',
+                'financialTransactions',
+                'hppComponents',
+                'stockTransactions',
+                'financialCategories',
             ];
 
             $validIncludes = array_intersect(
@@ -121,11 +134,14 @@ class BusinessController extends Controller
     public function update(Request $request, $id)
     {
         $rules = [
-            'name'    => 'required|string|max:255|unique:bussinesses,name',
-            'address' => 'required|string',
-            'phone'   => 'required|string|max:20',
-            'email'   => 'required|string|email|max:255',
+            'name'    => 'nullable|string|max:255',
+            'address' => 'nullable|string',
+            'phone'   => 'nullable|string|max:20',
+            'email'   => 'nullable|string|email|max:255',
             'website' => 'nullable|string|max:255',
+            'logo' => 'nullable:string',
+            'logo_dark' => 'nullable:string',
+            'description' => 'nullable:string|max:255'
         ];
 
         $data = $this->requestService->updateDataById(Business::class, $id, $request, $rules);

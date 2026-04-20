@@ -27,27 +27,30 @@ export async function authFetch(
 
 
 
-      const contentType = res.headers.get("content-type");
-      if (!contentType?.includes("application/json")) {
-        return {
-          status: false,
-          message: `Server error ${res.status}`,
-          data: null,
-        };
-      }
+    const contentType = res.headers.get("content-type");
+    if (!contentType?.includes("application/json")) {
+      return {
+        status: false,
+        message: `Server error ${res.status}`,
+        data: null,
+      };
+    }
 
-      if (!res.ok) {
-        const data = await res.json();
-        return {
-          status: false,
-          message: data?.message || `HTTP ${res.status}`,
-          data: null,
-        };
-      }
+    if (!res.ok) {
+      const data = await res.json();
+      return {
+        status: false,
+        message: data?.message || `HTTP ${res.status}`,
+        data: null,
+      };
+    }
 
-    
-      return await res.json();
-    
+
+
+
+    return await res.json();
+
+
   } catch (error) {
 
     if (error instanceof Error) {
@@ -81,6 +84,7 @@ export async function apiGet(
   }
 
   return authFetch(url);
+
 }
 
 export async function apiPost(endpoint: string, payload: any) {
