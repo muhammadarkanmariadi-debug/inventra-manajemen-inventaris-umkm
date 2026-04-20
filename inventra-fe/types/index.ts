@@ -260,6 +260,15 @@ export interface CreatePurchasePayload {
   purchase_date: string;
   notes?: string;
   items: CreatePurchaseItemPayload[];
+<<<<<<< HEAD
+=======
+}
+
+export interface CreatePurchaseItemPayload {
+  product_id: number;
+  quantity: number;
+  price: number;
+>>>>>>> origin/main
 }
 
 export interface CreatePurchaseItemPayload {

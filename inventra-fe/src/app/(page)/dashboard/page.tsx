@@ -1,8 +1,16 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+<<<<<<< HEAD:inventra-fe/src/app/(page)/dashboard/page.tsx
 import { toast } from 'sonner';
 
+=======
+import {
+  getStatisticSales,
+  getStatisticProducts,
+  getStatisticFinancial,
+} from '../../../services/dashboard.service';
+>>>>>>> origin/main:inventra-fe/src/app/(page)/page.tsx
 import Badge from '@/components/ui/badge/Badge';
 import Alert from '@/components/ui/alert/Alert';
 import {

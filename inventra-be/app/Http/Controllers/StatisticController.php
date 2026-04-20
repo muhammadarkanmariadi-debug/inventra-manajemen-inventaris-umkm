@@ -67,7 +67,6 @@ class StatisticController extends Controller
     {
         try {
             $query = \App\Models\FinancialTransaction::query();
-
             if ($request->has('startDate') && $request->has('endDate')) {
                 $startDate = Carbon::parse($request->startDate)->startOfDay();
                 $endDate = Carbon::parse($request->endDate)->endOfDay();
