@@ -142,19 +142,27 @@ export interface CreatePermissionPayload {
 export interface Sale {
   id: number;
   product_id: number;
+  inventory_id?: number;
   quantity: number;
   selling_price: number;
   total_price: number;
+  buyer_name?: string | null;
+  buyer_phone?: string | null;
+  buyer_address?: string | null;
   bussiness_id: number;
   created_at: string;
   updated_at: string;
   product?: Product;
+  inventory?: Inventory;
 }
 
 export interface CreateSalePayload {
   inventory_id: number;
   quantity: number;
   selling_price: number;
+  buyer_name?: string;
+  buyer_phone?: string;
+  buyer_address?: string;
 }
 
 export interface Inventory {
@@ -260,15 +268,6 @@ export interface CreatePurchasePayload {
   purchase_date: string;
   notes?: string;
   items: CreatePurchaseItemPayload[];
-<<<<<<< HEAD
-=======
-}
-
-export interface CreatePurchaseItemPayload {
-  product_id: number;
-  quantity: number;
-  price: number;
->>>>>>> origin/main
 }
 
 export interface CreatePurchaseItemPayload {

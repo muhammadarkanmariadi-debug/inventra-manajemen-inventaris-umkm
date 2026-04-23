@@ -9,6 +9,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@fullcalendar/core": "^6.1.19",
     "@fullcalendar/daygrid": "^6.1.19",
     "@fullcalendar/interaction": "^6.1.19",
@@ -17,6 +19,8 @@
     "@fullcalendar/timegrid": "^6.1.19",
     "@lingui/core": "^5.9.5",
     "@lingui/react": "^5.9.5",
+    "@mui/material": "^9.0.0",
+    "@mui/x-charts": "^9.0.2",
     "@react-jvectormap/core": "^1.0.4",
     "@react-jvectormap/world": "^1.1.2",
     "@react-pdf/renderer": "^4.5.1",

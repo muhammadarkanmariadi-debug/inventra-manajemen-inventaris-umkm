@@ -35,7 +35,8 @@ export default function Sales() {
   const [submitting, setSubmitting] = useState(false);
 
   const [formData, setFormData] = useState<CreateSalePayload>({
-    inventory_id: 0, quantity: 1, selling_price: 0
+    inventory_id: 0, quantity: 1, selling_price: 0,
+    buyer_name: '', buyer_phone: '', buyer_address: ''
   });
 
   const fetchSales = useCallback(async () => {
@@ -68,7 +69,7 @@ export default function Sales() {
   useEffect(() => { fetchInventories(); }, [fetchInventories]);
 
   const resetForm = () => {
-    setFormData({ inventory_id: 0, quantity: 1, selling_price: 0 });
+    setFormData({ inventory_id: 0, quantity: 1, selling_price: 0, buyer_name: '', buyer_phone: '', buyer_address: '' });
   };
 
   const openCreateModal = () => { resetForm(); setShowFormModal(true); };
@@ -174,6 +175,7 @@ export default function Sales() {
               <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
                 <TableRow>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Produk" /></TableCell>
+                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Pembeli" /></TableCell>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Qty</TableCell>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Harga Jual" /></TableCell>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Total Harga" /></TableCell>
@@ -197,6 +199,10 @@ export default function Sales() {
                     <TableRow key={sale.id}>
                       <TableCell className="px-5 py-4 text-start">
                         <span className="font-medium text-gray-800 text-theme-sm dark:text-white/90">{sale.product?.name || '-'}</span>
+                      </TableCell>
+                      <TableCell className="px-4 py-3 text-start">
+                        <span className="text-gray-800 text-theme-sm dark:text-white/90">{sale.buyer_name || '-'}</span>
+                        {sale.buyer_phone && <span className="block text-xs text-gray-400">{sale.buyer_phone}</span>}
                       </TableCell>
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">{sale.quantity}</TableCell>
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">{formatCurrency(sale.selling_price)}</TableCell>
@@ -243,6 +249,25 @@ export default function Sales() {
             <div>
               <Label><Trans id="Harga Jual" /></Label>
               <Input type="number" placeholder="0" defaultValue={formData.selling_price} onChange={(e) => setFormData({ ...formData, selling_price: Number(e.target.value) })} />
+            </div>
+          </div>
+          <div className="border-t border-gray-200 dark:border-white/10 pt-4 mt-2">
+            <h5 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3"><Trans id="Data Pembeli (Opsional)" /></h5>
+            <div className="space-y-3">
+              <div>
+                <Label><Trans id="Nama Pembeli" /></Label>
+                <Input type="text" placeholder={_(msg`Nama pembeli`)} defaultValue={formData.buyer_name} onChange={(e) => setFormData({ ...formData, buyer_name: e.target.value })} />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label><Trans id="No. Telepon" /></Label>
+                  <Input type="text" placeholder={_(msg`No. telepon`)} defaultValue={formData.buyer_phone} onChange={(e) => setFormData({ ...formData, buyer_phone: e.target.value })} />
+                </div>
+                <div>
+                  <Label><Trans id="Alamat" /></Label>
+                  <Input type="text" placeholder={_(msg`Alamat pembeli`)} defaultValue={formData.buyer_address} onChange={(e) => setFormData({ ...formData, buyer_address: e.target.value })} />
+                </div>
+              </div>
             </div>
           </div>
         </div>

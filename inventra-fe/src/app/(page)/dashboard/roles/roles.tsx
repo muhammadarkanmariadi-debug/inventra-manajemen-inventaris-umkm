@@ -226,13 +226,13 @@ export default function Roles() {
   });
 
   return (
-    <PermissionWrapper permission="roles.view" breadcrumb="Roles">
+    <PermissionWrapper permission="Lihat Peran" breadcrumb="Roles">
       <div>
 
 
       <div className='flex flex-col gap-4 mb-4'>
         <FilterBar {...filterConfig} onFilterChange={setFilters} />
-        <Can permission="roles.create">
+        <Can permission="Tambah Peran">
           <div className="flex justify-end">
             <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Role" /></Button>
           </div>
@@ -277,10 +277,10 @@ export default function Roles() {
                     <TableCell className="px-4 py-3 text-start">
                       <div className="flex items-center gap-2">
                         <button onClick={() => openDetailModal(role)} className="p-2 text-gray-500 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-400" title="Detail"><EyeIcon className="w-4 h-4" /></button>
-                        <Can permission="roles.update">
+                        <Can permission="Ubah Peran">
                           <button onClick={() => openEditModal(role)} className="p-2 text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400" title="Edit"><PencilIcon className="w-4 h-4" /></button>
                         </Can>
-                        <Can permission="roles.delete">
+                        <Can permission="Hapus Peran">
                           <button onClick={() => openDeleteModal(role)} className="p-2 text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-400" title="Hapus"><TrashIcon className="w-4 h-4" /></button>
                         </Can>
                       </div>

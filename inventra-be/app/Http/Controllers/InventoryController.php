@@ -41,6 +41,14 @@ class InventoryController extends Controller
             });
         }
 
+        // Filter by date range
+        if ($request->has('date_from') && $request->date_from) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+        if ($request->has('date_to') && $request->date_to) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
         $inventories = $query->orderBy('created_at', 'desc')
             ->paginate($request->get('items', 15));
 

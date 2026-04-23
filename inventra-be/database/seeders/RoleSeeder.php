@@ -20,23 +20,23 @@ class RoleSeeder extends Seeder
         $owner->syncPermissions(Permission::all());
 
         $admin->syncPermissions(
-            Permission::where('name', 'not like', 'user.%')
-                ->where('name', 'not like', 'bussiness.view')
+            Permission::where('name', 'not like', '%Pengguna')
+                ->where('name', '!=', 'Lihat Bisnis')
                 ->get()
         );
 
         $staff->syncPermissions(
-            Permission::where('name', 'like', 'product.view')
-                ->orWhere('name', 'like', 'supplier.view')
-                ->orWhere('name', 'like', 'category.view')
-                ->orWhere('name', 'like', 'stockTransaction.create')
-                ->orWhere('name', 'like', 'stockTransaction.view')
-                ->orWhere('name', 'like', 'sales.create')
-                ->orWhere('name', 'like', 'sales.view')
-                ->orWhere('name', 'like', 'financialCategory.view')
-                ->orWhere('name', 'like', 'financialTransaction.create')
-                ->orWhere('name', 'like', 'financialTransaction.view')
-                ->orWhere('name', 'like', 'bussiness.me')
+            Permission::where('name', 'Lihat Produk')
+                ->orWhere('name', 'Lihat Supplier')
+                ->orWhere('name', 'Lihat Kategori')
+                ->orWhere('name', 'Tambah Transaksi Stok')
+                ->orWhere('name', 'Lihat Transaksi Stok')
+                ->orWhere('name', 'Tambah Penjualan')
+                ->orWhere('name', 'Lihat Penjualan')
+                ->orWhere('name', 'Lihat Kategori Keuangan')
+                ->orWhere('name', 'Tambah Transaksi Keuangan')
+                ->orWhere('name', 'Lihat Transaksi Keuangan')
+                ->orWhere('name', 'Bisnis Saya')
                 ->get()
         );
     }

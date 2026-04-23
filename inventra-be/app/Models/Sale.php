@@ -19,4 +19,9 @@ class Sale extends Model
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
+
+    public function inventory()
+    {
+        return $this->belongsTo(Inventory::class, 'inventory_id', 'id');
+    }
 }

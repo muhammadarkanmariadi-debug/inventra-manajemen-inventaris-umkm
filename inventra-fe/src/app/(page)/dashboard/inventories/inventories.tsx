@@ -2,21 +2,27 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import { toast } from 'sonner';
+import { pdf } from '@react-pdf/renderer';
 import PageBreadcrumb from '@/components/common/PageBreadCrumb';
 import { Table, TableHeader, TableBody, TableRow, TableCell } from '@/components/ui/table';
 import Pagination from '@/components/tables/Pagination';
 import Badge from '@/components/ui/badge/Badge';
 import Button from '@/components/ui/button/Button';
 import { Modal } from '@/components/ui/modal';
+import Label from '@/components/form/Label';
+import Input from '@/components/form/input/InputField';
 import Alert from '@/components/ui/alert/Alert';
 import { FilterBar, FilterBarProps, FilterValues } from '@/components/common/FilterBar';
 import { PrintableQRModal } from '@/components/common/PrintableQRModal';
 import { getInventories, getInventory } from '../../../../../services/inventory.service';
+import DeliveryNote, { DeliveryNoteData } from '@/components/documents/templates/DeliveryNote';
+import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { Trans } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
 import { useTranslate } from '@/hooks/useTranslate';
 import { getStatusTranslation } from '@/utils/statusTranslations';
+import { FileTextIcon } from 'lucide-react';
 
 interface InventoryItem {
   id: number;
@@ -50,6 +56,7 @@ function getStatusColor(code?: string): 'primary' | 'success' | 'warning' | 'err
 
 export default function InventoriesPage() {
   const { _, t } = useTranslate();
+  const { user, business } = useAuth();
   const router = useRouter();
   const [inventories, setInventories] = useState<InventoryItem[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -74,6 +81,14 @@ export default function InventoriesPage() {
 
   const [qrModalOpen, setQrModalOpen] = useState(false);
   const [qrCodeData, setQrCodeData] = useState({ code: '', title: '', subtitle: '' });
+
+  // Surat Jalan state
+  const [showSJModal, setShowSJModal] = useState(false);
+  const [sjItem, setSjItem] = useState<InventoryItem | null>(null);
+  const [sjGenerating, setSjGenerating] = useState(false);
+  const [sjForm, setSjForm] = useState({
+    receiverName: '', receiverAddress: '', receiverPhone: '', vehicle: '', notes: ''
+  });
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -116,6 +131,65 @@ export default function InventoriesPage() {
 
     return matchSearch && matchTab;
   });
+
+  const openSJModal = (inv: InventoryItem) => {
+    setSjItem(inv);
+    setSjForm({ receiverName: '', receiverAddress: '', receiverPhone: '', vehicle: '', notes: '' });
+    setShowSJModal(true);
+  };
+
+  const generateSuratJalan = async () => {
+    if (!sjItem) return;
+    setSjGenerating(true);
+    try {
+      const today = new Date();
+      const sjData: DeliveryNoteData = {
+        companyName: business?.name || 'Perusahaan',
+        companyAddress: business?.address || '-',
+        companyPhone: business?.phone || '-',
+        companyEmail: business?.email || '-',
+        documentNumber: `SJ/${today.getFullYear()}/${sjItem.id}`,
+        date: today.toLocaleDateString('id-ID'),
+        senderName: business?.name || 'Perusahaan',
+        senderAddress: business?.address || '-',
+        senderPhone: business?.phone || '-',
+        receiverName: sjForm.receiverName || 'Penerima',
+        receiverAddress: sjForm.receiverAddress || '-',
+        receiverPhone: sjForm.receiverPhone || '-',
+        orderNumber: sjItem.inventory_code,
+        shippedBy: user?.username || 'Logistik',
+        shippedByRole: 'Pengirim',
+        vehicle: sjForm.vehicle || '-',
+        shipDate: today.toLocaleDateString('id-ID'),
+        items: [{
+          no: 1,
+          productCode: sjItem.product?.name?.substring(0, 10) || '-',
+          productName: sjItem.product?.name || '-',
+          batch: sjItem.inventory_code,
+          unit: 'Unit',
+          qtyShipped: sjItem.quantity,
+          notes: sjForm.notes || '',
+        }],
+        footerNote: sjForm.notes || 'Barang telah diperiksa sebelum pengiriman.',
+        preparedByName: user?.username || 'Admin',
+        preparedByRole: 'Staff',
+      };
+      const blob = await pdf(<DeliveryNote data={sjData} /> as any).toBlob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `surat-jalan-${sjItem.inventory_code}-${today.toISOString().slice(0, 10)}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast.success(_(msg`Surat Jalan berhasil diunduh`));
+      setShowSJModal(false);
+    } catch (err) {
+      console.error(err);
+      toast.error(_(msg`Gagal generate Surat Jalan`));
+    } finally {
+      setSjGenerating(false);
+    }
+  };
 
   return (
     <div>
@@ -179,6 +253,13 @@ export default function InventoriesPage() {
                         
                             <button onClick={() => router.push(`/dashboard/scan?code=${inv.inventory_code}`)} className="text-brand-500 hover:text-brand-700 text-sm">Scan</button>
                             <button onClick={() => { setQrCodeData({ code: inv.inventory_code, title: `QR Inventaris`, subtitle: `Produk: ${inv.product?.name || '-'}` }); setQrModalOpen(true); }} className="text-gray-500 hover:text-gray-700 text-sm border border-gray-200 px-2 py-0.5 rounded ml-1">Cetak QR</button>
+                            <button
+                              onClick={() => openSJModal(inv)}
+                              className="p-1.5 text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 border border-green-200 dark:border-green-700 rounded"
+                              title={_(msg`Cetak Surat Jalan`)}
+                            >
+                              <FileTextIcon className="w-4 h-4" />
+                            </button>
                           </div>
                         </TableCell>
                       </TableRow>
@@ -248,6 +329,49 @@ export default function InventoriesPage() {
           ) : (
             <p className="text-red-500">Gagal memuat detail.</p>
           )}
+        </div>
+      </Modal>
+
+      {/* Surat Jalan Modal */}
+      <Modal isOpen={showSJModal} onClose={() => setShowSJModal(false)} className="max-w-md p-6 lg:p-10">
+        <h4 className="mb-6 text-lg font-semibold text-gray-800 dark:text-white/90">
+          <Trans id="Cetak Surat Jalan" />
+        </h4>
+        {sjItem && (
+          <div className="mb-4 p-3 bg-gray-50 dark:bg-white/5 rounded-lg">
+            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{sjItem.product?.name || '-'}</p>
+            <p className="text-xs text-gray-500">Batch: {sjItem.inventory_code} &middot; Qty: {sjItem.quantity}</p>
+          </div>
+        )}
+        <div className="space-y-4">
+          <div>
+            <Label><Trans id="Nama Penerima" /></Label>
+            <Input type="text" placeholder={_(msg`Nama penerima`)} defaultValue={sjForm.receiverName} onChange={(e) => setSjForm({ ...sjForm, receiverName: e.target.value })} />
+          </div>
+          <div>
+            <Label><Trans id="Alamat Penerima" /></Label>
+            <Input type="text" placeholder={_(msg`Alamat penerima`)} defaultValue={sjForm.receiverAddress} onChange={(e) => setSjForm({ ...sjForm, receiverAddress: e.target.value })} />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label><Trans id="No. Telepon" /></Label>
+              <Input type="text" placeholder={_(msg`No. telepon`)} defaultValue={sjForm.receiverPhone} onChange={(e) => setSjForm({ ...sjForm, receiverPhone: e.target.value })} />
+            </div>
+            <div>
+              <Label><Trans id="Kendaraan" /></Label>
+              <Input type="text" placeholder={_(msg`Kendaraan pengiriman`)} defaultValue={sjForm.vehicle} onChange={(e) => setSjForm({ ...sjForm, vehicle: e.target.value })} />
+            </div>
+          </div>
+          <div>
+            <Label><Trans id="Catatan" /></Label>
+            <Input type="text" placeholder={_(msg`Catatan tambahan`)} defaultValue={sjForm.notes} onChange={(e) => setSjForm({ ...sjForm, notes: e.target.value })} />
+          </div>
+        </div>
+        <div className="mt-6 flex justify-end gap-3">
+          <Button variant="outline" size="sm" onClick={() => setShowSJModal(false)}><Trans id="Batal" /></Button>
+          <Button size="sm" onClick={generateSuratJalan} disabled={sjGenerating}>
+            {sjGenerating ? <Trans id="Generating..." /> : <Trans id="Cetak & Unduh PDF" />}
+          </Button>
         </div>
       </Modal>
     </div>

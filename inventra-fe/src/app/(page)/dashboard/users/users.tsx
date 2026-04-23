@@ -166,14 +166,14 @@ export default function Users() {
   });
 
   return (
-    <PermissionWrapper permission="user.view" breadcrumb="Users">
+    <PermissionWrapper permission="Lihat Pengguna" breadcrumb="Users">
       <div>
 
 
 
       <div className='flex flex-col gap-4 mb-4'>
         <FilterBar {...filterConfig} onFilterChange={setFilters} />
-        <Can permission="user.create">
+        <Can permission="Tambah Pengguna">
           <div className="flex justify-end">
             <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah User" /></Button>
           </div>
@@ -219,10 +219,10 @@ export default function Users() {
                     </TableCell>
                     <TableCell className="px-4 py-3 text-start">
                       <div className="flex items-center gap-2">
-                        <Can permission="user.update">
+                        <Can permission="Ubah Pengguna">
                           <button onClick={() => openEditModal(user)} className="p-2 text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400" title="Edit"><PencilIcon className="w-4 h-4" /></button>
                         </Can>
-                        <Can permission="user.delete">
+                        <Can permission="Hapus Pengguna">
                           <button onClick={() => openDeleteModal(user)} className="p-2 text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-400" title="Hapus"><TrashIcon className="w-4 h-4" /></button>
                         </Can>
                       </div>

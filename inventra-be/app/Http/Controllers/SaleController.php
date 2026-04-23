@@ -32,6 +32,9 @@ class SaleController extends Controller
                 'inventory_id'  => 'required|exists:inventories,id',
                 'quantity'      => 'required|integer|min:1',
                 'selling_price' => 'required|numeric|min:0',
+                'buyer_name'    => 'nullable|string|max:255',
+                'buyer_phone'   => 'nullable|string|max:20',
+                'buyer_address' => 'nullable|string',
             ]);
 
             $bussinessId = auth()->guard('api')->user()->bussiness_id;
@@ -49,9 +52,17 @@ class SaleController extends Controller
     {
         try {
             $perPage = (int) $request->query('items', 10);
-            $data    = Sale::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
-                ->with('product')
-                ->paginate($perPage);
+            $query   = Sale::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
+                ->with('product');
+
+            if ($request->has('date_from') && $request->date_from) {
+                $query->whereDate('created_at', '>=', $request->date_from);
+            }
+            if ($request->has('date_to') && $request->date_to) {
+                $query->whereDate('created_at', '<=', $request->date_to);
+            }
+
+            $data = $query->orderBy('created_at', 'desc')->paginate($perPage);
 
             if ($data->isEmpty()) {
                 return ApiHelper::error('No sales found', 404);

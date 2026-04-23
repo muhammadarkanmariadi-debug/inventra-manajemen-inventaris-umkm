@@ -18,7 +18,7 @@ import {
 } from "../icons/index";
 import { useAuth } from "../context/AuthContext";
 import SidebarWidget from "./SidebarWidget";
-import { ChartAreaIcon, Settings, ShoppingCartIcon, LayersIcon, FileTextIcon } from "lucide-react";
+import { ChartAreaIcon, Settings, ShoppingCartIcon, LayersIcon, FileTextIcon, User } from "lucide-react";
 import { CldImage } from "next-cloudinary";
 
 type NavItem = {
@@ -41,9 +41,9 @@ const navItems: NavItem[] = [
     icon: <LayersIcon />,
     name: "Katalog Produk",
     subItems: [
-      { name: "Data Produk", path: "/dashboard/products", permission: "product.view" },
-      { name: "Kategori Produk", path: "/dashboard/categories", permission: "category.view" },
-      { name: "Lokasi Penyimpanan", path: "/dashboard/locations", permission: "product.view" },
+      { name: "Data Produk", path: "/dashboard/products", permission: "Lihat Produk" },
+      { name: "Kategori Produk", path: "/dashboard/categories", permission: "Lihat Kategori" },
+      { name: "Lokasi Penyimpanan", path: "/dashboard/locations", permission: "Lihat Produk" },
     ],
   },
 
@@ -52,9 +52,9 @@ const navItems: NavItem[] = [
     icon: <BoxCubeIcon />,
     name: "Kontrol Stok",
     subItems: [
-      { name: "Data Stok Inventaris", path: "/dashboard/inventories", permission: "product.view" },
-      { name: "Penyesuaian Stok", path: "/dashboard/stock-adjustment", permission: "stockTransaction.view" },
-      { name: "QC Scanner (QR)", path: "/dashboard/scan", permission: "product.view" },
+      { name: "Data Stok Inventaris", path: "/dashboard/inventories", permission: "Lihat Produk" },
+      { name: "Penyesuaian Stok", path: "/dashboard/stock-adjustment", permission: "Lihat Transaksi Stok" },
+      { name: "QC Scanner (QR)", path: "/dashboard/scan", permission: "Lihat Produk" },
     ],
   },
 
@@ -63,9 +63,9 @@ const navItems: NavItem[] = [
     icon: <ShoppingCartIcon />,
     name: "Arus Barang",
     subItems: [
-      { name: "Penjualan (Keluar)", path: "/dashboard/sales", permission: "sales.view" },
-      { name: "Pembelian (Masuk)", path: "/dashboard/purchases", permission: "purchase.view" },
-      { name: "Data Supplier", path: "/dashboard/suppliers", permission: "supplier.view" },
+      { name: "Penjualan (Keluar)", path: "/dashboard/sales", permission: "Lihat Penjualan" },
+      { name: "Pembelian (Masuk)", path: "/dashboard/purchases", permission: "Lihat Pembelian" },
+      { name: "Data Supplier", path: "/dashboard/suppliers", permission: "Lihat Supplier" },
     ],
   },
 
@@ -74,8 +74,8 @@ const navItems: NavItem[] = [
     icon: <DollarLineIcon />,
     name: "Keuangan",
     subItems: [
-      { name: "Transaksi Keuangan", path: "/dashboard/financial-transactions", permission: "financialTransaction.view" },
-      { name: "Kategori Keuangan", path: "/dashboard/financial-categories", permission: "financialCategory.view" },
+      { name: "Transaksi Keuangan", path: "/dashboard/financial-transactions", permission: "Lihat Transaksi Keuangan" },
+      { name: "Kategori Keuangan", path: "/dashboard/financial-categories", permission: "Lihat Kategori Keuangan" },
     ],
   },
 
@@ -94,19 +94,28 @@ const navItems: NavItem[] = [
     icon: <Robot />,
     name: "AI & Analitik",
     subItems: [
-      { name: "Prediksi Cerdas", path: "/dashboard/stock-prediction", permission: "stockTransaction.view" },
+      { name: "Prediksi Cerdas", path: "/dashboard/stock-prediction", permission: "Lihat Transaksi Stok" },
+    ],
+  },
+  {
+    icon: <User />,
+    name: "Manajemen pengguna",
+    subItems: [
+ 
+      { name: "Pengguna & Tim", path: "/dashboard/users", permission: "Lihat Pengguna" },
+      { name: "Peran / Jabatan", path: "/dashboard/roles", permission: "Lihat Peran" },
+      { name: "Hak Akses", path: "/dashboard/permissions", permission: "Lihat Hak Akses" },
+  
     ],
   },
 
   // ⚙️ MANAJEMEN & PENGATURAN
   {
     icon: <Settings />,
-    name: "Pengaturan & Sistem",
+    name: "Akun & Pengaturan",
     subItems: [
       { name: "Profil Akun", path: "/dashboard/profile" },
-      { name: "Pengguna & Tim", path: "/dashboard/users", permission: "user.view" },
-      { name: "Peran / Jabatan", path: "/dashboard/roles", permission: "roles.view" },
-      { name: "Hak Akses", path: "/dashboard/permissions", permission: "permission.view" },
+
       { name: "Pengaturan ", path: "/dashboard/settings" },
       { name: "Bantuan & FAQ", path: "/dashboard/help" },
     ],

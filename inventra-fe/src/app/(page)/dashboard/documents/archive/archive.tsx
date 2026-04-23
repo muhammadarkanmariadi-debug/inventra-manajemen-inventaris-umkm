@@ -5,9 +5,10 @@ import { toast } from 'sonner';
 import {
   getDocuments,
   deleteDocument,
+  downloadDocument,
   DocumentRecord,
 } from '../../../../../../services/document.service';
-import { API_URL } from '../../../../../../global';
+
 import {
   FileTextIcon,
   DownloadIcon,
@@ -46,6 +47,7 @@ export default function DocumentArchivePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [filterType, setFilterType] = useState<string>('');
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [downloadingId, setDownloadingId] = useState<number | null>(null);
 
   const fetchDocuments = useCallback(async () => {
     setIsLoading(true);
@@ -88,17 +90,22 @@ export default function DocumentArchivePage() {
     }
   };
 
-  const handleDownload = (doc: DocumentRecord) => {
-    const token = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('token='))
-      ?.split('=')[1];
-
-    const url = `${API_URL}/documents/${doc.id}/download`;
-    const a = document.createElement('a');
-    a.href = url;
-    a.target = '_blank';
-    a.click();
+  const handleDownload = async (doc: DocumentRecord) => {
+    setDownloadingId(doc.id);
+    try {
+      const blob = await downloadDocument(doc.id);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${doc.document_number}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast.success('Dokumen berhasil diunduh');
+    } catch {
+      toast.error('Gagal mengunduh dokumen');
+    } finally {
+      setDownloadingId(null);
+    }
   };
 
   return (
@@ -195,10 +202,15 @@ export default function DocumentArchivePage() {
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => handleDownload(doc)}
-                            className="p-2 rounded-lg text-gray-500 hover:text-brand-600 hover:bg-brand-50 dark:hover:bg-brand-900/30 transition-colors"
+                            disabled={downloadingId === doc.id}
+                            className="p-2 rounded-lg text-gray-500 hover:text-brand-600 hover:bg-brand-50 dark:hover:bg-brand-900/30 transition-colors disabled:opacity-50"
                             title="Download"
                           >
-                            <DownloadIcon className="w-4 h-4" />
+                            {downloadingId === doc.id ? (
+                              <Loader2Icon className="w-4 h-4 animate-spin" />
+                            ) : (
+                              <DownloadIcon className="w-4 h-4" />
+                            )}
                           </button>
                           <button
                             onClick={() => handleDelete(doc.id)}

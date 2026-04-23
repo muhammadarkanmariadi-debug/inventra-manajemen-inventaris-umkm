@@ -76,7 +76,7 @@ export default function SettingsPage() {
 
   return (
     <div>
-      <PageBreadcrumb pageTitle={_(msg`Pengaturan Akun`)} />
+      <PageBreadcrumb pageTitle={_(msg`Pengaturan `)} />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Sidebar Menu */}
         <div className="lg:col-span-1 border-r border-gray-100 dark:border-gray-800 pr-4">

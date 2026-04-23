@@ -144,14 +144,14 @@ export default function Permissions() {
   });
 
   return (
-    <PermissionWrapper permission="permission.view" breadcrumb="Permissions">
+    <PermissionWrapper permission="Lihat Hak Akses" breadcrumb="Permissions">
       <div>
 
 
 
       <div className='flex flex-col gap-4 mb-4'>
         <FilterBar {...filterConfig} onFilterChange={setFilters} />
-        <Can permission="permission.create">
+        <Can permission="Tambah Hak Akses">
           <div className="flex justify-end">
             <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Permission" /></Button>
           </div>
@@ -199,10 +199,10 @@ export default function Permissions() {
                     </TableCell>
                     <TableCell className="px-4 py-3 text-start">
                       <div className="flex items-center gap-2">
-                        <Can permission="permission.update">
+                        <Can permission="Ubah Hak Akses">
                           <button onClick={() => openEditModal(permission)} className="p-2 text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400" title="Edit"><PencilIcon className="w-4 h-4" /></button>
                         </Can>
-                        <Can permission="permission.delete">
+                        <Can permission="Hapus Hak Akses">
                           <button onClick={() => openDeleteModal(permission)} className="p-2 text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-400" title="Hapus"><TrashIcon className="w-4 h-4" /></button>
                         </Can>
                       </div>

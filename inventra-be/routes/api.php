@@ -137,6 +137,7 @@ Route::middleware(AuthenticateMiddleware::class)->group(function () {
         Route::get('/financial', 'keuangan');
         Route::get('/prediksi/{id}', 'prediksi');
         Route::get('/defect/{id}', 'defect');
+        Route::get('/incomeexpenses', 'incomeExpenses' );
     });
 
     Route::post('/scan', [ScanController::class, 'scan'])->middleware(PermissionMiddleware::class . ':product.view');

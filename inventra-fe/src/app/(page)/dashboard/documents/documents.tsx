@@ -30,9 +30,11 @@ import {
   XIcon,
   PlusIcon,
   TrashIcon,
+  CalendarIcon,
 } from 'lucide-react';
+import DatePicker from '@/components/form/date-picker';
 
-// ====== Document types config ======
+
 type DocType = 'LPB' | 'BAR' | 'SJ' | 'LBB' | 'LRS';
 
 interface DocTypeConfig {
@@ -61,14 +63,7 @@ const docTypes: DocTypeConfig[] = [
     color: 'text-red-600 dark:text-red-400',
     bgColor: 'bg-red-50 dark:bg-red-900/30',
   },
-  {
-    key: 'SJ',
-    label: 'Surat Jalan',
-    description: 'Dokumen pengiriman barang ke tujuan',
-    icon: <TruckIcon className="w-6 h-6" />,
-    color: 'text-emerald-600 dark:text-emerald-400',
-    bgColor: 'bg-emerald-50 dark:bg-emerald-900/30',
-  },
+
   {
     key: 'LBB',
     label: 'Laporan Barang Bermasalah',
@@ -91,14 +86,14 @@ const docTypes: DocTypeConfig[] = [
 // ====== Map data logic ======
 function mapToLPB(transactions: any[], business: any, user: any): StockMovementReportData {
   const today = new Date();
-  
+
   let totalIn = 0;
   let totalOut = 0;
 
   const items = transactions.map((t, idx) => {
     const isMasuk = t.type === 'ADD' || t.type === 'IN';
     const isKeluar = t.type === 'SUB' || t.type === 'OUT';
-    
+
     if (isMasuk) totalIn += t.quantity;
     else totalOut += Math.abs(t.quantity);
 
@@ -179,7 +174,7 @@ function mapToBAR(rejectInventory: any, business: any, user: any): RejectReportD
 
 function mapToSJ(sale: any, business: any, user: any): DeliveryNoteData {
   const today = new Date();
-  
+
   const items = sale?.items?.map((item: any, idx: number) => ({
     no: idx + 1,
     productCode: item.product?.sku || '-',
@@ -217,9 +212,9 @@ function mapToSJ(sale: any, business: any, user: any): DeliveryNoteData {
 
 function mapToLBB(inventories: any[], business: any, user: any): ProblematicGoodsReportData {
   const today = new Date();
-  
+
   const problematic = inventories.filter(inv => ['REJECT', 'ON_HOLD', 'UNRELEASED'].includes(inv.status?.code));
-  
+
   const items = problematic.map((inv, idx) => ({
     no: idx + 1,
     productName: inv.product?.name || 'Produk X',
@@ -241,7 +236,7 @@ function mapToLBB(inventories: any[], business: any, user: any): ProblematicGood
     companyAddress: business?.address || '-',
     companyPhone: business?.phone || '-',
     companyEmail: business?.email || '-',
-    documentNumber: `LBB/${today.getFullYear()}/${Math.floor(Math.random()*1000)}`,
+    documentNumber: `LBB/${today.getFullYear()}/${Math.floor(Math.random() * 1000)}`,
     date: today.toLocaleDateString('id-ID'),
     period: 'Global Stock',
     statusFilter: 'Reject, On Hold, Unreleased',
@@ -260,7 +255,7 @@ function mapToLBB(inventories: any[], business: any, user: any): ProblematicGood
 
 function mapToLRS(inventories: any[], business: any, user: any): StockRecapReportData {
   const today = new Date();
-  
+
   let totalQty = 0;
 
   const items = inventories.map((inv, idx) => {
@@ -284,7 +279,7 @@ function mapToLRS(inventories: any[], business: any, user: any): StockRecapRepor
     companyAddress: business?.address || '-',
     companyPhone: business?.phone || '-',
     companyEmail: business?.email || '-',
-    documentNumber: `LRS/${today.getFullYear()}/${Math.floor(Math.random()*1000)}`,
+    documentNumber: `LRS/${today.getFullYear()}/${Math.floor(Math.random() * 1000)}`,
     date: today.toLocaleDateString('id-ID'),
     period: 'Sampai Saat Ini',
     location: 'Semua Gudang',
@@ -306,6 +301,8 @@ export default function DocumentsPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [currentBlob, setCurrentBlob] = useState<Blob | null>(null);
+  const [dateFrom, setDateFrom] = useState<string>('');
+  const [dateTo, setDateTo] = useState<string>('');
 
   const generatePdf = useCallback(async (type: DocType) => {
     setIsGenerating(true);
@@ -315,32 +312,42 @@ export default function DocumentsPage() {
     try {
       let doc: React.ReactElement;
 
+      const periodLabel = (dateFrom && dateTo)
+        ? `${new Date(dateFrom).toLocaleDateString('id-ID')} — ${new Date(dateTo).toLocaleDateString('id-ID')}`
+        : (dateFrom ? `Dari ${new Date(dateFrom).toLocaleDateString('id-ID')}` : (dateTo ? `Sampai ${new Date(dateTo).toLocaleDateString('id-ID')}` : undefined));
+
       switch (type) {
         case 'LPB': {
-          const txRes = await getStockTransactions(1, 100);
-          doc = <StockMovementReport data={mapToLPB(txRes.data?.data || [], business, user)} />;
+          const txRes = await getStockTransactions(1, 100, dateFrom || undefined, dateTo || undefined);
+          const lpbData = mapToLPB(txRes.data?.data || [], business, user);
+          if (periodLabel) lpbData.period = periodLabel;
+          doc = <StockMovementReport data={lpbData} />;
           break;
         }
         case 'BAR': {
-          const invRes = await getInventories({ items: 100, status: 'REJECT' });
+          const invRes = await getInventories({ items: 100, status: 'REJECT', date_from: dateFrom || undefined, date_to: dateTo || undefined });
           const latestReject = invRes.data?.data?.[0];
           doc = <RejectReport data={mapToBAR(latestReject, business, user)} />;
           break;
         }
         case 'SJ': {
-          const salesRes = await getSales(1, 10);
+          const salesRes = await getSales(1, 10, dateFrom || undefined, dateTo || undefined);
           const latestSale = salesRes.data?.data?.[0];
           doc = <DeliveryNote data={mapToSJ(latestSale, business, user)} />;
           break;
         }
         case 'LBB': {
-          const invRes = await getInventories({ items: 200 });
-          doc = <ProblematicGoodsReport data={mapToLBB(invRes.data?.data || [], business, user)} />;
+          const invRes = await getInventories({ items: 200, date_from: dateFrom || undefined, date_to: dateTo || undefined });
+          const lbbData = mapToLBB(invRes.data?.data || [], business, user);
+          if (periodLabel) lbbData.period = periodLabel;
+          doc = <ProblematicGoodsReport data={lbbData} />;
           break;
         }
         case 'LRS': {
-          const invRes = await getInventories({ items: 500 });
-          doc = <StockRecapReport data={mapToLRS(invRes.data?.data || [], business, user)} />;
+          const invRes = await getInventories({ items: 500, date_from: dateFrom || undefined, date_to: dateTo || undefined });
+          const lrsData = mapToLRS(invRes.data?.data || [], business, user);
+          if (periodLabel) lrsData.period = periodLabel;
+          doc = <StockRecapReport data={lrsData} />;
           break;
         }
         default:
@@ -359,7 +366,7 @@ export default function DocumentsPage() {
     } finally {
       setIsGenerating(false);
     }
-  }, [business, user]);
+  }, [business, user, dateFrom, dateTo]);
 
   const saveToDatabase = useCallback(async () => {
     if (!currentBlob || !selectedType) return;
@@ -410,6 +417,39 @@ export default function DocumentsPage() {
         <p className="text-sm text-gray-500 dark:text-gray-400">
           Pilih jenis dokumen untuk di-generate. Dokumen akan dibuat dalam format PDF dan dapat disimpan ke database.
         </p>
+      </div>
+
+      {/* Date Range */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6 p-4 rounded-xl bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-gray-700">
+        <div className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+          <CalendarIcon className="w-4 h-4 text-brand-500" />
+          Periode Dokumen
+        </div>
+        <div className="flex items-center gap-2">
+          <DatePicker
+            id="start-date"
+            placeholder="dd/mm/yy"
+            onChange={(date: any) => {
+              if (date) setDateFrom(new Date(date).toISOString().split('T')[0]);
+            }}
+          />
+          <span className="text-xs text-gray-400">s/d</span>
+          <DatePicker
+            id="end-date"
+            placeholder="dd/mm/yy"
+            onChange={(date: any) => {
+              if (date) setDateTo(new Date(date).toISOString().split('T')[0]);
+            }}
+          />
+        </div>
+        {(dateFrom || dateTo) && (
+          <button
+            onClick={() => { setDateFrom(''); setDateTo(''); }}
+            className="text-xs text-gray-400 hover:text-red-500 transition-colors"
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       {/* Document Type Grid */}

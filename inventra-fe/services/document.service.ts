@@ -84,3 +84,18 @@ export async function deleteDocument(id: number): Promise<ApiResponse<null>> {
 export async function getDocumentDownloadUrl(id: number): Promise<string> {
   return await `${API_URL}/documents/${id}/download`;
 }
+
+export async function downloadDocument(id: number): Promise<Blob> {
+  const token = await getCookies("token");
+  const res = await fetch(`${API_URL}/documents/${id}/download`, {
+    headers: {
+      Authorization: token ? `Bearer ${token}` : "",
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Download failed");
+  }
+
+  return res.blob();
+}

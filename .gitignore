@@ -2,6 +2,10 @@
 /inventra-fe/dist
 /inventra-fe/.env
 
+/inventra-admin/node_modules
+/inventra-admin/dist
+/inventra-admin/.env
+
 
 
 /inventra-be/*.log
@@ -94,3 +98,7 @@
 # Misc
 /inventra-fe/*.pem
 /inventra-fe/vercel.json
+
+
+/AI_PREDICTION/__pycache__
+/AI_PREDICTION/venv

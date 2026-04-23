@@ -31,7 +31,13 @@ class UserController extends Controller
 
         $data = $this->requestService->postData(User::class, $request, $rules);
 
-        return ApiHelper::success('User was successfully registered', $data, 201);
+        $token = auth()->guard('api')->login($data);
+
+        return ApiHelper::success('User was successfully registered', [
+            'user'       => $data,
+            'token'      => $token,
+            'token_type' => 'bearer',
+        ], 201);
     }
 
     /**

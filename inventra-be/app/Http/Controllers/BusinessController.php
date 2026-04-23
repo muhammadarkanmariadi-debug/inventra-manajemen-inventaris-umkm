@@ -34,8 +34,18 @@ class BusinessController extends Controller
             'logo_dark' => 'nullable:string',
             'description' => 'nullable:string|max:255'
         ];
-
+        
         $data = $this->requestService->postData(Business::class, $request, $rules);
+
+        $user = auth()->guard('api')->user();
+        if ($user) {
+            $user->bussiness_id = $data->id;
+            $user->save();
+            
+            if (!$user->hasRole('owner')) {
+                $user->assignRole('owner');
+            }
+        }
 
         return ApiHelper::success('Business created successfully', $data, 201);
     }

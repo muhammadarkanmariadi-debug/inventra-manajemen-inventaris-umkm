@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ApiHelper;
+use App\Models\FinancialTransaction;
 use App\Models\Product;
 use App\Models\Sale;
 use Carbon\Carbon;
@@ -28,7 +29,7 @@ class StatisticController extends Controller
                 $query->whereBetween('created_at', [$startDate, $endDate]);
             }
 
-            $data = $query->groupBy(DB::raw('yearmonth'))->get();
+            $data = $query->groupBy(DB::raw('yearmonth'))->orderBy(DB::raw("MIN(created_at)"), 'asc')->get();
 
             if ($data->isEmpty()) {
                 return ApiHelper::error('Statistik penjualan tidak ditemukan', 404);
@@ -36,6 +37,47 @@ class StatisticController extends Controller
             return ApiHelper::success('Statistik penjualan ', ['data' => $data, 'total_penjualan' => $totalPenjualan], 200);
         } catch (\Exception $e) {
             return ApiHelper::error('An error occurred ' . $e->getMessage(), 500);
+        }
+    }
+
+    public function incomeExpenses(Request $request)
+    {
+        try {
+            $startDate = Carbon::parse($request->startDate)->startOfDay();
+            $endDate = Carbon::parse($request->endDate)->endOfDay();
+
+            $query = FinancialTransaction::select(
+                DB::raw('DATE_FORMAT(created_at, "%M %Y") as yearmonth'),
+                'type',
+                DB::raw('SUM(amount) as total') // Kita butuh SUM untuk menghitung nominalnya
+            );
+
+            // Perbaikan logika if: cek string inputnya, bukan objek Carbon
+            if ($request->filled(['startDate', 'endDate'])) {
+                $query->whereBetween('created_at', [$startDate, $endDate]);
+            }
+            $rawData = $query->groupBy(['yearmonth', 'type'])
+                ->orderBy('yearmonth', 'asc')
+                ->get();
+
+            if ($rawData->isEmpty()) {
+                return ApiHelper::error('Statistik pemasukan tidak ditemukan', 404);
+            }
+
+            // --- TRANSFORMASI DATA ---
+            // Kita grouping berdasarkan 'yearmonth' (Bulan Tahun)
+            $formattedData = $rawData->groupBy('yearmonth')->map(function ($items) {
+                // Di dalam tiap bulan, kita buat key 'income' dan 'expense'
+                return [
+                    'income'  => $items->where('type', 'income')->sum('total'),
+                    'expense' => $items->where('type', 'expense')->sum('total'),
+                ];
+            });
+
+
+            return ApiHelper::success('Statistik penjualan', ['data' => $formattedData], 200);
+        } catch (\Exception $e) {
+            return ApiHelper::error('An error occurred: ' . $e->getMessage(), 500);
         }
     }
     public function produk()
@@ -131,6 +173,7 @@ class StatisticController extends Controller
         }
     }
 
+
     public function defect($id)
     {
         try {
@@ -149,13 +192,13 @@ class StatisticController extends Controller
                 ->where('inventory_logs.action', 'STATUS_CHANGE')
                 ->where('inventory_statuses.code', 'REJECT')
                 ->sum('inventory_logs.quantity');
-            
+
             $currentUnreleased = DB::table('inventories')
                 ->join('inventory_statuses', 'inventory_statuses.id', '=', 'inventories.current_status_id')
                 ->where('inventories.product_id', $id)
                 ->where('inventory_statuses.code', 'UNRELEASED')
                 ->sum('inventories.quantity');
-            
+
             return response()->json([
                 'status' => true,
                 'data' => [

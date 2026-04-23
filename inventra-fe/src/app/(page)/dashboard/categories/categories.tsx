@@ -141,14 +141,14 @@ export default function Categories() {
   }
 
   return (
-    <PermissionWrapper permission="category.view" breadcrumb="Kategori">
+    <PermissionWrapper permission="Lihat Kategori" breadcrumb="Kategori">
       <div>
         {/* PageBreadcrumb already inside PermissionWrapper or redundant if using breadcrumb prop */}
         <PageBreadcrumb pageTitle="Categories" />
         
         <div className='flex flex-col gap-4 mb-4'>
           <FilterBar {...filterConfig} onFilterChange={setFilters} />
-          <Can permission="category.create">
+          <Can permission="Tambah Kategori">
             <div className="flex justify-end">
               <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Kategori" /></Button>
             </div>
@@ -189,10 +189,10 @@ export default function Categories() {
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">{cat.products?.length ?? 0}</TableCell>
                       <TableCell className="px-4 py-3 text-start">
                         <div className="flex items-center gap-2">
-                          <Can permission="category.update">
+                          <Can permission="Ubah Kategori">
                             <button onClick={() => openEditModal(cat)} className="p-2 text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400" title="Edit"><PencilIcon className="w-4 h-4" /></button>
                           </Can>
-                          <Can permission="category.delete">
+                          <Can permission="Hapus Kategori">
                             <button onClick={() => openDeleteModal(cat)} className="p-2 text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-400" title="Hapus"><TrashIcon className="w-4 h-4" /></button>
                           </Can>
                         </div>

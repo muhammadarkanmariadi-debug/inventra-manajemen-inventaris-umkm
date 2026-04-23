@@ -41,10 +41,14 @@ class SaleService
 
             $sale = Sale::create([
                 'product_id'    => $product->id, // Maintain aggregate correlation
+                'inventory_id'  => $inventory->id, // Correlate explicit batch
                 'quantity'      => $data['quantity'],
                 'selling_price' => $data['selling_price'],
                 'total_price'   => $totalPrice,
                 'bussiness_id'  => $bussinessId,
+                'buyer_name'    => $data['buyer_name'] ?? null,
+                'buyer_phone'   => $data['buyer_phone'] ?? null,
+                'buyer_address' => $data['buyer_address'] ?? null,
             ]);
 
             // Strictly reduce the explicitly selected physical inventory batch

@@ -24,6 +24,8 @@ jobs:
                         - 'inventra-fe/**'
                     backend:    
                         - 'inventra-be/**'
+                    admin:    
+                        - 'inventra-admin/**'
                         
     frontend:
         needs: changes
@@ -43,7 +45,35 @@ jobs:
               with:
                     node-version: 22
                     cache: 'npm'
-                    cache-dependency-path: frontend/package-lock.json
+                    cache-dependency-path: inventra-fe/package-lock.json
+            
+            - name: Install Deps 
+              run: npm ci
+              
+            - name: Check Lint
+              run: npm run lint
+            
+            - name: Build Frontend
+              run: npm run build
+    admin:
+        needs: changes
+        if: needs.changes.outputs.frontend == 'admin'
+        runs-on: ubuntu-latest
+        
+        
+        defaults:
+            run:
+                working-directory: inventra-admin
+        
+        steps:
+            - uses: actions/checkout@v4        
+        
+            - name: Setup NodeJS
+              uses: actions/setup-node@v6
+              with:
+                    node-version: 22
+                    cache: 'npm'
+                    cache-dependency-path: inventra-admin/package-lock.json
             
             - name: Install Deps 
               run: npm ci

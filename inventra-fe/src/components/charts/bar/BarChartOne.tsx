@@ -9,7 +9,7 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
-export default function BarChartOne({data}: {data: {yearmonth: string, total_penjualan: number, keuntungan: number}[]}) {
+export default function BarChartOne({ data }: { data: { yearmonth: string, total_penjualan: number, keuntungan: number }[] }) {
   const options: ApexOptions = {
     colors: ["#465fff"],
     chart: {
@@ -91,7 +91,11 @@ export default function BarChartOne({data}: {data: {yearmonth: string, total_pen
           type="bar"
           height={180}
         />
+        
+      
       </div>
     </div>
   );
 }
+import { BarChart } from '@mui/x-charts/BarChart';
+

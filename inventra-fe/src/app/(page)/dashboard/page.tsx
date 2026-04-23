@@ -1,16 +1,12 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-<<<<<<< HEAD:inventra-fe/src/app/(page)/dashboard/page.tsx
 import { toast } from 'sonner';
-
-=======
 import {
   getStatisticSales,
   getStatisticProducts,
   getStatisticFinancial,
-} from '../../../services/dashboard.service';
->>>>>>> origin/main:inventra-fe/src/app/(page)/page.tsx
+} from '../../../../services/dashboard.service';
 import Badge from '@/components/ui/badge/Badge';
 import Alert from '@/components/ui/alert/Alert';
 import {
@@ -23,7 +19,8 @@ import Label from '@/components/form/Label';
 import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
-import { getStatisticFinancial, getStatisticProducts, getStatisticSales } from '../../../../services/dashboard.service';
+import BarChartOne from '@/components/charts/bar/BarChartOne';
+import BarChartGroup from '@/components/charts/bar/BarChartGroup';
 
 interface SalesStat {
   yearmonth: string;
@@ -199,6 +196,7 @@ export default function DashboardPage() {
             </div>
           </div>
           <LineChartOne data={salesStats} />
+          <BarChartGroup/>
         </div>
 
         {/* Top Products */}

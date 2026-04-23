@@ -27,6 +27,7 @@ import { CldUploadWidget, CloudinaryUploadWidgetInfo } from 'next-cloudinary';
 import { CloudUpload, PencilIcon, TrashIcon, EyeIcon, QrCodeIcon } from "lucide-react";
 import QRCode from "react-qr-code";
 import Image from "next/image";
+import DatePicker from '@/components/form/date-picker';
 
 export default function Products() {
   const { _ } = useLingui();
@@ -407,7 +408,13 @@ export default function Products() {
             </div>
             <div>
               <Label><Trans id="Tanggal Kadaluarsa" /></Label>
-              <Input type="date" defaultValue={formData.expired_date || ''} onChange={(e) => setFormData({ ...formData, expired_date: e.target.value || null })} />
+              <DatePicker
+                id="expired-date"
+                placeholder="dd/mm/yy"
+                onChange={(date: any) => {
+                  if (date) setFormData({ ...formData, expired_date: new Date(date).toISOString().split('T')[0] });
+                }}
+              />
             </div>
           </div>
           <div>
