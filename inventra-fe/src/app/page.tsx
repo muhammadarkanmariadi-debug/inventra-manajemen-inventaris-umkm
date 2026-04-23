@@ -14,7 +14,7 @@ export const metadata = {
 export default function LandingPage() {
   return (
     <div className="w-full min-h-screen bg-background text-foreground font-sans selection:bg-primary/20 selection:text-primary">
-      <LandingHeader />
+      {/* <LandingHeader /> */}
       <main>
         <LandingHero />
         <LandingFeatures />
