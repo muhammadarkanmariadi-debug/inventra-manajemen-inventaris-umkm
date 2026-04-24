@@ -8,14 +8,16 @@ import { Toaster, toast } from 'sonner';
  * ToastProvider wraps the Sonner Toaster with our application's design system tokens.
  * This should be injected at the root of the React application.
  */
+type ToastPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'top-center' | 'bottom-center';
+
 export const ToastContext = createContext({
-  value: '',
-  setValue: (v: string) => { }, // Placeholder fungsi
+  value: 'top-left' as ToastPosition,
+  setValue: (v: ToastPosition) => { }, // Placeholder fungsi
 });
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
 
-  const [value, setValue] = useState('top-left');
+  const [value, setValue] = useState<ToastPosition>('top-left');
 
   return (
     <ToastContext.Provider value={{ value, setValue }}>

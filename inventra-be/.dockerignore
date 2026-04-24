@@ -1,0 +1,41 @@
+# Git
+.git
+.gitignore
+
+# Dependencies
+/vendor
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# Environment
+.env.testing
+.env.dusk.local
+
+# Build
+/public/build
+/public/hot
+
+# Storage
+/storage/*.key
+/storage/oauth-*.key
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+!/storage/logs/.gitignore
+
+# Test
+/tests/Browser/console/
+/tests/Browser/network/
+/tests/Browser/screenshots/
+/tests/Browser/video/
+
+# IDEs
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

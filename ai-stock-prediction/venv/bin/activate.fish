@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV /home/arkan/inventra-manajemen-inventaris-umkm/AI_PREDICTION/venv
+set -gx VIRTUAL_ENV /home/arkan/inventra-manajemen-inventaris-umkm/ai-stock-prediction/venv
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"bin $PATH

@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./inventra-fe
+      dockerfile: Dockerfile
+    container_name: inventra_fe
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    networks:
+      - inventra_network
+
+  backend:
+    build:
+      context: ./inventra-be
+      dockerfile: Dockerfile
+    container_name: inventra_be
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=production
+      - OCTANE_SERVER=swoole
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=inventra
+      - DB_USERNAME=root
+      - DB_PASSWORD=010709Am
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    volumes:
+      - ./inventra-be/storage:/var/www/storage
+      - ./inventra-be/bootstrap/cache:/var/www/bootstrap/cache
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - inventra_network
+
+  ai-stock-prediction:
+    build:
+      context: ./ai-stock-prediction
+      dockerfile: Dockerfile
+    container_name: inventra_ai_stock_prediction
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - inventra_network
+
+  mysql:
+    image: mysql:8.0
+    container_name: inventra_mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: inventra
+      MYSQL_ROOT_PASSWORD: 010709Am
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - inventra_network
+
+  redis:
+    image: redis:alpine
+    container_name: inventra_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - inventra_network
+
+volumes:
+  mysql_data:
+  redis_data:
+
+networks:
+  inventra_network:
+    driver: bridge

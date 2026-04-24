@@ -104,7 +104,7 @@ const navItems: NavItem[] = [
  
       { name: "Pengguna & Tim", path: "/dashboard/users", permission: "Lihat Pengguna" },
       { name: "Peran / Jabatan", path: "/dashboard/roles", permission: "Lihat Peran" },
-      { name: "Hak Akses", path: "/dashboard/permissions", permission: "Lihat Hak Akses" },
+     
   
     ],
   },
