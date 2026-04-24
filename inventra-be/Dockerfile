@@ -18,19 +18,24 @@ RUN pecl install swoole \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 COPY composer.json composer.lock* ./
-RUN composer install --no-dev --optimize-autoloader --no-scripts
+RUN composer install --optimize-autoloader --no-scripts
 
 COPY . .
+
+
+
 
 # Buat .env SEBELUM artisan dijalankan
 RUN if [ ! -f .env ]; then cp .env.example .env; fi \
     && php artisan key:generate \
     && composer dump-autoload --optimize \
-    && php artisan optimize:clear
+    && php artisan optimize:clear || true
 
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage \
     && chmod -R 775 /var/www/bootstrap/cache
+
+ 
 
 EXPOSE 8000
 
