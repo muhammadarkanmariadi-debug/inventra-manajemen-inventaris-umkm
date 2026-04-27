@@ -18,6 +18,8 @@ import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
 import { PencilIcon, TrashIcon } from "lucide-react";
+import { PermissionWrapper } from '@/components/common/PermissionWrapper';
+import { Can } from '@/components/common/Can';
 
 export default function Suppliers() {
   const { _ } = useLingui();
@@ -135,13 +137,14 @@ export default function Suppliers() {
   }
 
   return (
-    <div>
-      <PageBreadcrumb pageTitle="Supplier" />
+    <PermissionWrapper permission="Lihat Supplier" breadcrumb="Supplier">
 
       <div className='flex flex-col gap-4 mb-4'>
         <FilterBar {...filterConfig} onFilterChange={setFilters} />
         <div className="flex justify-end">
-          <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Supplier" /></Button>
+          <Can permission="Tambah Supplier">
+            <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Supplier" /></Button>
+          </Can>
         </div>
       </div>
 
@@ -178,8 +181,12 @@ export default function Suppliers() {
                     <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">{sup.address || '-'}</TableCell>
                     <TableCell className="px-4 py-3 text-start">
                       <div className="flex items-center gap-2">
-                        <button onClick={() => openEditModal(sup)} className="p-2 text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400" title="Edit"><PencilIcon className="w-4 h-4" /></button>
-                        <button onClick={() => openDeleteModal(sup)} className="p-2 text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-400" title="Hapus"><TrashIcon className="w-4 h-4" /></button>
+                        <Can permission="Ubah Supplier">
+                          <button onClick={() => openEditModal(sup)} className="p-2 text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400" title="Edit"><PencilIcon className="w-4 h-4" /></button>
+                        </Can>
+                        <Can permission="Hapus Supplier">
+                          <button onClick={() => openDeleteModal(sup)} className="p-2 text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-400" title="Hapus"><TrashIcon className="w-4 h-4" /></button>
+                        </Can>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -232,6 +239,6 @@ export default function Suppliers() {
           </Button>
         </div>
       </Modal>
-    </div>
+    </PermissionWrapper>
   );
 }

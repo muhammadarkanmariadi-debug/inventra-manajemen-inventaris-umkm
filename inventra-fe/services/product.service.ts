@@ -1,4 +1,4 @@
-"use server";
+
 
 import { apiGet, apiPost, apiPut, apiDelete } from "../lib/api";
 import type { ApiResponse, PaginatedData, Product, CreateProductPayload } from "../types";

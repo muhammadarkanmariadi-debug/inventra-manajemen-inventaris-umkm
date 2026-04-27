@@ -1,4 +1,4 @@
-"use server";
+
 
 import { apiGet, apiPost } from "../lib/api";
 import type { ApiResponse, PaginatedData, Purchase, CreatePurchasePayload } from "../types";

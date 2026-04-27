@@ -7,14 +7,14 @@ import LandingGlobalPresence from '@/components/landing/LandingGlobalPresence';
 import LandingFooter from '@/components/landing/LandingFooter';
 
 export const metadata = {
-  title: 'Inventra | Orchestrating Supply with Elegance',
-  description: 'Moving beyond flat inventory tracking. Inventra provides a luminous, deep-data experience for modern commerce hubs.',
+  title: 'Inventra | Platform Manajemen Inventaris Cerdas untuk UMKM',
+  description: 'Kelola inventaris bisnis Anda dengan Inventra — pelacakan stok real-time, prediksi AI, multi-gudang, dan laporan analitik lengkap untuk UMKM Indonesia.',
 };
 
 export default function LandingPage() {
   return (
-    <div className="w-full min-h-screen bg-background text-foreground font-sans selection:bg-primary/20 selection:text-primary">
-      {/* <LandingHeader /> */}
+    <div className="w-full min-h-screen bg-background text-foreground font-outfit selection:bg-brand-500/20 selection:text-brand-500">
+      <LandingHeader />
       <main>
         <LandingHero />
         <LandingFeatures />

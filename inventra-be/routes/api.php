@@ -26,16 +26,20 @@ use  App\Http\Middleware\PermissionMiddleware;
 use Tymon\JWTAuth\Http\Middleware\Authenticate as MiddlewareAuthenticate;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\Api\VerificationController;
+use App\Http\Controllers\Api\GoogleAuthController;
 
 Route::controller(UserController::class)->group(function () {
     Route::post('/register', 'register');
     Route::post('/login', 'login');
 });
 
-
-
+Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
+Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect']);
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
 
 Route::middleware(AuthenticateMiddleware::class)->group(function () {
+    Route::post('/email/resend', [VerificationController::class, 'resend']);
 
     Route::controller(GeminiController::class)->prefix('gemini')->group(function () {
         Route::get('/inventory', 'analyzeInventory');

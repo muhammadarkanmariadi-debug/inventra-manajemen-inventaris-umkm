@@ -27,6 +27,8 @@ import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
 import { Plus, Trash2, ShoppingCart } from 'lucide-react';
+import { PermissionWrapper } from '@/components/common/PermissionWrapper';
+import { Can } from '@/components/common/Can';
 
 export default function Purchases() {
   const { _ } = useLingui();
@@ -165,17 +167,18 @@ export default function Purchases() {
   });
 
   return (
-    <div>
-      <PageBreadcrumb pageTitle={_(msg`Pembelian`)} />
+    <PermissionWrapper permission="Lihat Pembelian" breadcrumb="Pembelian">
 
       <div className="flex flex-col gap-4 mb-4">
         <FilterBar {...filterConfig} onFilterChange={setFilters} />
         <div className="flex justify-end">
-          <Button size="sm" onClick={openCreateModal}>
-            <span className="flex items-center gap-1.5">
-            + <Trans id="Tambah Pembelian" />
-            </span>
-          </Button>
+          <Can permission="Tambah Pembelian">
+            <Button size="sm" onClick={openCreateModal}>
+              <span className="flex items-center gap-1.5">
+              + <Trans id="Tambah Pembelian" />
+              </span>
+            </Button>
+          </Can>
         </div>
       </div>
 
@@ -429,6 +432,6 @@ export default function Purchases() {
           <Button size="sm" variant="outline" className="w-full" onClick={() => setShowDetailModal(false)}><Trans id="Tutup" /></Button>
         </div>
       </Modal>
-    </div>
+    </PermissionWrapper>
   );
 }

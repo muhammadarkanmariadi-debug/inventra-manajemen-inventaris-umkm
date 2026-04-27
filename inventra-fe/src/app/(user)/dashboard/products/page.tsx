@@ -28,6 +28,8 @@ import { CloudUpload, PencilIcon, TrashIcon, EyeIcon, QrCodeIcon } from "lucide-
 import QRCode from "react-qr-code";
 import Image from "next/image";
 import DatePicker from '@/components/form/date-picker';
+import { PermissionWrapper } from '@/components/common/PermissionWrapper';
+import { Can } from '@/components/common/Can';
 
 export default function Products() {
   const { _ } = useLingui();
@@ -234,8 +236,7 @@ export default function Products() {
 
 
   return (
-    <div>
-      <PageBreadcrumb pageTitle={_(msg`Produk`)} />
+    <PermissionWrapper permission="Lihat Produk" breadcrumb="Produk">
       <div className='flex flex-col gap-4 '>
         <FilterBar
           tabs={filterConfig.tabs}
@@ -244,7 +245,9 @@ export default function Products() {
           onFilterChange={setFilters}
         />
         <div className="mb-4 flex justify-end">
-          <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Produk" /></Button>
+          <Can permission="Tambah Produk">
+            <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Produk" /></Button>
+          </Can>
         </div>
       </div>
 
@@ -308,8 +311,12 @@ export default function Products() {
                         <TableCell className="px-4 py-3 text-start">
                           <div className="flex flex-wrap items-center justify-end gap-2">
                             <button onClick={() => openDetailModal(product)} className="p-2 text-gray-500 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-400" title="Detail"><EyeIcon className="w-4 h-4" /></button>
-                            <button onClick={() => openEditModal(product)} className="p-2 text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400" title="Edit"><PencilIcon className="w-4 h-4" /></button>
-                            <button onClick={() => openDeleteModal(product)} className="p-2 text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-400" title="Hapus"><TrashIcon className="w-4 h-4" /></button>
+                            <Can permission="Ubah Produk">
+                              <button onClick={() => openEditModal(product)} className="p-2 text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400" title="Edit"><PencilIcon className="w-4 h-4" /></button>
+                            </Can>
+                            <Can permission="Hapus Produk">
+                              <button onClick={() => openDeleteModal(product)} className="p-2 text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-400" title="Hapus"><TrashIcon className="w-4 h-4" /></button>
+                            </Can>
                             <button onClick={() => { setQrCodeData({ code: product.sku, title: 'QR Produk', subtitle: product.name }); setQrModalOpen(true); }} className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" title="Cetak QR"><QrCodeIcon className="w-4 h-4" /></button>
                           </div>
                         </TableCell>
@@ -469,6 +476,6 @@ export default function Products() {
           <Button size="sm" variant="outline" className="w-full" onClick={() => setShowDetailModal(false)}><Trans id="Tutup" /></Button>
         </div>
       </Modal>
-    </div>
+    </PermissionWrapper>
   );
 }

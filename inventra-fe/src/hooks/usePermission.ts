@@ -3,8 +3,8 @@ import { useAuth } from '../context/AuthContext';
 export function usePermission() {
   const { roles, permissions, hasPermission, user, business, isLoading } = useAuth();
   
-  const isSuperAdmin = roles.includes('SUPERADMIN') || roles.includes('superadmin');
-  const isOwner = roles.includes('owner');
+  const isSuperAdmin = user?.role === 'SUPERADMIN';
+  const isOwner = roles.includes('OWNER');
   
   return {
     roles,

@@ -1,70 +1,127 @@
 "use client";
-import React from 'react';
+import React from "react";
 import { Trans } from "@lingui/macro";
+
+const FEATURES = [
+  {
+    icon: "inventory_2",
+    title: "Stok Real-Time",
+    desc: "Pantau level stok di seluruh gudang dan lini produksi secara langsung — tidak ada lagi selisih data.",
+    color: "brand",
+    span: "md:col-span-2",
+  },
+  {
+    icon: "psychology",
+    title: "Prediksi AI",
+    desc: "Neural engine memprediksi permintaan sebelum terjadi dan menyarankan penyesuaian stok otomatis.",
+    color: "violet",
+    span: "",
+  },
+  {
+    icon: "warehouse",
+    title: "Multi-Gudang",
+    desc: "Kelola banyak lokasi penyimpanan, transfer antar gudang, dan konsolidasi data dalam satu platform.",
+    color: "emerald",
+    span: "",
+  },
+  {
+    icon: "bar_chart",
+    title: "Laporan & Analitik",
+    desc: "Dashboard interaktif dengan turnover rate, dead stock alert, dan laporan keuangan inventaris yang lengkap.",
+    color: "amber",
+    span: "md:col-span-2",
+  },
+  {
+    icon: "shield",
+    title: "Keamanan Enterprise",
+    desc: "Role-based access control, audit trail lengkap, dan enkripsi data untuk melindungi aset bisnis Anda.",
+    color: "rose",
+    span: "",
+  },
+  {
+    icon: "integration_instructions",
+    title: "Integrasi Mudah",
+    desc: "API terbuka dan webhook untuk integrasi dengan POS, ERP, marketplace, dan sistem akuntansi Anda.",
+    color: "brand",
+    span: "md:col-span-2",
+  },
+];
+
+const colorMap: Record<string, { bg: string; text: string; border: string }> = {
+  brand: {
+    bg: "bg-brand-500/10 dark:bg-brand-500/15",
+    text: "text-brand-500",
+    border: "group-hover:border-brand-500/30",
+  },
+  violet: {
+    bg: "bg-theme-purple-500/10",
+    text: "text-theme-purple-500",
+    border: "group-hover:border-theme-purple-500/30",
+  },
+  emerald: {
+    bg: "bg-success-500/10",
+    text: "text-success-500",
+    border: "group-hover:border-success-500/30",
+  },
+  amber: {
+    bg: "bg-warning-500/10",
+    text: "text-warning-500",
+    border: "group-hover:border-warning-500/30",
+  },
+  rose: {
+    bg: "bg-error-500/10",
+    text: "text-error-500",
+    border: "group-hover:border-error-500/30",
+  },
+};
 
 export default function LandingFeatures() {
   return (
-    <section className="py-24 px-8 max-w-screen-2xl mx-auto" id="features">
-      <div className="text-center mb-20 space-y-4">
-        <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-foreground"><Trans>The Digital Curator</Trans></h2>
-        <p className="text-muted-foreground max-w-2xl mx-auto text-lg"><Trans>Sophisticated asymmetry meets high-end enterprise utility. Experience the future of supply chain management.</Trans></p>
+    <section className="py-20 lg:py-28 px-6 lg:px-8 max-w-screen-2xl mx-auto" id="features">
+      {/* Section heading */}
+      <div className="text-center mb-16 space-y-4">
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-500/10 dark:bg-brand-500/15 rounded-full border border-brand-500/20 text-brand-500 text-xs font-bold tracking-widest uppercase mx-auto">
+          <span className="material-symbols-outlined text-sm">star</span>
+          <Trans>Fitur Unggulan</Trans>
+        </div>
+        <h2 className="text-3xl lg:text-5xl font-bold tracking-tight text-foreground">
+          <Trans>Semua yang Bisnis Anda Butuhkan</Trans>
+        </h2>
+        <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+          <Trans>
+            Platform inventaris lengkap yang dirancang untuk UMKM — dari pelacakan stok hingga analitik cerdas.
+          </Trans>
+        </p>
       </div>
-      <div className="grid md:grid-cols-3 gap-8">
-          {/* Card 1 */}
-          <div className="md:col-span-2 bg-card p-10 rounded-xl border border-border flex flex-col justify-between group hover:border-primary/20 transition-all duration-500 min-h-[400px] shadow-sm">
-            <div className="space-y-4 flex flex-col gap-0 items-start">
-              <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-8 group-hover:scale-110 transition-transform">
-                <span className="material-symbols-outlined text-3xl">analytics</span>
-              </div>
-              <h3 className="text-base sm:text-3xl font-semibold text-card-foreground m-0 p-0"><Trans>Predictive AI Analytics</Trans></h3>
-              <p className="text-muted-foreground text-lg leading-relaxed max-w-md m-0 p-0 pt-4"><Trans>Our neural engine anticipates demand spikes 48 hours before they happen, suggesting precise stock adjustments automatically.</Trans></p>
-            </div>
-            <div className="mt-8 overflow-hidden rounded-lg border border-border">
-              <div className="w-full h-48 bg-muted flex items-center justify-center text-muted-foreground grayscale group-hover:grayscale-0 transition-all duration-700">
-                <Trans>AI Data Visualization</Trans>
-              </div>
-            </div>
-          </div>
 
-          {/* Card 2 */}
-          <div className="bg-card p-10 rounded-xl border border-border flex flex-col justify-between group hover:border-primary/20 transition-all shadow-sm">
-            <div className="space-y-4 flex flex-col items-start gap-0">
-              <div className="w-14 h-14 rounded-xl bg-orange-500/10 flex items-center justify-center text-orange-500 mb-8">
-                <span className="material-symbols-outlined text-3xl">location_on</span>
+      {/* Feature grid */}
+      <div className="grid md:grid-cols-3 gap-5">
+        {FEATURES.map((f, i) => {
+          const colors = colorMap[f.color] || colorMap.brand;
+          return (
+            <div
+              key={i}
+              className={`${f.span} group relative bg-card p-8 lg:p-10 rounded-2xl border border-border ${colors.border} transition-all duration-500 hover:shadow-lg hover:shadow-gray-900/5 dark:hover:shadow-black/20 hover:-translate-y-1`}
+            >
+              {/* Icon */}
+              <div
+                className={`w-14 h-14 rounded-xl ${colors.bg} flex items-center justify-center ${colors.text} mb-6 group-hover:scale-110 transition-transform duration-300`}
+              >
+                <span className="material-symbols-outlined text-2xl">
+                  {f.icon}
+                </span>
               </div>
-              <h3 className="text-2xl font-semibold text-card-foreground m-0 p-0"><Trans>Real-Time Tracking</Trans></h3>
-              <p className="text-muted-foreground leading-relaxed pt-2 m-0 p-0"><Trans>Geofenced inventory visibility across 24 countries. From factory floor to final mile delivery.</Trans></p>
-            </div>
-            <div className="pt-12 text-5xl font-extrabold text-muted-foreground/20 group-hover:text-primary/30 transition-colors">
-              <Trans>LIVE</Trans>
-            </div>
-          </div>
 
-          {/* Card 3 */}
-          <div className="bg-card p-10 rounded-xl border border-border group hover:border-primary/20 transition-all shadow-sm">
-            <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-8">
-              <span className="material-symbols-outlined text-3xl">shield</span>
+              {/* Content */}
+              <h3 className="text-xl lg:text-2xl font-semibold text-card-foreground mb-3">
+                <Trans>{f.title}</Trans>
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                <Trans>{f.desc}</Trans>
+              </p>
             </div>
-            <h3 className="text-2xl font-semibold mb-4 text-card-foreground"><Trans>Enterprise Security</Trans></h3>
-            <p className="text-muted-foreground leading-relaxed"><Trans>Military-grade encryption and granular access control for global supply chains.</Trans></p>
-          </div>
-
-          {/* Card 4 */}
-          <div className="md:col-span-2 bg-card p-10 rounded-xl border border-border flex flex-col md:flex-row gap-12 items-center shadow-sm">
-            <div className="flex-1 space-y-4 flex flex-col gap-0 items-start">
-              <div className="text-primary font-bold tracking-widest text-xs uppercase m-0 p-0"><Trans>Ecosystem Integration</Trans></div>
-              <h3 className="text-3xl font-semibold text-card-foreground m-0 p-0 pt-2"><Trans>Plays well with others.</Trans></h3>
-              <p className="text-muted-foreground text-lg m-0 p-0 pt-4"><Trans>Connect seamlessly with SAP, Oracle, and over 400+ third-party logistics providers via our robust API.</Trans></p>
-            </div>
-            <div className="flex-1 grid grid-cols-3 gap-4">
-              <div className="aspect-square bg-muted rounded-lg flex items-center justify-center border border-border text-muted-foreground"><span className="material-symbols-outlined">extension</span></div>
-              <div className="aspect-square bg-muted rounded-lg flex items-center justify-center border border-border text-muted-foreground"><span className="material-symbols-outlined">hub</span></div>
-              <div className="aspect-square bg-muted rounded-lg flex items-center justify-center border border-border text-muted-foreground"><span className="material-symbols-outlined">api</span></div>
-              <div className="aspect-square bg-muted rounded-lg flex items-center justify-center border border-border text-muted-foreground"><span className="material-symbols-outlined">database</span></div>
-              <div className="aspect-square bg-primary rounded-lg flex items-center justify-center text-primary-foreground"><span className="material-symbols-outlined">add</span></div>
-              <div className="aspect-square bg-muted rounded-lg flex items-center justify-center border border-border text-muted-foreground"><span className="material-symbols-outlined">settings</span></div>
-            </div>
-          </div>
+          );
+        })}
       </div>
     </section>
   );

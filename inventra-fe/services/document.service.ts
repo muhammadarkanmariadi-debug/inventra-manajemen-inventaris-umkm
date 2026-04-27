@@ -1,4 +1,4 @@
-"use server";
+
 
 import { API_URL } from "../global";
 import { getCookies } from "../lib/server-cookie";

@@ -1,66 +1,76 @@
 "use client";
-import React from 'react';
+import React from "react";
 import { Trans } from "@lingui/macro";
 
-export default function LandingInventoryFeatures() {
+const STEPS = [
+  {
+    icon: "person_add",
+    title: "Daftar Akun",
+    desc: "Buat akun gratis dalam hitungan detik — cukup email dan password, tanpa kartu kredit.",
+    step: "01",
+  },
+  {
+    icon: "storefront",
+    title: "Setup Bisnis",
+    desc: "Isi profil bisnis Anda, tambahkan gudang, dan impor data produk dari file CSV atau input manual.",
+    step: "02",
+  },
+  {
+    icon: "monitoring",
+    title: "Kelola & Pantau",
+    desc: "Dashboard real-time siap digunakan. Catat transaksi, pantau stok, dan biarkan AI bekerja untuk Anda.",
+    step: "03",
+  },
+];
+
+export default function LandingHowItWorks() {
   return (
-    <section className="py-24  border-y border-border">
-      <div className="max-w-screen-2xl mx-auto px-8">
-        <div className="flex flex-col lg:flex-row gap-12 items-center">
-
-          {/* LEFT */}
-          <div className="lg:w-1/3 space-y-6 flex flex-col items-start gap-0">
-            <h2 className="text-3xl font-bold text-foreground">
-              <Trans>Kenapa Platform Kami</Trans>
-            </h2>
-            <p className="text-muted-foreground leading-relaxed pt-4">
-              <Trans>
-                Sistem manajemen inventaris yang dirancang untuk dunia manufaktur,
-                distribusi, dan logistik — visibilitas penuh atas stok dan rantai pasok secara real-time.
-              </Trans>
-            </p>
-            <div className="space-y-3 pt-10 flex flex-col h-auto w-full">
-              {[
-                { label: "Stok Real-Time", desc: "Pantau level stok seluruh gudang tanpa jeda" },
-                { label: "Audit Trail Lengkap", desc: "Rekam setiap transaksi masuk, keluar & transfer" },
-                { label: "Integrasi ERP / MES", desc: "Sinkronisasi otomatis dengan sistem produksi" },
-              ].map((item, i) => (
-                <div key={i} className="p-4 bg-background rounded-lg border border-border shadow-sm flex flex-col items-start">
-                  <div className="font-bold text-primary">{item.label}</div>
-                  <div className="text-muted-foreground text-sm">{item.desc}</div>
-                </div>
-              ))}
-            </div>
+    <section className="py-20 lg:py-28 border-y border-border bg-muted/30 dark:bg-gray-900/50" id="how-it-works">
+      <div className="max-w-screen-2xl mx-auto px-6 lg:px-8">
+        {/* Section heading */}
+        <div className="text-center mb-16 space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-500/10 dark:bg-brand-500/15 rounded-full border border-brand-500/20 text-brand-500 text-xs font-bold tracking-widest uppercase mx-auto">
+            <span className="material-symbols-outlined text-sm">route</span>
+            <Trans>Cara Kerja</Trans>
           </div>
+          <h2 className="text-3xl lg:text-5xl font-bold tracking-tight text-foreground">
+            <Trans>Mulai dalam 3 Langkah Mudah</Trans>
+          </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+            <Trans>
+              Tidak perlu pengaturan rumit. Dari pendaftaran hingga pengelolaan penuh — semuanya bisa dilakukan dalam hitungan menit.
+            </Trans>
+          </p>
+        </div>
 
-          {/* RIGHT */}
-          <div className="lg:w-2/3 w-full bg-background rounded-xl overflow-hidden border border-border shadow-lg">
-            <div className="grid grid-cols-2 divide-x divide-y divide-border">
-              {[
-                { title: "Manajemen Stok", desc: "Pantau stok di semua gudang dan lini produksi secara langsung." },
-                { title: "Pelacakan Pergerakan", desc: "Catat setiap transaksi barang masuk, keluar, dan antar lokasi." },
-                { title: "Laporan & Analitik", desc: "Forecast permintaan, turnover rate, dan dead stock alert." },
-                { title: "Multi-Gudang", desc: "Kelola banyak lokasi penyimpanan dalam satu platform terpadu." },
-              ].map((f, i) => (
-                <div key={i} className="p-6 flex flex-col items-start gap-2">
-                  <div className="font-bold text-foreground">{f.title}</div>
-                  <div className="text-muted-foreground text-sm leading-relaxed">{f.desc}</div>
+        {/* Steps */}
+        <div className="grid md:grid-cols-3 gap-8 relative">
+          {/* Connecting line (desktop only) */}
+          <div className="hidden md:block absolute top-24 left-[16.67%] right-[16.67%] h-[2px] bg-gradient-to-r from-brand-500/20 via-brand-500/40 to-brand-500/20" />
+
+          {STEPS.map((s, i) => (
+            <div key={i} className="relative flex flex-col items-center text-center group">
+              {/* Step number badge */}
+              <div className="relative z-10 mb-6">
+                <div className="w-20 h-20 rounded-2xl bg-background border-2 border-brand-500/20 group-hover:border-brand-500 flex items-center justify-center shadow-lg shadow-gray-900/5 dark:shadow-black/20 transition-all duration-300 group-hover:shadow-brand-500/10 group-hover:-translate-y-1">
+                  <span className="material-symbols-outlined text-brand-500 text-3xl">
+                    {s.icon}
+                  </span>
                 </div>
-              ))}
-            </div>
-            <div className="px-8 py-4 border-t border-border flex gap-2">
-              <div className="px-4 py-2 bg-primary/10 backdrop-blur-md rounded-full border border-primary/20 text-primary text-xs font-bold">
-                <Trans>Manufaktur</Trans>
+                <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-brand-500 text-white text-xs font-bold flex items-center justify-center shadow-md">
+                  {s.step}
+                </div>
               </div>
-              <div className="px-4 py-2 bg-background/50 backdrop-blur-md rounded-full border border-border text-foreground text-xs font-bold">
-                <Trans>Distribusi</Trans>
-              </div>
-              <div className="px-4 py-2 bg-background/50 backdrop-blur-md rounded-full border border-border text-foreground text-xs font-bold">
-                <Trans>Logistik</Trans>
-              </div>
-            </div>
-          </div>
 
+              {/* Content */}
+              <h3 className="text-xl font-semibold text-foreground mb-3">
+                <Trans>{s.title}</Trans>
+              </h3>
+              <p className="text-muted-foreground leading-relaxed max-w-xs">
+                <Trans>{s.desc}</Trans>
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

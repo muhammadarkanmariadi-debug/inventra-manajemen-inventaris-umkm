@@ -13,7 +13,7 @@ interface CreateBusinessPayload {
 
 export async function createBusiness(payload: CreateBusinessPayload) {
     const url = `${API_URL}/bussiness`
-    
+
     // We get the token, we need it to authorize the business creation
     const token = await getCookies('token');
 
@@ -25,7 +25,9 @@ export async function createBusiness(payload: CreateBusinessPayload) {
         },
         body: JSON.stringify(payload)
     });
-    
+
     const json = await data.json();
     return json;
 }
+
+

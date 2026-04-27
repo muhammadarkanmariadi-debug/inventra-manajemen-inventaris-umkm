@@ -24,8 +24,12 @@ export default function BarChartGroup() {
   const [apiData, setApiData] = useState<FinancialDataState>({})
   useEffect(() => {
     const handleFunction = async () => {
-      const apiData = await analyzeIncomeExpenses();
-      setApiData(apiData)
+      const response = await analyzeIncomeExpenses();
+      if (response && response.status && response.data) {
+        setApiData(response.data);
+      } else {
+        setApiData({}); // fallback for failed or null response
+      }
     }
     handleFunction()
 

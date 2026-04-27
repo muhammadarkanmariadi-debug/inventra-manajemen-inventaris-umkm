@@ -34,10 +34,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const response = await getProfile();
       if (response.status && response.data) {
+        const fetchedRoles = response.data.roles || [];
         setUser(response.data.user);
         setBusiness(response.data.user.business || null);
-        setRoles(response.data.roles);
+        setRoles(fetchedRoles);
         setPermissions(response.data.permissions);
+
+        const isSuperadmin = response.data.user.role === 'SUPERADMIN';
+
+
+        if (isSuperadmin && pathname.startsWith('/dashboard')) {
+          router.replace('/businesses');
+        } else if (!isSuperadmin && pathname.startsWith('/businesses')) {
+          router.replace('/dashboard');
+        }
+
       } else {
 
         setUser(null);
@@ -47,7 +58,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
 
-      if (response.status === false || '') {
+      if (!response.status) {
         router.push("/auth/signin");
         toast.error(response.message);
       }
@@ -71,7 +82,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [pathname]);
 
   const hasPermission = (permission: string) => {
-    if (roles.includes("SUPERADMIN")) return true;
+    if (user?.role === 'SUPERADMIN') return true;
+    if (roles.includes("OWNER")) return true;
     return permissions.includes(permission);
   };
 

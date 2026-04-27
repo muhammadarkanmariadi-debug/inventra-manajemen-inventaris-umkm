@@ -14,6 +14,8 @@ import Alert from '@/components/ui/alert/Alert';
 import { FilterBar, FilterBarProps, FilterValues } from '@/components/common/FilterBar';
 import { getLocations, createLocation, updateLocation, deleteLocation } from '../../../../../services/location.service';
 import { PencilIcon, TrashIcon } from "lucide-react";
+import { PermissionWrapper } from '@/components/common/PermissionWrapper';
+import { Can } from '@/components/common/Can';
 
 interface LocationItem {
   id: number;
@@ -120,8 +122,7 @@ export default function LocationsPage() {
   });
 
   return (
-    <div>
-      <PageBreadcrumb pageTitle="Kelola Gudang" />
+    <PermissionWrapper permission="Lihat Produk" breadcrumb="Kelola Gudang">
       <div className="flex flex-col gap-4">
         <FilterBar
           tabs={filterConfig.tabs}
@@ -130,7 +131,9 @@ export default function LocationsPage() {
           onFilterChange={setFilters}
         />
         <div className="mb-4 flex justify-end">
-          <Button size="sm" onClick={openCreateModal}>+ Tambah Gudang</Button>
+          <Can permission="Tambah Produk">
+            <Button size="sm" onClick={openCreateModal}>+ Tambah Gudang</Button>
+          </Can>
         </div>
 
         <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
@@ -171,8 +174,12 @@ export default function LocationsPage() {
                         </TableCell>
                         <TableCell className="px-4 py-3 text-start">
                           <div className="flex items-center gap-2">
-                            <button onClick={() => openEditModal(loc)} className="p-2 text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400" title="Edit"><PencilIcon className="w-4 h-4" /></button>
-                            <button onClick={() => { setDeletingLocation(loc); setShowDeleteModal(true); }} className="p-2 text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-400" title="Hapus"><TrashIcon className="w-4 h-4" /></button>
+                            <Can permission="Ubah Produk">
+                              <button onClick={() => openEditModal(loc)} className="p-2 text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400" title="Edit"><PencilIcon className="w-4 h-4" /></button>
+                            </Can>
+                            <Can permission="Hapus Produk">
+                              <button onClick={() => { setDeletingLocation(loc); setShowDeleteModal(true); }} className="p-2 text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-400" title="Hapus"><TrashIcon className="w-4 h-4" /></button>
+                            </Can>
                           </div>
                         </TableCell>
                       </TableRow>
@@ -233,6 +240,6 @@ export default function LocationsPage() {
           </div>
         </div>
       </Modal>
-    </div>
+    </PermissionWrapper>
   );
 }

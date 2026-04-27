@@ -20,6 +20,8 @@ import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
 import { TrashIcon } from "lucide-react";
+import { PermissionWrapper } from '@/components/common/PermissionWrapper';
+import { Can } from '@/components/common/Can';
 
 export default function Sales() {
   const { _ } = useLingui();
@@ -157,14 +159,15 @@ export default function Sales() {
   }
 
   return (
-    <div>
-      <PageBreadcrumb pageTitle={_(msg`Penjualan`)} />
+    <PermissionWrapper permission="Lihat Penjualan" breadcrumb="Penjualan">
 
       
       <div className='flex flex-col gap-4 mb-4'>
         <FilterBar {...filterConfig} onFilterChange={setFilters} />
         <div className="flex justify-end">
-          <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Penjualan" /></Button>
+          <Can permission="Tambah Penjualan">
+            <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Penjualan" /></Button>
+          </Can>
         </div>
       </div>
 
@@ -209,7 +212,9 @@ export default function Sales() {
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">{formatCurrency(sale.total_price)}</TableCell>
                       <TableCell className="px-4 py-3 text-start">
                         <div className="flex items-center gap-2">
-                          <button onClick={() => openDeleteModal(sale)} className="p-2 text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-400" title="Hapus"><TrashIcon className="w-4 h-4" /></button>
+                          <Can permission="Hapus Penjualan">
+                            <button onClick={() => openDeleteModal(sale)} className="p-2 text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-400" title="Hapus"><TrashIcon className="w-4 h-4" /></button>
+                          </Can>
                         </div>
                       </TableCell>
                     </TableRow>
@@ -289,6 +294,6 @@ export default function Sales() {
           </Button>
         </div>
       </Modal>
-    </div>
+    </PermissionWrapper>
   );
 }

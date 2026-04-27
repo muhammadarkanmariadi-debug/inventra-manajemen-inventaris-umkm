@@ -25,6 +25,8 @@ import Pagination from '@/components/tables/Pagination';
 import { Trans } from '@lingui/react';
 import { getStockTransactions } from '../../../../../services/stock-transaction.service';
 import type { StockTransaction } from '../../../../../types';
+import { PermissionWrapper } from '@/components/common/PermissionWrapper';
+import { Can } from '@/components/common/Can';
 
 interface InventoryItem {
   id: number;
@@ -156,9 +158,7 @@ export default function StockAdjustmentPage() {
   }));
 
   return (
-    <div className='flex flex-col space-y-4 pb-20'>
-      <PageBreadcrumb pageTitle={_(msg`Penyesuaian Stok`)} />
-      
+    <PermissionWrapper permission="Lihat Transaksi Stok" breadcrumb="Penyesuaian Stok">
       <div className='flex flex-col gap-4 '>
         <FilterBar
           tabs={filterConfig.tabs}
@@ -167,7 +167,9 @@ export default function StockAdjustmentPage() {
           onFilterChange={setFilters}
         />
         <div className="mb-4 flex justify-end">
-          <Button size="sm" onClick={() => setOpenCreateModal(true)}>+ <Trans id="Tambah Penyesuaian" /></Button>
+          <Can permission="Tambah Transaksi Stok">
+            <Button size="sm" onClick={() => setOpenCreateModal(true)}>+ <Trans id="Tambah Penyesuaian" /></Button>
+          </Can>
         </div>
       </div>
 
@@ -330,6 +332,6 @@ export default function StockAdjustmentPage() {
       <div className="hidden">
         <QRScanner onScan={(e) => console.log(e)} />
       </div>
-    </div>
+    </PermissionWrapper>
   );
 }

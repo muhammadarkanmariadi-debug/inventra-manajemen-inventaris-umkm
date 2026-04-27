@@ -14,6 +14,8 @@ import { updateInventoryStatus } from '../../../../../services/inventory.service
 import { apiGet } from '../../../../../lib/api';
 import { predictDefect } from '../../../../../services/prediction.service';
 import type { DefectPredictionResponse } from '../../../../../types';
+import { useSearchParams } from 'next/navigation';
+import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 
 
 export default function ScanPage() {
@@ -22,6 +24,14 @@ export default function ScanPage() {
   const [options, setOptions] = useState<{ key: any, value: any }[]>([]);
   const [defectPrediction, setDefectPrediction] = useState<DefectPredictionResponse | null>(null);
   const [predicting, setPredicting] = useState(false);
+  const searchParams = useSearchParams();
+  const code = searchParams.get('code');
+
+  useEffect(() => {
+    if (code) {
+      scan(code);
+    }
+  }, [code]);
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -65,9 +75,7 @@ export default function ScanPage() {
 
 
   return (
-    <div>
-      <PageBreadcrumb pageTitle="Pemindai QR Inventaris" />
-
+    <PermissionWrapper permission="Lihat Produk" breadcrumb="Pemindai QR Inventaris">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-4">
         <div className="lg:col-span-5 space-y-6">
           <div className="bg-white dark:bg-gray-800/50 p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm">
@@ -182,6 +190,6 @@ export default function ScanPage() {
           )}
         </div>
       </div>
-    </div>
+    </PermissionWrapper>
   );
 }

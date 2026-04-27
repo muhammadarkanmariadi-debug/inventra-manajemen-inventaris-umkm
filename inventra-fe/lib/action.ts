@@ -25,13 +25,13 @@ export const encryptClient = async (data: string) => {
   return CryptoJS.AES.encrypt(data, ENCRYPT_SECRET).toString();
 };
 export const post = async (
-  url: string,
+  endpoint: string,
   payload: string | FormData,
   token?: string
 ): Promise<TypedResponse> => {
   try {
 
-    const res = await fetch(url, {
+    const res = await fetch(`${API_URL}${endpoint}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,14 +62,14 @@ export const post = async (
   }
 };
 export const put = async (
-  url: string,
+  endpoint: string,
   payload: string | FormData,
   token?: string,
 
 ): Promise<TypedResponse> => {
   try {
 
-    const res = await fetch(url, {
+    const res = await fetch(`${API_URL}${endpoint}`, {
       method: "PUT",
       headers: {
         Authorization: token ? `Bearer ${token}` : ''
@@ -97,14 +97,14 @@ export const put = async (
   }
 };
 export const get = async (
-  url: string,
+  endpoint: string,
 
   token?: string,
 
 ): Promise<TypedResponse> => {
   try {
 
-    const res = await fetch(url, {
+    const res = await fetch(`${API_URL}${endpoint}`, {
       method: "GET",
       headers: {
         Authorization: token ? `Bearer ${token}` : ''
@@ -132,14 +132,14 @@ export const get = async (
   }
 };
 export const del = async (
-  url: string,
+  endpoint: string,
   payload: string | FormData,
   token?: string,
 
 ): Promise<TypedResponse> => {
   try {
 
-    const res = await fetch(url, {
+    const res = await fetch(`${API_URL}${endpoint}`, {
       method: "DELETE",
       headers: {
         Authorization: token ? `Bearer ${token}` : ''

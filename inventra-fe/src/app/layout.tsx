@@ -1,9 +1,7 @@
 import { Outfit, Geist } from 'next/font/google';
 import './globals.css';
 import "flatpickr/dist/flatpickr.css";
-import { SidebarProvider } from '@/context/SidebarContext';
 import { ThemeProvider } from '@/context/ThemeContext';
-import { AuthProvider } from '@/context/AuthContext';
 import { cn } from "@/lib/utils";
 import { ToastProvider } from '@/context/ToastContext';
 import { LocaleProvider } from '@/context/LocaleProvider';
@@ -24,16 +22,11 @@ export default async function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className={`${outfit.className} dark:bg-gray-900`}>
-
         <ThemeProvider>
-          <ToastProvider  >
-          <AuthProvider>
-            <LocaleProvider >
-              <SidebarProvider>
-                {children}
-              </SidebarProvider>
+          <ToastProvider>
+            <LocaleProvider>
+              {children}
             </LocaleProvider>
-          </AuthProvider>
           </ToastProvider>
         </ThemeProvider>
       </body>

@@ -23,6 +23,7 @@ import { msg } from '@lingui/core/macro';
 import { useTranslate } from '@/hooks/useTranslate';
 import { getStatusTranslation } from '@/utils/statusTranslations';
 import { FileTextIcon } from 'lucide-react';
+import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 
 interface InventoryItem {
   id: number;
@@ -192,8 +193,7 @@ export default function InventoriesPage() {
   };
 
   return (
-    <div>
-      <PageBreadcrumb pageTitle={_(msg`Stok Inventaris`)} />
+    <PermissionWrapper permission="Lihat Produk" breadcrumb="Stok Inventaris">
       <div className="flex flex-col gap-4">
         <FilterBar
           tabs={filterConfig.tabs}
@@ -374,6 +374,6 @@ export default function InventoriesPage() {
           </Button>
         </div>
       </Modal>
-    </div>
+    </PermissionWrapper>
   );
 }

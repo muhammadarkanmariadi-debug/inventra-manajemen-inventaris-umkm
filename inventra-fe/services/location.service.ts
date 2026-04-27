@@ -1,4 +1,4 @@
-"use server";
+
 
 import { apiGet, apiPost, apiPut, apiDelete } from "../lib/api";
 

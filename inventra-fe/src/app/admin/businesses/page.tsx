@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { t } from "@lingui/macro";
 import { toast } from "sonner";
 import { Plus, PencilIcon, TrashIcon, Building2 } from "lucide-react";
+import { PermissionWrapper } from '@/components/common/PermissionWrapper';
+import { Can } from '@/components/common/Can';
 
 interface Business {
   id: string;
@@ -26,11 +28,7 @@ export default function BusinessesPage() {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         
         // Dummy data for example
-        const data: Business[] = [
-          { id: "1", name: "Toko Sembako Anugrah", owner: "Budi Santoso", status: "ACTIVE" },
-          { id: "2", name: "Warung Kopi Senja", owner: "Siti Aminah", status: "ACTIVE" },
-          { id: "3", name: "Depot Elektronik Maju", owner: "Agus Salim", status: "INACTIVE" },
-        ];
+        await 
         
         setBusinesses(data);
       } catch (err) {
@@ -50,21 +48,24 @@ export default function BusinessesPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-            {t`Manajemen Bisnis`}
-          </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            {t`Kelola semua penyewa SaaS dan bisnis yang terdaftar.`}
-          </p>
+    <PermissionWrapper permission="Lihat Bisnis">
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+              {t`Manajemen Bisnis`}
+            </h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              {t`Kelola semua penyewa SaaS dan bisnis yang terdaftar.`}
+            </p>
+          </div>
+          <Can permission="Tambah Bisnis">
+            <button className="flex items-center px-4 py-2 font-medium text-white transition-colors rounded-lg bg-brand-500 hover:bg-brand-600 gap-2">
+              <Plus className="w-5 h-5" />
+              {t`Tambah Bisnis`}
+            </button>
+          </Can>
         </div>
-        <button className="flex items-center px-4 py-2 font-medium text-white transition-colors rounded-lg bg-brand-500 hover:bg-brand-600 gap-2">
-          <Plus className="w-5 h-5" />
-          {t`Tambah Bisnis`}
-        </button>
-      </div>
 
       <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
         {loading ? (
@@ -107,15 +108,19 @@ export default function BusinessesPage() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-3">
-                        <button className="text-gray-400 hover:text-brand-500 transition-colors">
-                          <PencilIcon className="w-5 h-5" />
-                        </button>
-                        <button 
-                          onClick={() => handleDelete(business.id)}
-                          className="text-gray-400 hover:text-red-500 transition-colors"
-                        >
-                          <TrashIcon className="w-5 h-5" />
-                        </button>
+                        <Can permission="Ubah Bisnis">
+                          <button className="text-gray-400 hover:text-brand-500 transition-colors">
+                            <PencilIcon className="w-5 h-5" />
+                          </button>
+                        </Can>
+                        <Can permission="Hapus Bisnis">
+                          <button 
+                            onClick={() => handleDelete(business.id)}
+                            className="text-gray-400 hover:text-red-500 transition-colors"
+                          >
+                            <TrashIcon className="w-5 h-5" />
+                          </button>
+                        </Can>
                       </div>
                     </td>
                   </tr>
@@ -133,5 +138,6 @@ export default function BusinessesPage() {
         )}
       </div>
     </div>
+    </PermissionWrapper>
   );
 }

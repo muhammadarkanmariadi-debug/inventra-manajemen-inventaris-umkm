@@ -17,6 +17,7 @@ import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
 import { apiGet } from '../../../../../lib/api';
+import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -177,9 +178,7 @@ export default function StockPrediction() {
   );
 
   return (
-    <div>
-      <PageBreadcrumb pageTitle={_(msg`Prediksi & Analisis Stok`)} />
-
+    <PermissionWrapper permission="Lihat Transaksi Stok" breadcrumb="Prediksi & Analisis Stok">
 
       {/* Overview Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 mb-6">
@@ -471,6 +470,6 @@ export default function StockPrediction() {
         )}
       </div>
 
-    </div>
+    </PermissionWrapper>
   );
 }

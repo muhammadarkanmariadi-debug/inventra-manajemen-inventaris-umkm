@@ -4,13 +4,11 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { usePermission } from "@/hooks/usePermission";
 import AdminLayout from "@/components/layouts/AdminLayout";
+import { AuthProvider } from "@/context/AuthContext";
+import { SidebarProvider } from "@/context/SidebarContext";
 import { toast } from "sonner";
 
-export default function AdminRouteGuard({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function AdminRouteGuardInner({ children }: { children: React.ReactNode }) {
   const { isSuperAdmin, isLoading } = usePermission();
   const router = useRouter();
 
@@ -30,4 +28,18 @@ export default function AdminRouteGuard({
   }
 
   return <AdminLayout>{children}</AdminLayout>;
+}
+
+export default function AdminRouteGuard({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <AuthProvider>
+      <SidebarProvider>
+        <AdminRouteGuardInner>{children}</AdminRouteGuardInner>
+      </SidebarProvider>
+    </AuthProvider>
+  );
 }

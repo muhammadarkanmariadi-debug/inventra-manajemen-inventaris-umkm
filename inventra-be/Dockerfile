@@ -26,8 +26,7 @@ COPY . .
 
 
 # Buat .env SEBELUM artisan dijalankan
-RUN if [ ! -f .env ]; then cp .env.example .env; fi \
-    && php artisan key:generate \
+RUN  php artisan key:generate \
     && composer dump-autoload --optimize \
     && php artisan optimize:clear || true
 
