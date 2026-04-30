@@ -1,58 +1,14 @@
+
+```md
 <div align="center">
-
-# 📦 UMKM Inventory & Finance Management System
-
-**Platform terintegrasi untuk manajemen inventaris, stok, penjualan, dan keuangan UMKM — semua dalam satu tempat.**
 
 <br/>
 
-<!-- TECH STACK BOX -->
-<table>
-  <tr>
-    <td align="center" colspan="7">
-      <strong>🛠️ Tech Stack</strong>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="https://skillicons.dev/icons?i=nextjs" width="48" height="48" alt="Next.js"/><br/>
-      <sub><b>Next.js</b></sub>
-    </td>
-    <td align="center">
-      <img src="https://skillicons.dev/icons?i=ts" width="48" height="48" alt="TypeScript"/><br/>
-      <sub><b>TypeScript</b></sub>
-    </td>
-    <td align="center">
-      <img src="https://skillicons.dev/icons?i=tailwind" width="48" height="48" alt="Tailwind CSS"/><br/>
-      <sub><b>Tailwind CSS</b></sub>
-    </td>
-    <td align="center">
-      <img src="https://skillicons.dev/icons?i=laravel" width="48" height="48" alt="Laravel"/><br/>
-      <sub><b>Laravel</b></sub>
-    </td>
-    <td align="center">
-      <img src="https://skillicons.dev/icons?i=php" width="48" height="48" alt="FrankenPHP"/><br/>
-      <sub><b>FrankenPHP</b></sub>
-    </td>
-    <td align="center">
-      <img src="https://skillicons.dev/icons?i=mysql" width="48" height="48" alt="MariaDB"/><br/>
-      <sub><b>MariaDB</b></sub>
-    </td>
-    <td align="center">
-      <img src="https://skillicons.dev/icons?i=redis" width="48" height="48" alt="Redis"/><br/>
-      <sub><b>Redis</b></sub>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" colspan="7">
-      <img src="https://img.shields.io/badge/Auth-JWT-black?style=flat-square&logo=jsonwebtokens&logoColor=white"/>
-      &nbsp;
-      <img src="https://img.shields.io/badge/API-REST-blue?style=flat-square"/>
-      &nbsp;
-      <img src="https://img.shields.io/badge/Runtime-FrankenPHP-orange?style=flat-square&logo=php&logoColor=white"/>
-    </td>
-  </tr>
-</table>
+# INVENTRA
+
+**Platform Manajemen Inventaris & Distribusi untuk Industri Menengah Indonesia**
+
+*Batch tracking · Manajemen status QC · Dokumen operasional otomatis · Prediksi stok berbasis AI*
 
 <br/>
 
@@ -60,104 +16,289 @@
 [![Next.js](https://img.shields.io/badge/Next.js-15.x-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org)
 [![MariaDB](https://img.shields.io/badge/MariaDB-10.x-003545?style=for-the-badge&logo=mariadb&logoColor=white)](https://mariadb.org)
 [![Redis](https://img.shields.io/badge/Redis-7.x-DC382D?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115.x-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docs.docker.com/compose/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
 </div>
 
 ---
 
+## 📚 Daftar Isi
+
+1. Tentang Proyek  
+2. Research Question  
+3. Why This Project  
+4. Value Utama  
+5. Fitur Utama  
+6. Arsitektur Sistem  
+7. Tech Stack  
+8. Prasyarat  
+9. Instalasi & Konfigurasi  
+10. Role & Hak Akses  
+11. Demo Credential  
+12. Dokumentasi API AI  
+13. Studi Kasus  
+14. Target Industri  
+15. Rencana Pengembangan  
+16. Tim Pengembang  
+17. Lisensi  
+
+---
+
 ## 🎯 Tentang Proyek
 
-Sistem manajemen inventaris dan keuangan yang dirancang khusus untuk UMKM Indonesia. Mulai dari **kuliner**, **retail**, hingga **produksi rumahan** — platform ini membantu pelaku usaha mengelola operasional bisnis secara efisien dengan perhitungan HPP otomatis dan tracking keuangan real-time.
+Perusahaan manufaktur dan distribusi skala menengah di Indonesia masih banyak yang mengandalkan spreadsheet atau pencatatan manual dalam mengelola inventaris.
+
+Seiring meningkatnya jumlah SKU dan kompleksitas operasional, pendekatan ini menyebabkan:
+
+- Minimnya visibilitas stok secara real-time  
+- Tidak adanya pelacakan batch yang akurat  
+- Ketidaksinkronan data antara gudang, QC, dan manajemen  
+- Lambatnya proses operasional dan pengambilan keputusan  
+
+Di sisi lain, solusi inventory modern yang tersedia di pasar:
+
+- Terlalu kompleks  
+- Terlalu mahal  
+- Tidak sesuai dengan alur kerja lokal Indonesia  
+
+**Inventra hadir untuk mengisi gap tersebut.**
+
+> ✔ Cukup powerful untuk batch tracking & QC  
+> ✔ Cukup sederhana tanpa tim IT khusus  
+> ✔ Cukup lokal untuk dokumen operasional Indonesia  
+
+---
+
+## ❓ Research Question
+
+> Apakah sistem inventaris modern dapat meningkatkan akurasi pelacakan barang dan efisiensi operasional serta mengurangi ketergantungan pada proses manual di industri manufaktur dan distribusi?
+
+---
+
+## 💡 Why This Project?
+
+Banyak sistem inventory tersedia, tetapi:
+
+- Over-engineered  
+- Tidak sesuai workflow distribusi Indonesia  
+- Tidak menyediakan dokumen operasional  
+
+**Inventra mengambil posisi:**
+
+> “Bukan yang paling kompleks, tapi paling relevan untuk operasional nyata.”
+
+---
+
+## 🚀 Value Utama
+
+Inventra memberikan:
+
+- **End-to-end visibility** pergerakan barang  
+- **Data-driven decision** melalui AI  
+- **Efisiensi operasional** melalui otomatisasi  
 
 ---
 
 ## ✨ Fitur Utama
 
 | Fitur | Deskripsi |
-|-------|-----------|
-| 📊 **Dashboard** | Ringkasan bisnis dan KPI secara real-time |
-| 📦 **Manajemen Produk** | Kelola produk & kategori dengan mudah |
-| 🏷️ **Inventaris & Stok** | Tracking stok masuk/keluar secara akurat |
-| 💰 **Pencatatan Penjualan** | Rekap transaksi penjualan harian/bulanan |
-| 🧮 **Perhitungan HPP** | Kalkulasi Harga Pokok Produksi otomatis |
-| 📈 **Keuangan** | Monitoring income & expense terintegrasi |
-| 👥 **Role Management** | Akses berbasis peran: Owner, Admin, Staff |
-| ⚡ **Performa Tinggi** | Caching & queue dengan Redis |
-| 🔐 **Keamanan** | Autentikasi stateless berbasis JWT |
+|---|---|
+| 📦 Batch Tracking | Tracking barang per batch dari supplier |
+| 🔬 Status QC | Status: available, on-hold, unreleased, reject |
+| 📄 Dokumen Otomatis | Surat jalan & berita acara reject |
+| 🔔 Early Warning | Notifikasi stok minimum & expiry |
+| 🤖 AI Prediksi | Prediksi stok & tren penjualan |
+| 📊 Laporan | Export Excel/PDF |
+| 👥 Role Management | Akses fleksibel |
+| 🏢 Multi Gudang | Multi lokasi & tenant |
+| ⚡ Performa Tinggi | Swoole + Redis |
+
+---
+
+## 🧠 AI Feature
+
+- Analisis tren penjualan  
+- Prediksi kebutuhan stok  
+- Estimasi stockout  
+- Rekomendasi restock  
+
+### Teknologi:
+- Linear Regression  
+- Prophet  
 
 ---
 
 ## 🏗️ Arsitektur Sistem
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                    CLIENT LAYER                     │
-│          Next.js (SSR / SPA / TypeScript)           │
-│              Tailwind CSS • shadcn/ui               │
-└───────────────────────┬─────────────────────────────┘
-                        │ HTTPS / REST API
-┌───────────────────────▼─────────────────────────────┐
-│                   BACKEND LAYER                     │
-│          Laravel 11 + FrankenPHP Runtime            │
-│         JWT Auth • Business Logic • Queue           │
-└──────────┬──────────────────────────┬───────────────┘
-           │                          │
-┌──────────▼──────────┐  ┌────────────▼───────────────┐
-│    DATABASE LAYER   │  │       CACHE LAYER          │
-│  MariaDB / MySQL    │  │  Redis (Cache/Queue/Session)│
-│  Relational Data    │  │  High-performance Storage   │
-└─────────────────────┘  └────────────────────────────┘
+
+CLIENT (Next.js)
+↓
+API (Laravel + Swoole)
+↓
+Database (MariaDB) + Cache (Redis)
+↓
+AI Service (FastAPI)
+
+````
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- Next.js 15
+- TypeScript
+- Tailwind CSS
+
+### Backend
+- Laravel 11
+- Octane (Swoole)
+
+### AI
+- FastAPI
+- Prophet
+- Scikit-learn
+
+### Infrastructure
+- Docker
+- Redis
+- MariaDB
+
+---
+
+## 📋 Prasyarat
+
+- Docker 24+
+- Docker Compose v2+
+- Git
+
+---
+
+## 🚀 Instalasi & Konfigurasi
+
+### Clone Repository
+
+```bash
+git clone https://github.com/muhammadarkanmariadi-debug/inventra-manajemen-inventaris-umkm.git
+cd inventra-manajemen-inventaris-umkm
+````
+
+### Jalankan
+
+```bash
+# frontend
+cd inventra-fe
+cp .env.example .env
+# backend
+cd inventra-be
+cp .env.example .env
+# AI
+lakukan setup sistem ai stock prediction dengan membuka readme miliki ai-stock perdiction
+
+
+docker compose up -d --build
+```
+
+### Setup Database
+
+```bash
+docker compose exec backend php artisan key:generate
+docker compose exec backend php artisan jwt:secret
+docker compose exec backend php artisan migrate
+docker compose exec backend php artisan db:seed
 ```
 
 ---
 
-## 🧱 Detail Tech Stack
+## 👥 Role & Hak Akses
 
-### 🎨 Frontend
-- **[Next.js](https://nextjs.org)** — React framework dengan SSR, SSG, dan App Router
-- **[TypeScript](https://www.typescriptlang.org)** — Type safety untuk codebase yang lebih maintainable
-- **[Tailwind CSS](https://tailwindcss.com)** — Utility-first CSS framework untuk styling cepat
+| Role        | Akses           |
+| ----------- | --------------- |
+| Super Admin | Full            |
+| Manager     | Operasional     |
+| Operator    | Stok            |
+| QC          | Quality Control |
 
-### ⚙️ Backend
-- **[Laravel](https://laravel.com)** — PHP framework untuk REST API & business logic
-- **[FrankenPHP](https://frankenphp.dev)** — Modern PHP runtime berbasis Go, performa tinggi
-
-### 🗄️ Database
-- **[MariaDB / MySQL](https://mariadb.org)** — Relational database untuk data transaksional
-
-### ⚡ Cache & Queue
-- **[Redis](https://redis.io)** — In-memory store untuk caching, queue jobs, dan session
-
-### 🔐 Authentication
-- **[JWT (tymon/jwt-auth)](https://github.com/tymondesigns/jwt-auth)** — Stateless authentication via JSON Web Token
+Detail lengkap: `docs/role_permission_matrix.html`
 
 ---
 
-## 👥 Role & Akses
+## 🔑 Demo Credential
 
 ```
-Owner  → Akses penuh: dashboard, laporan, pengaturan, semua modul
-Admin  → Manajemen produk, stok, penjualan, keuangan
-Staff  → Input transaksi & pengecekan stok
+Super Admin   : superadmin@demo.com / demo1234
+Manager       : manager@demo.com / demo1234
+Operator      : operator@demo.com / demo1234
+QC            : qc@demo.com / demo1234
 ```
 
 ---
 
-## 🎯 Target Pengguna
+## 🤖 Dokumentasi API AI
 
-- 🍜 **UMKM Kuliner** — Restoran, warung, katering
-- 🛍️ **UMKM Retail** — Toko kelontong, minimarket, fashion
-- 🏠 **Produksi Rumahan** — Kerajinan, makanan olahan, konveksi
-- 🏪 **Toko Fisik & Online** — Mendukung operasional omnichannel
+### POST /predict
+
+```json
+{
+  "forecast_days": 14,
+  "data": [
+    { "product_id": 1, "stock": 150, "sales": "10" }
+  ]
+}
+```
 
 ---
+
+## 📖 Studi Kasus
+
+**PT Maju Jaya Baya — Distributor Jawa Timur**
+
+### Sebelum:
+
+* Tidak bisa tracking batch
+* Status tidak transparan
+* Dokumen manual
+
+### Setelah:
+
+* Investigasi: 2–3 hari → menit
+* Eliminasi salah kirim
+* Dokumen otomatis
+
+---
+
+## 🏭 Target Industri
+
+* Distribusi
+* Manufaktur
+* Alat kesehatan
+* Spare part
+
+---
+
+## 🗺️ Rencana Pengembangan
+
+| Tahap | Target             |
+| ----- | ------------------ |
+| 1     | Validasi           |
+| 2     | Penguatan fitur    |
+| 3     | Integrasi WhatsApp |
+| 4     | Ekspansi ASEAN     |
+| 5     | Ekosistem          |
+
+---
+
 
 ## 📄 Lisensi
 
-Didistribusikan di bawah lisensi **MIT**. Lihat `LICENSE` untuk informasi lebih lanjut.
+MIT License
 
 ---
 
 <div align="center">
-  <sub>Dibuat dengan ❤️ untuk UMKM Indonesia</sub>
+  <sub>Hackathon Microsoft Elevate Training Center · Manufaktur & Energi</sub>
 </div>
+```
