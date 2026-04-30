@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LoggingEvent;
 use App\Http\Requests\TransactionRequest;
 use App\Services\TransactionService;
+use App\Helpers\ApiHelper;
 
 class TransactionController extends Controller
 {
@@ -29,6 +31,8 @@ class TransactionController extends Controller
                 $request->notes
             );
 
+            event(new LoggingEvent('Transaction processed: ' . $request->type, 'transactions'));
+
             return response()->json([
                 'status' => true,
                 'message' => 'Transaction processed successfully.',
@@ -39,10 +43,7 @@ class TransactionController extends Controller
             $code = $e->getCode();
             $code = is_int($code) && $code >= 100 && $code < 600 ? $code : 500;
 
-            return response()->json([
-                'status' => false,
-                'message' => $e->getMessage(),
-            ], $code);
+            return ApiHelper::error($e->getMessage(), $code);
         }
     }
 }

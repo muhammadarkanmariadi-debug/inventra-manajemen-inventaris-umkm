@@ -22,6 +22,7 @@ import PageBreadcrumb from '@/components/common/PageBreadCrumb';
 import { Table, TableHeader, TableBody, TableRow, TableCell } from '@/components/ui/table';
 import Badge from '@/components/ui/badge/Badge';
 import Pagination from '@/components/tables/Pagination';
+import { exportToExcel } from '@/utils/exportExcel';
 
 const typeLabels: Record<string, string> = {
   LPB: 'Laporan Pergerakan Barang',
@@ -108,6 +109,16 @@ export default function DocumentArchivePage() {
     }
   };
 
+  const handleExport = () => {
+    const exportData = documents.map(doc => ({
+      "No. Dokumen": doc.document_number,
+      Tipe: typeLabels[doc.type] || doc.type,
+      Judul: doc.title,
+      Dibuat: new Date(doc.created_at).toLocaleString('id-ID')
+    }));
+    exportToExcel(exportData, 'Arsip_Dokumen');
+  };
+
   return (
     <div className="min-h-screen">
       {/* Header */}
@@ -133,9 +144,18 @@ export default function DocumentArchivePage() {
             <option value="LRS">Laporan Rekap Stok</option>
           </select>
         </div>
-        <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1">
-          <FileTextIcon className="w-4 h-4" />
-          Total: {total} dokumen
+        <div className="flex items-center gap-3">
+          <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1">
+            <FileTextIcon className="w-4 h-4" />
+            Total: {total} dokumen
+          </div>
+          <button
+            onClick={handleExport}
+            className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-700"
+            title="Export ke Excel"
+          >
+            <DownloadIcon className="w-4 h-4" /> Export Excel
+          </button>
         </div>
       </div>
 

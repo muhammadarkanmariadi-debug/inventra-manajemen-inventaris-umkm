@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LoggingEvent;
 use App\Helpers\ApiHelper;
 use Spatie\Permission\Models\Role;
 use App\Services\RequestService;
@@ -22,6 +23,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+        try {
         $rules = [
             'name'          => 'required|string|unique:roles,name',
             'permissions'   => 'required|array',
@@ -31,7 +33,12 @@ class RoleController extends Controller
         $data = $this->requestService->postData(Role::class, $request, $rules);
         $data->syncPermissions($request->input('permissions', []));
 
+        event(new LoggingEvent('Role ' . $data->name . ' was successfully created', 'roles'));
+
         return ApiHelper::success('Role was successfully created', $data, 201);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -39,6 +46,7 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
+        try {
         $perPage = (int) $request->query('items', 10);
         $data    = Role::paginate($perPage);
 
@@ -47,6 +55,9 @@ class RoleController extends Controller
         }
 
         return ApiHelper::success('Roles retrieved successfully', $data, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -54,6 +65,7 @@ class RoleController extends Controller
      */
     public function show($id)
     {
+        try {
         $data = Role::with('permissions')->where('id', $id)->first();
 
         if (!$data) {
@@ -61,6 +73,9 @@ class RoleController extends Controller
         }
 
         return ApiHelper::success('Role retrieved successfully', $data, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -68,6 +83,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
+        try {
         $rules = [
             'name'          => 'sometimes|string|unique:roles,name,' . $id,
             'permissions'   => 'sometimes|array',
@@ -77,7 +93,12 @@ class RoleController extends Controller
         $data = $this->requestService->updateDataById(Role::class, $id, $request, $rules);
         $data->syncPermissions($request->input('permissions', []));
 
+        event(new LoggingEvent('Role ' . $data->name . ' was successfully updated', 'roles'));
+
         return ApiHelper::success('Role was successfully updated', $data, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -85,9 +106,15 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
+        try {
         $this->requestService->deleteDataById(Role::class, $id);
 
+        event(new LoggingEvent('Role with id ' . $id . ' was successfully deleted', 'roles'));
+
         return ApiHelper::success('Role was successfully deleted', null, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -95,6 +122,7 @@ class RoleController extends Controller
      */
     public function getPermissions(Request $request)
     {
+        try {
         $perPage = (int) $request->query('items', 10);
         $data    = Permission::paginate($perPage);
 
@@ -103,5 +131,8 @@ class RoleController extends Controller
         }
 
         return ApiHelper::success('Permissions retrieved successfully', $data, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 }

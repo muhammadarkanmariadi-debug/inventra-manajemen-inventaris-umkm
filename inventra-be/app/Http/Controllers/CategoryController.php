@@ -22,6 +22,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        try {
         $rules = [
             'name'        => 'required|string|max:255|unique:categories,name',
             'description' => 'nullable|string',
@@ -34,6 +35,9 @@ class CategoryController extends Controller
         event(new LoggingEvent('Category created successfully', 'categories'));
 
         return ApiHelper::success('Category created successfully', $data, 201);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -41,6 +45,7 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
+        try {
         $perPage    = (int) $request->query('items', 10);
         $categories = Category::with('products')->paginate($perPage);
 
@@ -49,6 +54,9 @@ class CategoryController extends Controller
         }
 
         return ApiHelper::success('Categories retrieved successfully', $categories, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -56,6 +64,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
+        try {
         $category = Category::with('products')->find($id);
 
         if (!$category) {
@@ -63,6 +72,9 @@ class CategoryController extends Controller
         }
 
         return ApiHelper::success('Category retrieved successfully', $category, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -70,6 +82,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        try {
         $rules = [
             'name'        => 'required|string|max:255|unique:categories,name,' . $id,
             'description' => 'nullable|string',
@@ -80,6 +93,9 @@ class CategoryController extends Controller
         event(new LoggingEvent('Category with id ' . $id . ' updated successfully', 'categories'));
 
         return ApiHelper::success('Category updated successfully', $data, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -87,10 +103,14 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        try {
         $this->requestService->deleteDataById(Category::class, $id);
 
         event(new LoggingEvent('Category with id ' . $id . ' deleted successfully', 'categories'));
 
         return ApiHelper::success('Category deleted successfully', null, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 }

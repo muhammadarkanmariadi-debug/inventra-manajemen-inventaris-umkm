@@ -12,25 +12,40 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $product = Product::firstOrCreate(
-            ['sku' => 'SKU002'],
-            [
-            'category_id'   => 1,
-            'name'          => 'Smartphone XYZ',
-            'product_type'  => 'barang',
-            'unit'          => 'pcs',
-            'bussiness_id'  => 1,
-            'selling_price' => '5000.00',
-            'expired_date'  => null,
-        ]);
+        $faker = \Faker\Factory::create('id_ID');
+        $businesses = \App\Models\Business::all();
+        $readyStatusId = \App\Models\InventoryStatus::where('code', 'READY')->first()->id ?? 4;
 
-      
-        \App\Models\Inventory::firstOrCreate(
-            ['inventory_code' => 'INV-SEED-01'],
-            [
-            'product_id' => $product->id,
-            'current_status_id' => \App\Models\InventoryStatus::where('code', 'READY')->first()->id,
-            'quantity' => 16,
-        ]);
+        foreach ($businesses as $business) {
+            $categories = \App\Models\Category::where('bussiness_id', $business->id)->get();
+            if ($categories->isEmpty()) continue;
+
+            for ($i = 1; $i <= 10; $i++) {
+                $category = $categories->random();
+                $prefix = strtoupper(substr($business->name, 0, 3));
+                
+                $product = Product::firstOrCreate(
+                    ['sku' => "{$prefix}-" . $faker->unique()->numerify('SKU####')],
+                    [
+                        'category_id'   => $category->id,
+                        'name'          => $faker->words(3, true),
+                        'product_type'  => 'barang',
+                        'unit'          => $faker->randomElement(['pcs', 'box', 'kg', 'lusin']),
+                        'bussiness_id'  => $business->id,
+                        'selling_price' => $faker->numberBetween(10000, 500000),
+                        'expired_date'  => $faker->optional(0.3)->dateTimeBetween('now', '+2 years'),
+                    ]
+                );
+
+                \App\Models\Inventory::firstOrCreate(
+                    ['inventory_code' => "INV-{$prefix}-" . $faker->unique()->numerify('####')],
+                    [
+                        'product_id' => $product->id,
+                        'current_status_id' => $readyStatusId,
+                        'quantity' => $faker->numberBetween(10, 500),
+                    ]
+                );
+            }
+        }
     }
 }

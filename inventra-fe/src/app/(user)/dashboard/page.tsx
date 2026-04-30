@@ -196,7 +196,7 @@ export default function DashboardPage() {
             </div>
           </div>
           <LineChartOne data={salesStats} />
-          <BarChartGroup/>
+      
         </div>
 
         {/* Top Products */}

@@ -13,57 +13,60 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = [
+        // 1. Create one Global Superadmin
+        $superadmin = User::firstOrCreate(
+            ['email' => 'superadmin@inventra.com'],
             [
-                'username' => 'Owner User',
-                'email' => 'owner@example.com',
-                'password' => bcrypt('owner1234'),
-                'role' => 'USER',
-                'roles' => 'owner',
-
-            ],
-            [
-                'username' => 'Admin User',
-                'email' => 'admin@example.com',
-                'password' => bcrypt('admin1234'),
-                'role' => 'USER',
-                'roles' => 'admin',
-
-            ],
-            [
-                'username' => 'Staff User',
-                'email' => 'staff@example.com',
-                'password' => bcrypt('staff1234'),
-
-                'role' => 'USER',
-                'roles' =>  'staff',
-            ],
-            [
-                'username' => 'Superadmin User',
-                'email' => 'superadmin@example.com',
-                'password' => bcrypt('superadmin1234'),
+                'username' => 'Superadmin Master',
+                'password' => bcrypt('superadmin123'),
                 'role' => 'SUPERADMIN',
-                'roles' => ['owner', 'admin', 'staff'],
-
+                'bussiness_id' => null,
             ]
-        ];
+        );
+        $superadmin->assignRole(['owner', 'admin', 'staff']); // Just in case, but Superadmin usually bypasses permission checks
 
-        foreach ($users as $user) {
-            User::firstOrCreate(
-                ['email' => $user['email']],
+        // 2. Create users for each business
+        $businesses = \App\Models\Business::all();
+        
+        foreach ($businesses as $index => $business) {
+            $prefix = explode(' ', strtolower($business->name))[0];
+            
+            // Owner
+            $owner = User::firstOrCreate(
+                ['email' => "owner@{$prefix}.com"],
                 [
-                    'username' => $user['username'],
-                    'password' => $user['password'],
-                    'role' => $user['role'],
-                    'bussiness_id' => 1,
+                    'username' => "Owner {$business->name}",
+                    'password' => bcrypt('owner123'),
+                    'role' => 'USER',
+                    'bussiness_id' => $business->id,
                 ]
             );
-        }
+            $owner->assignRole('owner');
 
-        foreach ($users as $user) {
-            $userModel = User::where('email', $user['email'])->first();
-            if ($userModel) {
-                $userModel->assignRole($user['roles']);
+            // Admin
+            $admin = User::firstOrCreate(
+                ['email' => "admin@{$prefix}.com"],
+                [
+                    'username' => "Admin {$business->name}",
+                    'password' => bcrypt('admin123'),
+                    'role' => 'USER',
+                    'bussiness_id' => $business->id,
+                ]
+            );
+            $admin->assignRole('admin');
+
+            // Staff 1 & 2
+            for ($i = 1; $i <= 2; $i++) {
+                $staff = User::firstOrCreate(
+                    ['email' => "staff{$i}@{$prefix}.com"],
+                    [
+                        'username' => "Staff {$i} {$business->name}",
+                        'password' => bcrypt('staff123'),
+                        'role' => 'USER',
+                        'bussiness_id' => $business->id,
+                    ]
+                );
+                $staff->assignRole('staff');
             }
         }
     }

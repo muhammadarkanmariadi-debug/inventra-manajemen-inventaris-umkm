@@ -7,30 +7,34 @@ import { Plus, PencilIcon, TrashIcon, Building2 } from "lucide-react";
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 import { Can } from '@/components/common/Can';
 
-interface Business {
-  id: string;
-  name: string;
-  owner: string;
-  status: "ACTIVE" | "INACTIVE";
+import { getBusinesses, deleteAdminBusiness } from "../../../../services/business.service";
+import type { Business } from "../../../../types";
+
+interface BusinessView extends Business {
+    owner: string;
 }
 
 export default function BusinessesPage() {
-  const [businesses, setBusinesses] = useState<Business[]>([]);
+  const [businesses, setBusinesses] = useState<BusinessView[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Simulate an API fetch
     const fetchBusinesses = async () => {
       try {
         setLoading(true);
-        // Simulate network delay
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        
-        // Dummy data for example
-        await 
-        
-        setBusinesses(data);
+        const res = await getBusinesses();
+        if (res.status) {
+          // Add owner mapping logic if users data is provided
+          const mappedBusinesses = res.data.data.map((b: Business) => ({
+            ...b,
+            owner: "Admin" 
+          }));
+          setBusinesses(mappedBusinesses as BusinessView[]);
+        } else {
+           setError(t`Gagal memuat data bisnis`);
+           toast.error(res.message);
+        }
       } catch (err) {
         setError(t`Gagal memuat data bisnis`);
         toast.error(t`Gagal memuat data bisnis`);
@@ -42,9 +46,18 @@ export default function BusinessesPage() {
     fetchBusinesses();
   }, []);
 
-  const handleDelete = (id: string) => {
-    setBusinesses(businesses.filter((b) => b.id !== id));
-    toast.success(t`Bisnis berhasil dihapus`);
+  const handleDelete = async (id: number) => {
+    try {
+      const res = await deleteAdminBusiness(id);
+      if (res.status) {
+         setBusinesses(businesses.filter((b) => b.id !== id));
+         toast.success(t`Bisnis berhasil dihapus`);
+      } else {
+         toast.error(res.message);
+      }
+    } catch {
+       toast.error(t`Gagal menghapus bisnis`);
+    }
   };
 
   return (
@@ -99,11 +112,11 @@ export default function BusinessesPage() {
                     </td>
                     <td className="px-6 py-4">
                       <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        business.status === 'ACTIVE' 
+                        business.status === 'active' 
                           ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
                           : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
                       }`}>
-                        {business.status}
+                        {business.status.toUpperCase()}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">

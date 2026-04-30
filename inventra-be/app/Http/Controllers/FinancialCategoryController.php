@@ -22,6 +22,7 @@ class FinancialCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        try {
         $rules = [
             'name' => 'required|string',
             'type' => 'required|string|in:income,expense',
@@ -32,6 +33,9 @@ class FinancialCategoryController extends Controller
         event(new LoggingEvent('Financial category was successfully created', 'financialCategories'));
 
         return ApiHelper::success('Financial category was successfully created', $data, 201);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -39,6 +43,7 @@ class FinancialCategoryController extends Controller
      */
     public function index(Request $request)
     {
+        try {
         $perPage = (int) $request->query('items', 10);
         $data    = FinancialCategory::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
             ->paginate($perPage);
@@ -48,6 +53,9 @@ class FinancialCategoryController extends Controller
         }
 
         return ApiHelper::success('Financial categories retrieved successfully', $data, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -55,6 +63,7 @@ class FinancialCategoryController extends Controller
      */
     public function show($id)
     {
+        try {
         $data = FinancialCategory::where('id', $id)
             ->where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
             ->first();
@@ -64,6 +73,9 @@ class FinancialCategoryController extends Controller
         }
 
         return ApiHelper::success('Financial category retrieved successfully', $data, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -71,6 +83,7 @@ class FinancialCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        try {
         $rules = [
             'name' => 'sometimes|string',
             'type' => 'sometimes|string|in:income,expense',
@@ -81,6 +94,9 @@ class FinancialCategoryController extends Controller
         event(new LoggingEvent('Financial category with id: ' . $id . ' updated successfully', 'financialCategories'));
 
         return ApiHelper::success('Financial category was successfully updated', $data, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -88,10 +104,14 @@ class FinancialCategoryController extends Controller
      */
     public function destroy($id)
     {
+        try {
         $this->requestService->deleteDataById(FinancialCategory::class, $id);
 
         event(new LoggingEvent('Financial category with id: ' . $id . ' deleted successfully', 'financialCategories'));
 
         return ApiHelper::success('Financial category was successfully deleted', null, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 }

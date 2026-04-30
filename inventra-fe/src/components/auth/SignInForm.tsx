@@ -15,6 +15,8 @@ import Alert from "../ui/alert/Alert";
 import { toast, Toaster } from "sonner";
 import { setCookies } from "../../../lib/server-cookie";
 
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../../lib/firebase";
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -68,10 +70,39 @@ export default function SignInForm() {
     }
   };
 
-  
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const idToken = await result.user.getIdToken();
 
+      const res = await fetch(`${API_URL}/auth/firebase-google`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({ token: idToken }),
+      });
 
+      const data = await res.json();
+      if (!res.ok || data.status !== true) {
+        toast.error("Google Sign-In Failed", {
+          description: data?.message ?? "Server error",
+        });
+        return;
+      }
 
+      await setCookies('token', data.data.token);
+      router.push('/dashboard');
+      toast.success("Login Success", {
+        description: data.message,
+      });
+    } catch (error) {
+      toast.error("Google Sign-In Error", {
+        description: (error as Error)?.message ?? "Unknown error",
+      });
+    }
+  };
 
   return (
     <>
@@ -169,7 +200,7 @@ export default function SignInForm() {
               <div className="mt-6">
                 <button 
                   type="button"
-                  onClick={() => window.location.href = `${API_URL}/auth/google/redirect`}
+                  onClick={handleGoogleSignIn}
                   className="flex items-center justify-center w-full gap-3 px-4 py-3 text-sm font-medium text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg hover:bg-gray-50 hover:text-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24">

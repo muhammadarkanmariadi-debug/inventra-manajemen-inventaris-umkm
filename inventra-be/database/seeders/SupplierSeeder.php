@@ -12,10 +12,19 @@ class SupplierSeeder extends Seeder
      */
     public function run(): void
     {
-        Supplier::firstOrCreate(['name' => 'PT. Sumber Rejeki'], [
-            'address' => 'Jl. Contoh Alamat No. 456, Kota Contoh, Negara Contoh',
-            'phone' => '+62 812-9876-5432',
-            'bussiness_id' => 1,
-        ]);
+        $faker = \Faker\Factory::create('id_ID');
+        $businesses = \App\Models\Business::all();
+
+        foreach ($businesses as $business) {
+            for ($i = 0; $i < 3; $i++) {
+                Supplier::firstOrCreate(
+                    ['name' => $faker->company, 'bussiness_id' => $business->id],
+                    [
+                        'address' => $faker->address,
+                        'phone' => $faker->phoneNumber,
+                    ]
+                );
+            }
+        }
     }
 }

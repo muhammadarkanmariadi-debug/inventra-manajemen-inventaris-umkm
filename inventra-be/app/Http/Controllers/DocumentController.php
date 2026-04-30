@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LoggingEvent;
 use App\Helpers\ApiHelper;
 use App\Models\Document;
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ class DocumentController extends Controller
      */
     public function index(Request $request)
     {
+        try {
         $bussinessId = auth()->guard('api')->user()->bussiness_id;
         $perPage = (int) $request->query('items', 10);
 
@@ -29,6 +31,9 @@ class DocumentController extends Controller
         $documents = $query->paginate($perPage);
 
         return ApiHelper::success('Documents retrieved successfully', $documents, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -37,6 +42,7 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
+        try {
         $request->validate([
             'file'     => 'required|file|mimes:pdf|max:10240',
             'type'     => 'required|string|in:LPB,BAR,SJ,LBB,LRS',
@@ -72,7 +78,12 @@ class DocumentController extends Controller
             'metadata'        => $request->input('metadata') ? json_decode($request->input('metadata'), true) : null,
         ]);
 
+        event(new LoggingEvent('Document ' . $document->document_number . ' saved successfully.', 'documents'));
+
         return ApiHelper::success('Document saved successfully', $document->load('generatedBy'), 201);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -80,6 +91,7 @@ class DocumentController extends Controller
      */
     public function show($id)
     {
+        try {
         $bussinessId = auth()->guard('api')->user()->bussiness_id;
 
         $document = Document::with('generatedBy')
@@ -92,6 +104,9 @@ class DocumentController extends Controller
         }
 
         return ApiHelper::success('Document retrieved successfully', $document, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -99,6 +114,7 @@ class DocumentController extends Controller
      */
     public function download($id)
     {
+        try {
         $bussinessId = auth()->guard('api')->user()->bussiness_id;
 
         $document = Document::where('id', $id)
@@ -114,6 +130,9 @@ class DocumentController extends Controller
         }
 
         return Storage::disk('public')->download($document->file_path, $document->document_number . '.pdf');
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -121,6 +140,7 @@ class DocumentController extends Controller
      */
     public function destroy($id)
     {
+        try {
         $bussinessId = auth()->guard('api')->user()->bussiness_id;
 
         $document = Document::where('id', $id)
@@ -138,6 +158,11 @@ class DocumentController extends Controller
 
         $document->delete();
 
+        event(new LoggingEvent('Document ' . $document->document_number . ' deleted successfully.', 'documents'));
+
         return ApiHelper::success('Document deleted successfully', null, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 }

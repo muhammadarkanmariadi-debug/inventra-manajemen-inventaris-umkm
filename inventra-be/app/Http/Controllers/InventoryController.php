@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LoggingEvent;
 use App\Http\Requests\UpdateInventoryStatusRequest;
 use App\Models\Inventory;
 use App\Services\InventoryService;
+use App\Helpers\ApiHelper;
 use Illuminate\Http\Request;
 
 class InventoryController extends Controller
@@ -21,42 +23,48 @@ class InventoryController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Inventory::with(['product', 'status', 'location']);
+        try {
+            $query = Inventory::with(['product', 'status', 'location']);
 
-        // Search by inventory_code or product name
-        if ($request->has('search') && $request->search) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('inventory_code', 'like', "%{$search}%")
-                  ->orWhereHas('product', function ($q2) use ($search) {
-                      $q2->where('name', 'like', "%{$search}%");
-                  });
-            });
+            // Search by inventory_code or product name
+            if ($request->has('search') && $request->search) {
+                $search = $request->search;
+                $query->where(function ($q) use ($search) {
+                    $q->where('inventory_code', 'like', "%{$search}%")
+                      ->orWhereHas('product', function ($q2) use ($search) {
+                          $q2->where('name', 'like', "%{$search}%");
+                      });
+                });
+            }
+
+            // Filter by status code
+            if ($request->has('status') && $request->status) {
+                $query->whereHas('status', function ($q) use ($request) {
+                    $q->where('code', $request->status);
+                });
+            }
+
+            // Filter by date range
+            if ($request->has('date_from') && $request->date_from) {
+                $query->whereDate('created_at', '>=', $request->date_from);
+            }
+            if ($request->has('date_to') && $request->date_to) {
+                $query->whereDate('created_at', '<=', $request->date_to);
+            }
+
+            $inventories = $query->orderBy('created_at', 'desc')
+                ->paginate($request->get('items', 15));
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Inventories retrieved successfully.',
+                'data' => $inventories,
+            ]);
+        } catch (\Exception $e) {
+            $code = $e->getCode();
+            $code = is_int($code) && $code >= 100 && $code < 600 ? $code : 500;
+            return ApiHelper::error($e->getMessage(), $code);
         }
-
-        // Filter by status code
-        if ($request->has('status') && $request->status) {
-            $query->whereHas('status', function ($q) use ($request) {
-                $q->where('code', $request->status);
-            });
-        }
-
-        // Filter by date range
-        if ($request->has('date_from') && $request->date_from) {
-            $query->whereDate('created_at', '>=', $request->date_from);
-        }
-        if ($request->has('date_to') && $request->date_to) {
-            $query->whereDate('created_at', '<=', $request->date_to);
-        }
-
-        $inventories = $query->orderBy('created_at', 'desc')
-            ->paginate($request->get('items', 15));
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Inventories retrieved successfully.',
-            'data' => $inventories,
-        ]);
     }
 
     /**
@@ -64,21 +72,27 @@ class InventoryController extends Controller
      */
     public function show($id)
     {
-        $inventory = Inventory::with(['product', 'status', 'location', 'logs.location', 'logs.fromStatus', 'logs.toStatus', 'logs.user'])
-            ->find($id);
+        try {
+            $inventory = Inventory::with(['product', 'status', 'location', 'logs.location', 'logs.fromStatus', 'logs.toStatus', 'logs.user'])
+                ->find($id);
 
-        if (!$inventory) {
+            if (!$inventory) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Inventory not found.',
+                ], 404);
+            }
+
             return response()->json([
-                'status' => false,
-                'message' => 'Inventory not found.',
-            ], 404);
+                'status' => true,
+                'message' => 'Inventory retrieved successfully.',
+                'data' => $inventory,
+            ]);
+        } catch (\Exception $e) {
+            $code = $e->getCode();
+            $code = is_int($code) && $code >= 100 && $code < 600 ? $code : 500;
+            return ApiHelper::error($e->getMessage(), $code);
         }
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Inventory retrieved successfully.',
-            'data' => $inventory,
-        ]);
     }
 
     /**
@@ -97,6 +111,8 @@ class InventoryController extends Controller
                 $request->location_id
             );
 
+            event(new LoggingEvent('Inventory ' . $inventory->inventory_code . ' status updated to ' . $request->new_status_code, 'inventories'));
+
             return response()->json([
                 'status' => true,
                 'message' => 'Inventory status updated successfully.',
@@ -106,10 +122,7 @@ class InventoryController extends Controller
             $code = $e->getCode();
             $code = is_int($code) && $code >= 100 && $code < 600 ? $code : 500;
 
-            return response()->json([
-                'status' => false,
-                'message' => $e->getMessage(),
-            ], $code);
+            return ApiHelper::error($e->getMessage(), $code);
         }
     }
 }

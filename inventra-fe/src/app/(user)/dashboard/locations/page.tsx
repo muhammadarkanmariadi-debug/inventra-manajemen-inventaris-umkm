@@ -13,9 +13,10 @@ import Input from '@/components/form/input/InputField';
 import Alert from '@/components/ui/alert/Alert';
 import { FilterBar, FilterBarProps, FilterValues } from '@/components/common/FilterBar';
 import { getLocations, createLocation, updateLocation, deleteLocation } from '../../../../../services/location.service';
-import { PencilIcon, TrashIcon } from "lucide-react";
+import { PencilIcon, TrashIcon, DownloadIcon } from "lucide-react";
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 import { Can } from '@/components/common/Can';
+import { exportToExcel } from '@/utils/exportExcel';
 
 interface LocationItem {
   id: number;
@@ -121,6 +122,14 @@ export default function LocationsPage() {
     return matchSearch;
   });
 
+  const handleExport = () => {
+    const exportData = filtered.map(loc => ({
+      "Nama Gudang": loc.name,
+      "Jumlah Inventaris": loc.inventories_count
+    }));
+    exportToExcel(exportData, 'Kelola_Gudang');
+  };
+
   return (
     <PermissionWrapper permission="Lihat Produk" breadcrumb="Kelola Gudang">
       <div className="flex flex-col gap-4">
@@ -130,7 +139,10 @@ export default function LocationsPage() {
           searchPlaceholder={filterConfig.searchPlaceholder}
           onFilterChange={setFilters}
         />
-        <div className="mb-4 flex justify-end">
+        <div className="mb-4 flex justify-end gap-3">
+          <Button size="sm" variant="outline" onClick={handleExport} className="flex items-center gap-2">
+            <DownloadIcon className="w-4 h-4" /> Export Excel
+          </Button>
           <Can permission="Tambah Produk">
             <Button size="sm" onClick={openCreateModal}>+ Tambah Gudang</Button>
           </Can>

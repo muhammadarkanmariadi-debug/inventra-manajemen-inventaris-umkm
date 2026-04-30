@@ -3,6 +3,7 @@ import React from "react";
 import { Trans } from "@lingui/macro";
 import Link from "next/link";
 import Button from "@/components/ui/button/Button";
+import { ArrowBigLeft, CheckCircle, PlayCircle } from "lucide-react";
 
 export default function LandingHero() {
   return (
@@ -86,18 +87,14 @@ export default function LandingHero() {
                   className="bg-brand-500 hover:bg-brand-600 text-white text-base font-bold px-8 py-4 rounded-xl shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 transition-all duration-300 border-none hover:-translate-y-0.5"
                 >
                   <Trans>Mulai Gratis</Trans>
-                  <span className="material-symbols-outlined text-lg ml-1">
-                    arrow_forward
-                  </span>
+                
                 </Button>
               </Link>
               <Button
                 variant="outline"
                 className="flex items-center justify-center gap-2 px-8 py-4 bg-background border border-border rounded-xl text-foreground font-semibold transition-all hover:bg-accent hover:-translate-y-0.5"
               >
-                <span className="material-symbols-outlined text-brand-500">
-                  play_circle
-                </span>
+                <PlayCircle/>
                 <Trans>Lihat Demo</Trans>
               </Button>
             </div>
@@ -105,21 +102,15 @@ export default function LandingHero() {
             {/* Trust indicators */}
             <div className="flex flex-wrap items-center gap-6 pt-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-success-500 text-base">
-                  check_circle
-                </span>
+                <CheckCircle />
                 <Trans>Gratis 14 hari</Trans>
               </div>
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-success-500 text-base">
-                  check_circle
-                </span>
+                <CheckCircle />
                 <Trans>Tanpa kartu kredit</Trans>
               </div>
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-success-500 text-base">
-                  check_circle
-                </span>
+                <CheckCircle/>
                 <Trans>Setup 5 menit</Trans>
               </div>
             </div>
@@ -134,7 +125,7 @@ export default function LandingHero() {
               <img
                 className="w-full aspect-video object-cover group-hover:scale-[1.02] transition-transform duration-700"
                 alt="Inventra Dashboard Preview"
-                src="/banner.png"
+                src="/images/banner.png"
               />
               {/* Overlay stats bar */}
               <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 p-4 sm:p-5 bg-background/85 backdrop-blur-xl rounded-xl border border-border shadow-lg">

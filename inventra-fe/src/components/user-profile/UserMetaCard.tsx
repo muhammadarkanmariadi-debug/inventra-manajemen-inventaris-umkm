@@ -6,7 +6,7 @@ import Button from "../ui/button/Button";
 import Input from "../form/input/InputField";
 import Label from "../form/Label";
 import Image from "next/image";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import { updateProfile } from "../../../services/user.service";
 import { toast } from "sonner";
 import { CldImage as CldImageDefault, CldImageProps, CldUploadWidget, CloudinaryUploadWidgetInfo } from 'next-cloudinary';

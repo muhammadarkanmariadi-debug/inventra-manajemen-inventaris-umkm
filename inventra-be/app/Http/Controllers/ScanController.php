@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LoggingEvent;
 use App\Services\InventoryService;
 use Illuminate\Http\Request;
+use App\Helpers\ApiHelper;
 
 class ScanController extends Controller
 {
@@ -28,6 +30,8 @@ class ScanController extends Controller
             $userId = auth()->guard('api')->id();
             $inventory = $this->inventoryService->processScan($request->inventory_code, $userId);
 
+            event(new LoggingEvent('Scanned inventory: ' . $request->inventory_code, 'scan'));
+
             return response()->json([
                 'status' => true,
                 'message' => 'Inventory retrieved successfully.',
@@ -37,10 +41,7 @@ class ScanController extends Controller
             $code = $e->getCode();
             $code = is_int($code) && $code >= 100 && $code < 600 ? $code : 500;
             
-            return response()->json([
-                'status' => false,
-                'message' => $e->getMessage(),
-            ], $code);
+            return ApiHelper::error($e->getMessage(), $code);
         }
     }
 }

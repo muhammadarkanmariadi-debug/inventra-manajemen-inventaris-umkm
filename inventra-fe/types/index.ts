@@ -332,3 +332,14 @@ export interface DefectPredictionResponse {
   risk_level: 'HIGH' | 'MEDIUM' | 'LOW' | 'UNKNOWN';
 }
 
+
+export interface Log {
+  id: number;
+  message: string;
+  categories: string;
+  user_id: number;
+  bussiness_id: number;
+  created_at: string;
+  updated_at: string;
+  user?: User;
+}

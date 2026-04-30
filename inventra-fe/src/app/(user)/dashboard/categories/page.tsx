@@ -19,8 +19,8 @@ import { FilterBar, FilterValues } from '@/components/common/FilterBar';
 import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
-import { PencilIcon, TrashIcon } from "lucide-react";
-
+import { PencilIcon, TrashIcon, DownloadIcon } from "lucide-react";
+import { exportToExcel } from '@/utils/exportExcel';
 export default function Categories() {
   const { _ } = useLingui();
   const [categories, setCategories] = useState<Category[]>([]);
@@ -140,6 +140,15 @@ export default function Categories() {
     });
   }
 
+  const handleExport = () => {
+    const exportData = filteredSearch.map(cat => ({
+      Nama: cat.name,
+      Deskripsi: cat.description || "-",
+      "Jumlah Produk": cat.products?.length ?? 0
+    }));
+    exportToExcel(exportData, 'Kategori');
+  };
+
   return (
     <PermissionWrapper permission="Lihat Kategori" breadcrumb="Kategori">
       <div>
@@ -148,11 +157,14 @@ export default function Categories() {
         
         <div className='flex flex-col gap-4 mb-4'>
           <FilterBar {...filterConfig} onFilterChange={setFilters} />
-          <Can permission="Tambah Kategori">
-            <div className="flex justify-end">
+          <div className="flex justify-end gap-3">
+            <Button size="sm" variant="outline" onClick={handleExport} className="flex items-center gap-2">
+              <DownloadIcon className="w-4 h-4" /> <Trans id="Export Excel" />
+            </Button>
+            <Can permission="Tambah Kategori">
               <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Kategori" /></Button>
-            </div>
-          </Can>
+            </Can>
+          </div>
         </div>
 
 

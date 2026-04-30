@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import React, { createContext, useContext, useEffect, useState, ReactNode, useCallback } from "react";
 import { getProfile } from "../../services/user.service";
 import { User, Business } from "../../types";
 import { useRouter, usePathname } from "next/navigation";
@@ -18,68 +18,65 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Daftar halaman yang bisa diakses tanpa login
+const PUBLIC_ROUTES = ["/", "/about", "/contact"]; 
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [business, setBusiness] = useState<Business | null>(null);
   const [roles, setRoles] = useState<string[]>([]);
   const [permissions, setPermissions] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
 
+  const router = useRouter();
   const pathname = usePathname();
 
-  const refreshProfile = async () => {
+  const logout = useCallback(() => {
+    setUser(null);
+    setBusiness(null);
+    setRoles([]);
+    setPermissions([]);
+    // Hanya redirect ke signin jika bukan di halaman publik
+    if (!PUBLIC_ROUTES.includes(pathname)) {
+      router.push("/auth/signin");
+    }
+  }, [pathname, router]);
 
+  const refreshProfile = useCallback(async () => {
     setIsLoading(true);
     try {
       const response = await getProfile();
+
       if (response.status && response.data) {
-        const fetchedRoles = response.data.roles || [];
         setUser(response.data.user);
         setBusiness(response.data.user.business || null);
-        setRoles(fetchedRoles);
-        setPermissions(response.data.permissions);
-
-        const isSuperadmin = response.data.user.role === 'SUPERADMIN';
-
-
-        if (isSuperadmin && pathname.startsWith('/dashboard')) {
-          router.replace('/businesses');
-        } else if (!isSuperadmin && pathname.startsWith('/businesses')) {
-          router.replace('/dashboard');
-        }
-
+        setRoles(response.data.roles || []);
+        setPermissions(response.data.permissions || []);
       } else {
-
-        setUser(null);
-        setBusiness(null);
-        setRoles([]);
-        setPermissions([]);
-      }
-
-
-      if (!response.status) {
-        router.push("/auth/signin");
-        toast.error(response.message);
+        // Token expired atau invalid
+        logout();
+        if (!PUBLIC_ROUTES.includes(pathname)) {
+          toast.error(response.message || "Sesi telah berakhir");
+        }
       }
     } catch (error) {
-      console.error("Failed to fetch profile:", error);
-      setUser(null);
-      setRoles([]);
-      setPermissions([]);
+      console.error("Auth Error:", error);
+      logout();
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [pathname, logout]);
 
   useEffect(() => {
-
-    if (!pathname.startsWith("/auth")) {
-      refreshProfile();
-    } else {
+    // 1. Abaikan jika sedang di halaman auth (login/register)
+    if (pathname.startsWith("/auth")) {
       setIsLoading(false);
+      return;
     }
-  }, [pathname]);
+
+    // 2. Jalankan refresh profile
+    refreshProfile();
+  }, [pathname, refreshProfile]);
 
   const hasPermission = (permission: string) => {
     if (user?.role === 'SUPERADMIN') return true;
@@ -109,6 +106,5 @@ export function useAuth() {
   if (context === undefined) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
-
   return context;
 }

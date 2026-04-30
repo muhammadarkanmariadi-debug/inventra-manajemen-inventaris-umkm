@@ -1,29 +1,34 @@
 "use client";
 import React from "react";
 import { Trans } from "@lingui/macro";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react";
 import Link from "next/link";
 import Image from "next/image";
+import { Globe, AtSign, MessageCircle } from "lucide-react";
 
 const PRODUCT_LINKS = [
-  { label: "Fitur", href: "#features" },
-  { label: "Cara Kerja", href: "#how-it-works" },
-  { label: "Harga", href: "#pricing" },
-  { label: "Dokumentasi", href: "#docs" },
+  { label: msg`Fitur`, href: "#features" },
+  { label: msg`Cara Kerja`, href: "#how-it-works" },
+  { label: msg`Harga`, href: "#pricing" },
+  { label: msg`Dokumentasi`, href: "#docs" },
 ];
 
 const SUPPORT_LINKS = [
-  { label: "Pusat Bantuan", href: "#help" },
-  { label: "Kontak", href: "#contact" },
-  { label: "Status Sistem", href: "#status" },
+  { label: msg`Pusat Bantuan`, href: "#help" },
+  { label: msg`Kontak`, href: "#contact" },
+  { label: msg`Status Sistem`, href: "#status" },
 ];
 
 const LEGAL_LINKS = [
-  { label: "Privasi", href: "#privacy" },
-  { label: "Syarat & Ketentuan", href: "#terms" },
-  { label: "Cookie", href: "#cookies" },
+  { label: msg`Privasi`, href: "#privacy" },
+  { label: msg`Syarat & Ketentuan`, href: "#terms" },
+  { label: msg`Cookie`, href: "#cookies" },
 ];
 
 export default function LandingFooter() {
+  const { _ } = useLingui();
+
   return (
     <footer className="bg-card w-full border-t border-border">
       <div className="max-w-screen-2xl mx-auto px-6 lg:px-8 py-16">
@@ -54,17 +59,17 @@ export default function LandingFooter() {
             {/* Social icons */}
             <div className="flex gap-3 pt-2">
               {[
-                { icon: "public", label: "Website" },
-                { icon: "alternate_email", label: "Email" },
-                { icon: "chat", label: "Chat" },
-              ].map(({ icon, label }) => (
+                { icon: <Globe className="w-5 h-5" />, label: "Website" },
+                { icon: <AtSign className="w-5 h-5" />, label: "Email" },
+                { icon: <MessageCircle className="w-5 h-5" />, label: "Chat" },
+              ].map(({ icon, label }, index) => (
                 <a
-                  key={icon}
+                  key={index}
                   href="#!"
                   aria-label={label}
                   className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:text-brand-500 hover:bg-brand-500/10 transition-all duration-200"
                 >
-                  <span className="material-symbols-outlined text-lg">{icon}</span>
+                  {icon}
                 </a>
               ))}
             </div>
@@ -82,7 +87,7 @@ export default function LandingFooter() {
                     href={href}
                     className="text-muted-foreground hover:text-brand-500 transition-colors text-sm"
                   >
-                    <Trans>{label}</Trans>
+                    {_(label)}
                   </a>
                 </li>
               ))}
@@ -101,7 +106,7 @@ export default function LandingFooter() {
                     href={href}
                     className="text-muted-foreground hover:text-brand-500 transition-colors text-sm"
                   >
-                    <Trans>{label}</Trans>
+                    {_(label)}
                   </a>
                 </li>
               ))}
@@ -120,7 +125,7 @@ export default function LandingFooter() {
                     href={href}
                     className="text-muted-foreground hover:text-brand-500 transition-colors text-sm"
                   >
-                    <Trans>{label}</Trans>
+                    {_(label)}
                   </a>
                 </li>
               ))}

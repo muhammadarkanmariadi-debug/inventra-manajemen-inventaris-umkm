@@ -7,6 +7,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "firebase/php-jwt": "^6.11",
         "google-gemini-php/client": "^2.7",
         "google-gemini-php/laravel": "^2.0",
         "google/apiclient": "^2.18",

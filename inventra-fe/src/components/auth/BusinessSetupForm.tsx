@@ -16,6 +16,7 @@ export default function BusinessSetupForm() {
     phone: "",
     email: "",
     description: "",
+    website: ""
   });
 
   const [loading, setLoading] = useState(false);
@@ -39,6 +40,7 @@ export default function BusinessSetupForm() {
         phone: data.phone,
         email: data.email,
         description: data.description,
+        website: data.website,
       });
 
       if (!res || res.status !== true) {
@@ -103,6 +105,19 @@ export default function BusinessSetupForm() {
                 </div>
                 <div>
                   <Label>
+                    Business website<span className="text-error-500">*</span>
+                  </Label>
+                  <Input
+                    type="text"
+                    id="website"
+                    name="website"
+                    placeholder="Enter business website"
+                    value={data.website}
+                    onChange={(e) => setData({ ...data, website: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label>
                     Phone Number<span className="text-error-500">*</span>
                   </Label>
                   <Input
@@ -141,7 +156,7 @@ export default function BusinessSetupForm() {
                   />
                 </div>
                 <div>
-                   <Label>
+                  <Label>
                     Description
                   </Label>
                   <Input

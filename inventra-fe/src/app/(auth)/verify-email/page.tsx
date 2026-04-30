@@ -65,7 +65,7 @@ export default function VerifyEmailPage() {
              </div>
             <h2 className="text-xl font-bold text-gray-800 dark:text-white">Email Terverifikasi!</h2>
             <p className="text-sm text-gray-500 dark:text-gray-400">{message}</p>
-            <Button onClick={() => router.push("/dashboard")} className="w-full mt-4">Lanjut ke Dashboard</Button>
+            <Button onClick={() => router.push("/auth/signin")} className="w-full mt-4">Login Sekarang</Button>
           </div>
         )}
 

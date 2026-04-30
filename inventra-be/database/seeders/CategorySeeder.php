@@ -12,9 +12,19 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        Category::firstOrCreate(['name' => 'Elektronik'], [
-            'description' => 'Kategori untuk produk elektronik seperti smartphone, laptop, dan televisi.',
-            'bussiness_id' => 1
-        ]);
+        $faker = \Faker\Factory::create('id_ID');
+        $businesses = \App\Models\Business::all();
+        $categoriesNames = ['Elektronik', 'Pakaian', 'Makanan & Minuman', 'Perabotan', 'Alat Tulis'];
+
+        foreach ($businesses as $business) {
+            foreach ($categoriesNames as $name) {
+                Category::firstOrCreate(
+                    ['name' => $name, 'bussiness_id' => $business->id],
+                    [
+                        'description' => $faker->sentence(8),
+                    ]
+                );
+            }
+        }
     }
 }

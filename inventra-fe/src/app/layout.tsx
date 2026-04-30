@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { ToastProvider } from '@/context/ToastContext';
 import { LocaleProvider } from '@/context/LocaleProvider';
 import { loadCatalog } from '@/lib/i18n';
+import { AuthProvider } from '@/context/AuthContext';
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -23,11 +24,14 @@ export default async function RootLayout({
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className={`${outfit.className} dark:bg-gray-900`}>
         <ThemeProvider>
-          <ToastProvider>
-            <LocaleProvider>
-              {children}
-            </LocaleProvider>
-          </ToastProvider>
+          <AuthProvider>
+            <ToastProvider>
+              <LocaleProvider>
+                {children}
+              </LocaleProvider>
+            </ToastProvider>
+          </AuthProvider>
+
         </ThemeProvider>
       </body>
     </html>

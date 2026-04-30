@@ -16,9 +16,9 @@ import {
   UserIcon,
   Robot,
 } from "../icons/index";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import SidebarWidget from "./SidebarWidget";
-import { ChartAreaIcon, Settings, ShoppingCartIcon, LayersIcon, FileTextIcon, User } from "lucide-react";
+import { ChartAreaIcon, Settings, ShoppingCartIcon, LayersIcon, FileTextIcon, User, ArrowLeft } from "lucide-react";
 import { CldImage } from "next-cloudinary";
 
 type NavItem = {
@@ -92,9 +92,10 @@ const navItems: NavItem[] = [
   // 🤖 AI & ANALITIK
   {
     icon: <Robot />,
-    name: "AI & Analitik",
+    name: "Analitik dan Histori",
     subItems: [
       { name: "Prediksi Cerdas", path: "/dashboard/stock-prediction", permission: "Lihat Transaksi Stok" },
+      { name: "Log Event", path: "/dashboard/logs", permission: "Lihat Log" },
     ],
   },
   {
@@ -114,10 +115,10 @@ const navItems: NavItem[] = [
     icon: <Settings />,
     name: "Akun & Pengaturan",
     subItems: [
-      { name: "Profil Akun", path: "/dashboard/profile" },
+      { name: "Profil Akun", path: "/account/profile" },
 
-      { name: "Pengaturan ", path: "/dashboard/settings" },
-      { name: "Bantuan & FAQ", path: "/dashboard/help" },
+      { name: "Pengaturan ", path: "/account/settings" },
+      { name: "Bantuan & FAQ", path: "/account/help" },
     ],
   },
 ];
@@ -394,6 +395,27 @@ const AppSidebar: React.FC = () => {
             </div>
           </div>
         </nav>
+      </div>
+
+      <div className="mt-auto pb-6 pt-4">
+        <div className="flex flex-col gap-4">
+          <Link
+            href="/"
+            className={`group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium text-gray-500 duration-300 ease-in-out hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white ${!isExpanded && !isHovered
+              ? "lg:justify-center"
+              : "justify-start"
+              }`}
+          >
+            <span className="text-gray-500 transition-colors group-hover:text-brand-500 dark:text-gray-400 group-hover:dark:text-brand-400 flex items-center justify-center">
+              <ArrowLeft className="w-5 h-5" />
+            </span>
+            {(isExpanded || isHovered || isMobileOpen) && (
+              <span className="text-sm">
+                Kembali ke Beranda
+              </span>
+            )}
+          </Link>
+        </div>
       </div>
     </aside>
   );

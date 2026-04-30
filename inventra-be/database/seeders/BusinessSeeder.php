@@ -12,11 +12,18 @@ class BusinessSeeder extends Seeder
      */
     public function run(): void
     {
-        Business::firstOrCreate(['name' => 'Inventra'], [
-            'address' => 'Jl. Contoh Alamat No. 123, Kota Contoh, Negara Contoh',
-            'phone'   => '+62 812-3456-7890',
-            'email'   => 'info@inventra.com',
-            'website' => 'www.inventra.com',
-        ]);
+        $faker = \Faker\Factory::create('id_ID');
+
+        $businessNames = ['Tech Nusantara', 'Sembako Sejahtera', 'Fashion Indah'];
+
+        foreach ($businessNames as $name) {
+            Business::firstOrCreate(['name' => $name], [
+                'address' => $faker->address,
+                'phone'   => $faker->phoneNumber,
+                'email'   => $faker->companyEmail,
+                'website' => 'www.' . strtolower(str_replace(' ', '', $name)) . '.com',
+                'description' => $faker->sentence(6),
+            ]);
+        }
     }
 }

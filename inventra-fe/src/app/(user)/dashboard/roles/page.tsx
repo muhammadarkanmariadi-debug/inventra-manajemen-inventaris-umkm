@@ -20,7 +20,8 @@ import { FilterBar, FilterValues } from '@/components/common/FilterBar';
 import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
-import { PencilIcon, TrashIcon, EyeIcon } from "lucide-react";
+import { PencilIcon, TrashIcon, EyeIcon, DownloadIcon } from "lucide-react";
+import { exportToExcel } from '@/utils/exportExcel';
 
 
 function groupPermissions(permissions: Permission[]): Record<string, Permission[]> {
@@ -225,6 +226,14 @@ export default function Roles() {
     return matchSearch && matchTab;
   });
 
+  const handleExport = () => {
+    const exportData = filteredRoles.map(role => ({
+      "Nama Role": role.name,
+      Guard: role.guard_name
+    }));
+    exportToExcel(exportData, 'Roles');
+  };
+
   return (
     <PermissionWrapper permission="Lihat Peran" breadcrumb="Roles">
       <div>
@@ -232,11 +241,14 @@ export default function Roles() {
 
       <div className='flex flex-col gap-4 mb-4'>
         <FilterBar {...filterConfig} onFilterChange={setFilters} />
-        <Can permission="Tambah Peran">
-          <div className="flex justify-end">
+        <div className="flex justify-end gap-3">
+          <Button size="sm" variant="outline" onClick={handleExport} className="flex items-center gap-2">
+            <DownloadIcon className="w-4 h-4" /> <Trans id="Export Excel" />
+          </Button>
+          <Can permission="Tambah Peran">
             <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Role" /></Button>
-          </div>
-        </Can>
+          </Can>
+        </div>
       </div>
 
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">

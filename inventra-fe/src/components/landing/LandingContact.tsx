@@ -2,6 +2,7 @@
 import React from "react";
 import { Trans } from "@lingui/macro";
 import Button from "@/components/ui/button/Button";
+import { MessageSquare, Phone, Mail, Send } from "lucide-react";
 
 export default function LandingContact() {
   return (
@@ -10,7 +11,7 @@ export default function LandingContact() {
         {/* Left — Info */}
         <div className="space-y-8 flex flex-col items-start pt-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-500/10 dark:bg-brand-500/15 rounded-full border border-brand-500/20 text-brand-500 text-xs font-bold tracking-widest uppercase">
-            <span className="material-symbols-outlined text-sm">forum</span>
+            <MessageSquare className="w-4 h-4" />
             <Trans>Hubungi Kami</Trans>
           </div>
 
@@ -31,7 +32,7 @@ export default function LandingContact() {
           <div className="space-y-4 pt-2">
             <div className="flex items-center gap-4 p-4 bg-card rounded-xl border border-border hover:border-brand-500/20 transition-colors">
               <div className="w-12 h-12 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-500 flex-shrink-0">
-                <span className="material-symbols-outlined">call</span>
+                <Phone className="w-6 h-6" />
               </div>
               <div>
                 <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-0.5">
@@ -42,7 +43,7 @@ export default function LandingContact() {
             </div>
             <div className="flex items-center gap-4 p-4 bg-card rounded-xl border border-border hover:border-brand-500/20 transition-colors">
               <div className="w-12 h-12 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-500 flex-shrink-0">
-                <span className="material-symbols-outlined">mail</span>
+                <Mail className="w-6 h-6" />
               </div>
               <div>
                 <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-0.5">
@@ -108,10 +109,10 @@ export default function LandingContact() {
               <Button
                 variant="primary"
                 type="submit"
-                className="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 transition-all border-none"
+                className="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 transition-all border-none flex items-center justify-center"
               >
                 <Trans>Kirim Pesan</Trans>
-                <span className="material-symbols-outlined text-lg ml-1">send</span>
+                <Send className="w-4 h-4 ml-2" />
               </Button>
             </form>
           </div>

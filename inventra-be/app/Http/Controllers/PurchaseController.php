@@ -22,6 +22,7 @@ class PurchaseController extends Controller
      */
     public function store(Request $request)
     {
+        try {
         $bussinessId = auth()->guard('api')->user()->bussiness_id;
 
         $purchase = $this->purchaseService->createPurchase(
@@ -32,6 +33,9 @@ class PurchaseController extends Controller
         event(new LoggingEvent('Purchase created successfully', 'purchases'));
 
         return ApiHelper::success('Purchase created successfully', $purchase, 201);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -39,6 +43,7 @@ class PurchaseController extends Controller
      */
     public function index(Request $request)
     {
+        try {
         $perPage = (int) $request->query('items', 10);
         $bussinessId = auth()->guard('api')->user()->bussiness_id;
 
@@ -64,6 +69,9 @@ class PurchaseController extends Controller
         }
 
         return ApiHelper::success('Purchases retrieved successfully', $purchases, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -71,6 +79,7 @@ class PurchaseController extends Controller
      */
     public function show($id)
     {
+        try {
         $bussinessId = auth()->guard('api')->user()->bussiness_id;
 
         $purchase = Purchase::with(['supplier', 'items.product'])
@@ -83,5 +92,8 @@ class PurchaseController extends Controller
         }
 
         return ApiHelper::success('Purchase retrieved successfully', $purchase, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 }

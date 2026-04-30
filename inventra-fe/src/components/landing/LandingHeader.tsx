@@ -1,21 +1,35 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Trans } from "@lingui/macro";
 import Link from "next/link";
 import Image from "next/image";
 import Button from "@/components/ui/button/Button";
 import { ThemeToggleButton } from "../common/ThemeToggleButton";
+import UserDropdown from "../header/UserDropdown";
 
-const NAV_LINKS = [
-  { href: "#features", label: "Fitur" },
-  { href: "#how-it-works", label: "Cara Kerja" },
-  { href: "#contact", label: "Kontak" },
-];
+import { useLingui } from "@lingui/react";
+import { msg } from "@lingui/core/macro";
+import { useTranslate } from "@/hooks/useTranslate";
+import { LanguageSwitcher } from "../common/LanguangeSwitch";
+import { getProfile } from "../../../services/user.service";
+import { User } from "../../../types";
+
+
+import { useAuth } from "@/context/AuthContext";
 
 export default function LandingHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { user } = useAuth();
 
+  const { _ } = useTranslate();
+
+
+  const NAV_LINKS = [
+    { href: "#features", label: _(msg`Fitur`) },
+    { href: "#how-it-works", label: _(msg`Cara Kerja`) },
+    { href: "#contact", label: _(msg`Kontak`) },
+  ];
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -31,11 +45,10 @@ export default function LandingHeader() {
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-background/80 backdrop-blur-xl shadow-md border-b border-border"
-          : "bg-transparent"
-      }`}
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled
+        ? "bg-background/80 backdrop-blur-xl shadow-md border-b border-border"
+        : "bg-transparent"
+        }`}
     >
       <div className="flex items-center justify-between px-6 lg:px-8 py-4 max-w-screen-2xl mx-auto">
         {/* Logo */}
@@ -73,8 +86,9 @@ export default function LandingHeader() {
         </div>
 
         {/* Desktop actions */}
-        <div className="hidden md:flex items-center gap-3">
+        {user ? (<div className="hidden md:flex items-center gap-3"><ThemeToggleButton /><LanguageSwitcher /><UserDropdown /></div>) : (<div className="hidden md:flex items-center gap-3">
           <ThemeToggleButton />
+          <LanguageSwitcher />
           <Link
             href="/auth/signin"
             className="text-muted-foreground font-medium hover:text-foreground hover:bg-accent active:bg-accent/70 active:scale-95 transition-all duration-200 px-4 py-2 rounded-lg"
@@ -89,7 +103,9 @@ export default function LandingHeader() {
               <Trans>Mulai Gratis</Trans>
             </Button>
           </Link>
-        </div>
+        </div>)}
+
+
 
         {/* Mobile hamburger */}
         <div className="flex md:hidden items-center gap-2">
@@ -101,19 +117,16 @@ export default function LandingHeader() {
           >
             <div className="flex flex-col gap-1.5 items-center justify-center w-5">
               <span
-                className={`block h-0.5 w-5 bg-current rounded-full transition-all duration-300 ${
-                  mobileOpen ? "rotate-45 translate-y-2" : ""
-                }`}
+                className={`block h-0.5 w-5 bg-current rounded-full transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-2" : ""
+                  }`}
               />
               <span
-                className={`block h-0.5 w-5 bg-current rounded-full transition-all duration-300 ${
-                  mobileOpen ? "opacity-0 scale-0" : ""
-                }`}
+                className={`block h-0.5 w-5 bg-current rounded-full transition-all duration-300 ${mobileOpen ? "opacity-0 scale-0" : ""
+                  }`}
               />
               <span
-                className={`block h-0.5 w-5 bg-current rounded-full transition-all duration-300 ${
-                  mobileOpen ? "-rotate-45 -translate-y-2" : ""
-                }`}
+                className={`block h-0.5 w-5 bg-current rounded-full transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-2" : ""
+                  }`}
               />
             </div>
           </button>
@@ -122,9 +135,8 @@ export default function LandingHeader() {
 
       {/* Mobile menu */}
       <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          mobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-        }`}
+        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${mobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          }`}
       >
         <div className="px-6 pb-6 pt-2 bg-background/95 backdrop-blur-xl border-b border-border space-y-1">
           {NAV_LINKS.map(({ href, label }) => (

@@ -14,607 +14,1001 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:229
-msgid "Riwayat Transaksi Stok"
-msgstr "Riwayat Transaksi Stok"
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:171
+msgid "Tambah Penyesuaian"
+msgstr "Tambah Penyesuaian"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:239
-msgid "Kuantitas"
-msgstr "Kuantitas"
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:242
+msgid "Tambah Penyesuaian Stok"
+msgstr "Tambah Penyesuaian Stok"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:255
-msgid "Belum ada riwayat penyesuaian"
-msgstr "Belum ada riwayat penyesuaian"
+#: src/app/(user)/dashboard/sales/page.tsx:181
+msgid "Pembeli"
+msgstr "Pembeli"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:191
-#: src/app/(page)/(others-pages)/sales/sales.tsx:178
-msgid "Total Harga"
-msgstr "Total Harga"
+#: src/app/(user)/dashboard/sales/page.tsx:260
+msgid "Data Pembeli (Opsional)"
+msgstr "Data Pembeli (Opsional)"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/sales/sales.tsx:229
-msgid "Batch Produk"
-msgstr "Batch Produk"
+#: src/app/(user)/dashboard/sales/page.tsx:263
+msgid "Nama Pembeli"
+msgstr "Nama Pembeli"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:191
-msgid "Produk Stok Kritis (<=5)"
-msgstr "Produk Stok Kritis (<=5)"
+#: src/app/(user)/dashboard/inventories/page.tsx:357
+#: src/app/(user)/dashboard/sales/page.tsx:268
+msgid "No. Telepon"
+msgstr "No. Telepon"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:292
-msgid "Prediksi Stok (FastAPI)"
-msgstr "Prediksi Stok (FastAPI)"
+#: src/app/(user)/dashboard/logs/page.tsx:77
+msgid "Waktu"
+msgstr "Waktu"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:295
-msgid "Prediksi tren penjualan menggunakan Linear Regression + Prophet berdasarkan data transaksi 30 hari terakhir."
-msgstr "Prediksi tren penjualan menggunakan Linear Regression + Prophet berdasarkan data transaksi 30 hari terakhir."
+#: src/app/(user)/dashboard/logs/page.tsx:80
+msgid "Pengguna"
+msgstr "Pengguna"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:321
-msgid "Hari Prediksi"
-msgstr "Hari Prediksi"
+#: src/app/(user)/dashboard/logs/page.tsx:86
+msgid "Pesan"
+msgstr "Pesan"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:335
-msgid "Data historis diambil otomatis dari transaksi keluar (OUT) 30 hari terakhir."
-msgstr "Data historis diambil otomatis dari transaksi keluar (OUT) 30 hari terakhir."
+#: src/app/(user)/dashboard/logs/page.tsx:106
+msgid "Tidak ada data log"
+msgstr "Tidak ada data log"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:344
-msgid "Mengambil data historis..."
-msgstr "Mengambil data historis..."
+#: src/app/(user)/dashboard/inventories/page.tsx:338
+msgid "Cetak Surat Jalan"
+msgstr "Cetak Surat Jalan"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:345
-msgid "Memprediksi..."
-msgstr "Memprediksi..."
+#: src/app/(user)/dashboard/inventories/page.tsx:348
+msgid "Nama Penerima"
+msgstr "Nama Penerima"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:349
-msgid "Jalankan Prediksi"
-msgstr "Jalankan Prediksi"
+#: src/app/(user)/dashboard/inventories/page.tsx:352
+msgid "Alamat Penerima"
+msgstr "Alamat Penerima"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:357
-msgid "Reset"
-msgstr "Reset"
+#: src/app/(user)/dashboard/inventories/page.tsx:361
+msgid "Kendaraan"
+msgstr "Kendaraan"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:368
-msgid "Mengambil data historis transaksi..."
-msgstr "Mengambil data historis transaksi..."
+#: src/app/(user)/dashboard/inventories/page.tsx:373
+msgid "Generating..."
+msgstr "Generating..."
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:369
-msgid "Menjalankan model prediksi..."
-msgstr "Menjalankan model prediksi..."
+#: src/app/(user)/dashboard/inventories/page.tsx:373
+msgid "Cetak & Unduh PDF"
+msgstr "Cetak & Unduh PDF"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:390
-msgid "Stok Saat Ini"
-msgstr "Stok Saat Ini"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:394
-msgid "Rata-rata Penjualan/Hari"
-msgstr "Rata-rata Penjualan/Hari"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:405
-msgid "Tren Penjualan"
-msgstr "Tren Penjualan"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:416
-msgid "Rekomendasi"
-msgstr "Rekomendasi"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:422
-msgid "Grafik Prediksi Penjualan"
-msgstr "Grafik Prediksi Penjualan"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:435
-msgid "Tabel Forecast Harian"
-msgstr "Tabel Forecast Harian"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:444
-msgid "Prediksi (yhat)"
-msgstr "Prediksi (yhat)"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:445
-msgid "Batas Bawah"
-msgstr "Batas Bawah"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:446
-msgid "Batas Atas"
-msgstr "Batas Atas"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:469
-msgid "Pilih produk lalu klik \"Jalankan Prediksi\" untuk melihat hasil prediksi."
-msgstr "Pilih produk lalu klik \"Jalankan Prediksi\" untuk melihat hasil prediksi."
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/settings/settings.tsx:83
-msgid "Menu"
-msgstr "Menu"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/settings/settings.tsx:106
-msgid "Ubah Password"
-msgstr "Ubah Password"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/settings/settings.tsx:121
-msgid "Password Baru"
-msgstr "Password Baru"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/settings/settings.tsx:131
-msgid "Konfirmasi Password Baru"
-msgstr "Konfirmasi Password Baru"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/settings/settings.tsx:142
-msgid "Simpan Perubahan"
-msgstr "Simpan Perubahan"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/settings/settings.tsx:155
-msgid "Mode Tampilan"
-msgstr "Mode Tampilan"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/settings/settings.tsx:158
-msgid "Pilih mode terang atau gelap untuk antarmuka."
-msgstr "Pilih mode terang atau gelap untuk antarmuka."
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/settings/settings.tsx:176
-msgid "Terang"
-msgstr "Terang"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/settings/settings.tsx:197
-msgid "Gelap"
-msgstr "Gelap"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/settings/settings.tsx:210
-msgid "Mode notifikasi"
-msgstr "Mode notifikasi"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/settings/settings.tsx:213
-msgid "Pilih posisi notifikasi yang ditampilkan di layar."
-msgstr "Pilih posisi notifikasi yang ditampilkan di layar."
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/settings/settings.tsx:221
-msgid "Warna Tema"
-msgstr "Warna Tema"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/settings/settings.tsx:224
-msgid "Pilih warna tema utama untuk seluruh antarmuka."
-msgstr "Pilih warna tema utama untuk seluruh antarmuka."
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/help/page.tsx:41
-msgid "Pertanyaan yang Sering Diajukan"
-msgstr "Pertanyaan yang Sering Diajukan"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/help/page.tsx:44
-msgid "Temukan jawaban atas pertanyaan umum terkait manajemen Inventra UMKM."
-msgstr "Temukan jawaban atas pertanyaan umum terkait manajemen Inventra UMKM."
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/help/page.tsx:74
-msgid "Masih butuh bantuan?"
-msgstr "Masih butuh bantuan?"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/help/page.tsx:75
-msgid "Tim support kami siap membantu Anda menyelesaikan masalah apa pun."
-msgstr "Tim support kami siap membantu Anda menyelesaikan masalah apa pun."
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/help/page.tsx:76
-msgid "Hubungi Support"
-msgstr "Hubungi Support"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/inventories/page.tsx:137
-msgid "Kode Inventaris"
-msgstr "Kode Inventaris"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/inventories/page.tsx:140
-#: src/app/(page)/(others-pages)/inventories/page.tsx:233
-msgid "Status"
-msgstr "Status"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/inventories/page.tsx:141
-msgid "Lokasi"
-msgstr "Lokasi"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:176
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:254
-msgid "Tambah Pembelian"
-msgstr "Tambah Pembelian"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:190
-msgid "Total Item"
-msgstr "Total Item"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:207
-msgid "Tidak ada data pembelian"
-msgstr "Tidak ada data pembelian"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:309
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:233
-msgid "Detail"
-msgstr "Detail"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:261
-msgid "Supplier"
-msgstr "Supplier"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:270
-msgid "Tanggal Pembelian"
-msgstr "Tanggal Pembelian"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:293
-msgid "Item Pembelian"
-msgstr "Item Pembelian"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:330
-msgid "Harga Beli"
-msgstr "Harga Beli"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:361
-msgid "Total Pembelian"
-msgstr "Total Pembelian"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:369
-msgid "Simpan Pembelian"
-msgstr "Simpan Pembelian"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:376
-msgid "Detail Pembelian"
-msgstr "Detail Pembelian"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:405
-msgid "Harga"
-msgstr "Harga"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:312
-msgid "Cetak QR"
-msgstr "Cetak QR"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:345
-msgid "Gambar Produk"
-msgstr "Gambar Produk"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:366
-msgid "Upload Gambar"
-msgstr "Upload Gambar"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:416
-msgid "Supplier dikelola melalui halaman Pembelian"
-msgstr "Supplier dikelola melalui halaman Pembelian"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:443
-msgid "Detail Produk"
-msgstr "Detail Produk"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:450
-msgid "Tidak ada gambar"
-msgstr "Tidak ada gambar"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:460
-msgid "QR Code Produk"
-msgstr "QR Code Produk"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/page.tsx:90
+#: src/app/(user)/dashboard/page.tsx:92
 msgid "Dashboard"
 msgstr "Dashboard"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/page.tsx:93
+#: src/app/(user)/dashboard/page.tsx:95
 msgid "Ringkasan bisnis Anda"
 msgstr "Ringkasan bisnis Anda"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/page.tsx:122
+#: src/app/(user)/dashboard/page.tsx:124
 msgid "Total Penjualan"
 msgstr "Total Penjualan"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:180
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:214
-#: src/app/(page)/page.tsx:137
+#: src/app/(user)/dashboard/financial-categories/page.tsx:184
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:218
+#: src/app/(user)/dashboard/page.tsx:139
 msgid "Pemasukan"
 msgstr "Pemasukan"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:180
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:214
-#: src/app/(page)/page.tsx:151
+#: src/app/(user)/dashboard/financial-categories/page.tsx:184
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:218
+#: src/app/(user)/dashboard/page.tsx:153
 msgid "Pengeluaran"
 msgstr "Pengeluaran"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/page.tsx:166
+#: src/app/(user)/dashboard/page.tsx:168
 msgid "Penjualan Bulan Ini"
 msgstr "Penjualan Bulan Ini"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/page.tsx:176
+#: src/app/(user)/dashboard/page.tsx:178
 msgid "From"
 msgstr "From"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/page.tsx:186
+#: src/app/(user)/dashboard/page.tsx:188
 msgid "To"
 msgstr "To"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/page.tsx:203
+#: src/app/(user)/dashboard/page.tsx:206
 msgid "Produk Terlaris"
 msgstr "Produk Terlaris"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/categories/categories.tsx:175
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:166
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:203
-#: src/app/(page)/(others-pages)/permissions/permissions.tsx:177
-#: src/app/(page)/(others-pages)/products/products.tsx:272
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:202
-#: src/app/(page)/(others-pages)/roles/roles.tsx:257
-#: src/app/(page)/(others-pages)/sales/sales.tsx:188
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:250
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:242
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:164
-#: src/app/(page)/(others-pages)/users/users.tsx:199
-#: src/app/(page)/page.tsx:207
+#: src/app/(user)/dashboard/categories/page.tsx:176
+#: src/app/(user)/dashboard/financial-categories/page.tsx:170
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:207
+#: src/app/(user)/dashboard/logs/page.tsx:99
+#: src/app/(user)/dashboard/page.tsx:210
+#: src/app/(user)/dashboard/products/page.tsx:276
+#: src/app/(user)/dashboard/purchases/page.tsx:205
+#: src/app/(user)/dashboard/roles/page.tsx:258
+#: src/app/(user)/dashboard/sales/page.tsx:194
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:196
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:241
+#: src/app/(user)/dashboard/suppliers/page.tsx:168
+#: src/app/(user)/dashboard/users/page.tsx:200
+#: src/app/admin/users/page.tsx:201
 msgid "Memuat data..."
 msgstr "Memuat data..."
 
 #. js-lingui-explicit-id
-#: src/app/(page)/page.tsx:211
+#: src/app/(user)/dashboard/page.tsx:214
 msgid "Belum ada data produk"
 msgstr "Belum ada data produk"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/page.tsx:226
+#: src/app/(user)/dashboard/page.tsx:229
 msgid "terjual"
 msgstr "terjual"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:156
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:213
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:190
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:262
-#: src/app/(page)/(others-pages)/products/products.tsx:261
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:237
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:233
-msgid "Tipe"
-msgstr "Tipe"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/inventories/page.tsx:138
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:310
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:403
-#: src/app/(page)/(others-pages)/sales/sales.tsx:175
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:238
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:228
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:302
-msgid "Produk"
-msgstr "Produk"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:192
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:283
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:192
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:281
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:393
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:240
-msgid "Catatan"
-msgstr "Catatan"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:193
-#: src/app/(page)/(others-pages)/inventories/page.tsx:142
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:188
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:385
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:241
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:443
-msgid "Tanggal"
-msgstr "Tanggal"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/sales/sales.tsx:165
-#: src/app/(page)/(others-pages)/sales/sales.tsx:225
-msgid "Tambah Penjualan"
-msgstr "Tambah Penjualan"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:258
-#: src/app/(page)/(others-pages)/products/products.tsx:381
-#: src/app/(page)/(others-pages)/sales/sales.tsx:177
-#: src/app/(page)/(others-pages)/sales/sales.tsx:243
-msgid "Harga Jual"
-msgstr "Harga Jual"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/categories/categories.tsx:166
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:157
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:194
-#: src/app/(page)/(others-pages)/inventories/page.tsx:143
-#: src/app/(page)/(others-pages)/permissions/permissions.tsx:168
-#: src/app/(page)/(others-pages)/products/products.tsx:263
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:193
-#: src/app/(page)/(others-pages)/roles/roles.tsx:248
-#: src/app/(page)/(others-pages)/sales/sales.tsx:179
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:155
-#: src/app/(page)/(others-pages)/users/users.tsx:190
-msgid "Aksi"
-msgstr "Aksi"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/sales/sales.tsx:193
-msgid "Tidak ada data penjualan"
-msgstr "Tidak ada data penjualan"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/categories/categories.tsx:195
-#: src/app/(page)/(others-pages)/categories/categories.tsx:243
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:186
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:238
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:229
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:301
-#: src/app/(page)/(others-pages)/permissions/permissions.tsx:205
-#: src/app/(page)/(others-pages)/permissions/permissions.tsx:274
-#: src/app/(page)/(others-pages)/products/products.tsx:311
-#: src/app/(page)/(others-pages)/products/products.tsx:436
-#: src/app/(page)/(others-pages)/roles/roles.tsx:283
-#: src/app/(page)/(others-pages)/roles/roles.tsx:424
-#: src/app/(page)/(others-pages)/sales/sales.tsx:205
-#: src/app/(page)/(others-pages)/sales/sales.tsx:262
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:181
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:230
-#: src/app/(page)/(others-pages)/users/users.tsx:225
-#: src/app/(page)/(others-pages)/users/users.tsx:283
-msgid "Hapus"
-msgstr "Hapus"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:191
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:274
-#: src/app/(page)/(others-pages)/inventories/page.tsx:139
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:320
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:404
-#: src/app/(page)/(others-pages)/sales/sales.tsx:239
-msgid "Jumlah"
-msgstr "Jumlah"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/categories/categories.tsx:229
-#: src/app/(page)/(others-pages)/categories/categories.tsx:241
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:225
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:236
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:288
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:299
-#: src/app/(page)/(others-pages)/permissions/permissions.tsx:257
-#: src/app/(page)/(others-pages)/permissions/permissions.tsx:272
-#: src/app/(page)/(others-pages)/products/products.tsx:422
-#: src/app/(page)/(others-pages)/products/products.tsx:434
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:367
-#: src/app/(page)/(others-pages)/roles/roles.tsx:375
-#: src/app/(page)/(others-pages)/roles/roles.tsx:422
-#: src/app/(page)/(others-pages)/sales/sales.tsx:249
-#: src/app/(page)/(others-pages)/sales/sales.tsx:260
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:217
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:228
-#: src/app/(page)/(others-pages)/users/users.tsx:270
-#: src/app/(page)/(others-pages)/users/users.tsx:281
-msgid "Batal"
-msgstr "Batal"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/categories/categories.tsx:230
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:226
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:289
-#: src/app/(page)/(others-pages)/permissions/permissions.tsx:260
-#: src/app/(page)/(others-pages)/products/products.tsx:423
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:369
-#: src/app/(page)/(others-pages)/roles/roles.tsx:378
-#: src/app/(page)/(others-pages)/sales/sales.tsx:250
-#: src/app/(page)/(others-pages)/settings/settings.tsx:142
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:218
-#: src/app/(page)/(others-pages)/users/users.tsx:271
-msgid "Menyimpan..."
-msgstr "Menyimpan..."
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/categories/categories.tsx:230
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:226
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:289
-#: src/app/(page)/(others-pages)/permissions/permissions.tsx:260
-#: src/app/(page)/(others-pages)/products/products.tsx:423
-#: src/app/(page)/(others-pages)/roles/roles.tsx:378
-#: src/app/(page)/(others-pages)/sales/sales.tsx:250
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:218
-#: src/app/(page)/(others-pages)/users/users.tsx:271
-msgid "Simpan"
-msgstr "Simpan"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/sales/sales.tsx:255
-msgid "Hapus Penjualan"
-msgstr "Hapus Penjualan"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/sales/sales.tsx:257
-msgid "Apakah Anda yakin ingin menghapus penjualan ini?"
-msgstr "Apakah Anda yakin ingin menghapus penjualan ini?"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/categories/categories.tsx:243
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:238
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:301
-#: src/app/(page)/(others-pages)/permissions/permissions.tsx:274
-#: src/app/(page)/(others-pages)/products/products.tsx:436
-#: src/app/(page)/(others-pages)/roles/roles.tsx:424
-#: src/app/(page)/(others-pages)/sales/sales.tsx:262
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:230
-#: src/app/(page)/(others-pages)/users/users.tsx:283
-msgid "Menghapus..."
-msgstr "Menghapus..."
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/users/users.tsx:177
-#: src/app/(page)/(others-pages)/users/users.tsx:245
+#: src/app/(user)/dashboard/users/page.tsx:178
+#: src/app/(user)/dashboard/users/page.tsx:246
+#: src/app/admin/users/page.tsx:178
+#: src/app/admin/users/page.tsx:248
 msgid "Tambah User"
 msgstr "Tambah User"
 
 #. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/users/users.tsx:204
+#: src/app/(user)/dashboard/categories/page.tsx:167
+#: src/app/(user)/dashboard/financial-categories/page.tsx:161
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:198
+#: src/app/(user)/dashboard/inventories/page.tsx:217
+#: src/app/(user)/dashboard/products/page.tsx:267
+#: src/app/(user)/dashboard/purchases/page.tsx:196
+#: src/app/(user)/dashboard/roles/page.tsx:249
+#: src/app/(user)/dashboard/sales/page.tsx:185
+#: src/app/(user)/dashboard/suppliers/page.tsx:159
+#: src/app/(user)/dashboard/users/page.tsx:191
+#: src/app/admin/users/page.tsx:192
+msgid "Aksi"
+msgstr "Aksi"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/users/page.tsx:205
+#: src/app/admin/users/page.tsx:206
 msgid "Tidak ada data user"
 msgstr "Tidak ada data user"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/users/page.tsx:246
+#: src/app/admin/users/page.tsx:248
+msgid "Edit User"
+msgstr "Edit User"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/users/page.tsx:258
+#: src/app/admin/users/page.tsx:260
+msgid "Password (kosongkan jika tidak diubah)"
+msgstr "Password (kosongkan jika tidak diubah)"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/categories/page.tsx:230
+#: src/app/(user)/dashboard/categories/page.tsx:242
+#: src/app/(user)/dashboard/financial-categories/page.tsx:233
+#: src/app/(user)/dashboard/financial-categories/page.tsx:244
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:296
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:307
+#: src/app/(user)/dashboard/inventories/page.tsx:371
+#: src/app/(user)/dashboard/products/page.tsx:432
+#: src/app/(user)/dashboard/products/page.tsx:444
+#: src/app/(user)/dashboard/purchases/page.tsx:370
+#: src/app/(user)/dashboard/roles/page.tsx:376
+#: src/app/(user)/dashboard/roles/page.tsx:423
+#: src/app/(user)/dashboard/sales/page.tsx:280
+#: src/app/(user)/dashboard/sales/page.tsx:291
+#: src/app/(user)/dashboard/suppliers/page.tsx:225
+#: src/app/(user)/dashboard/suppliers/page.tsx:236
+#: src/app/(user)/dashboard/users/page.tsx:271
+#: src/app/(user)/dashboard/users/page.tsx:282
+#: src/app/admin/users/page.tsx:273
+#: src/app/admin/users/page.tsx:284
+msgid "Batal"
+msgstr "Batal"
+
+#. js-lingui-explicit-id
+#: src/app/(account)/account/settings/page.tsx:142
+#: src/app/(user)/dashboard/categories/page.tsx:231
+#: src/app/(user)/dashboard/financial-categories/page.tsx:234
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:297
+#: src/app/(user)/dashboard/products/page.tsx:433
+#: src/app/(user)/dashboard/purchases/page.tsx:372
+#: src/app/(user)/dashboard/roles/page.tsx:379
+#: src/app/(user)/dashboard/sales/page.tsx:281
+#: src/app/(user)/dashboard/suppliers/page.tsx:226
+#: src/app/(user)/dashboard/users/page.tsx:272
+#: src/app/admin/users/page.tsx:274
+msgid "Menyimpan..."
+msgstr "Menyimpan..."
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/categories/page.tsx:231
+#: src/app/(user)/dashboard/financial-categories/page.tsx:234
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:297
+#: src/app/(user)/dashboard/products/page.tsx:433
+#: src/app/(user)/dashboard/roles/page.tsx:379
+#: src/app/(user)/dashboard/sales/page.tsx:281
+#: src/app/(user)/dashboard/suppliers/page.tsx:226
+#: src/app/(user)/dashboard/users/page.tsx:272
+#: src/app/admin/users/page.tsx:274
+msgid "Simpan"
+msgstr "Simpan"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/users/page.tsx:277
+#: src/app/admin/users/page.tsx:279
+msgid "Hapus User"
+msgstr "Hapus User"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/users/page.tsx:279
+#: src/app/admin/users/page.tsx:281
+msgid "Apakah Anda yakin ingin menghapus user"
+msgstr "Apakah Anda yakin ingin menghapus user"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/categories/page.tsx:244
+#: src/app/(user)/dashboard/financial-categories/page.tsx:246
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:309
+#: src/app/(user)/dashboard/products/page.tsx:446
+#: src/app/(user)/dashboard/roles/page.tsx:425
+#: src/app/(user)/dashboard/sales/page.tsx:293
+#: src/app/(user)/dashboard/suppliers/page.tsx:238
+#: src/app/(user)/dashboard/users/page.tsx:284
+#: src/app/admin/users/page.tsx:286
+msgid "Menghapus..."
+msgstr "Menghapus..."
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/categories/page.tsx:244
+#: src/app/(user)/dashboard/financial-categories/page.tsx:246
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:309
+#: src/app/(user)/dashboard/products/page.tsx:446
+#: src/app/(user)/dashboard/roles/page.tsx:425
+#: src/app/(user)/dashboard/sales/page.tsx:293
+#: src/app/(user)/dashboard/suppliers/page.tsx:238
+#: src/app/(user)/dashboard/users/page.tsx:284
+#: src/app/admin/users/page.tsx:286
+msgid "Hapus"
+msgstr "Hapus"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/suppliers/page.tsx:146
+#: src/app/(user)/dashboard/suppliers/page.tsx:208
+msgid "Tambah Supplier"
+msgstr "Tambah Supplier"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/categories/page.tsx:164
+#: src/app/(user)/dashboard/financial-categories/page.tsx:159
+#: src/app/(user)/dashboard/financial-categories/page.tsx:217
+#: src/app/(user)/dashboard/products/page.tsx:260
+#: src/app/(user)/dashboard/suppliers/page.tsx:156
+msgid "Nama"
+msgstr "Nama"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/suppliers/page.tsx:157
+#: src/app/(user)/dashboard/suppliers/page.tsx:220
+msgid "No.Telp"
+msgstr "No.Telp"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/sales/page.tsx:272
+#: src/app/(user)/dashboard/suppliers/page.tsx:158
+#: src/app/(user)/dashboard/suppliers/page.tsx:216
+msgid "Alamat"
+msgstr "Alamat"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/suppliers/page.tsx:173
+msgid "Tidak ada data supplier"
+msgstr "Tidak ada data supplier"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/suppliers/page.tsx:208
+msgid "Edit Supplier"
+msgstr "Edit Supplier"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/suppliers/page.tsx:212
+msgid "Nama Supplier"
+msgstr "Nama Supplier"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/suppliers/page.tsx:231
+msgid "Hapus Supplier"
+msgstr "Hapus Supplier"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/suppliers/page.tsx:233
+msgid "Apakah Anda yakin ingin menghapus supplier"
+msgstr "Apakah Anda yakin ingin menghapus supplier"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:190
+msgid "Produk Stok Kritis (<=5)"
+msgstr "Produk Stok Kritis (<=5)"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:198
+msgid "Produk Stok Rendah (6-15)"
+msgstr "Produk Stok Rendah (6-15)"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:206
+msgid "Produk Stok Aman (> 15)"
+msgstr "Produk Stok Aman (> 15)"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:219
+msgid "Status Stok Seluruh Produk"
+msgstr "Status Stok Seluruh Produk"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/inventories/page.tsx:212
+#: src/app/(user)/dashboard/purchases/page.tsx:313
+#: src/app/(user)/dashboard/purchases/page.tsx:406
+#: src/app/(user)/dashboard/sales/page.tsx:180
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:184
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:227
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:301
+msgid "Produk"
+msgstr "Produk"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/logs/page.tsx:83
+#: src/app/(user)/dashboard/products/page.tsx:264
+#: src/app/(user)/dashboard/products/page.tsx:394
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:229
+msgid "Kategori"
+msgstr "Kategori"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/products/page.tsx:263
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:230
+msgid "Stok"
+msgstr "Stok"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/financial-categories/page.tsx:160
+#: src/app/(user)/dashboard/financial-categories/page.tsx:221
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:194
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:270
+#: src/app/(user)/dashboard/products/page.tsx:265
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:183
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:232
+msgid "Tipe"
+msgstr "Tipe"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/products/page.tsx:282
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:248
+msgid "Tidak ada data produk"
+msgstr "Tidak ada data produk"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:291
+msgid "Prediksi Stok (FastAPI)"
+msgstr "Prediksi Stok (FastAPI)"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:294
+msgid "Prediksi tren penjualan menggunakan Linear Regression + Prophet berdasarkan data transaksi 30 hari terakhir."
+msgstr "Prediksi tren penjualan menggunakan Linear Regression + Prophet berdasarkan data transaksi 30 hari terakhir."
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:320
+msgid "Hari Prediksi"
+msgstr "Hari Prediksi"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:334
+msgid "Data historis diambil otomatis dari transaksi keluar (OUT) 30 hari terakhir."
+msgstr "Data historis diambil otomatis dari transaksi keluar (OUT) 30 hari terakhir."
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:343
+msgid "Mengambil data historis..."
+msgstr "Mengambil data historis..."
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:344
+msgid "Memprediksi..."
+msgstr "Memprediksi..."
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:348
+msgid "Jalankan Prediksi"
+msgstr "Jalankan Prediksi"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:356
+msgid "Reset"
+msgstr "Reset"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:367
+msgid "Mengambil data historis transaksi..."
+msgstr "Mengambil data historis transaksi..."
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:368
+msgid "Menjalankan model prediksi..."
+msgstr "Menjalankan model prediksi..."
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:389
+msgid "Stok Saat Ini"
+msgstr "Stok Saat Ini"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:393
+msgid "Rata-rata Penjualan/Hari"
+msgstr "Rata-rata Penjualan/Hari"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:404
+msgid "Tren Penjualan"
+msgstr "Tren Penjualan"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:415
+msgid "Rekomendasi"
+msgstr "Rekomendasi"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:421
+msgid "Grafik Prediksi Penjualan"
+msgstr "Grafik Prediksi Penjualan"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:434
+msgid "Tabel Forecast Harian"
+msgstr "Tabel Forecast Harian"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:197
+#: src/app/(user)/dashboard/inventories/page.tsx:216
+#: src/app/(user)/dashboard/purchases/page.tsx:191
+#: src/app/(user)/dashboard/purchases/page.tsx:388
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:187
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:442
+msgid "Tanggal"
+msgstr "Tanggal"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:443
+msgid "Prediksi (yhat)"
+msgstr "Prediksi (yhat)"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:444
+msgid "Batas Bawah"
+msgstr "Batas Bawah"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:445
+msgid "Batas Atas"
+msgstr "Batas Atas"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:468
+msgid "Pilih produk lalu klik \"Jalankan Prediksi\" untuk melihat hasil prediksi."
+msgstr "Pilih produk lalu klik \"Jalankan Prediksi\" untuk melihat hasil prediksi."
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:185
+msgid "Kuantitas"
+msgstr "Kuantitas"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:196
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:291
+#: src/app/(user)/dashboard/inventories/page.tsx:366
+#: src/app/(user)/dashboard/purchases/page.tsx:195
+#: src/app/(user)/dashboard/purchases/page.tsx:284
+#: src/app/(user)/dashboard/purchases/page.tsx:396
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:186
+msgid "Catatan"
+msgstr "Catatan"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:201
+msgid "Belum ada riwayat penyesuaian"
+msgstr "Belum ada riwayat penyesuaian"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/sales/page.tsx:169
+#: src/app/(user)/dashboard/sales/page.tsx:237
+msgid "Tambah Penjualan"
+msgstr "Tambah Penjualan"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/products/page.tsx:262
+#: src/app/(user)/dashboard/products/page.tsx:389
+#: src/app/(user)/dashboard/sales/page.tsx:183
+#: src/app/(user)/dashboard/sales/page.tsx:255
+msgid "Harga Jual"
+msgstr "Harga Jual"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/purchases/page.tsx:194
+#: src/app/(user)/dashboard/sales/page.tsx:184
+msgid "Total Harga"
+msgstr "Total Harga"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/sales/page.tsx:199
+msgid "Tidak ada data penjualan"
+msgstr "Tidak ada data penjualan"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/sales/page.tsx:241
+msgid "Batch Produk"
+msgstr "Batch Produk"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:195
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:282
+#: src/app/(user)/dashboard/inventories/page.tsx:213
+#: src/app/(user)/dashboard/purchases/page.tsx:323
+#: src/app/(user)/dashboard/purchases/page.tsx:407
+#: src/app/(user)/dashboard/sales/page.tsx:251
+msgid "Jumlah"
+msgstr "Jumlah"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/sales/page.tsx:286
+msgid "Hapus Penjualan"
+msgstr "Hapus Penjualan"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/sales/page.tsx:288
+msgid "Apakah Anda yakin ingin menghapus penjualan ini?"
+msgstr "Apakah Anda yakin ingin menghapus penjualan ini?"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/roles/page.tsx:237
+#: src/app/(user)/dashboard/roles/page.tsx:309
+msgid "Tambah Role"
+msgstr "Tambah Role"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/roles/page.tsx:247
+#: src/app/(user)/dashboard/roles/page.tsx:314
+msgid "Nama Role"
+msgstr "Nama Role"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/roles/page.tsx:265
+msgid "Tidak ada data role"
+msgstr "Tidak ada data role"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/roles/page.tsx:309
+msgid "Edit Role"
+msgstr "Edit Role"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/roles/page.tsx:348
+msgid "Hapus Semua"
+msgstr "Hapus Semua"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/roles/page.tsx:348
+msgid "Pilih Semua"
+msgstr "Pilih Semua"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/roles/page.tsx:407
+msgid "Tidak ada permissions"
+msgstr "Tidak ada permissions"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/products/page.tsx:476
+#: src/app/(user)/dashboard/purchases/page.tsx:432
+#: src/app/(user)/dashboard/roles/page.tsx:411
+msgid "Tutup"
+msgstr "Tutup"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/roles/page.tsx:418
+msgid "Hapus Role"
+msgstr "Hapus Role"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/roles/page.tsx:420
+msgid "Apakah Anda yakin ingin menghapus role"
+msgstr "Apakah Anda yakin ingin menghapus role"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/purchases/page.tsx:178
+#: src/app/(user)/dashboard/purchases/page.tsx:257
+msgid "Tambah Pembelian"
+msgstr "Tambah Pembelian"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/purchases/page.tsx:193
+msgid "Total Item"
+msgstr "Total Item"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/purchases/page.tsx:210
+msgid "Tidak ada data pembelian"
+msgstr "Tidak ada data pembelian"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/purchases/page.tsx:236
+msgid "Detail"
+msgstr "Detail"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/purchases/page.tsx:264
+msgid "Supplier"
+msgstr "Supplier"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/purchases/page.tsx:273
+msgid "Tanggal Pembelian"
+msgstr "Tanggal Pembelian"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/purchases/page.tsx:296
+msgid "Item Pembelian"
+msgstr "Item Pembelian"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/purchases/page.tsx:303
+msgid "Tambah Item"
+msgstr "Tambah Item"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/purchases/page.tsx:333
+msgid "Harga Beli"
+msgstr "Harga Beli"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/purchases/page.tsx:364
+msgid "Total Pembelian"
+msgstr "Total Pembelian"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/purchases/page.tsx:372
+msgid "Simpan Pembelian"
+msgstr "Simpan Pembelian"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/purchases/page.tsx:379
+msgid "Detail Pembelian"
+msgstr "Detail Pembelian"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/purchases/page.tsx:408
+msgid "Harga"
+msgstr "Harga"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/products/page.tsx:249
+#: src/app/(user)/dashboard/products/page.tsx:349
+msgid "Tambah Produk"
+msgstr "Tambah Produk"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/products/page.tsx:266
+#: src/app/(user)/dashboard/products/page.tsx:413
+msgid "Satuan"
+msgstr "Satuan"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/products/page.tsx:349
+msgid "Edit Produk"
+msgstr "Edit Produk"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/products/page.tsx:353
+msgid "Gambar Produk"
+msgstr "Gambar Produk"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/products/page.tsx:374
+msgid "Upload Gambar"
+msgstr "Upload Gambar"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/products/page.tsx:381
+msgid "Nama Produk"
+msgstr "Nama Produk"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/products/page.tsx:403
+msgid "Tipe Produk"
+msgstr "Tipe Produk"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/products/page.tsx:417
+msgid "Tanggal Kadaluarsa"
+msgstr "Tanggal Kadaluarsa"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/products/page.tsx:439
+msgid "Hapus Produk"
+msgstr "Hapus Produk"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/products/page.tsx:441
+msgid "Apakah Anda yakin ingin menghapus produk"
+msgstr "Apakah Anda yakin ingin menghapus produk"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/products/page.tsx:453
+msgid "Detail Produk"
+msgstr "Detail Produk"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/products/page.tsx:460
+msgid "Tidak ada gambar"
+msgstr "Tidak ada gambar"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/products/page.tsx:470
+msgid "QR Code Produk"
+msgstr "QR Code Produk"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/help/page.tsx:41
+msgid "Pertanyaan yang Sering Diajukan"
+msgstr "Pertanyaan yang Sering Diajukan"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/help/page.tsx:44
+msgid "Temukan jawaban atas pertanyaan umum terkait manajemen Inventra UMKM."
+msgstr "Temukan jawaban atas pertanyaan umum terkait manajemen Inventra UMKM."
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/help/page.tsx:74
+msgid "Masih butuh bantuan?"
+msgstr "Masih butuh bantuan?"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/help/page.tsx:75
+msgid "Tim support kami siap membantu Anda menyelesaikan masalah apa pun."
+msgstr "Tim support kami siap membantu Anda menyelesaikan masalah apa pun."
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/help/page.tsx:76
+msgid "Hubungi Support"
+msgstr "Hubungi Support"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/inventories/page.tsx:211
+msgid "Kode Inventaris"
+msgstr "Kode Inventaris"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/inventories/page.tsx:214
+#: src/app/(user)/dashboard/inventories/page.tsx:314
+msgid "Status"
+msgstr "Status"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/inventories/page.tsx:215
+msgid "Lokasi"
+msgstr "Lokasi"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:183
+msgid "Tambah Transaksi"
+msgstr "Tambah Transaksi"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:212
+msgid "Tidak ada data transaksi keuangan"
+msgstr "Tidak ada data transaksi keuangan"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:257
+msgid "Edit Transaksi Keuangan"
+msgstr "Edit Transaksi Keuangan"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:257
+msgid "Tambah Transaksi Keuangan"
+msgstr "Tambah Transaksi Keuangan"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:261
+msgid "Kategori Keuangan"
+msgstr "Kategori Keuangan"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:286
+msgid "Tanggal Transaksi"
+msgstr "Tanggal Transaksi"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:302
+msgid "Hapus Transaksi"
+msgstr "Hapus Transaksi"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:304
+msgid "Apakah Anda yakin ingin menghapus transaksi keuangan ini?"
+msgstr "Apakah Anda yakin ingin menghapus transaksi keuangan ini?"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/categories/page.tsx:153
+#: src/app/(user)/dashboard/categories/page.tsx:217
+#: src/app/(user)/dashboard/financial-categories/page.tsx:149
+msgid "Tambah Kategori"
+msgstr "Tambah Kategori"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/financial-categories/page.tsx:175
+msgid "Tidak ada data kategori keuangan"
+msgstr "Tidak ada data kategori keuangan"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/financial-categories/page.tsx:213
+msgid "Edit Kategori Keuangan"
+msgstr "Edit Kategori Keuangan"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/financial-categories/page.tsx:213
+msgid "Tambah Kategori Keuangan"
+msgstr "Tambah Kategori Keuangan"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/financial-categories/page.tsx:239
+msgid "Hapus Kategori Keuangan"
+msgstr "Hapus Kategori Keuangan"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/categories/page.tsx:239
+#: src/app/(user)/dashboard/financial-categories/page.tsx:241
+msgid "Apakah Anda yakin ingin menghapus kategori"
+msgstr "Apakah Anda yakin ingin menghapus kategori"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/categories/page.tsx:165
+#: src/app/(user)/dashboard/categories/page.tsx:225
+msgid "Deskripsi"
+msgstr "Deskripsi"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/categories/page.tsx:166
+msgid "Jumlah Produk"
+msgstr "Jumlah Produk"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/categories/page.tsx:181
+msgid "Tidak ada data kategori"
+msgstr "Tidak ada data kategori"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/categories/page.tsx:217
+msgid "Edit Kategori"
+msgstr "Edit Kategori"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/categories/page.tsx:221
+msgid "Nama Kategori"
+msgstr "Nama Kategori"
+
+#. js-lingui-explicit-id
+#: src/app/(user)/dashboard/categories/page.tsx:237
+msgid "Hapus Kategori"
+msgstr "Hapus Kategori"
+
+#. js-lingui-explicit-id
+#: src/app/(account)/account/settings/page.tsx:83
+msgid "Menu"
+msgstr "Menu"
+
+#. js-lingui-explicit-id
+#: src/app/(account)/account/settings/page.tsx:106
+msgid "Ubah Password"
+msgstr "Ubah Password"
+
+#. js-lingui-explicit-id
+#: src/app/(account)/account/settings/page.tsx:121
+msgid "Password Baru"
+msgstr "Password Baru"
+
+#. js-lingui-explicit-id
+#: src/app/(account)/account/settings/page.tsx:131
+msgid "Konfirmasi Password Baru"
+msgstr "Konfirmasi Password Baru"
+
+#. js-lingui-explicit-id
+#: src/app/(account)/account/settings/page.tsx:142
+msgid "Simpan Perubahan"
+msgstr "Simpan Perubahan"
+
+#. js-lingui-explicit-id
+#: src/app/(account)/account/settings/page.tsx:155
+msgid "Mode Tampilan"
+msgstr "Mode Tampilan"
+
+#. js-lingui-explicit-id
+#: src/app/(account)/account/settings/page.tsx:158
+msgid "Pilih mode terang atau gelap untuk antarmuka."
+msgstr "Pilih mode terang atau gelap untuk antarmuka."
+
+#. js-lingui-explicit-id
+#: src/app/(account)/account/settings/page.tsx:176
+msgid "Terang"
+msgstr "Terang"
+
+#. js-lingui-explicit-id
+#: src/app/(account)/account/settings/page.tsx:197
+msgid "Gelap"
+msgstr "Gelap"
+
+#. js-lingui-explicit-id
+#: src/app/(account)/account/settings/page.tsx:210
+msgid "Mode notifikasi"
+msgstr "Mode notifikasi"
+
+#. js-lingui-explicit-id
+#: src/app/(account)/account/settings/page.tsx:213
+msgid "Pilih posisi notifikasi yang ditampilkan di layar."
+msgstr "Pilih posisi notifikasi yang ditampilkan di layar."
+
+#. js-lingui-explicit-id
+#: src/app/(account)/account/settings/page.tsx:221
+msgid "Warna Tema"
+msgstr "Warna Tema"
+
+#. js-lingui-explicit-id
+#: src/app/(account)/account/settings/page.tsx:224
+msgid "Pilih warna tema utama untuk seluruh antarmuka."
+msgstr "Pilih warna tema utama untuk seluruh antarmuka."
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:229
+#~ msgid "Riwayat Transaksi Stok"
+#~ msgstr "Riwayat Transaksi Stok"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/products/products.tsx:312
+#~ msgid "Cetak QR"
+#~ msgstr "Cetak QR"
+
+#. js-lingui-explicit-id
+#: src/app/(page)/(others-pages)/products/products.tsx:416
+#~ msgid "Supplier dikelola melalui halaman Pembelian"
+#~ msgstr "Supplier dikelola melalui halaman Pembelian"
 
 #. js-lingui-explicit-id
 #: src/app/(page)/(others-pages)/categories/categories.tsx:192
@@ -625,361 +1019,50 @@ msgstr "Tidak ada data user"
 #: src/app/(page)/(others-pages)/roles/roles.tsx:280
 #: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:180
 #: src/app/(page)/(others-pages)/users/users.tsx:222
-msgid "Edit"
-msgstr "Edit"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/users/users.tsx:245
-msgid "Edit User"
-msgstr "Edit User"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/users/users.tsx:257
-msgid "Password (kosongkan jika tidak diubah)"
-msgstr "Password (kosongkan jika tidak diubah)"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/users/users.tsx:276
-msgid "Hapus User"
-msgstr "Hapus User"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/users/users.tsx:278
-msgid "Apakah Anda yakin ingin menghapus user"
-msgstr "Apakah Anda yakin ingin menghapus user"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:199
-msgid "Produk Stok Rendah (6-15)"
-msgstr "Produk Stok Rendah (6-15)"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:207
-msgid "Produk Stok Aman (> 15)"
-msgstr "Produk Stok Aman (> 15)"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:220
-msgid "Status Stok Seluruh Produk"
-msgstr "Status Stok Seluruh Produk"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:260
-#: src/app/(page)/(others-pages)/products/products.tsx:386
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:230
-msgid "Kategori"
-msgstr "Kategori"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:259
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:231
-msgid "Stok"
-msgstr "Stok"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:278
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:249
-msgid "Tidak ada data produk"
-msgstr "Tidak ada data produk"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:143
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:200
-msgid "Tambah Supplier"
-msgstr "Tambah Supplier"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/categories/categories.tsx:163
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:155
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:209
-#: src/app/(page)/(others-pages)/products/products.tsx:256
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:152
-msgid "Nama"
-msgstr "Nama"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:153
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:212
-msgid "No.Telp"
-msgstr "No.Telp"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:154
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:208
-msgid "Alamat"
-msgstr "Alamat"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:169
-msgid "Tidak ada data supplier"
-msgstr "Tidak ada data supplier"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:200
-msgid "Edit Supplier"
-msgstr "Edit Supplier"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:204
-msgid "Nama Supplier"
-msgstr "Nama Supplier"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:223
-msgid "Hapus Supplier"
-msgstr "Hapus Supplier"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:225
-msgid "Apakah Anda yakin ingin menghapus supplier"
-msgstr "Apakah Anda yakin ingin menghapus supplier"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/roles/roles.tsx:236
-#: src/app/(page)/(others-pages)/roles/roles.tsx:308
-msgid "Tambah Role"
-msgstr "Tambah Role"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/roles/roles.tsx:246
-#: src/app/(page)/(others-pages)/roles/roles.tsx:313
-msgid "Nama Role"
-msgstr "Nama Role"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/roles/roles.tsx:264
-msgid "Tidak ada data role"
-msgstr "Tidak ada data role"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/roles/roles.tsx:308
-msgid "Edit Role"
-msgstr "Edit Role"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/roles/roles.tsx:347
-msgid "Hapus Semua"
-msgstr "Hapus Semua"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/roles/roles.tsx:347
-msgid "Pilih Semua"
-msgstr "Pilih Semua"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/roles/roles.tsx:406
-msgid "Tidak ada permissions"
-msgstr "Tidak ada permissions"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:466
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:429
-#: src/app/(page)/(others-pages)/roles/roles.tsx:410
-msgid "Tutup"
-msgstr "Tutup"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/roles/roles.tsx:417
-msgid "Hapus Role"
-msgstr "Hapus Role"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/roles/roles.tsx:419
-msgid "Apakah Anda yakin ingin menghapus role"
-msgstr "Apakah Anda yakin ingin menghapus role"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:180
-msgid "Tambah Transaksi"
-msgstr "Tambah Transaksi"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:208
-msgid "Tidak ada data transaksi keuangan"
-msgstr "Tidak ada data transaksi keuangan"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:249
-msgid "Edit Transaksi Keuangan"
-msgstr "Edit Transaksi Keuangan"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:249
-msgid "Tambah Transaksi Keuangan"
-msgstr "Tambah Transaksi Keuangan"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:253
-msgid "Kategori Keuangan"
-msgstr "Kategori Keuangan"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:278
-msgid "Tanggal Transaksi"
-msgstr "Tanggal Transaksi"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:294
-msgid "Hapus Transaksi"
-msgstr "Hapus Transaksi"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:296
-msgid "Apakah Anda yakin ingin menghapus transaksi keuangan ini?"
-msgstr "Apakah Anda yakin ingin menghapus transaksi keuangan ini?"
+#~ msgid "Edit"
+#~ msgstr "Edit"
 
 #. js-lingui-explicit-id
 #: src/app/(page)/(others-pages)/permissions/permissions.tsx:155
 #: src/app/(page)/(others-pages)/permissions/permissions.tsx:230
-msgid "Tambah Permission"
-msgstr "Tambah Permission"
+#~ msgid "Tambah Permission"
+#~ msgstr "Tambah Permission"
 
 #. js-lingui-explicit-id
 #: src/app/(page)/(others-pages)/permissions/permissions.tsx:166
 #: src/app/(page)/(others-pages)/permissions/permissions.tsx:235
-msgid "Nama Permission"
-msgstr "Nama Permission"
+#~ msgid "Nama Permission"
+#~ msgstr "Nama Permission"
 
 #. js-lingui-explicit-id
 #: src/app/(page)/(others-pages)/permissions/permissions.tsx:184
-msgid "Tidak ada data permission"
-msgstr "Tidak ada data permission"
+#~ msgid "Tidak ada data permission"
+#~ msgstr "Tidak ada data permission"
 
 #. js-lingui-explicit-id
 #: src/app/(page)/(others-pages)/permissions/permissions.tsx:230
-msgid "Edit Permission"
-msgstr "Edit Permission"
+#~ msgid "Edit Permission"
+#~ msgstr "Edit Permission"
 
 #. js-lingui-explicit-id
 #: src/app/(page)/(others-pages)/permissions/permissions.tsx:267
-msgid "Hapus Permission"
-msgstr "Hapus Permission"
+#~ msgid "Hapus Permission"
+#~ msgstr "Hapus Permission"
 
 #. js-lingui-explicit-id
 #: src/app/(page)/(others-pages)/permissions/permissions.tsx:269
-msgid "Apakah Anda yakin ingin menghapus permission"
-msgstr "Apakah Anda yakin ingin menghapus permission"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:300
-msgid "Tambah Item"
-msgstr "Tambah Item"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/categories/categories.tsx:152
-#: src/app/(page)/(others-pages)/categories/categories.tsx:216
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:146
-msgid "Tambah Kategori"
-msgstr "Tambah Kategori"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:171
-msgid "Tidak ada data kategori keuangan"
-msgstr "Tidak ada data kategori keuangan"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:205
-msgid "Edit Kategori Keuangan"
-msgstr "Edit Kategori Keuangan"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:205
-msgid "Tambah Kategori Keuangan"
-msgstr "Tambah Kategori Keuangan"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:231
-msgid "Hapus Kategori Keuangan"
-msgstr "Hapus Kategori Keuangan"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/categories/categories.tsx:238
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:233
-msgid "Apakah Anda yakin ingin menghapus kategori"
-msgstr "Apakah Anda yakin ingin menghapus kategori"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/categories/categories.tsx:164
-#: src/app/(page)/(others-pages)/categories/categories.tsx:224
-msgid "Deskripsi"
-msgstr "Deskripsi"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/categories/categories.tsx:165
-msgid "Jumlah Produk"
-msgstr "Jumlah Produk"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/categories/categories.tsx:180
-msgid "Tidak ada data kategori"
-msgstr "Tidak ada data kategori"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/categories/categories.tsx:216
-msgid "Edit Kategori"
-msgstr "Edit Kategori"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/categories/categories.tsx:220
-msgid "Nama Kategori"
-msgstr "Nama Kategori"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/categories/categories.tsx:236
-msgid "Hapus Kategori"
-msgstr "Hapus Kategori"
+#~ msgid "Apakah Anda yakin ingin menghapus permission"
+#~ msgstr "Apakah Anda yakin ingin menghapus permission"
 
 #. js-lingui-explicit-id
 #: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:158
-msgid "Pertanyaan cepat:"
-msgstr "Pertanyaan cepat:"
+#~ msgid "Pertanyaan cepat:"
+#~ msgstr "Pertanyaan cepat:"
 
 #. js-lingui-explicit-id
 #: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:211
-msgid "AI menganalisis data produk, penjualan, dan keuangan bisnis Anda secara real-time"
-msgstr "AI menganalisis data produk, penjualan, dan keuangan bisnis Anda secara real-time"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:246
-#: src/app/(page)/(others-pages)/products/products.tsx:341
-msgid "Tambah Produk"
-msgstr "Tambah Produk"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:262
-#: src/app/(page)/(others-pages)/products/products.tsx:405
-msgid "Satuan"
-msgstr "Satuan"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:341
-msgid "Edit Produk"
-msgstr "Edit Produk"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:373
-msgid "Nama Produk"
-msgstr "Nama Produk"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:395
-msgid "Tipe Produk"
-msgstr "Tipe Produk"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:409
-msgid "Tanggal Kadaluarsa"
-msgstr "Tanggal Kadaluarsa"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:429
-msgid "Hapus Produk"
-msgstr "Hapus Produk"
-
-#. js-lingui-explicit-id
-#: src/app/(page)/(others-pages)/products/products.tsx:431
-msgid "Apakah Anda yakin ingin menghapus produk"
-msgstr "Apakah Anda yakin ingin menghapus produk"
+#~ msgid "AI menganalisis data produk, penjualan, dan keuangan bisnis Anda secara real-time"
+#~ msgstr "AI menganalisis data produk, penjualan, dan keuangan bisnis Anda secara real-time"
 
 #. js-lingui-explicit-id
 #: src/app/(page)/page.tsx:139
@@ -1093,82 +1176,135 @@ msgstr "Apakah Anda yakin ingin menghapus produk"
 #~ msgid "Sign In"
 #~ msgstr "Sign In"
 
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:312
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:311
 msgid "-- Pilih Produk --"
 msgstr "-- Pilih Produk --"
 
+#: src/components/landing/LandingHeader.tsx:80
+#: src/components/landing/LandingHeader.tsx:145
+msgid "{label}"
+msgstr "{label}"
+
+#: src/components/landing/LandingFooter.tsx:139
+msgid "© 2026 Inventra. All rights reserved."
+msgstr "© 2026 Inventra. All rights reserved."
+
 #: src/components/landing/LandingFooter.tsx:52
-msgid "© 2026 Inventra. Orchestrating supply with elegance."
-msgstr "© 2026 Inventra. Orchestrating supply with elegance."
+#~ msgid "© 2026 Inventra. Orchestrating supply with elegance."
+#~ msgstr "© 2026 Inventra. Orchestrating supply with elegance."
+
+#: src/components/landing/LandingContact.tsx:93
+msgid "1-10 karyawan"
+msgstr "1-10 karyawan"
 
 #: src/components/landing/LandingContact.tsx:50
-msgid "1-50 employees"
-msgstr "1-50 employees"
+#~ msgid "1-50 employees"
+#~ msgstr "1-50 employees"
+
+#: src/components/landing/LandingContact.tsx:94
+msgid "11-50 karyawan"
+msgstr "11-50 karyawan"
+
+#: src/components/landing/LandingContact.tsx:96
+msgid "200+ karyawan"
+msgstr "200+ karyawan"
 
 #: src/components/landing/LandingContact.tsx:52
-msgid "500+ employees"
-msgstr "500+ employees"
+#~ msgid "500+ employees"
+#~ msgstr "500+ employees"
+
+#: src/components/landing/LandingContact.tsx:95
+msgid "51-200 karyawan"
+msgstr "51-200 karyawan"
 
 #: src/components/landing/LandingContact.tsx:51
-msgid "51-500 employees"
-msgstr "51-500 employees"
+#~ msgid "51-500 employees"
+#~ msgstr "51-500 employees"
 
-#: src/app/(page)/(others-pages)/categories/categories.tsx:121
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:117
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:115
+#: src/app/(user)/dashboard/categories/page.tsx:122
+#: src/app/(user)/dashboard/financial-categories/page.tsx:120
+#: src/app/(user)/dashboard/suppliers/page.tsx:118
 msgid "A-Z"
 msgstr "A-Z"
 
 #: src/components/landing/LandingHeader.tsx:25
-msgid "About"
-msgstr "About"
+#~ msgid "About"
+#~ msgstr "About"
 
 #: src/components/landing/LandingFeatures.tsx:24
-msgid "AI Data Visualization"
-msgstr "AI Data Visualization"
+#~ msgid "AI Data Visualization"
+#~ msgstr "AI Data Visualization"
 
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:209
+#: src/app/admin/businesses/page.tsx:101
+msgid "Aksi"
+msgstr "Aksi"
+
+#: src/components/landing/LandingHero.tsx:135
+msgid "Akurasi Real-Time"
+msgstr "Akurasi Real-Time"
+
+#: src/app/(user)/dashboard/sales/page.tsx:273
+msgid "Alamat pembeli"
+msgstr "Alamat pembeli"
+
+#: src/app/(user)/dashboard/inventories/page.tsx:353
+msgid "Alamat penerima"
+msgstr "Alamat penerima"
+
+#: src/app/(user)/dashboard/suppliers/page.tsx:217
 msgid "Alamat supplier"
 msgstr "Alamat supplier"
 
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:211
-#: src/app/(page)/(others-pages)/stock-adjustment/transactions.tsx:181
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:316
 msgid "Alasan penyesuaian..."
 msgstr "Alasan penyesuaian..."
 
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:114
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:130
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:115
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:131
 msgid "Aman"
 msgstr "Aman"
 
-#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:25
+#: src/components/landing/LandingFeatures.tsx:55
+msgid "API terbuka dan webhook untuk integrasi dengan POS, ERP, marketplace, dan sistem akuntansi Anda."
+msgstr "API terbuka dan webhook untuk integrasi dengan POS, ERP, marketplace, dan sistem akuntansi Anda."
+
 #: src/components/chatbot/ChatbotWidget.tsx:22
 msgid "Bagaimana kondisi keuangan bisnis saya?"
 msgstr "Bagaimana kondisi keuangan bisnis saya?"
 
-#: src/app/(page)/(others-pages)/help/page.tsx:38
+#: src/components/landing/LandingFooter.tsx:100
+msgid "Bantuan"
+msgstr "Bantuan"
+
+#: src/app/(user)/dashboard/help/page.tsx:38
 msgid "Bantuan & FAQ"
 msgstr "Bantuan & FAQ"
 
-#: src/app/(page)/(others-pages)/products/products.tsx:59
-#: src/app/(page)/(others-pages)/products/products.tsx:397
+#: src/app/(user)/dashboard/products/page.tsx:62
+#: src/app/(user)/dashboard/products/page.tsx:405
 msgid "Barang"
 msgstr "Barang"
 
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:188
-#: src/app/(page)/(others-pages)/stock-adjustment/transactions.tsx:158
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:321
+msgid "Batal"
+msgstr "Batal"
+
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:293
 msgid "Batch Inventaris (Ready)"
 msgstr "Batch Inventaris (Ready)"
 
-#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:28
-msgid "Berapa total pemasukan dan pengeluaran?"
-msgstr "Berapa total pemasukan dan pengeluaran?"
+#: src/app/admin/businesses/page.tsx:144
+msgid "Belum ada bisnis yang terdaftar."
+msgstr "Belum ada bisnis yang terdaftar."
 
-#: src/app/(page)/(others-pages)/settings/settings.tsx:113
+#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:28
+#~ msgid "Berapa total pemasukan dan pengeluaran?"
+#~ msgstr "Berapa total pemasukan dan pengeluaran?"
+
+#: src/app/(account)/account/settings/page.tsx:113
 msgid "Berhasil"
 msgstr "Berhasil"
 
-#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:27
 #: src/components/chatbot/ChatbotWidget.tsx:24
 msgid "Berikan analisis keuntungan bisnis saya"
 msgstr "Berikan analisis keuntungan bisnis saya"
@@ -1177,7 +1313,21 @@ msgstr "Berikan analisis keuntungan bisnis saya"
 #~ msgid "Biaya komponen"
 #~ msgstr "Biaya komponen"
 
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:157
+#: src/app/admin/businesses/page.tsx:54
+msgid "Bisnis berhasil dihapus"
+msgstr "Bisnis berhasil dihapus"
+
+#: src/components/landing/LandingGlobalPresence.tsx:12
+msgid "Buat akun gratis dalam hitungan detik — cukup email dan password, tanpa kartu kredit."
+msgstr "Buat akun gratis dalam hitungan detik — cukup email dan password, tanpa kartu kredit."
+
+#: src/components/landing/LandingFooter.tsx:12
+#: src/components/landing/LandingGlobalPresence.tsx:39
+#: src/components/landing/LandingHeader.tsx:27
+msgid "Cara Kerja"
+msgstr "Cara Kerja"
+
+#: src/app/(user)/dashboard/purchases/page.tsx:159
 msgid "Cari berdasarkan supplier..."
 msgstr "Cari berdasarkan supplier..."
 
@@ -1185,12 +1335,12 @@ msgstr "Cari berdasarkan supplier..."
 #~ msgid "Cari kategori berdasarkan nama"
 #~ msgstr "Cari kategori berdasarkan nama"
 
-#: src/app/(page)/(others-pages)/categories/categories.tsx:126
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:122
+#: src/app/(user)/dashboard/categories/page.tsx:127
+#: src/app/(user)/dashboard/financial-categories/page.tsx:125
 msgid "Cari kategori berdasarkan nama..."
 msgstr "Cari kategori berdasarkan nama..."
 
-#: src/app/(page)/(others-pages)/inventories/page.tsx:72
+#: src/app/(user)/dashboard/inventories/page.tsx:80
 msgid "Cari kode inventaris atau produk..."
 msgstr "Cari kode inventaris atau produk..."
 
@@ -1202,20 +1352,20 @@ msgstr "Cari kode inventaris atau produk..."
 #~ msgid "Cari penjualan berdasarkan nama"
 #~ msgstr "Cari penjualan berdasarkan nama"
 
-#: src/app/(page)/(others-pages)/sales/sales.tsx:142
+#: src/app/(user)/dashboard/sales/page.tsx:146
 msgid "Cari penjualan berdasarkan produk..."
 msgstr "Cari penjualan berdasarkan produk..."
 
 #: src/app/(page)/(others-pages)/permissions/permissions.tsx:136
-msgid "Cari permission berdasarkan nama..."
-msgstr "Cari permission berdasarkan nama..."
+#~ msgid "Cari permission berdasarkan nama..."
+#~ msgstr "Cari permission berdasarkan nama..."
 
-#: src/app/(page)/(others-pages)/products/products.tsx:72
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:132
+#: src/app/(user)/dashboard/products/page.tsx:75
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:133
 msgid "Cari produk..."
 msgstr "Cari produk..."
 
-#: src/app/(page)/(others-pages)/roles/roles.tsx:218
+#: src/app/(user)/dashboard/roles/page.tsx:219
 msgid "Cari role berdasarkan nama..."
 msgstr "Cari role berdasarkan nama..."
 
@@ -1223,76 +1373,117 @@ msgstr "Cari role berdasarkan nama..."
 #~ msgid "Cari supplier berdasarkan nama"
 #~ msgstr "Cari supplier berdasarkan nama"
 
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:120
+#: src/app/(user)/dashboard/suppliers/page.tsx:123
 msgid "Cari supplier berdasarkan nama..."
 msgstr "Cari supplier berdasarkan nama..."
 
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:159
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:162
 msgid "Cari transaksi berdasarkan catatan atau tipe..."
 msgstr "Cari transaksi berdasarkan catatan atau tipe..."
 
-#: src/app/(page)/(others-pages)/users/users.tsx:155
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:72
+msgid "Cari transaksi..."
+msgstr "Cari transaksi..."
+
+#: src/app/(user)/dashboard/users/page.tsx:156
+#: src/app/admin/users/page.tsx:156
 msgid "Cari user berdasarkan username atau email..."
 msgstr "Cari user berdasarkan username atau email..."
 
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:210
-#: src/app/(page)/(others-pages)/stock-adjustment/transactions.tsx:180
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:315
 msgid "Catatan"
 msgstr "Catatan"
 
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:284
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:292
 msgid "Catatan (opsional)"
 msgstr "Catatan (opsional)"
 
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:283
+#: src/app/(user)/dashboard/purchases/page.tsx:286
 msgid "Catatan pembelian (opsional)"
 msgstr "Catatan pembelian (opsional)"
+
+#: src/app/(user)/dashboard/inventories/page.tsx:367
+msgid "Catatan tambahan"
+msgstr "Catatan tambahan"
+
+#: src/app/(user)/dashboard/inventories/page.tsx:259
+msgid "Cetak Surat Jalan"
+msgstr "Cetak Surat Jalan"
 
 #: src/utils/statusTranslations.ts:9
 msgid "Completed"
 msgstr "Completed"
 
 #: src/components/landing/LandingFeatures.tsx:57
-msgid "Connect seamlessly with SAP, Oracle, and over 400+ third-party logistics providers via our robust API."
-msgstr "Connect seamlessly with SAP, Oracle, and over 400+ third-party logistics providers via our robust API."
+#~ msgid "Connect seamlessly with SAP, Oracle, and over 400+ third-party logistics providers via our robust API."
+#~ msgstr "Connect seamlessly with SAP, Oracle, and over 400+ third-party logistics providers via our robust API."
 
 #: src/components/landing/LandingFooter.tsx:37
-msgid "Contact"
-msgstr "Contact"
+#~ msgid "Contact"
+#~ msgstr "Contact"
+
+#: src/components/landing/LandingFooter.tsx:26
+msgid "Cookie"
+msgstr "Cookie"
 
 #: src/components/landing/LandingFooter.tsx:46
-msgid "Cookies"
-msgstr "Cookies"
+#~ msgid "Cookies"
+#~ msgstr "Cookies"
 
-#: src/app/(page)/(others-pages)/roles/roles.tsx:367
+#: src/components/landing/LandingGlobalPresence.tsx:11
+msgid "Daftar Akun"
+msgstr "Daftar Akun"
+
+#: src/app/(user)/dashboard/roles/page.tsx:368
 msgid "dari"
 msgstr "dari"
 
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:89
+#: src/components/landing/LandingHero.tsx:75
+msgid "Dari pelacakan stok real-time hingga prediksi AI — Inventra membantu UMKM mengelola inventaris dengan akurasi, kecepatan, dan efisiensi tinggi."
+msgstr "Dari pelacakan stok real-time hingga prediksi AI — Inventra membantu UMKM mengelola inventaris dengan akurasi, kecepatan, dan efisiensi tinggi."
+
+#: src/components/landing/LandingFeatures.tsx:41
+msgid "Dashboard interaktif dengan turnover rate, dead stock alert, dan laporan keuangan inventaris yang lengkap."
+msgstr "Dashboard interaktif dengan turnover rate, dead stock alert, dan laporan keuangan inventaris yang lengkap."
+
+#: src/components/landing/LandingGlobalPresence.tsx:24
+msgid "Dashboard real-time siap digunakan. Catat transaksi, pantau stok, dan biarkan AI bekerja untuk Anda."
+msgstr "Dashboard real-time siap digunakan. Catat transaksi, pantau stok, dan biarkan AI bekerja untuk Anda."
+
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:90
 msgid "Data historis tidak cukup. Minimal diperlukan 2 hari transaksi dalam 30 hari terakhir."
 msgstr "Data historis tidak cukup. Minimal diperlukan 2 hari transaksi dalam 30 hari terakhir."
 
-#: src/app/(page)/(others-pages)/sales/sales.tsx:137
+#: src/app/(user)/dashboard/sales/page.tsx:141
 msgid "Default (Terbaru)"
 msgstr "Default (Terbaru)"
 
-#: src/app/(page)/(others-pages)/categories/categories.tsx:225
+#: src/app/(user)/dashboard/categories/page.tsx:226
 msgid "Deskripsi kategori (opsional)"
 msgstr "Deskripsi kategori (opsional)"
 
 #: src/components/landing/LandingFooter.tsx:29
-msgid "Documentation"
-msgstr "Documentation"
+#~ msgid "Documentation"
+#~ msgstr "Documentation"
+
+#: src/components/landing/LandingFooter.tsx:14
+msgid "Dokumentasi"
+msgstr "Dokumentasi"
 
 #: src/components/landing/LandingFeatures.tsx:55
-msgid "Ecosystem Integration"
-msgstr "Ecosystem Integration"
+#~ msgid "Ecosystem Integration"
+#~ msgstr "Ecosystem Integration"
+
+#: src/components/landing/LandingContact.tsx:50
+#: src/components/landing/LandingContact.tsx:78
+msgid "Email"
+msgstr "Email"
 
 #: src/components/landing/LandingFeatures.tsx:48
-msgid "Enterprise Security"
-msgstr "Enterprise Security"
+#~ msgid "Enterprise Security"
+#~ msgstr "Enterprise Security"
 
-#: src/app/(page)/(others-pages)/settings/settings.tsx:113
+#: src/app/(account)/account/settings/page.tsx:113
 msgid "Error"
 msgstr "Error"
 
@@ -1301,18 +1492,37 @@ msgid "Failed"
 msgstr "Failed"
 
 #: src/components/landing/LandingHeader.tsx:16
-msgid "Features"
-msgstr "Features"
+#~ msgid "Features"
+#~ msgstr "Features"
+
+#: src/components/landing/LandingFooter.tsx:11
+#: src/components/landing/LandingHeader.tsx:26
+msgid "Fitur"
+msgstr "Fitur"
+
+#: src/components/landing/LandingFeatures.tsx:98
+msgid "Fitur Unggulan"
+msgstr "Fitur Unggulan"
 
 #: src/components/landing/LandingContact.tsx:38
-msgid "Full Name"
-msgstr "Full Name"
+#~ msgid "Full Name"
+#~ msgstr "Full Name"
 
-#: src/app/(page)/(others-pages)/settings/settings.tsx:60
+#: src/app/(user)/dashboard/inventories/page.tsx:189
+msgid "Gagal generate Surat Jalan"
+msgstr "Gagal generate Surat Jalan"
+
+#: src/app/(account)/account/settings/page.tsx:60
 msgid "Gagal memperbarui password."
 msgstr "Gagal memperbarui password."
 
-#: src/app/(page)/page.tsx:67
+#: src/app/admin/businesses/page.tsx:35
+#: src/app/admin/businesses/page.tsx:39
+#: src/app/admin/businesses/page.tsx:40
+msgid "Gagal memuat data bisnis"
+msgstr "Gagal memuat data bisnis"
+
+#: src/app/(user)/dashboard/page.tsx:69
 msgid "Gagal memuat data dashboard"
 msgstr "Gagal memuat data dashboard"
 
@@ -1321,53 +1531,58 @@ msgstr "Gagal memuat data dashboard"
 #~ msgid "Gagal memuat data HPP"
 #~ msgstr "Gagal memuat data HPP"
 
-#: src/app/(page)/(others-pages)/inventories/page.tsx:85
+#: src/app/(user)/dashboard/inventories/page.tsx:101
 msgid "Gagal memuat data inventaris."
 msgstr "Gagal memuat data inventaris."
 
-#: src/app/(page)/(others-pages)/categories/categories.tsx:50
-#: src/app/(page)/(others-pages)/categories/categories.tsx:53
+#: src/app/(user)/dashboard/categories/page.tsx:51
+#: src/app/(user)/dashboard/categories/page.tsx:54
 msgid "Gagal memuat data kategori"
 msgstr "Gagal memuat data kategori"
 
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:47
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:50
+#: src/app/(user)/dashboard/financial-categories/page.tsx:50
+#: src/app/(user)/dashboard/financial-categories/page.tsx:53
 msgid "Gagal memuat data kategori keuangan"
 msgstr "Gagal memuat data kategori keuangan"
 
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:62
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:65
+#: src/app/(user)/dashboard/logs/page.tsx:33
+#: src/app/(user)/dashboard/logs/page.tsx:36
+msgid "Gagal memuat data log"
+msgstr "Gagal memuat data log"
+
+#: src/app/(user)/dashboard/purchases/page.tsx:64
+#: src/app/(user)/dashboard/purchases/page.tsx:67
 msgid "Gagal memuat data pembelian"
 msgstr "Gagal memuat data pembelian"
 
-#: src/app/(page)/(others-pages)/sales/sales.tsx:50
-#: src/app/(page)/(others-pages)/sales/sales.tsx:53
+#: src/app/(user)/dashboard/sales/page.tsx:54
+#: src/app/(user)/dashboard/sales/page.tsx:57
 msgid "Gagal memuat data penjualan"
 msgstr "Gagal memuat data penjualan"
 
 #: src/app/(page)/(others-pages)/permissions/permissions.tsx:48
 #: src/app/(page)/(others-pages)/permissions/permissions.tsx:51
-msgid "Gagal memuat data permission"
-msgstr "Gagal memuat data permission"
+#~ msgid "Gagal memuat data permission"
+#~ msgstr "Gagal memuat data permission"
 
-#: src/app/(page)/(others-pages)/products/products.tsx:97
-#: src/app/(page)/(others-pages)/products/products.tsx:100
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:59
+#: src/app/(user)/dashboard/products/page.tsx:100
+#: src/app/(user)/dashboard/products/page.tsx:103
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:60
 msgid "Gagal memuat data produk"
 msgstr "Gagal memuat data produk"
 
-#: src/app/(page)/(others-pages)/roles/roles.tsx:65
-#: src/app/(page)/(others-pages)/roles/roles.tsx:68
+#: src/app/(user)/dashboard/roles/page.tsx:66
+#: src/app/(user)/dashboard/roles/page.tsx:69
 msgid "Gagal memuat data role"
 msgstr "Gagal memuat data role"
 
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:45
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:48
+#: src/app/(user)/dashboard/suppliers/page.tsx:48
+#: src/app/(user)/dashboard/suppliers/page.tsx:51
 msgid "Gagal memuat data supplier"
 msgstr "Gagal memuat data supplier"
 
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:52
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:55
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:55
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:58
 msgid "Gagal memuat data transaksi keuangan"
 msgstr "Gagal memuat data transaksi keuangan"
 
@@ -1376,13 +1591,15 @@ msgstr "Gagal memuat data transaksi keuangan"
 #~ msgid "Gagal memuat data transaksi stok"
 #~ msgstr "Gagal memuat data transaksi stok"
 
-#: src/app/(page)/(others-pages)/users/users.tsx:53
-#: src/app/(page)/(others-pages)/users/users.tsx:56
+#: src/app/(user)/dashboard/users/page.tsx:54
+#: src/app/(user)/dashboard/users/page.tsx:57
+#: src/app/admin/users/page.tsx:54
+#: src/app/admin/users/page.tsx:57
 msgid "Gagal memuat data user"
 msgstr "Gagal memuat data user"
 
-#: src/app/(page)/(others-pages)/roles/roles.tsx:127
-#: src/app/(page)/(others-pages)/roles/roles.tsx:139
+#: src/app/(user)/dashboard/roles/page.tsx:128
+#: src/app/(user)/dashboard/roles/page.tsx:140
 msgid "Gagal memuat detail role"
 msgstr "Gagal memuat detail role"
 
@@ -1390,39 +1607,43 @@ msgstr "Gagal memuat detail role"
 #~ msgid "Gagal menganalisis stok"
 #~ msgstr "Gagal menganalisis stok"
 
+#: src/app/admin/businesses/page.tsx:59
+msgid "Gagal menghapus bisnis"
+msgstr "Gagal menghapus bisnis"
+
 #: src/app/(page)/(others-pages)/hpp/hpp.tsx:153
 #~ msgid "Gagal menghapus HPP"
 #~ msgstr "Gagal menghapus HPP"
 
-#: src/app/(page)/(others-pages)/categories/categories.tsx:105
+#: src/app/(user)/dashboard/categories/page.tsx:106
 msgid "Gagal menghapus kategori"
 msgstr "Gagal menghapus kategori"
 
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:102
+#: src/app/(user)/dashboard/financial-categories/page.tsx:105
 msgid "Gagal menghapus kategori keuangan"
 msgstr "Gagal menghapus kategori keuangan"
 
-#: src/app/(page)/(others-pages)/sales/sales.tsx:118
+#: src/app/(user)/dashboard/sales/page.tsx:122
 msgid "Gagal menghapus penjualan"
 msgstr "Gagal menghapus penjualan"
 
 #: src/app/(page)/(others-pages)/permissions/permissions.tsx:117
-msgid "Gagal menghapus permission"
-msgstr "Gagal menghapus permission"
+#~ msgid "Gagal menghapus permission"
+#~ msgstr "Gagal menghapus permission"
 
-#: src/app/(page)/(others-pages)/products/products.tsx:206
+#: src/app/(user)/dashboard/products/page.tsx:209
 msgid "Gagal menghapus produk"
 msgstr "Gagal menghapus produk"
 
-#: src/app/(page)/(others-pages)/roles/roles.tsx:202
+#: src/app/(user)/dashboard/roles/page.tsx:203
 msgid "Gagal menghapus role"
 msgstr "Gagal menghapus role"
 
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:100
+#: src/app/(user)/dashboard/suppliers/page.tsx:103
 msgid "Gagal menghapus supplier"
 msgstr "Gagal menghapus supplier"
 
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:133
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:136
 msgid "Gagal menghapus transaksi keuangan"
 msgstr "Gagal menghapus transaksi keuangan"
 
@@ -1430,15 +1651,15 @@ msgstr "Gagal menghapus transaksi keuangan"
 #~ msgid "Gagal menghapus transaksi stok"
 #~ msgstr "Gagal menghapus transaksi stok"
 
-#: src/app/(page)/(others-pages)/users/users.tsx:136
+#: src/app/(user)/dashboard/users/page.tsx:137
+#: src/app/admin/users/page.tsx:137
 msgid "Gagal menghapus user"
 msgstr "Gagal menghapus user"
 
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:101
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:102
 msgid "Gagal menghubungi API prediksi. Pastikan server FastAPI sedang berjalan."
 msgstr "Gagal menghubungi API prediksi. Pastikan server FastAPI sedang berjalan."
 
-#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:92
 #: src/components/chatbot/ChatbotWidget.tsx:91
 msgid "Gagal mengirim pesan. Silakan coba lagi."
 msgstr "Gagal mengirim pesan. Silakan coba lagi."
@@ -1447,39 +1668,39 @@ msgstr "Gagal mengirim pesan. Silakan coba lagi."
 #~ msgid "Gagal menyimpan HPP"
 #~ msgstr "Gagal menyimpan HPP"
 
-#: src/app/(page)/(others-pages)/categories/categories.tsx:85
+#: src/app/(user)/dashboard/categories/page.tsx:86
 msgid "Gagal menyimpan kategori"
 msgstr "Gagal menyimpan kategori"
 
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:82
+#: src/app/(user)/dashboard/financial-categories/page.tsx:85
 msgid "Gagal menyimpan kategori keuangan"
 msgstr "Gagal menyimpan kategori keuangan"
 
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:140
+#: src/app/(user)/dashboard/purchases/page.tsx:142
 msgid "Gagal menyimpan pembelian"
 msgstr "Gagal menyimpan pembelian"
 
-#: src/app/(page)/(others-pages)/sales/sales.tsx:98
+#: src/app/(user)/dashboard/sales/page.tsx:102
 msgid "Gagal menyimpan penjualan"
 msgstr "Gagal menyimpan penjualan"
 
 #: src/app/(page)/(others-pages)/permissions/permissions.tsx:97
-msgid "Gagal menyimpan permission"
-msgstr "Gagal menyimpan permission"
+#~ msgid "Gagal menyimpan permission"
+#~ msgstr "Gagal menyimpan permission"
 
-#: src/app/(page)/(others-pages)/products/products.tsx:186
+#: src/app/(user)/dashboard/products/page.tsx:189
 msgid "Gagal menyimpan produk"
 msgstr "Gagal menyimpan produk"
 
-#: src/app/(page)/(others-pages)/roles/roles.tsx:182
+#: src/app/(user)/dashboard/roles/page.tsx:183
 msgid "Gagal menyimpan role"
 msgstr "Gagal menyimpan role"
 
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:80
+#: src/app/(user)/dashboard/suppliers/page.tsx:83
 msgid "Gagal menyimpan supplier"
 msgstr "Gagal menyimpan supplier"
 
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:113
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:116
 msgid "Gagal menyimpan transaksi keuangan"
 msgstr "Gagal menyimpan transaksi keuangan"
 
@@ -1487,24 +1708,30 @@ msgstr "Gagal menyimpan transaksi keuangan"
 #~ msgid "Gagal menyimpan transaksi stok"
 #~ msgstr "Gagal menyimpan transaksi stok"
 
-#: src/app/(page)/(others-pages)/users/users.tsx:103
-#: src/app/(page)/(others-pages)/users/users.tsx:115
+#: src/app/(user)/dashboard/users/page.tsx:104
+#: src/app/(user)/dashboard/users/page.tsx:116
+#: src/app/admin/users/page.tsx:104
+#: src/app/admin/users/page.tsx:116
 msgid "Gagal menyimpan user"
 msgstr "Gagal menyimpan user"
 
 #: src/components/landing/LandingFeatures.tsx:36
-msgid "Geofenced inventory visibility across 24 countries. From factory floor to final mile delivery."
-msgstr "Geofenced inventory visibility across 24 countries. From factory floor to final mile delivery."
+#~ msgid "Geofenced inventory visibility across 24 countries. From factory floor to final mile delivery."
+#~ msgstr "Geofenced inventory visibility across 24 countries. From factory floor to final mile delivery."
 
 #: src/components/landing/LandingHeader.tsx:33
-msgid "Get Started"
-msgstr "Get Started"
+#~ msgid "Get Started"
+#~ msgstr "Get Started"
 
 #: src/components/landing/LandingGlobalPresence.tsx:12
-msgid "Global Presence"
-msgstr "Global Presence"
+#~ msgid "Global Presence"
+#~ msgstr "Global Presence"
 
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:110
+#: src/components/landing/LandingHero.tsx:106
+msgid "Gratis 14 hari"
+msgstr "Gratis 14 hari"
+
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:111
 msgid "Habis"
 msgstr "Habis"
 
@@ -1526,7 +1753,6 @@ msgstr "Habis"
 #~ "\n"
 #~ "Silakan tanyakan apa saja tentang bisnis Anda!"
 
-#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:35
 #: src/components/chatbot/ChatbotWidget.tsx:31
 msgid ""
 "Halo! 👋 Saya adalah asisten AI Inventra. Saya bisa membantu Anda menganalisis data bisnis:\n"
@@ -1545,17 +1771,21 @@ msgstr ""
 "\n"
 "Silakan tanyakan apa saja tentang bisnis Anda!"
 
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:72
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:73
 msgid "Harap pilih produk terlebih dahulu"
 msgstr "Harap pilih produk terlebih dahulu"
 
+#: src/components/landing/LandingFooter.tsx:13
+msgid "Harga"
+msgstr "Harga"
+
 #: src/components/landing/LandingGlobalPresence.tsx:15
-msgid "Headquartered in the heart of the Silicon Valley, with local support nodes in London, Tokyo, and Berlin."
-msgstr "Headquartered in the heart of the Silicon Valley, with local support nodes in London, Tokyo, and Berlin."
+#~ msgid "Headquartered in the heart of the Silicon Valley, with local support nodes in London, Tokyo, and Berlin."
+#~ msgstr "Headquartered in the heart of the Silicon Valley, with local support nodes in London, Tokyo, and Berlin."
 
 #: src/components/landing/LandingFooter.tsx:36
-msgid "Help Center"
-msgstr "Help Center"
+#~ msgid "Help Center"
+#~ msgstr "Help Center"
 
 #: src/app/(page)/(others-pages)/hpp/hpp.tsx:147
 #~ msgid "HPP berhasil dihapus"
@@ -1569,168 +1799,277 @@ msgstr "Help Center"
 #~ msgid "HPP berhasil ditambahkan"
 #~ msgstr "HPP berhasil ditambahkan"
 
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:154
-#: src/app/(page)/(others-pages)/products/products.tsx:64
+#: src/components/landing/LandingContact.tsx:15
+msgid "Hubungi Kami"
+msgstr "Hubungi Kami"
+
+#: src/components/landing/LandingFeatures.tsx:54
+msgid "Integrasi Mudah"
+msgstr "Integrasi Mudah"
+
+#: src/components/landing/LandingContact.tsx:22
+msgid "Inventaris Anda?"
+msgstr "Inventaris Anda?"
+
+#: src/components/landing/LandingGlobalPresence.tsx:18
+msgid "Isi profil bisnis Anda, tambahkan gudang, dan impor data produk dari file CSV atau input manual."
+msgstr "Isi profil bisnis Anda, tambahkan gudang, dan impor data produk dari file CSV atau input manual."
+
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:157
+#: src/app/(user)/dashboard/products/page.tsx:67
 msgid "Kategori"
 msgstr "Kategori"
 
-#: src/app/(page)/(others-pages)/categories/categories.tsx:100
+#: src/app/(user)/dashboard/categories/page.tsx:101
 msgid "Kategori berhasil dihapus"
 msgstr "Kategori berhasil dihapus"
 
-#: src/app/(page)/(others-pages)/categories/categories.tsx:80
+#: src/app/(user)/dashboard/categories/page.tsx:81
 msgid "Kategori berhasil diperbarui"
 msgstr "Kategori berhasil diperbarui"
 
-#: src/app/(page)/(others-pages)/categories/categories.tsx:80
+#: src/app/(user)/dashboard/categories/page.tsx:81
 msgid "Kategori berhasil ditambahkan"
 msgstr "Kategori berhasil ditambahkan"
 
 #: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:140
-msgid "Kategori Keuangan"
-msgstr "Kategori Keuangan"
+#~ msgid "Kategori Keuangan"
+#~ msgstr "Kategori Keuangan"
 
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:97
+#: src/app/(user)/dashboard/financial-categories/page.tsx:100
 msgid "Kategori keuangan berhasil dihapus"
 msgstr "Kategori keuangan berhasil dihapus"
 
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:77
+#: src/app/(user)/dashboard/financial-categories/page.tsx:80
 msgid "Kategori keuangan berhasil diperbarui"
 msgstr "Kategori keuangan berhasil diperbarui"
 
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:77
+#: src/app/(user)/dashboard/financial-categories/page.tsx:80
 msgid "Kategori keuangan berhasil ditambahkan"
 msgstr "Kategori keuangan berhasil ditambahkan"
 
-#: src/app/(page)/(others-pages)/settings/settings.tsx:70
+#: src/app/(account)/account/settings/page.tsx:70
 msgid "Keamanan"
 msgstr "Keamanan"
+
+#: src/components/landing/LandingFeatures.tsx:47
+msgid "Keamanan Enterprise"
+msgstr "Keamanan Enterprise"
+
+#: src/components/landing/LandingGlobalPresence.tsx:23
+msgid "Kelola & Pantau"
+msgstr "Kelola & Pantau"
+
+#: src/components/landing/LandingFeatures.tsx:34
+msgid "Kelola banyak lokasi penyimpanan, transfer antar gudang, dan konsolidasi data dalam satu platform."
+msgstr "Kelola banyak lokasi penyimpanan, transfer antar gudang, dan konsolidasi data dalam satu platform."
+
+#: src/components/landing/LandingHero.tsx:66
+msgid "Kelola Inventaris <0>Cerdas</0> untuk Bisnis Modern."
+msgstr "Kelola Inventaris <0>Cerdas</0> untuk Bisnis Modern."
+
+#: src/app/admin/businesses/page.tsx:72
+msgid "Kelola semua penyewa SaaS dan bisnis yang terdaftar."
+msgstr "Kelola semua penyewa SaaS dan bisnis yang terdaftar."
+
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:69
+msgid "Keluar"
+msgstr "Keluar"
 
 #: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:233
 #~ msgid "Keluar (OUT)"
 #~ msgstr "Keluar (OUT)"
 
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:216
-#: src/app/(page)/(others-pages)/stock-adjustment/transactions.tsx:186
+#: src/app/(user)/dashboard/inventories/page.tsx:362
+msgid "Kendaraan pengiriman"
+msgstr "Kendaraan pengiriman"
+
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:324
 msgid "Kirim Penyesuaian"
 msgstr "Kirim Penyesuaian"
 
-#: src/app/(page)/(others-pages)/settings/settings.tsx:134
+#: src/components/landing/LandingContact.tsx:114
+msgid "Kirim Pesan"
+msgstr "Kirim Pesan"
+
+#: src/app/(account)/account/settings/page.tsx:134
 msgid "Konfirmasi password baru"
 msgstr "Konfirmasi password baru"
 
-#: src/app/(page)/(others-pages)/settings/settings.tsx:39
+#: src/app/(account)/account/settings/page.tsx:39
 msgid "Konfirmasi password tidak cocok."
 msgstr "Konfirmasi password tidak cocok."
 
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:111
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:128
+#: src/components/landing/LandingFooter.tsx:19
+#: src/components/landing/LandingHeader.tsx:28
+msgid "Kontak"
+msgstr "Kontak"
+
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:112
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:129
 msgid "Kritis"
 msgstr "Kritis"
 
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:200
-#: src/app/(page)/(others-pages)/stock-adjustment/transactions.tsx:170
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:305
 msgid "Kuantitas"
 msgstr "Kuantitas"
 
-#: src/app/(page)/(others-pages)/products/products.tsx:60
-#: src/app/(page)/(others-pages)/products/products.tsx:397
+#: src/app/(user)/dashboard/products/page.tsx:63
+#: src/app/(user)/dashboard/products/page.tsx:405
 msgid "Kuliner"
 msgstr "Kuliner"
 
-#: src/components/landing/LandingFooter.tsx:42
+#: src/components/landing/LandingFeatures.tsx:40
+msgid "Laporan & Analitik"
+msgstr "Laporan & Analitik"
+
+#: src/components/landing/LandingFooter.tsx:119
 msgid "Legal"
 msgstr "Legal"
 
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:122
+#: src/app/(user)/dashboard/purchases/page.tsx:124
 msgid "Lengkapi semua field item (produk, jumlah, harga)"
 msgstr "Lengkapi semua field item (produk, jumlah, harga)"
 
-#: src/components/landing/LandingFeatures.tsx:39
-msgid "LIVE"
-msgstr "LIVE"
+#: src/components/landing/LandingHero.tsx:98
+msgid "Lihat Demo"
+msgstr "Lihat Demo"
 
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:176
-#: src/app/(page)/(others-pages)/stock-adjustment/transactions.tsx:146
+#: src/components/landing/LandingFeatures.tsx:39
+#~ msgid "LIVE"
+#~ msgstr "LIVE"
+
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:281
 msgid "Lokasi Simpan"
 msgstr "Lokasi Simpan"
 
-#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:81
 #: src/components/chatbot/ChatbotWidget.tsx:83
 msgid "Maaf, saya tidak bisa menjawab saat ini."
 msgstr "Maaf, saya tidak bisa menjawab saat ini."
 
+#: src/app/admin/businesses/page.tsx:69
+msgid "Manajemen Bisnis"
+msgstr "Manajemen Bisnis"
+
 #: src/components/landing/LandingGlobalPresence.tsx:25
-msgid "Map Visualization Area"
-msgstr "Map Visualization Area"
+#~ msgid "Map Visualization Area"
+#~ msgstr "Map Visualization Area"
+
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:68
+#: src/components/landing/LandingHeader.tsx:92
+#: src/components/landing/LandingHeader.tsx:153
+msgid "Masuk"
+msgstr "Masuk"
 
 #: src/app/(page)/(others-pages)/stock-transactions/stock-transactions.tsx:232
 #~ msgid "Masuk (IN)"
 #~ msgstr "Masuk (IN)"
 
-#: src/app/(page)/(others-pages)/settings/settings.tsx:124
+#: src/app/(account)/account/settings/page.tsx:124
 msgid "Masukkan password baru"
 msgstr "Masukkan password baru"
 
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:216
-#: src/app/(page)/(others-pages)/stock-adjustment/transactions.tsx:186
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:324
 msgid "Memproses..."
 msgstr "Memproses..."
 
+#: src/app/admin/businesses/page.tsx:87
+msgid "Memuat data bisnis..."
+msgstr "Memuat data bisnis..."
+
 #: src/components/landing/LandingContact.tsx:56
-msgid "Message"
-msgstr "Message"
+#~ msgid "Message"
+#~ msgstr "Message"
 
 #: src/components/landing/LandingFeatures.tsx:49
-msgid "Military-grade encryption and granular access control for global supply chains."
-msgstr "Military-grade encryption and granular access control for global supply chains."
+#~ msgid "Military-grade encryption and granular access control for global supply chains."
+#~ msgstr "Military-grade encryption and granular access control for global supply chains."
 
 #: src/app/(page)/(others-pages)/hpp/hpp.tsx:270
 #~ msgid "Misal: Bahan Baku, Packaging, dll"
 #~ msgstr "Misal: Bahan Baku, Packaging, dll"
 
 #: src/app/(page)/(others-pages)/permissions/permissions.tsx:131
-msgid "Modul"
-msgstr "Modul"
+#~ msgid "Modul"
+#~ msgstr "Modul"
 
 #: src/app/(page)/(others-pages)/hpp/hpp.tsx:115
 #~ msgid "Mohon lengkapi semua field dengan benar"
 #~ msgstr "Mohon lengkapi semua field dengan benar"
 
 #: src/components/landing/LandingHero.tsx:23
-msgid "Moving beyond flat inventory tracking. Inventra provides a luminous, deep-data experience for modern commerce hubs."
-msgstr "Moving beyond flat inventory tracking. Inventra provides a luminous, deep-data experience for modern commerce hubs."
+#~ msgid "Moving beyond flat inventory tracking. Inventra provides a luminous, deep-data experience for modern commerce hubs."
+#~ msgstr "Moving beyond flat inventory tracking. Inventra provides a luminous, deep-data experience for modern commerce hubs."
 
-#: src/app/(page)/(others-pages)/categories/categories.tsx:221
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:210
+#: src/components/landing/LandingGlobalPresence.tsx:42
+msgid "Mulai dalam 3 Langkah Mudah"
+msgstr "Mulai dalam 3 Langkah Mudah"
+
+#: src/components/landing/LandingHeader.tsx:99
+#: src/components/landing/LandingHeader.tsx:160
+#: src/components/landing/LandingHero.tsx:89
+msgid "Mulai Gratis"
+msgstr "Mulai Gratis"
+
+#: src/components/landing/LandingFeatures.tsx:33
+msgid "Multi-Gudang"
+msgstr "Multi-Gudang"
+
+#: src/app/admin/businesses/page.tsx:98
+msgid "Nama Bisnis"
+msgstr "Nama Bisnis"
+
+#: src/app/(user)/dashboard/categories/page.tsx:222
+#: src/app/(user)/dashboard/financial-categories/page.tsx:218
 msgid "Nama kategori"
 msgstr "Nama kategori"
 
-#: src/app/(page)/(others-pages)/products/products.tsx:374
+#: src/components/landing/LandingContact.tsx:68
+msgid "Nama Lengkap"
+msgstr "Nama Lengkap"
+
+#: src/app/(user)/dashboard/sales/page.tsx:264
+msgid "Nama pembeli"
+msgstr "Nama pembeli"
+
+#: src/app/(user)/dashboard/inventories/page.tsx:349
+msgid "Nama penerima"
+msgstr "Nama penerima"
+
+#: src/app/(user)/dashboard/products/page.tsx:382
 msgid "Nama produk"
 msgstr "Nama produk"
 
-#: src/app/(page)/(others-pages)/roles/roles.tsx:316
+#: src/app/(user)/dashboard/roles/page.tsx:317
 msgid "Nama role"
 msgstr "Nama role"
 
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:205
+#: src/app/(user)/dashboard/suppliers/page.tsx:213
 msgid "Nama supplier"
 msgstr "Nama supplier"
 
 #: src/components/landing/LandingFooter.tsx:28
-msgid "Network"
-msgstr "Network"
+#~ msgid "Network"
+#~ msgstr "Network"
+
+#: src/components/landing/LandingFeatures.tsx:27
+msgid "Neural engine memprediksi permintaan sebelum terjadi dan menyarankan penyesuaian stok otomatis."
+msgstr "Neural engine memprediksi permintaan sebelum terjadi dan menyarankan penyesuaian stok otomatis."
 
 #: src/components/landing/LandingHero.tsx:16
-msgid "Next-Gen Intelligence"
-msgstr "Next-Gen Intelligence"
+#~ msgid "Next-Gen Intelligence"
+#~ msgstr "Next-Gen Intelligence"
 
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:213
+#: src/app/(user)/dashboard/inventories/page.tsx:358
+#: src/app/(user)/dashboard/sales/page.tsx:269
+msgid "No. telepon"
+msgstr "No. telepon"
+
+#: src/app/(user)/dashboard/suppliers/page.tsx:221
 msgid "Nomor telepon supplier"
 msgstr "Nomor telepon supplier"
 
-#: src/app/(page)/(others-pages)/inventories/page.tsx:68
+#: src/app/(user)/dashboard/inventories/page.tsx:76
 #: src/utils/statusTranslations.ts:5
 msgid "On Hold"
 msgstr "On Hold"
@@ -1740,42 +2079,49 @@ msgstr "On Hold"
 #~ msgstr "Opsional"
 
 #: src/components/landing/LandingHero.tsx:20
-msgid "Orchestrating <0>supply</0> with pure elegance."
-msgstr "Orchestrating <0>supply</0> with pure elegance."
+#~ msgid "Orchestrating <0>supply</0> with pure elegance."
+#~ msgstr "Orchestrating <0>supply</0> with pure elegance."
 
 #: src/components/landing/LandingContact.tsx:47
-msgid "Organization Size"
-msgstr "Organization Size"
+#~ msgid "Organization Size"
+#~ msgstr "Organization Size"
 
 #: src/components/landing/LandingFeatures.tsx:20
-msgid "Our neural engine anticipates demand spikes 48 hours before they happen, suggesting precise stock adjustments automatically."
-msgstr "Our neural engine anticipates demand spikes 48 hours before they happen, suggesting precise stock adjustments automatically."
+#~ msgid "Our neural engine anticipates demand spikes 48 hours before they happen, suggesting precise stock adjustments automatically."
+#~ msgstr "Our neural engine anticipates demand spikes 48 hours before they happen, suggesting precise stock adjustments automatically."
 
-#: src/app/(page)/(others-pages)/settings/settings.tsx:56
+#: src/components/landing/LandingFeatures.tsx:20
+msgid "Pantau level stok di seluruh gudang dan lini produksi secara langsung — tidak ada lagi selisih data."
+msgstr "Pantau level stok di seluruh gudang dan lini produksi secara langsung — tidak ada lagi selisih data."
+
+#: src/app/(account)/account/settings/page.tsx:56
 msgid "Password berhasil diperbarui!"
 msgstr "Password berhasil diperbarui!"
 
-#: src/app/(page)/(others-pages)/settings/settings.tsx:44
+#: src/app/(account)/account/settings/page.tsx:44
 msgid "Password harus minimal 8 karakter."
 msgstr "Password harus minimal 8 karakter."
 
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:216
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:149
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:255
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:265
+#: src/app/(user)/dashboard/financial-categories/page.tsx:224
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:152
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:263
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:273
 msgid "Pemasukan"
 msgstr "Pemasukan"
 
 #: src/app/(page)/(others-pages)/purchases/purchases.tsx:169
-msgid "Pembelian"
-msgstr "Pembelian"
+#~ msgid "Pembelian"
+#~ msgstr "Pembelian"
 
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:135
+#: src/app/(user)/dashboard/purchases/page.tsx:137
 msgid "Pembelian berhasil dan stok ditambahkan!"
 msgstr "Pembelian berhasil dan stok ditambahkan!"
 
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:145
-#: src/app/(page)/(others-pages)/stock-adjustment/transactions.tsx:115
+#: src/app/admin/businesses/page.tsx:99
+msgid "Pemilik"
+msgstr "Pemilik"
+
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:250
 msgid "Penambahan (+)"
 msgstr "Penambahan (+)"
 
@@ -1783,27 +2129,30 @@ msgstr "Penambahan (+)"
 msgid "Pending"
 msgstr "Pending"
 
-#: src/app/(page)/(others-pages)/settings/settings.tsx:79
-msgid "Pengaturan Akun"
-msgstr "Pengaturan Akun"
+#: src/app/(account)/account/settings/page.tsx:79
+msgid "Pengaturan "
+msgstr "Pengaturan "
 
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:217
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:150
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:255
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:266
+#: src/app/(page)/(others-pages)/settings/settings.tsx:79
+#~ msgid "Pengaturan Akun"
+#~ msgstr "Pengaturan Akun"
+
+#: src/app/(user)/dashboard/financial-categories/page.tsx:225
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:153
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:263
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:274
 msgid "Pengeluaran"
 msgstr "Pengeluaran"
 
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:149
-#: src/app/(page)/(others-pages)/stock-adjustment/transactions.tsx:119
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:254
 msgid "Pengurangan (-)"
 msgstr "Pengurangan (-)"
 
 #: src/app/(page)/(others-pages)/sales/sales.tsx:159
-msgid "Penjualan"
-msgstr "Penjualan"
+#~ msgid "Penjualan"
+#~ msgstr "Penjualan"
 
-#: src/app/(page)/(others-pages)/sales/sales.tsx:113
+#: src/app/(user)/dashboard/sales/page.tsx:117
 msgid "Penjualan berhasil dihapus"
 msgstr "Penjualan berhasil dihapus"
 
@@ -1811,7 +2160,7 @@ msgstr "Penjualan berhasil dihapus"
 #~ msgid "Penjualan berhasil diperbarui"
 #~ msgstr "Penjualan berhasil diperbarui"
 
-#: src/app/(page)/(others-pages)/sales/sales.tsx:93
+#: src/app/(user)/dashboard/sales/page.tsx:97
 msgid "Penjualan berhasil ditambahkan"
 msgstr "Penjualan berhasil ditambahkan"
 
@@ -1821,132 +2170,165 @@ msgstr "Penjualan berhasil ditambahkan"
 
 #: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:134
 #: src/app/(page)/(others-pages)/stock-adjustment/transactions.tsx:104
-msgid "Penyesuaian Stok"
-msgstr "Penyesuaian Stok"
+#~ msgid "Penyesuaian Stok"
+#~ msgstr "Penyesuaian Stok"
 
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:118
-#: src/app/(page)/(others-pages)/stock-adjustment/transactions.tsx:89
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:145
 msgid "Penyesuaian stok berhasil diproses!"
 msgstr "Penyesuaian stok berhasil diproses!"
 
 #: src/app/(page)/(others-pages)/permissions/permissions.tsx:112
-msgid "Permission berhasil dihapus"
-msgstr "Permission berhasil dihapus"
+#~ msgid "Permission berhasil dihapus"
+#~ msgstr "Permission berhasil dihapus"
 
 #: src/app/(page)/(others-pages)/permissions/permissions.tsx:92
-msgid "Permission berhasil diperbarui"
-msgstr "Permission berhasil diperbarui"
+#~ msgid "Permission berhasil diperbarui"
+#~ msgstr "Permission berhasil diperbarui"
 
 #: src/app/(page)/(others-pages)/permissions/permissions.tsx:92
-msgid "Permission berhasil ditambahkan"
-msgstr "Permission berhasil ditambahkan"
+#~ msgid "Permission berhasil ditambahkan"
+#~ msgstr "Permission berhasil ditambahkan"
 
-#: src/app/(page)/(others-pages)/roles/roles.tsx:367
+#: src/app/(user)/dashboard/roles/page.tsx:368
 msgid "permission dipilih"
 msgstr "permission dipilih"
 
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:193
-#: src/app/(page)/(others-pages)/stock-adjustment/transactions.tsx:163
+#: src/components/landing/LandingContact.tsx:101
+msgid "Pesan"
+msgstr "Pesan"
+
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:298
 msgid "Pilih Batch"
 msgstr "Pilih Batch"
 
-#: src/app/(page)/(others-pages)/sales/sales.tsx:232
+#: src/app/(user)/dashboard/sales/page.tsx:244
 msgid "Pilih batch produk"
 msgstr "Pilih batch produk"
 
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:256
-#: src/app/(page)/(others-pages)/products/products.tsx:389
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:264
+#: src/app/(user)/dashboard/products/page.tsx:397
 msgid "Pilih kategori"
 msgstr "Pilih kategori"
 
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:181
-#: src/app/(page)/(others-pages)/stock-adjustment/transactions.tsx:151
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:286
 msgid "Pilih Lokasi"
 msgstr "Pilih Lokasi"
 
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:313
+#: src/app/(user)/dashboard/purchases/page.tsx:316
 msgid "Pilih produk"
 msgstr "Pilih produk"
 
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:171
-#: src/app/(page)/(others-pages)/stock-adjustment/transactions.tsx:141
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:276
 msgid "Pilih Produk"
 msgstr "Pilih Produk"
 
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:264
+#: src/app/(user)/dashboard/purchases/page.tsx:267
 msgid "Pilih supplier"
 msgstr "Pilih supplier"
 
+#: src/components/landing/LandingContact.tsx:92
+msgid "Pilih ukuran..."
+msgstr "Pilih ukuran..."
+
+#: src/components/landing/LandingFeatures.tsx:104
+msgid "Platform inventaris lengkap yang dirancang untuk UMKM — dari pelacakan stok hingga analitik cerdas."
+msgstr "Platform inventaris lengkap yang dirancang untuk UMKM — dari pelacakan stok hingga analitik cerdas."
+
+#: src/components/landing/LandingHero.tsx:60
+msgid "Platform Inventaris UMKM"
+msgstr "Platform Inventaris UMKM"
+
+#: src/components/landing/LandingFooter.tsx:55
+msgid "Platform manajemen inventaris modern untuk UMKM Indonesia. Kelola stok, lacak pergerakan barang, dan optimalkan bisnis Anda dengan teknologi AI."
+msgstr "Platform manajemen inventaris modern untuk UMKM Indonesia. Kelola stok, lacak pergerakan barang, dan optimalkan bisnis Anda dengan teknologi AI."
+
 #: src/components/landing/LandingFeatures.tsx:56
-msgid "Plays well with others."
-msgstr "Plays well with others."
+#~ msgid "Plays well with others."
+#~ msgstr "Plays well with others."
 
 #: src/components/landing/LandingFeatures.tsx:19
-msgid "Predictive AI Analytics"
-msgstr "Predictive AI Analytics"
+#~ msgid "Predictive AI Analytics"
+#~ msgstr "Predictive AI Analytics"
 
 #: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:181
-msgid "Prediksi & Analisis Stok"
-msgstr "Prediksi & Analisis Stok"
+#~ msgid "Prediksi & Analisis Stok"
+#~ msgstr "Prediksi & Analisis Stok"
+
+#: src/components/landing/LandingFeatures.tsx:26
+msgid "Prediksi AI"
+msgstr "Prediksi AI"
 
 #: src/components/landing/LandingHeader.tsx:22
-msgid "Pricing"
-msgstr "Pricing"
+#~ msgid "Pricing"
+#~ msgstr "Pricing"
 
 #: src/components/landing/LandingFooter.tsx:44
-msgid "Privacy"
-msgstr "Privacy"
+#~ msgid "Privacy"
+#~ msgstr "Privacy"
+
+#: src/components/landing/LandingFooter.tsx:24
+msgid "Privasi"
+msgstr "Privasi"
 
 #: src/components/landing/LandingFooter.tsx:26
-msgid "Product"
-msgstr "Product"
+#~ msgid "Product"
+#~ msgstr "Product"
 
-#: src/app/(page)/(others-pages)/products/products.tsx:237
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:166
-#: src/app/(page)/(others-pages)/stock-adjustment/transactions.tsx:136
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:271
+#: src/components/landing/LandingFooter.tsx:81
 msgid "Produk"
 msgstr "Produk"
 
-#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:24
 #: src/components/chatbot/ChatbotWidget.tsx:21
 msgid "Produk apa yang paling laris bulan ini?"
 msgstr "Produk apa yang paling laris bulan ini?"
 
-#: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:26
 #: src/components/chatbot/ChatbotWidget.tsx:23
 msgid "Produk apa yang perlu di-restock?"
 msgstr "Produk apa yang perlu di-restock?"
 
-#: src/app/(page)/(others-pages)/products/products.tsx:201
+#: src/app/(user)/dashboard/products/page.tsx:204
 msgid "Produk berhasil dihapus"
 msgstr "Produk berhasil dihapus"
 
-#: src/app/(page)/(others-pages)/products/products.tsx:181
+#: src/app/(user)/dashboard/products/page.tsx:184
 msgid "Produk berhasil diperbarui"
 msgstr "Produk berhasil diperbarui"
 
-#: src/app/(page)/(others-pages)/products/products.tsx:181
+#: src/app/(user)/dashboard/products/page.tsx:184
 msgid "Produk berhasil ditambahkan"
 msgstr "Produk berhasil ditambahkan"
 
-#: src/app/(page)/(others-pages)/inventories/page.tsx:67
+#: src/components/landing/LandingHero.tsx:143
+msgid "Produk Terlacak"
+msgstr "Produk Terlacak"
+
+#: src/app/(account)/account/profile/page.tsx:14
+msgid "Profil"
+msgstr "Profil"
+
+#: src/components/landing/LandingFooter.tsx:18
+msgid "Pusat Bantuan"
+msgstr "Pusat Bantuan"
+
+#: src/app/(user)/dashboard/inventories/page.tsx:75
 #: src/utils/statusTranslations.ts:7
 msgid "Ready"
 msgstr "Ready"
 
 #: src/components/landing/LandingContact.tsx:15
-msgid "Ready to optimize? Our team of logistics architects is standing by to build a custom implementation plan for your global network."
-msgstr "Ready to optimize? Our team of logistics architects is standing by to build a custom implementation plan for your global network."
+#~ msgid "Ready to optimize? Our team of logistics architects is standing by to build a custom implementation plan for your global network."
+#~ msgstr "Ready to optimize? Our team of logistics architects is standing by to build a custom implementation plan for your global network."
 
 #: src/components/landing/LandingHero.tsx:42
-msgid "REAL-TIME ACCURACY"
-msgstr "REAL-TIME ACCURACY"
+#~ msgid "REAL-TIME ACCURACY"
+#~ msgstr "REAL-TIME ACCURACY"
 
 #: src/components/landing/LandingFeatures.tsx:35
-msgid "Real-Time Tracking"
-msgstr "Real-Time Tracking"
+#~ msgid "Real-Time Tracking"
+#~ msgstr "Real-Time Tracking"
 
-#: src/app/(page)/(others-pages)/inventories/page.tsx:69
+#: src/app/(user)/dashboard/inventories/page.tsx:77
 msgid "Reject"
 msgstr "Reject"
 
@@ -1954,135 +2336,189 @@ msgstr "Reject"
 msgid "Rejected"
 msgstr "Rejected"
 
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:112
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:129
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:113
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:130
 msgid "Rendah"
 msgstr "Rendah"
 
 #: src/components/landing/LandingContact.tsx:60
-msgid "Request Implementation Audit"
-msgstr "Request Implementation Audit"
+#~ msgid "Request Implementation Audit"
+#~ msgstr "Request Implementation Audit"
 
-#: src/app/(page)/(others-pages)/users/users.tsx:150
+#: src/app/(user)/dashboard/users/page.tsx:151
+#: src/app/admin/users/page.tsx:151
 msgid "Role"
 msgstr "Role"
 
-#: src/app/(page)/(others-pages)/roles/roles.tsx:197
+#: src/app/(user)/dashboard/roles/page.tsx:198
 msgid "Role berhasil dihapus"
 msgstr "Role berhasil dihapus"
 
-#: src/app/(page)/(others-pages)/roles/roles.tsx:177
+#: src/app/(user)/dashboard/roles/page.tsx:178
 msgid "Role berhasil diperbarui"
 msgstr "Role berhasil diperbarui"
 
-#: src/app/(page)/(others-pages)/roles/roles.tsx:177
+#: src/app/(user)/dashboard/roles/page.tsx:178
 msgid "Role berhasil ditambahkan"
 msgstr "Role berhasil ditambahkan"
 
+#: src/components/landing/LandingFeatures.tsx:48
+msgid "Role-based access control, audit trail lengkap, dan enkripsi data untuk melindungi aset bisnis Anda."
+msgstr "Role-based access control, audit trail lengkap, dan enkripsi data untuk melindungi aset bisnis Anda."
+
 #: src/components/landing/LandingGlobalPresence.tsx:19
-msgid "San Francisco HQ"
-msgstr "San Francisco HQ"
+#~ msgid "San Francisco HQ"
+#~ msgstr "San Francisco HQ"
 
 #: src/components/landing/LandingContact.tsx:12
-msgid "Scale your operation."
-msgstr "Scale your operation."
+#~ msgid "Scale your operation."
+#~ msgstr "Scale your operation."
 
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:113
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:114
 msgid "Sedang"
 msgstr "Sedang"
 
 #: src/components/landing/LandingContact.tsx:49
-msgid "Select size..."
-msgstr "Select size..."
+#~ msgid "Select size..."
+#~ msgstr "Select size..."
 
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:148
-#: src/app/(page)/(others-pages)/inventories/page.tsx:65
-#: src/app/(page)/(others-pages)/roles/roles.tsx:215
-#: src/app/(page)/(others-pages)/stock-prediction/stock-prediction.tsx:127
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:151
+#: src/app/(user)/dashboard/inventories/page.tsx:73
+#: src/app/(user)/dashboard/roles/page.tsx:216
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:67
+#: src/app/(user)/dashboard/stock-prediction/page.tsx:128
 msgid "Semua"
 msgstr "Semua"
 
-#: src/components/landing/LandingHeader.tsx:30
-msgid "Sign In"
-msgstr "Sign In"
+#: src/components/landing/LandingFeatures.tsx:101
+msgid "Semua yang Bisnis Anda Butuhkan"
+msgstr "Semua yang Bisnis Anda Butuhkan"
 
-#: src/app/(page)/(others-pages)/settings/settings.tsx:34
+#: src/components/landing/LandingHero.tsx:114
+msgid "Setup 5 menit"
+msgstr "Setup 5 menit"
+
+#: src/components/landing/LandingGlobalPresence.tsx:17
+msgid "Setup Bisnis"
+msgstr "Setup Bisnis"
+
+#: src/components/landing/LandingContact.tsx:19
+msgid "Siap Optimalkan"
+msgstr "Siap Optimalkan"
+
+#: src/components/landing/LandingHeader.tsx:30
+#~ msgid "Sign In"
+#~ msgstr "Sign In"
+
+#: src/app/(account)/account/settings/page.tsx:34
 msgid "Silakan isi password baru dan konfirmasinya."
 msgstr "Silakan isi password baru dan konfirmasinya."
 
+#: src/components/landing/LandingFooter.tsx:146
+msgid "Sistem Operasional"
+msgstr "Sistem Operasional"
+
 #: src/components/landing/LandingFooter.tsx:30
 #: src/components/landing/LandingHeader.tsx:19
-msgid "Solutions"
-msgstr "Solutions"
+#~ msgid "Solutions"
+#~ msgstr "Solutions"
 
 #: src/components/landing/LandingFeatures.tsx:10
-msgid "Sophisticated asymmetry meets high-end enterprise utility. Experience the future of supply chain management."
-msgstr "Sophisticated asymmetry meets high-end enterprise utility. Experience the future of supply chain management."
+#~ msgid "Sophisticated asymmetry meets high-end enterprise utility. Experience the future of supply chain management."
+#~ msgstr "Sophisticated asymmetry meets high-end enterprise utility. Experience the future of supply chain management."
 
 #: src/components/landing/LandingHero.tsx:27
-msgid "Start Free Trial"
-msgstr "Start Free Trial"
+#~ msgid "Start Free Trial"
+#~ msgstr "Start Free Trial"
 
-#: src/components/landing/LandingFooter.tsx:38
+#: src/app/admin/businesses/page.tsx:100
 msgid "Status"
 msgstr "Status"
 
-#: src/app/(page)/(others-pages)/sales/sales.tsx:231
+#: src/components/landing/LandingFooter.tsx:20
+#: src/components/landing/LandingHero.tsx:151
+msgid "Status Sistem"
+msgstr "Status Sistem"
+
+#: src/app/(user)/dashboard/sales/page.tsx:243
 msgid "Stok"
 msgstr "Stok"
 
 #: src/app/(page)/(others-pages)/inventories/page.tsx:122
-msgid "Stok Inventaris"
-msgstr "Stok Inventaris"
+#~ msgid "Stok Inventaris"
+#~ msgstr "Stok Inventaris"
 
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:152
+#: src/components/landing/LandingFeatures.tsx:19
+msgid "Stok Real-Time"
+msgstr "Stok Real-Time"
+
+#: src/app/(user)/dashboard/purchases/page.tsx:154
 msgid "Supplier"
 msgstr "Supplier"
 
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:95
+#: src/app/(user)/dashboard/suppliers/page.tsx:98
 msgid "Supplier berhasil dihapus"
 msgstr "Supplier berhasil dihapus"
 
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:75
+#: src/app/(user)/dashboard/suppliers/page.tsx:78
 msgid "Supplier berhasil diperbarui"
 msgstr "Supplier berhasil diperbarui"
 
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:75
+#: src/app/(user)/dashboard/suppliers/page.tsx:78
 msgid "Supplier berhasil ditambahkan"
 msgstr "Supplier berhasil ditambahkan"
 
 #: src/components/landing/LandingFooter.tsx:34
-msgid "Support"
-msgstr "Support"
+#~ msgid "Support"
+#~ msgstr "Support"
+
+#: src/app/(user)/dashboard/inventories/page.tsx:185
+msgid "Surat Jalan berhasil diunduh"
+msgstr "Surat Jalan berhasil diunduh"
+
+#: src/components/landing/LandingFooter.tsx:25
+msgid "Syarat & Ketentuan"
+msgstr "Syarat & Ketentuan"
 
 #: src/components/landing/LandingHero.tsx:46
-msgid "SYSTEM HEALTH"
-msgstr "SYSTEM HEALTH"
+#~ msgid "SYSTEM HEALTH"
+#~ msgstr "SYSTEM HEALTH"
 
 #: src/components/landing/LandingFooter.tsx:55
-msgid "System Operational"
-msgstr "System Operational"
+#~ msgid "System Operational"
+#~ msgstr "System Operational"
 
 #: src/components/landing/LandingContact.tsx:12
-msgid "Talk to an expert."
-msgstr "Talk to an expert."
+#~ msgid "Talk to an expert."
+#~ msgstr "Talk to an expert."
 
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:207
-#: src/app/(page)/(others-pages)/stock-adjustment/transactions.tsx:177
+#: src/app/admin/businesses/page.tsx:78
+msgid "Tambah Bisnis"
+msgstr "Tambah Bisnis"
+
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:312
 msgid "Tambah Item Lain"
 msgstr "Tambah Item Lain"
 
-#: src/app/(page)/(others-pages)/settings/settings.tsx:71
+#: src/app/(account)/account/settings/page.tsx:71
 msgid "Tampilan"
 msgstr "Tampilan"
 
+#: src/components/landing/LandingHero.tsx:110
+msgid "Tanpa kartu kredit"
+msgstr "Tanpa kartu kredit"
+
 #: src/app/(page)/(others-pages)/chatbot/chatbot.tsx:183
-msgid "Tanyakan sesuatu tentang bisnis Anda..."
-msgstr "Tanyakan sesuatu tentang bisnis Anda..."
+#~ msgid "Tanyakan sesuatu tentang bisnis Anda..."
+#~ msgstr "Tanyakan sesuatu tentang bisnis Anda..."
 
 #: src/components/chatbot/ChatbotWidget.tsx:219
 msgid "Tanyakan sesuatu..."
 msgstr "Tanyakan sesuatu..."
+
+#: src/components/landing/LandingContact.tsx:39
+msgid "Telepon"
+msgstr "Telepon"
 
 #: src/app/(page)/(others-pages)/hpp/hpp.tsx:48
 #: src/app/(page)/(others-pages)/hpp/hpp.tsx:59
@@ -2093,38 +2529,38 @@ msgstr "Tanyakan sesuatu..."
 #~ msgid "Terjadi kesalahan saat menganalisis"
 #~ msgstr "Terjadi kesalahan saat menganalisis"
 
-#: src/app/(page)/(others-pages)/categories/categories.tsx:108
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:105
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:136
-#: src/app/(page)/(others-pages)/permissions/permissions.tsx:120
-#: src/app/(page)/(others-pages)/products/products.tsx:209
-#: src/app/(page)/(others-pages)/roles/roles.tsx:205
-#: src/app/(page)/(others-pages)/sales/sales.tsx:121
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:103
-#: src/app/(page)/(others-pages)/users/users.tsx:139
+#: src/app/(user)/dashboard/categories/page.tsx:109
+#: src/app/(user)/dashboard/financial-categories/page.tsx:108
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:139
+#: src/app/(user)/dashboard/products/page.tsx:212
+#: src/app/(user)/dashboard/roles/page.tsx:206
+#: src/app/(user)/dashboard/sales/page.tsx:125
+#: src/app/(user)/dashboard/suppliers/page.tsx:106
+#: src/app/(user)/dashboard/users/page.tsx:140
+#: src/app/admin/users/page.tsx:140
 msgid "Terjadi kesalahan saat menghapus"
 msgstr "Terjadi kesalahan saat menghapus"
 
-#: src/app/(page)/(others-pages)/categories/categories.tsx:88
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:85
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:116
-#: src/app/(page)/(others-pages)/permissions/permissions.tsx:100
-#: src/app/(page)/(others-pages)/products/products.tsx:189
-#: src/app/(page)/(others-pages)/purchases/purchases.tsx:143
-#: src/app/(page)/(others-pages)/roles/roles.tsx:185
-#: src/app/(page)/(others-pages)/sales/sales.tsx:101
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:83
-#: src/app/(page)/(others-pages)/users/users.tsx:119
+#: src/app/(user)/dashboard/categories/page.tsx:89
+#: src/app/(user)/dashboard/financial-categories/page.tsx:88
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:119
+#: src/app/(user)/dashboard/products/page.tsx:192
+#: src/app/(user)/dashboard/purchases/page.tsx:145
+#: src/app/(user)/dashboard/roles/page.tsx:186
+#: src/app/(user)/dashboard/sales/page.tsx:105
+#: src/app/(user)/dashboard/suppliers/page.tsx:86
+#: src/app/(user)/dashboard/users/page.tsx:120
+#: src/app/admin/users/page.tsx:120
 msgid "Terjadi kesalahan saat menyimpan"
 msgstr "Terjadi kesalahan saat menyimpan"
 
-#: src/app/(page)/(others-pages)/settings/settings.tsx:63
+#: src/app/(account)/account/settings/page.tsx:63
 msgid "Terjadi kesalahan saat menyimpan."
 msgstr "Terjadi kesalahan saat menyimpan."
 
 #: src/components/landing/LandingFooter.tsx:45
-msgid "Terms"
-msgstr "Terms"
+#~ msgid "Terms"
+#~ msgstr "Terms"
 
 #: src/app/(page)/(others-pages)/hpp/hpp.tsx:51
 #: src/app/(page)/(others-pages)/hpp/hpp.tsx:62
@@ -2132,35 +2568,42 @@ msgstr "Terms"
 #~ msgstr "Tertinggi ke Terendah"
 
 #: src/components/landing/LandingFeatures.tsx:9
-msgid "The Digital Curator"
-msgstr "The Digital Curator"
+#~ msgid "The Digital Curator"
+#~ msgstr "The Digital Curator"
 
 #: src/components/landing/LandingFooter.tsx:12
-msgid "The premium standard for global supply chain orchestration. Built for the modern enterprise that values depth, intelligence, and visual soul."
-msgstr "The premium standard for global supply chain orchestration. Built for the modern enterprise that values depth, intelligence, and visual soul."
+#~ msgid "The premium standard for global supply chain orchestration. Built for the modern enterprise that values depth, intelligence, and visual soul."
+#~ msgstr "The premium standard for global supply chain orchestration. Built for the modern enterprise that values depth, intelligence, and visual soul."
 
-#: src/app/(page)/(others-pages)/stock-adjustment/stock-adjusment.tsx:141
-#: src/app/(page)/(others-pages)/stock-adjustment/transactions.tsx:111
+#: src/components/landing/LandingGlobalPresence.tsx:45
+msgid "Tidak perlu pengaturan rumit. Dari pendaftaran hingga pengelolaan penuh — semuanya bisa dilakukan dalam hitungan menit."
+msgstr "Tidak perlu pengaturan rumit. Dari pendaftaran hingga pengelolaan penuh — semuanya bisa dilakukan dalam hitungan menit."
+
+#: src/components/landing/LandingContact.tsx:27
+msgid "Tim kami siap membantu Anda memulai. Hubungi kami untuk konsultasi gratis tentang kebutuhan manajemen inventaris bisnis Anda."
+msgstr "Tim kami siap membantu Anda memulai. Hubungi kami untuk konsultasi gratis tentang kebutuhan manajemen inventaris bisnis Anda."
+
+#: src/app/(user)/dashboard/stock-adjustment/page.tsx:246
 msgid "Tipe Penyesuaian"
 msgstr "Tipe Penyesuaian"
 
-#: src/app/(page)/(others-pages)/sales/sales.tsx:138
+#: src/app/(user)/dashboard/sales/page.tsx:142
 msgid "Total Terbesar"
 msgstr "Total Terbesar"
 
 #: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:174
-msgid "Transaksi Keuangan"
-msgstr "Transaksi Keuangan"
+#~ msgid "Transaksi Keuangan"
+#~ msgstr "Transaksi Keuangan"
 
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:128
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:131
 msgid "Transaksi keuangan berhasil dihapus"
 msgstr "Transaksi keuangan berhasil dihapus"
 
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:108
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:111
 msgid "Transaksi keuangan berhasil diperbarui"
 msgstr "Transaksi keuangan berhasil diperbarui"
 
-#: src/app/(page)/(others-pages)/financial-transactions/financial-transactions.tsx:108
+#: src/app/(user)/dashboard/financial-transactions/page.tsx:111
 msgid "Transaksi keuangan berhasil ditambahkan"
 msgstr "Transaksi keuangan berhasil ditambahkan"
 
@@ -2176,41 +2619,49 @@ msgstr "Transaksi keuangan berhasil ditambahkan"
 #~ msgid "Transaksi stok berhasil dihapus"
 #~ msgstr "Transaksi stok berhasil dihapus"
 
-#: src/app/(page)/(others-pages)/inventories/page.tsx:66
+#: src/components/landing/LandingContact.tsx:89
+msgid "Ukuran Bisnis"
+msgstr "Ukuran Bisnis"
+
+#: src/app/(user)/dashboard/inventories/page.tsx:74
 #: src/utils/statusTranslations.ts:4
 msgid "Unreleased"
 msgstr "Unreleased"
 
-#: src/app/(page)/(others-pages)/categories/categories.tsx:118
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:114
-#: src/app/(page)/(others-pages)/sales/sales.tsx:134
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:112
+#: src/app/(user)/dashboard/categories/page.tsx:119
+#: src/app/(user)/dashboard/financial-categories/page.tsx:117
+#: src/app/(user)/dashboard/sales/page.tsx:138
+#: src/app/(user)/dashboard/suppliers/page.tsx:115
 msgid "Urutkan"
 msgstr "Urutkan"
 
-#: src/app/(page)/(others-pages)/users/users.tsx:131
+#: src/app/(user)/dashboard/users/page.tsx:132
+#: src/app/admin/users/page.tsx:132
 msgid "User berhasil dihapus"
 msgstr "User berhasil dihapus"
 
-#: src/app/(page)/(others-pages)/users/users.tsx:98
-#: src/app/(page)/(others-pages)/users/users.tsx:110
+#: src/app/(user)/dashboard/users/page.tsx:99
+#: src/app/(user)/dashboard/users/page.tsx:111
+#: src/app/admin/users/page.tsx:99
+#: src/app/admin/users/page.tsx:111
 msgid "User berhasil diperbarui"
 msgstr "User berhasil diperbarui"
 
-#: src/app/(page)/(others-pages)/users/users.tsx:110
+#: src/app/(user)/dashboard/users/page.tsx:111
+#: src/app/admin/users/page.tsx:111
 msgid "User berhasil ditambahkan"
 msgstr "User berhasil ditambahkan"
 
 #: src/components/landing/LandingHero.tsx:31
-msgid "Watch the Demo"
-msgstr "Watch the Demo"
+#~ msgid "Watch the Demo"
+#~ msgstr "Watch the Demo"
 
 #: src/components/landing/LandingContact.tsx:42
-msgid "Work Email"
-msgstr "Work Email"
+#~ msgid "Work Email"
+#~ msgstr "Work Email"
 
-#: src/app/(page)/(others-pages)/categories/categories.tsx:122
-#: src/app/(page)/(others-pages)/financial-categories/financial-categories.tsx:118
-#: src/app/(page)/(others-pages)/suppliers/suppliers.tsx:116
+#: src/app/(user)/dashboard/categories/page.tsx:123
+#: src/app/(user)/dashboard/financial-categories/page.tsx:121
+#: src/app/(user)/dashboard/suppliers/page.tsx:119
 msgid "Z-A"
 msgstr "Z-A"

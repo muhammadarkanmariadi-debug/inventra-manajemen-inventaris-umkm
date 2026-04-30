@@ -8,36 +8,72 @@ use Spatie\Permission\Models\Role;
 
 class RoleSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $owner = Role::firstOrCreate(['name' => 'owner', 'guard_name' => 'api']);
-        $admin = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'api']);
-        $staff = Role::firstOrCreate(['name' => 'staff', 'guard_name' => 'api']);
+        $superAdmin     = Role::firstOrCreate(['name' => 'super_admin',      'guard_name' => 'api']);
+        $manager        = Role::firstOrCreate(['name' => 'manager',          'guard_name' => 'api']);
+        $operatorGudang = Role::firstOrCreate(['name' => 'operator_gudang',  'guard_name' => 'api']);
+        $qc             = Role::firstOrCreate(['name' => 'qc',               'guard_name' => 'api']);
 
-        $owner->syncPermissions(Permission::all());
+        // Super Admin: semua permission
+        $superAdmin->syncPermissions(Permission::all());
 
-        $admin->syncPermissions(
+        // Manager: semua kecuali manajemen pengguna & kelola bisnis level owner
+        $manager->syncPermissions(
             Permission::where('name', 'not like', '%Pengguna')
                 ->where('name', '!=', 'Lihat Bisnis')
+                ->where('name', '!=', 'Kelola Role')
                 ->get()
         );
 
-        $staff->syncPermissions(
-            Permission::where('name', 'Lihat Produk')
-                ->orWhere('name', 'Lihat Supplier')
-                ->orWhere('name', 'Lihat Kategori')
-                ->orWhere('name', 'Tambah Transaksi Stok')
-                ->orWhere('name', 'Lihat Transaksi Stok')
-                ->orWhere('name', 'Tambah Penjualan')
-                ->orWhere('name', 'Lihat Penjualan')
-                ->orWhere('name', 'Lihat Kategori Keuangan')
-                ->orWhere('name', 'Tambah Transaksi Keuangan')
-                ->orWhere('name', 'Lihat Transaksi Keuangan')
-                ->orWhere('name', 'Bisnis Saya')
-                ->get()
+        // Operator Gudang: fokus operasional stok & penjualan
+        $operatorGudang->syncPermissions(
+            Permission::whereIn('name', [
+                'Bisnis Saya',
+                // Produk & Kategori (read + input)
+                'Lihat Produk',
+                'Tambah Produk',
+                'Edit Produk',
+                'Lihat Kategori',
+                // Supplier (read only)
+                'Lihat Supplier',
+                // Stok & Gudang (full operasional)
+                'Lihat Transaksi Stok',
+                'Tambah Transaksi Stok',
+                'Lihat Stok Opname',
+                'Tambah Stok Opname',
+                // QC (read only)
+                'Lihat Pemeriksaan QC',
+                // Penjualan (input & read)
+                'Lihat Penjualan',
+                'Tambah Penjualan',
+                // Keuangan (terbatas)
+                'Lihat Kategori Keuangan',
+                'Lihat Transaksi Keuangan',
+                'Tambah Transaksi Keuangan',
+                // Laporan
+                'Lihat Laporan Stok',
+            ])->get()
+        );
+
+        // QC: fokus pemeriksaan kualitas & visibilitas data
+        $qc->syncPermissions(
+            Permission::whereIn('name', [
+                'Bisnis Saya',
+                // Produk & Supplier (read only)
+                'Lihat Produk',
+                'Lihat Kategori',
+                'Lihat Supplier',
+                // Stok (read only)
+                'Lihat Transaksi Stok',
+                'Lihat Stok Opname',
+                // QC (full operasional kecuali hapus & approve)
+                'Lihat Pemeriksaan QC',
+                'Tambah Pemeriksaan QC',
+                'Edit Pemeriksaan QC',
+                // Laporan stok
+                'Lihat Laporan Stok',
+            ])->get()
         );
     }
 }

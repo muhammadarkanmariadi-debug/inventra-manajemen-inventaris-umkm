@@ -11,8 +11,8 @@ import {
   ChevronDownIcon,
   UserIcon,
 } from "../icons/index";
-import { useAuth } from "../context/AuthContext";
-import { Building2, Users } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import { Building2, Settings, User, UserCircle, Users, ArrowLeft } from "lucide-react";
 
 type NavItem = {
   name: string;
@@ -26,12 +26,22 @@ const adminNavItems: NavItem[] = [
   {
     icon: <Building2 className="w-5 h-5" />,
     name: "Semua Bisnis",
-    path: "/businesses",
+    path: "/admin/businesses",
   },
   {
     icon: <Users className="w-5 h-5" />,
     name: "Semua Pengguna",
-    path: "/users",
+    path: "/admin/users",
+  },
+  {
+    icon: <Settings className="w-5 h-5" />,
+    name: "Pengaturan",
+    path: "/account/settings",
+  },
+  {
+    icon: <UserCircle className="w-5 h-5" />,
+    name: "Edit Profil",
+    path: "/account/profile",
   },
 ];
 
@@ -73,7 +83,7 @@ const AdminSidebar: React.FC = () => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className={`py-8 flex ${!isExpanded && !isHovered ? "lg:justify-center" : "justify-start"}`}>
-        <Link href="/businesses">
+        <Link href="/admin/businesses">
           {isExpanded || isHovered || isMobileOpen ? (
             <>
               <Image className="dark:hidden" src={'/images/logo/logo.svg'} alt="Logo" width={150} height={40} />
@@ -98,6 +108,27 @@ const AdminSidebar: React.FC = () => {
             </div>
           </div>
         </nav>
+      </div>
+
+      <div className="mt-auto pb-6 pt-4">
+        <div className="flex flex-col gap-4">
+          <Link
+            href="/"
+            className={`group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium text-gray-500 duration-300 ease-in-out hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white ${!isExpanded && !isHovered
+              ? "lg:justify-center"
+              : "justify-start"
+              }`}
+          >
+            <span className="text-gray-500 transition-colors group-hover:text-brand-500 dark:text-gray-400 group-hover:dark:text-brand-400 flex items-center justify-center">
+              <ArrowLeft className="w-5 h-5" />
+            </span>
+            {(isExpanded || isHovered || isMobileOpen) && (
+              <span className="text-sm">
+                Kembali ke Beranda
+              </span>
+            )}
+          </Link>
+        </div>
       </div>
     </aside>
   );

@@ -24,8 +24,9 @@ import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
 import { CldUploadWidget, CloudinaryUploadWidgetInfo } from 'next-cloudinary';
-import { CloudUpload, PencilIcon, TrashIcon, EyeIcon, QrCodeIcon } from "lucide-react";
+import { CloudUpload, PencilIcon, TrashIcon, EyeIcon, QrCodeIcon, DownloadIcon } from "lucide-react";
 import QRCode from "react-qr-code";
+import { exportToExcel } from '@/utils/exportExcel';
 import Image from "next/image";
 import DatePicker from '@/components/form/date-picker';
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
@@ -234,6 +235,18 @@ export default function Products() {
     return matchSearch && matchCategory && matchTab;
   });
 
+  const handleExport = () => {
+    const exportData = prod.map(product => ({
+      Nama: product.name,
+      SKU: product.sku,
+      "Harga Jual": product.selling_price,
+      Stok: product.stock,
+      Kategori: product.category?.name || "-",
+      Tipe: product.product_type,
+      Satuan: product.unit
+    }));
+    exportToExcel(exportData, 'Produk');
+  };
 
   return (
     <PermissionWrapper permission="Lihat Produk" breadcrumb="Produk">
@@ -244,7 +257,10 @@ export default function Products() {
           searchPlaceholder={filterConfig.searchPlaceholder}
           onFilterChange={setFilters}
         />
-        <div className="mb-4 flex justify-end">
+        <div className="mb-4 flex justify-end gap-3">
+          <Button size="sm" variant="outline" onClick={handleExport} className="flex items-center gap-2">
+            <DownloadIcon className="w-4 h-4" /> <Trans id="Export Excel" />
+          </Button>
           <Can permission="Tambah Produk">
             <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Produk" /></Button>
           </Can>

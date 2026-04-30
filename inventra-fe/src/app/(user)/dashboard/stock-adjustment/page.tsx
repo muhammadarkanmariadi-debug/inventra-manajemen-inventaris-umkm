@@ -27,6 +27,8 @@ import { getStockTransactions } from '../../../../../services/stock-transaction.
 import type { StockTransaction } from '../../../../../types';
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 import { Can } from '@/components/common/Can';
+import { DownloadIcon } from "lucide-react";
+import { exportToExcel } from '@/utils/exportExcel';
 
 interface InventoryItem {
   id: number;
@@ -80,6 +82,17 @@ export default function StockAdjustmentPage() {
     const matchTab = activeTab === 'Semua' || tx.type === activeTab;
     return matchSearch && matchTab;
   });
+
+  const handleExport = () => {
+    const exportData = filteredHistory.map(tx => ({
+      Tipe: tx.type,
+      Produk: tx.product?.name || "-",
+      Kuantitas: `${tx.type === 'IN' ? '+' : tx.type === 'OUT' ? '-' : ''}${tx.quantity}`,
+      Catatan: tx.note || "-",
+      Tanggal: new Date(tx.created_at).toLocaleDateString('id-ID')
+    }));
+    exportToExcel(exportData, 'Penyesuaian_Stok');
+  };
 
   const fetchHistory = async () => {
     setFetchingHistory(true);
@@ -166,7 +179,10 @@ export default function StockAdjustmentPage() {
           searchPlaceholder={filterConfig.searchPlaceholder}
           onFilterChange={setFilters}
         />
-        <div className="mb-4 flex justify-end">
+        <div className="mb-4 flex justify-end gap-3">
+          <Button size="sm" variant="outline" onClick={handleExport} className="flex items-center gap-2">
+            <DownloadIcon className="w-4 h-4" /> <Trans id="Export Excel" />
+          </Button>
           <Can permission="Tambah Transaksi Stok">
             <Button size="sm" onClick={() => setOpenCreateModal(true)}>+ <Trans id="Tambah Penyesuaian" /></Button>
           </Can>

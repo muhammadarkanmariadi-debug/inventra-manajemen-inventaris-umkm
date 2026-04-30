@@ -35,7 +35,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "lingui.config.js"
+    "lingui.config.js",
+    "middleware.ts"
   ],
   "exclude": [
     "node_modules"

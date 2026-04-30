@@ -22,6 +22,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        try {
         $rules = [
             'name'          => 'required|string|max:255',
             'image'         => 'nullable|string',
@@ -40,6 +41,9 @@ class ProductController extends Controller
         event(new LoggingEvent('Product created successfully', 'products'));
 
         return ApiHelper::success('Data Product berhasil dibuat', $data, 201);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -47,6 +51,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        try {
         $perPage = (int) $request->query('items', 10);
         $query   = Product::where('bussiness_id', auth()->guard('api')->user()->bussiness_id);
 
@@ -65,6 +70,9 @@ class ProductController extends Controller
         }
 
         return ApiHelper::success('Products retrieved successfully', $products, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -72,6 +80,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+        try {
         $product = Product::with(['category'])
             ->where('id', $id)
             ->where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
@@ -82,6 +91,9 @@ class ProductController extends Controller
         }
 
         return ApiHelper::success('Product retrieved successfully', $product, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -89,6 +101,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        try {
         $rules = [
             'name'          => 'sometimes|required|string|max:255',
             'image'         => 'sometimes|nullable|string',
@@ -105,6 +118,9 @@ class ProductController extends Controller
         event(new LoggingEvent('Product with id ' . $id . ' updated successfully', 'products'));
 
         return ApiHelper::success('Product updated successfully', $data, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -112,10 +128,14 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        try {
         $this->requestService->deleteDataById(Product::class, $id);
 
         event(new LoggingEvent('Product with id ' . $id . ' deleted successfully', 'products'));
 
         return ApiHelper::success('Product deleted successfully', null, 200);
+        } catch (\Exception $e) {
+            return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
+        }
     }
 }

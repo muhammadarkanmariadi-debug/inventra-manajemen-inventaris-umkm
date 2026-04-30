@@ -9,6 +9,7 @@ import LandingFooter from '@/components/landing/LandingFooter';
 export const metadata = {
   title: 'Inventra | Platform Manajemen Inventaris Cerdas untuk UMKM',
   description: 'Kelola inventaris bisnis Anda dengan Inventra — pelacakan stok real-time, prediksi AI, multi-gudang, dan laporan analitik lengkap untuk UMKM Indonesia.',
+  
 };
 
 export default function LandingPage() {

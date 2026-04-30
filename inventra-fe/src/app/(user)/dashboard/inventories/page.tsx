@@ -22,8 +22,9 @@ import { Trans } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
 import { useTranslate } from '@/hooks/useTranslate';
 import { getStatusTranslation } from '@/utils/statusTranslations';
-import { FileTextIcon } from 'lucide-react';
+import { FileTextIcon, DownloadIcon } from 'lucide-react';
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
+import { exportToExcel } from '@/utils/exportExcel';
 
 interface InventoryItem {
   id: number;
@@ -133,6 +134,18 @@ export default function InventoriesPage() {
     return matchSearch && matchTab;
   });
 
+  const handleExport = () => {
+    const exportData = filtered.map(inv => ({
+      "Kode Inventaris": inv.inventory_code,
+      Produk: inv.product?.name || "-",
+      Jumlah: inv.quantity,
+      Status: inv.status?.code ? getStatusTranslation(inv.status.code, _) : "-",
+      Lokasi: inv.location?.name || "-",
+      Tanggal: new Date(inv.created_at).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })
+    }));
+    exportToExcel(exportData, 'Stok_Inventaris');
+  };
+
   const openSJModal = (inv: InventoryItem) => {
     setSjItem(inv);
     setSjForm({ receiverName: '', receiverAddress: '', receiverPhone: '', vehicle: '', notes: '' });
@@ -201,6 +214,11 @@ export default function InventoriesPage() {
           searchPlaceholder={filterConfig.searchPlaceholder}
           onFilterChange={setFilters}
         />
+        <div className="flex justify-end gap-3 mb-2">
+          <Button size="sm" variant="outline" onClick={handleExport} className="flex items-center gap-2">
+            <DownloadIcon className="w-4 h-4" /> <Trans id="Export Excel" />
+          </Button>
+        </div>
 
         <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
           <div className="max-w-full overflow-x-auto">

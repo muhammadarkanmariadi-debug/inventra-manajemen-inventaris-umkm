@@ -26,9 +26,10 @@ import { FilterBar, FilterValues } from '@/components/common/FilterBar';
 import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
-import { Plus, Trash2, ShoppingCart } from 'lucide-react';
+import { Plus, Trash2, ShoppingCart, DownloadIcon } from 'lucide-react';
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 import { Can } from '@/components/common/Can';
+import { exportToExcel } from '@/utils/exportExcel';
 
 export default function Purchases() {
   const { _ } = useLingui();
@@ -166,12 +167,26 @@ export default function Purchases() {
     return matchSearch && matchSupplier;
   });
 
+  const handleExport = () => {
+    const exportData = filteredPurchases.map(purchase => ({
+      Tanggal: new Date(purchase.purchase_date).toLocaleDateString('id-ID'),
+      Supplier: purchase.supplier?.name || '-',
+      "Total Item": purchase.items?.length || 0,
+      "Total Harga": purchase.total_amount,
+      Catatan: purchase.notes || '-'
+    }));
+    exportToExcel(exportData, 'Pembelian');
+  };
+
   return (
     <PermissionWrapper permission="Lihat Pembelian" breadcrumb="Pembelian">
 
       <div className="flex flex-col gap-4 mb-4">
         <FilterBar {...filterConfig} onFilterChange={setFilters} />
-        <div className="flex justify-end">
+        <div className="flex justify-end gap-3">
+          <Button size="sm" variant="outline" onClick={handleExport} className="flex items-center gap-2">
+            <DownloadIcon className="w-4 h-4" /> <Trans id="Export Excel" />
+          </Button>
           <Can permission="Tambah Pembelian">
             <Button size="sm" onClick={openCreateModal}>
               <span className="flex items-center gap-1.5">

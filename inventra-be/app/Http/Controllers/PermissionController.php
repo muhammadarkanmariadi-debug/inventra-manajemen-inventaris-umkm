@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Events\LoggingEvent;
 use App\Models\Permission;
 use App\Helpers\ApiHelper;
 
@@ -30,6 +31,7 @@ class PermissionController extends Controller
             ]);
 
             $data = Permission::create($request->all());
+            event(new LoggingEvent('Permission ' . $data->name . ' created successfully', 'permissions'));
             return ApiHelper::success('Permission created successfully', $data, 201);
         } catch (\Exception $e) {
             return ApiHelper::error($e->getMessage(), 500);
@@ -56,6 +58,7 @@ class PermissionController extends Controller
 
             $data = Permission::findOrFail($id);
             $data->update($request->all());
+            event(new LoggingEvent('Permission ' . $data->name . ' updated successfully', 'permissions'));
             return ApiHelper::success('Permission updated successfully', $data, 200);
         } catch (\Exception $e) {
             return ApiHelper::error($e->getMessage(), 500);
@@ -67,6 +70,7 @@ class PermissionController extends Controller
         try {
             $data = Permission::findOrFail($id);
             $data->delete();
+            event(new LoggingEvent('Permission ' . $data->name . ' deleted successfully', 'permissions'));
             return ApiHelper::success('Permission deleted successfully', $data, 200);
         } catch (\Exception $e) {
             return ApiHelper::error($e->getMessage(), 500);

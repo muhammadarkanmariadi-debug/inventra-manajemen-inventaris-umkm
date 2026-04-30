@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\SuperadminController;
+
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FinancialCategoryController;
@@ -35,8 +37,7 @@ Route::controller(UserController::class)->group(function () {
 });
 
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
-Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect']);
-Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
+Route::post('/auth/firebase-google', [GoogleAuthController::class, 'firebaseGoogle']);
 
 Route::middleware(AuthenticateMiddleware::class)->group(function () {
     Route::post('/email/resend', [VerificationController::class, 'resend']);
@@ -56,83 +57,82 @@ Route::middleware(AuthenticateMiddleware::class)->group(function () {
     Route::get('/logs', [LogController::class, 'index']);
 
     Route::controller(BusinessController::class)->prefix('bussiness')->group(function () {
-        Route::post('/', 'store')->withoutMiddleware(PermissionMiddleware::class . ':bussiness.*');
-        Route::get('/me', 'showOwn')->middleware(PermissionMiddleware::class . ':bussiness.me');
-        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':bussiness.view')->middleware(RoleMiddleware::class . ':SUPERADMIN');
-        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':bussiness.view')->middleware(RoleMiddleware::class . ':SUPERADMIN');
-        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':bussiness.update');
-        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':bussiness.delete');
+        Route::post('/', 'store')->withoutMiddleware(PermissionMiddleware::class . ':Tambah Bisnis');
+        Route::get('/me', 'showOwn')->middleware(PermissionMiddleware::class . ':Bisnis Saya');
+        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':Lihat Bisnis')->middleware(RoleMiddleware::class . ':SUPERADMIN');
+        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':Lihat Bisnis')->middleware(RoleMiddleware::class . ':SUPERADMIN');
+        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':Ubah Bisnis');
+        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':Hapus Bisnis');
     });
 
     Route::controller(UserController::class)->prefix('user')->group(function () {
-        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':user.create');
-        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':user.view');
-        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':user.update');
-        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':user.view');
-        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':user.delete');
+        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':Tambah Pengguna');
+        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':Lihat Pengguna');
+        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':Ubah Pengguna');
+        Route::get('/', 'indexByBusiness')->middleware(PermissionMiddleware::class . ':Lihat Pengguna');
+        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':Hapus Pengguna');
     });
 
     Route::controller(ProductController::class)->prefix('products')->group(function () {
-        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':product.create');
-        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':product.update');
-        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':product.view');
-        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':product.view');
-        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':product.delete');
+        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':Tambah Produk');
+        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':Ubah Produk');
+        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':Lihat Produk');
+        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':Lihat Produk');
+        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':Hapus Produk');
     });
 
     Route::controller(CategoryController::class)->prefix('categories')->group(function () {
-        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':category.create');
-        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':category.update');
-        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':category.view');
-        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':category.view');
-        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':category.delete');
+        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':Tambah Kategori');
+        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':Ubah Kategori');
+        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':Lihat Kategori');
+        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':Lihat Kategori');
+        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':Hapus Kategori');
     });
 
     Route::controller(SupplierController::class)->prefix('suppliers')->group(function () {
-        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':supplier.create');
-        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':supplier.view');
-        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':supplier.view');
-        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':supplier.update');
-        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':supplier.delete');
+        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':Tambah Supplier');
+        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':Lihat Supplier');
+        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':Lihat Supplier');
+        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':Ubah Supplier');
+        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':Hapus Supplier');
     });
 
     Route::controller(PurchaseController::class)->prefix('purchases')->group(function () {
-        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':purchase.create');
-        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':purchase.view');
-        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':purchase.view');
+        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':Tambah Pembelian');
+        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':Lihat Pembelian');
+        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':Lihat Pembelian');
     });
 
     Route::controller(RoleController::class)->prefix('roles')->group(function () {
-        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':roles.create');
-        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':roles.view');
-        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':roles.view');
-        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':roles.update');
-        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':roles.delete');
+        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':Tambah Peran');
+        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':Lihat Peran');
+        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':Lihat Peran');
+        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':Ubah Peran');
+        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':Hapus Peran');
     });
 
     Route::controller(SaleController::class)->prefix('sales')->group(function () {
-        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':sales.create');
-        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':sales.view');
-        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':sales.view');
-        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':sales.update');
-        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':sales.delete');
+        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':Tambah Penjualan');
+        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':Lihat Penjualan');
+        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':Lihat Penjualan');
+        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':Ubah Penjualan');
+        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':Hapus Penjualan');
     });
 
-
     Route::controller(FinancialCategoryController::class)->prefix('financial-categories')->group(function () {
-        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':financialCategory.create');
-        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':financialCategory.view');
-        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':financialCategory.view');
-        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':financialCategory.update');
-        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':financialCategory.delete');
+        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':Tambah Kategori Keuangan');
+        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':Lihat Kategori Keuangan');
+        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':Lihat Kategori Keuangan');
+        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':Ubah Kategori Keuangan');
+        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':Hapus Kategori Keuangan');
     });
 
     Route::controller(FinancialTransactionController::class)->prefix('financial-transactions')->group(function () {
-        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':financialTransaction.create');
-        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':financialTransaction.view');
-        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':financialTransaction.view');
-        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':financialTransaction.update');
-        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':financialTransaction.delete');
+        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':Tambah Transaksi Keuangan');
+        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':Lihat Transaksi Keuangan');
+        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':Lihat Transaksi Keuangan');
+        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':Ubah Transaksi Keuangan');
+        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':Hapus Transaksi Keuangan');
     });
 
     Route::controller(StatisticController::class)->prefix('statistic')->group(function () {
@@ -141,29 +141,29 @@ Route::middleware(AuthenticateMiddleware::class)->group(function () {
         Route::get('/financial', 'keuangan');
         Route::get('/prediksi/{id}', 'prediksi');
         Route::get('/defect/{id}', 'defect');
-        Route::get('/incomeexpenses', 'incomeExpenses' );
+        Route::get('/incomeexpenses', 'incomeExpenses');
     });
 
-    Route::post('/scan', [ScanController::class, 'scan'])->middleware(PermissionMiddleware::class . ':product.view');
-    Route::get('/inventories', [InventoryController::class, 'index'])->middleware(PermissionMiddleware::class . ':product.view');
-    Route::get('/inventories/{id}', [InventoryController::class, 'show'])->middleware(PermissionMiddleware::class . ':product.view');
-    Route::put('/inventory/{id}/status', [InventoryController::class, 'updateStatus'])->middleware(PermissionMiddleware::class . ':stockTransaction.create');
-    Route::post('/transactions', [TransactionController::class, 'store'])->middleware(PermissionMiddleware::class . ':stockTransaction.create');
+    Route::post('/scan', [ScanController::class, 'scan'])->middleware(PermissionMiddleware::class . ':Lihat Produk');
+    Route::get('/inventories', [InventoryController::class, 'index'])->middleware(PermissionMiddleware::class . ':Lihat Produk');
+    Route::get('/inventories/{id}', [InventoryController::class, 'show'])->middleware(PermissionMiddleware::class . ':Lihat Produk');
+    Route::put('/inventory/{id}/status', [InventoryController::class, 'updateStatus'])->middleware(PermissionMiddleware::class . ':Tambah Transaksi Stok');
+    Route::post('/transactions', [TransactionController::class, 'store'])->middleware(PermissionMiddleware::class . ':Tambah Transaksi Stok');
 
     Route::controller(LocationController::class)->prefix('locations')->group(function () {
-        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':product.create');
-        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':product.view');
-        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':product.view');
-        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':product.update');
-        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':product.delete');
+        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':Tambah Produk');
+        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':Lihat Produk');
+        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':Lihat Produk');
+        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':Ubah Produk');
+        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':Hapus Produk');
     });
 
     Route::controller(PermissionController::class)->prefix('permissions')->group(function () {
-        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':permission.view');
-        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':permission.create');
-        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':permission.view');
-        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':permission.update');
-        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':permission.delete');
+        Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':Lihat Hak Akses');
+        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':Tambah Hak Akses');
+        Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':Lihat Hak Akses');
+        Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':Ubah Hak Akses');
+        Route::delete('/{id}', 'destroy')->middleware(PermissionMiddleware::class . ':Hapus Hak Akses');
     });
 
     Route::controller(DocumentController::class)->prefix('documents')->group(function () {
@@ -172,5 +172,18 @@ Route::middleware(AuthenticateMiddleware::class)->group(function () {
         Route::get('/{id}', 'show');
         Route::get('/{id}/download', 'download');
         Route::delete('/{id}', 'destroy');
+    });
+
+    // ========== SUPERADMIN ROUTES ==========
+    Route::middleware(RoleMiddleware::class . ':SUPERADMIN')->prefix('superadmin')->group(function () {
+        Route::get('/users', [SuperadminController::class, 'allUsers']);
+        Route::get('/users/{id}', [SuperadminController::class, 'showUser']);
+        Route::put('/users/{id}', [SuperadminController::class, 'updateUser']);
+        Route::delete('/users/{id}', [SuperadminController::class, 'deleteUser']);
+
+        Route::get('/businesses', [SuperadminController::class, 'allBusinesses']);
+        Route::get('/businesses/{id}', [SuperadminController::class, 'showBusiness']);
+        Route::put('/businesses/{id}', [SuperadminController::class, 'updateBusiness']);
+        Route::delete('/businesses/{id}', [SuperadminController::class, 'deleteBusiness']);
     });
 });

@@ -13,6 +13,8 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
         $permissions = [
             'Tambah Pengguna',
             'Lihat Pengguna',
@@ -76,6 +78,8 @@ class PermissionSeeder extends Seeder
             'Lihat Pembelian',
             'Ubah Pembelian',
             'Hapus Pembelian',
+
+            'Lihat Log',
         ];
 
         foreach ($permissions as $permission) {

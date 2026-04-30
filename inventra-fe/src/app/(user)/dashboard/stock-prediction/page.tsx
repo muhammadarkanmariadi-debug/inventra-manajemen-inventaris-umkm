@@ -18,6 +18,8 @@ import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
 import { apiGet } from '../../../../../lib/api';
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
+import { DownloadIcon } from "lucide-react";
+import { exportToExcel } from '@/utils/exportExcel';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -147,6 +149,21 @@ export default function StockPrediction() {
     return matchSearch && matchTab;
   });
 
+  const handleExport = () => {
+    const exportData = filteredSortedProducts.map(product => {
+      const status = getStockStatus(product.stock);
+      return {
+        Produk: product.name,
+        SKU: product.sku,
+        Kategori: product.category?.name || '-',
+        Stok: product.stock,
+        Status: status.label,
+        Tipe: product.product_type
+      };
+    });
+    exportToExcel(exportData, 'Status_Stok_Produk');
+  };
+
   const buildChartOptions = (result: PredictionResult): ApexCharts.ApexOptions => ({
     chart: { type: 'line', toolbar: { show: false }, zoom: { enabled: false } },
     stroke: { curve: 'smooth', width: [3, 1, 1] },
@@ -211,6 +228,11 @@ export default function StockPrediction() {
       {/* Filter + Stock Table */}
       <div className="flex flex-col gap-4 mb-4">
         <FilterBar {...filterConfig} onFilterChange={setFilters} />
+        <div className="flex justify-end gap-3">
+          <Button size="sm" variant="outline" onClick={handleExport} className="flex items-center gap-2">
+            <DownloadIcon className="w-4 h-4" /> <Trans id="Export Excel" />
+          </Button>
+        </div>
       </div>
 
       <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] mb-6">

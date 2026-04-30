@@ -20,9 +20,10 @@ import { FilterBar, FilterValues } from '@/components/common/FilterBar';
 import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { msg } from '@lingui/core/macro';
-import { PencilIcon, TrashIcon } from "lucide-react";
+import { PencilIcon, TrashIcon, DownloadIcon } from "lucide-react";
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 import { Can } from '@/components/common/Can';
+import { exportToExcel } from '@/utils/exportExcel';
 
 export default function FinancialTransactions() {
   const { _ } = useLingui();
@@ -172,13 +173,26 @@ export default function FinancialTransactions() {
     return matchSearch && matchTab && matchCat;
   });
 
+  const handleExport = () => {
+    const exportData = filteredTransactions.map(tx => ({
+      Tipe: tx.type === 'income' ? 'Pemasukan' : 'Pengeluaran',
+      Jumlah: tx.amount,
+      Catatan: tx.note || "-",
+      Tanggal: new Date(tx.transaction_date).toLocaleDateString('id-ID')
+    }));
+    exportToExcel(exportData, 'Transaksi_Keuangan');
+  };
+
   return (
     <PermissionWrapper permission="Lihat Transaksi Keuangan" breadcrumb="Transaksi Keuangan">
 
 
       <div className='flex flex-col gap-4 mb-4'>
         <FilterBar {...filterConfig} onFilterChange={setFilters} />
-        <div className="flex justify-end">
+        <div className="flex justify-end gap-3">
+          <Button size="sm" variant="outline" onClick={handleExport} className="flex items-center gap-2">
+            <DownloadIcon className="w-4 h-4" /> <Trans id="Export Excel" />
+          </Button>
           <Can permission="Tambah Transaksi Keuangan">
             <Button size="sm" onClick={openCreateModal}>+ <Trans id="Tambah Transaksi" /></Button>
           </Can>

@@ -8,6 +8,7 @@ use App\Models\InventoryStatus;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Events\LoggingEvent;
+use App\Events\SaleCreated;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
@@ -54,6 +55,7 @@ class SaleService
             // Strictly reduce the explicitly selected physical inventory batch
             $this->reduceInventory($sale, $inventory, $data['quantity'], $userId);
 
+            event(new SaleCreated($sale));
             event(new LoggingEvent('Sale was successfully created', 'sales'));
 
             return $sale->load('product');

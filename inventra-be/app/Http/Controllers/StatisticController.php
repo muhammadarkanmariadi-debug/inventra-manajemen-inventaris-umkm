@@ -166,10 +166,7 @@ class StatisticController extends Controller
                 'data'   => $records
             ]);
         } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => $e->getMessage()
-            ], 500);
+            return ApiHelper::error($e->getMessage(), 500);
         }
     }
 
@@ -209,10 +206,7 @@ class StatisticController extends Controller
                 ]
             ]);
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => $e->getMessage()
-            ], 500);
+            return ApiHelper::error($e->getMessage(), 500);
         }
     }
 }

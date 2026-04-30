@@ -1,6 +1,8 @@
 import { API_URL } from "../global"
 import { encryptClient, get, post } from "../lib/action"
+import { apiDelete, apiGet, apiPost, apiPut } from "../lib/api";
 import { getCookies } from "../lib/server-cookie"
+import { ApiResponse, Business, PaginatedData, User } from "../types";
 
 interface CreateBusinessPayload {
     name: string;
@@ -11,23 +13,26 @@ interface CreateBusinessPayload {
     description?: string;
 }
 
-export async function createBusiness(payload: CreateBusinessPayload) {
-    const url = `${API_URL}/bussiness`
+export async function createBusiness(payload: CreateBusinessPayload): Promise<ApiResponse<Business>> {
 
-    // We get the token, we need it to authorize the business creation
-    const token = await getCookies('token');
+    return apiPost('/bussiness', payload)
+}
 
-    const data = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(payload)
-    });
 
-    const json = await data.json();
-    return json;
+export async function getBusinesses(page = 1, items = 10): Promise<ApiResponse<PaginatedData<Business>>> {
+    return apiGet(`/superadmin/businesses`, { page, items });
+}
+
+export async function getBusiness(id: number): Promise<ApiResponse<Business>> {
+    return apiGet(`/superadmin/businesses/${id}`);
+}
+
+export async function updateAdminBusiness(id: number, payload: Partial<Business>): Promise<ApiResponse<Business>> {
+    return apiPut(`/superadmin/businesses/${id}`, payload);
+}
+
+export async function deleteAdminBusiness(id: number): Promise<ApiResponse<null>> {
+    return apiDelete(`/superadmin/businesses/${id}`);
 }
 
 

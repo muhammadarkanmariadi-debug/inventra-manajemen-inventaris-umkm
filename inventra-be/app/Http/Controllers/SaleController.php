@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\LoggingEvent;
+use App\Events\SaleCreated;
 use App\Helpers\ApiHelper;
 use App\Models\Product;
 use App\Models\Sale;
@@ -41,6 +42,8 @@ class SaleController extends Controller
             $userId = auth()->guard('api')->id();
             
             $sale = $this->saleService->createSale($request->all(), $bussinessId, $userId);
+
+            
 
             return ApiHelper::success('Sale was successfully created', $sale, 201);
         } catch (\Exception $e) {
@@ -85,7 +88,7 @@ class SaleController extends Controller
             if (!$data) {
                 return ApiHelper::error('Sale not found', 404);
             }
-
+            event(new SaleCreated($data));
             return ApiHelper::success('Sale retrieved successfully', $data, 200);
         } catch (\Exception $e) {
             return ApiHelper::error($e->getMessage(), 500);
@@ -94,9 +97,13 @@ class SaleController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Updating a sale is vastly more complex with event-driven inventory (restoring specific batches). 
-        // For now, disallow updating sales quantity directly (Best Practice for immutable ERP logs).
-        return ApiHelper::error('Updating sales quantity directly is discontinued under the new audit log system. Delete and recreate.', 405);
+        try {
+            // Updating a sale is vastly more complex with event-driven inventory (restoring specific batches). 
+            // For now, disallow updating sales quantity directly (Best Practice for immutable ERP logs).
+            return ApiHelper::error('Updating sales quantity directly is discontinued under the new audit log system. Delete and recreate.', 405);
+        } catch (\Exception $e) {
+            return ApiHelper::error($e->getMessage(), 500);
+        }
     }
 
     public function destroy($id)
