@@ -103,3 +103,8 @@ AI_AGENT_PROMPT.md
 
 /AI_PREDICTION/__pycache__
 /AI_PREDICTION/venv
+
+
+/qa-automation/node_modules
+/qa-automation/test-results
+    
