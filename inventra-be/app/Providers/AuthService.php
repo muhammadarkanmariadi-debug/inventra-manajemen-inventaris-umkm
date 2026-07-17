@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Providers;
+
+use Laravel\Passport\Passport;
+use Illuminate\Support\ServiceProvider;
+
+class AuthService extends ServiceProvider
+{
+    /**
+     * Register services.
+     */
+    public function register(): void
+    {
+        //
+    }
+
+    /**
+     * Bootstrap services.
+     */
+    public function boot(): void
+    {
+      Passport::ignoreRoutes();
+    }
+}
