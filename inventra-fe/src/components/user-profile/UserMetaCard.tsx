@@ -11,7 +11,10 @@ import { updateProfile } from "../../../services/user.service";
 import { toast } from "sonner";
 import { CldImage as CldImageDefault, CldImageProps, CldUploadWidget, CloudinaryUploadWidgetInfo } from 'next-cloudinary';
 import { CloudBackup, CloudUpload } from "lucide-react";
+import { useTranslate } from "@/hooks/useTranslate";
+import { Trans } from "@lingui/react";
 export default function UserMetaCard() {
+  const { _ } = useTranslate();
   const { user, business, refreshProfile } = useAuth();
   const { isOpen, openModal, closeModal } = useModal();
   const [isSaving, setIsSaving] = useState(false);
@@ -36,14 +39,14 @@ export default function UserMetaCard() {
     try {
       const response = await updateProfile(formData);
       if (response.status) {
-        toast.success("Profile updated successfully");
+        toast.success(_("Profil berhasil diperbarui"));
         await refreshProfile();
         closeModal();
       } else {
-        toast.error(response.message || "Failed to update profile");
+        toast.error(response.message || _("Gagal memperbarui profil"));
       }
     } catch (error) {
-      toast.error("An error occurred while updating profile");
+      toast.error(_("Terjadi kesalahan saat memperbarui profil"));
     } finally {
       setIsSaving(false);
     }
@@ -65,7 +68,7 @@ export default function UserMetaCard() {
             </div>
             <div className="order-3 xl:order-2">
               <h4 className="mb-2 text-lg font-semibold text-center text-gray-800 dark:text-white/90 xl:text-left">
-                {user?.username || "Guest User"}
+                {user?.username || _("Pengguna Tamu")}
               </h4>
               <div className="flex flex-col items-center gap-1 text-center xl:flex-row xl:gap-3 xl:text-left">
                 <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -104,7 +107,7 @@ export default function UserMetaCard() {
                 fill=""
               />
             </svg>
-            Edit
+            <Trans id="Edit" />
           </button>
         </div>
       </div>
@@ -112,17 +115,17 @@ export default function UserMetaCard() {
         <div className="no-scrollbar relative w-full max-w-[700px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
           <div className="px-2 pr-14">
             <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
-              Edit Profile
+              <Trans id="Edit Profil" />
             </h4>
             <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
-              Update your details to keep your profile up-to-date.
+              <Trans id="Perbarui detail Anda untuk menjaga profil tetap terkini." />
             </p>
           </div>
           <form className="flex flex-col" onSubmit={handleSave}>
             <div className="custom-scrollbar overflow-y-auto px-2 pb-3">
               <div className="grid grid-cols-1 gap-x-6 gap-y-5 ">
                 <div className="">
-                  <Label>Username</Label>
+                  <Label><Trans id="Username" /></Label>
                   <Input
                     type="text"
                     value={formData.username}
@@ -146,7 +149,7 @@ export default function UserMetaCard() {
                         onClick={() => open()}
                       >
                         <CloudUpload className="w-full h-full" />
-                        <span>  Upload Gambar</span>
+                        <span> <Trans id="Upload Gambar" /></span>
                       </button>
                     );
                   }}
@@ -155,10 +158,10 @@ export default function UserMetaCard() {
             </div>
             <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
               <Button size="sm" variant="outline" onClick={closeModal} type="button">
-                Close
+                <Trans id="Tutup" />
               </Button>
               <Button size="sm" type="submit" disabled={isSaving}>
-                {isSaving ? "Saving..." : "Save Changes"}
+                {isSaving ? _("Menyimpan...") : _("Simpan Perubahan")}
               </Button>
             </div>
           </form>

@@ -47,15 +47,50 @@ class FinancialTransactionController extends Controller
     public function index(Request $request)
     {
         try {
-        $perPage = (int) $request->query('items', 10);
-        $data    = FinancialTransaction::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
-            ->paginate($perPage);
+            $perPage = (int) $request->query('items', 10);
+            $query   = FinancialTransaction::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
+                ->with('financialCategory');
 
-        if ($data->isEmpty()) {
-            return ApiHelper::error('No financial transactions found', 404);
-        }
+            if ($request->filled('type') && in_array(strtolower($request->query('type')), ['income', 'expense'], true)) {
+                $query->where('type', strtolower($request->query('type')));
+            }
 
-        return ApiHelper::success('Financial transactions retrieved successfully', $data, 200);
+            if ($request->filled('financial_category_id')) {
+                $query->where('financial_category_id', $request->query('financial_category_id'));
+            }
+
+            if ($request->filled('search')) {
+                $search = $request->query('search');
+                $query->where('note', 'like', "%{$search}%");
+            }
+
+            $from = $request->query('from', $request->query('date_from'));
+            $to = $request->query('to', $request->query('date_to'));
+            if ($from && $to) {
+                $query->whereBetween('transaction_date', [$from, $to]);
+            } elseif ($from) {
+                $query->whereDate('transaction_date', '>=', $from);
+            } elseif ($to) {
+                $query->whereDate('transaction_date', '<=', $to);
+            }
+
+            $allowedSorts = ['transaction_date', 'amount', 'created_at', 'id'];
+            $sort = $request->query('sort');
+            $order = strtolower($request->query('order', 'desc')) === 'asc' ? 'asc' : 'desc';
+
+            if ($sort && in_array($sort, $allowedSorts, true)) {
+                $query->orderBy($sort, $order);
+            } else {
+                $query->orderBy('transaction_date', 'desc');
+            }
+
+            $data = $query->paginate($perPage);
+
+            if ($data->isEmpty()) {
+                return ApiHelper::error('No financial transactions found', 404);
+            }
+
+            return ApiHelper::success('Financial transactions retrieved successfully', $data, 200);
         } catch (\Exception $e) {
             return \App\Helpers\ApiHelper::error($e->getMessage(), 500);
         }

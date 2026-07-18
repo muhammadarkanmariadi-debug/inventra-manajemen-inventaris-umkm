@@ -11,8 +11,11 @@ import { setCookies } from "../../../lib/server-cookie";
 import { toast, Toaster } from "sonner";
 import Button from "@/components/ui/button/Button";
 import { redirectToGoogleLogin } from "@/modules/auth/api/auth.api";
+import { useTranslate } from "@/hooks/useTranslate";
+import { Trans } from "@lingui/react";
 
 export default function SignUpForm() {
+  const { _ } = useTranslate();
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
 
@@ -29,8 +32,8 @@ export default function SignUpForm() {
     e.preventDefault();
 
     if (!data.fname || !data.email || !data.password) {
-      toast.error("Validation Error", {
-        description: "Please fill all required fields.",
+      toast.error(_("Validation Error"), {
+        description: _("Please fill all required fields."),
       });
       return;
     }
@@ -44,8 +47,8 @@ export default function SignUpForm() {
       });
 
       if (!res || res.status !== true) {
-        toast.error("Registration Failed", {
-          description: res?.message ?? "Server error",
+        toast.error(_("Registration Failed"), {
+          description: res?.message ?? _("Server error"),
         });
         return;
       }
@@ -54,15 +57,14 @@ export default function SignUpForm() {
         await setCookies('token', res.data.token);
       }
 
-      // Automatically logic after signed up as provided by backend
-      toast.success("Check Your Email", {
-        description: "We've sent a verification link to your email.",
+      toast.success(_("Check Your Email"), {
+        description: _("We've sent a verification link to your email."),
       });
 
       router.push('/verify-email-pending');
     } catch (error) {
-      toast.error("Something went wrong", {
-        description: (error as Error)?.message ?? "Unknown error",
+      toast.error(_("Something went wrong"), {
+        description: (error as Error)?.message ?? _("Unknown error"),
       });
     }
   };
@@ -80,17 +82,17 @@ export default function SignUpForm() {
           className="inline-flex items-center text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
         >
           <ChevronLeftIcon />
-          Back to dashboard
+          <Trans id="Back to dashboard" />
         </Link>
       </div>
       <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
         <div>
           <div className="mb-5 sm:mb-8">
             <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md">
-              Sign Up
+              <Trans id="Sign Up" />
             </h1>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Enter your details to create an account!
+              <Trans id="Enter your details to create an account!" />
             </p>
           </div>
           <div>
@@ -99,26 +101,26 @@ export default function SignUpForm() {
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <div className="sm:col-span-1">
                     <Label>
-                      First Name<span className="text-error-500">*</span>
+                      <Trans id="First Name" /><span className="text-error-500">*</span>
                     </Label>
                     <Input
                       type="text"
                       id="fname"
                       name="fname"
-                      placeholder="Enter your first name"
+                      placeholder={_("Enter your first name")}
                       value={data.fname}
                       onChange={(e) => setData({ ...data, fname: e.target.value })}
                     />
                   </div>
                   <div className="sm:col-span-1">
                     <Label>
-                      Last Name
+                      <Trans id="Last Name" />
                     </Label>
                     <Input
                       type="text"
                       id="lname"
                       name="lname"
-                      placeholder="Enter your last name"
+                      placeholder={_("Enter your last name")}
                       value={data.lname}
                       onChange={(e) => setData({ ...data, lname: e.target.value })}
                     />
@@ -126,24 +128,24 @@ export default function SignUpForm() {
                 </div>
                 <div>
                   <Label>
-                    Email<span className="text-error-500">*</span>
+                    <Trans id="Email" /><span className="text-error-500">*</span>
                   </Label>
                   <Input
                     type="email"
                     id="email"
                     name="email"
-                    placeholder="Enter your email"
+                    placeholder={_("Enter your email")}
                     value={data.email}
                     onChange={(e) => setData({ ...data, email: e.target.value })}
                   />
                 </div>
                 <div>
                   <Label>
-                    Password<span className="text-error-500">*</span>
+                    <Trans id="Password" /><span className="text-error-500">*</span>
                   </Label>
                   <div className="relative">
                     <Input
-                      placeholder="Enter your password"
+                      placeholder={_("Enter your password")}
                       type={showPassword ? "text" : "password"}
                       value={data.password}
                       onChange={(e) => setData({ ...data, password: e.target.value })}
@@ -167,19 +169,19 @@ export default function SignUpForm() {
                     onChange={setIsChecked}
                   />
                   <p className="inline-block font-normal text-gray-500 dark:text-gray-400">
-                    By creating an account means you agree to the{" "}
+                    <Trans id="By creating an account means you agree to the" />{" "}
                     <span className="text-gray-800 dark:text-white/90">
-                      Terms and Conditions,
+                      <Trans id="Terms and Conditions," />
                     </span>{" "}
-                    and our{" "}
+                    <Trans id="and our" />{" "}
                     <span className="text-gray-800 dark:text-white">
-                      Privacy Policy
+                      <Trans id="Privacy Policy" />
                     </span>
                   </p>
                 </div>
                 <div>
                   <Button type="submit" className="w-full" size="sm">
-                    Sign Up
+                    <Trans id="Sign Up" />
                   </Button>
                 </div>
               </div>
@@ -188,7 +190,7 @@ export default function SignUpForm() {
             <div className="mt-6 flex items-center justify-between">
               <span className="w-1/5 border-b dark:border-gray-600 lg:w-1/4"></span>
               <span className="text-xs text-center text-gray-500 uppercase dark:text-gray-400">
-                BISA JUGA DENGAN
+                <Trans id="BISA JUGA DENGAN" />
               </span>
               <span className="w-1/5 border-b dark:border-gray-600 lg:w-1/4"></span>
             </div>
@@ -204,18 +206,18 @@ export default function SignUpForm() {
                   <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
                   <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
                 </svg>
-                Daftar dengan Google
+                <Trans id="Daftar dengan Google" />
               </button>
             </div>
 
             <div className="mt-5">
               <p className="text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start">
-                Already have an account?{" "}
+                <Trans id="Already have an account?" />{" "}
                 <Link
                   href="/auth/signin"
                   className="text-brand-500 hover:text-brand-600 dark:text-brand-400"
                 >
-                  Sign In
+                  <Trans id="Sign In" />
                 </Link>
               </p>
             </div>

@@ -2,6 +2,7 @@
 import React from "react";
 import Badge from "../ui/badge/Badge";
 import { ArrowDownIcon, ArrowUpIcon, BoxIconLine, GroupIcon } from "@/icons";
+import { Trans } from "@lingui/macro";
 
 export const EcommerceMetrics = () => {
   return (
@@ -15,8 +16,7 @@ export const EcommerceMetrics = () => {
         <div className="flex items-end justify-between mt-5">
           <div>
             <span className="text-sm text-gray-500 dark:text-gray-400">
-              Customers
-            </span>
+              {/* @ts-ignore */}<Trans>Customers</Trans></span>
             <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
               3,782
             </h4>
@@ -37,8 +37,7 @@ export const EcommerceMetrics = () => {
         <div className="flex items-end justify-between mt-5">
           <div>
             <span className="text-sm text-gray-500 dark:text-gray-400">
-              Orders
-            </span>
+              {/* @ts-ignore */}<Trans>Orders</Trans></span>
             <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
               5,359
             </h4>

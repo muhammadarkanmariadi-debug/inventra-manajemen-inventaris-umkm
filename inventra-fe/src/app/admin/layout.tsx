@@ -8,8 +8,8 @@ import { AuthProvider } from "@/context/AuthContext";
 import { SidebarProvider } from "@/context/SidebarContext";
 import { toast } from "sonner";
 import { Metadata } from "next";
-
-
+import { Trans } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 
 function AdminRouteGuardInner({ children }: { children: React.ReactNode }) {
   const { isSuperAdmin, isLoading } = usePermission();
@@ -17,7 +17,7 @@ function AdminRouteGuardInner({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!isLoading && !isSuperAdmin) {
-      toast.error("Tidak ada akses. Khusus Superadmin.");
+      toast.error(_("Tidak ada akses. Khusus Superadmin."));
       router.replace("/dashboard");
     }
   }, [isSuperAdmin, isLoading, router]);

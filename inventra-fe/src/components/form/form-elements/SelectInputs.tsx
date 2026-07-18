@@ -5,6 +5,7 @@ import Label from "../Label";
 import Select from "../Select";
 import MultiSelect from "../MultiSelect";
 import { ChevronDownIcon } from "@/icons";
+import { Trans } from "@lingui/macro";
 
 export default function SelectInputs() {
   const options = [
@@ -30,7 +31,7 @@ export default function SelectInputs() {
     <ComponentCard title="Select Inputs">
       <div className="space-y-6">
         <div>
-          <Label>Select Input</Label>
+          <Label>{/* @ts-ignore */}<Trans>Select Input</Trans></Label>
          <div className="relative">
            <Select
             options={options}
@@ -51,7 +52,7 @@ export default function SelectInputs() {
             onChange={(values) => setSelectedValues(values)}
           />
           <p className="sr-only">
-            Selected Values: {selectedValues.join(", ")}
+            {/* @ts-ignore */}<Trans>Selected Values:</Trans>{selectedValues.join(", ")}
           </p>
         </div>
       </div>

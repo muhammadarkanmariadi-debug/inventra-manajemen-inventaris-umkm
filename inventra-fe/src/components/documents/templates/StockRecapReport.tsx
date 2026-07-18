@@ -3,6 +3,7 @@
 import React from 'react';
 import { Document, Page, View, Text } from '@react-pdf/renderer';
 import { sharedStyles, colors, getBadgeStyle, formatNumber } from '../pdfStyles';
+import { Trans } from "@lingui/macro";
 
 // ====== Types ======
 export interface StockRecapItem {
@@ -58,32 +59,32 @@ const StockRecapReport: React.FC<{ data: StockRecapReportData }> = ({ data }) =>
           <Text style={sharedStyles.companyName}>{data.companyName}</Text>
           <Text style={sharedStyles.companyAddress}>{data.companyAddress}</Text>
           <Text style={sharedStyles.companyContact}>
-            Telp: {data.companyPhone} | Email: {data.companyEmail}
+            {/* @ts-ignore */}<Trans>Telp:</Trans>{data.companyPhone} {/* @ts-ignore */}<Trans>| Email:</Trans>{data.companyEmail}
           </Text>
         </View>
         <View style={sharedStyles.headerRight}>
-          <Text style={sharedStyles.docTitle}>Laporan Rekap Stok</Text>
-          <Text style={sharedStyles.docNumber}>No: {data.documentNumber}</Text>
-          <Text style={sharedStyles.docDate}>Tanggal: {data.date}</Text>
+          <Text style={sharedStyles.docTitle}>{/* @ts-ignore */}<Trans>Laporan Rekap Stok</Trans></Text>
+          <Text style={sharedStyles.docNumber}>{/* @ts-ignore */}<Trans>No:</Trans>{data.documentNumber}</Text>
+          <Text style={sharedStyles.docDate}>{/* @ts-ignore */}<Trans>Tanggal:</Trans>{data.date}</Text>
         </View>
       </View>
 
       {/* Info */}
       <View style={sharedStyles.infoSection}>
         <View style={sharedStyles.infoRow}>
-          <Text style={sharedStyles.infoLabel}>Periode</Text>
+          <Text style={sharedStyles.infoLabel}>{/* @ts-ignore */}<Trans>Periode</Trans></Text>
           <Text style={sharedStyles.infoValue}>{data.period}</Text>
         </View>
         <View style={sharedStyles.infoRow}>
-          <Text style={sharedStyles.infoLabel}>Lokasi</Text>
+          <Text style={sharedStyles.infoLabel}>{/* @ts-ignore */}<Trans>Lokasi</Trans></Text>
           <Text style={sharedStyles.infoValue}>{data.location}</Text>
         </View>
         <View style={sharedStyles.infoRow}>
-          <Text style={sharedStyles.infoLabel}>Status</Text>
+          <Text style={sharedStyles.infoLabel}>{/* @ts-ignore */}<Trans>Status</Trans></Text>
           <Text style={sharedStyles.infoValue}>{data.statusFilter}</Text>
         </View>
         <View style={sharedStyles.infoRow}>
-          <Text style={sharedStyles.infoLabel}>Dicetak oleh</Text>
+          <Text style={sharedStyles.infoLabel}>{/* @ts-ignore */}<Trans>Dicetak oleh</Trans></Text>
           <Text style={sharedStyles.infoValue}>{data.printedBy} — {data.printedByRole}</Text>
         </View>
       </View>
@@ -91,16 +92,16 @@ const StockRecapReport: React.FC<{ data: StockRecapReportData }> = ({ data }) =>
       {/* Table */}
       <View>
         <View style={sharedStyles.tableHeader}>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.no }]}>No</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.code }]}>Kode Produk</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.name, textAlign: 'left' }]}>Nama Produk</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.batch }]}>Batch</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.loc }]}>Lokasi</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.qty }]}>Qty</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.unit }]}>Satuan</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.status }]}>Status</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.expired }]}>Expired</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.entry }]}>Tgl Masuk</Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.no }]}>{/* @ts-ignore */}<Trans>No</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.code }]}>{/* @ts-ignore */}<Trans>Kode Produk</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.name, textAlign: 'left' }]}>{/* @ts-ignore */}<Trans>Nama Produk</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.batch }]}>{/* @ts-ignore */}<Trans>Batch</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.loc }]}>{/* @ts-ignore */}<Trans>Lokasi</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.qty }]}>{/* @ts-ignore */}<Trans>Qty</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.unit }]}>{/* @ts-ignore */}<Trans>Satuan</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.status }]}>{/* @ts-ignore */}<Trans>Status</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.expired }]}>{/* @ts-ignore */}<Trans>Expired</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.entry }]}>{/* @ts-ignore */}<Trans>Tgl Masuk</Trans></Text>
         </View>
 
         {data.items.map((item, idx) => {
@@ -133,13 +134,13 @@ const StockRecapReport: React.FC<{ data: StockRecapReportData }> = ({ data }) =>
       {/* Total summary row */}
       <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 8 }}>
         <Text style={{ fontSize: 8, color: colors.textLabel }}>
-          Total item: {data.totalItems}  |  Total qty: {data.totalQtyUnit}
+          {/* @ts-ignore */}<Trans>Total item:</Trans>{data.totalItems}  {/* @ts-ignore */}<Trans>|  Total qty:</Trans>{data.totalQtyUnit}
         </Text>
       </View>
 
       {/* Footer */}
       <Text style={sharedStyles.footer}>
-        {data.companyName} | Dokumen Resmi | {data.documentNumber}
+        {data.companyName} {/* @ts-ignore */}<Trans>| Dokumen Resmi |</Trans>{data.documentNumber}
       </Text>
     </Page>
   </Document>

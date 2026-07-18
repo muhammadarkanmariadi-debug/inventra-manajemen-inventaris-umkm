@@ -21,7 +21,7 @@ class CreateProductAction
             $initialStock = $data['stock'] ?? 0;
             unset($data['stock']);
 
-            if ($businessId && !isset($data['bussiness_id'])) {
+            if ($businessId !== null && !isset($data['bussiness_id'])) {
                 $data['bussiness_id'] = $businessId;
             }
 

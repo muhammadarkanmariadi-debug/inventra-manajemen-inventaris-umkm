@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Trans } from "@lingui/macro";
 
 const ChartTab: React.FC = () => {
   const [selected, setSelected] = useState<
@@ -18,8 +19,7 @@ const ChartTab: React.FC = () => {
           "optionOne"
         )}`}
       >
-        Monthly
-      </button>
+        {/* @ts-ignore */}<Trans>Monthly</Trans></button>
 
       <button
         onClick={() => setSelected("optionTwo")}
@@ -27,8 +27,7 @@ const ChartTab: React.FC = () => {
           "optionTwo"
         )}`}
       >
-        Quarterly
-      </button>
+        {/* @ts-ignore */}<Trans>Quarterly</Trans></button>
 
       <button
         onClick={() => setSelected("optionThree")}
@@ -36,8 +35,7 @@ const ChartTab: React.FC = () => {
           "optionThree"
         )}`}
       >
-        Annually
-      </button>
+        {/* @ts-ignore */}<Trans>Annually</Trans></button>
     </div>
   );
 };

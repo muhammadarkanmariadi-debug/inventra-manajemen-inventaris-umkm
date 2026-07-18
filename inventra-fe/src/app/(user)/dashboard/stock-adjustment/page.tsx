@@ -21,7 +21,6 @@ import QRScanner from '@/components/inventory/QRScanner';
 import { Table, TableHeader, TableBody, TableRow, TableCell } from '@/components/ui/table';
 import Badge from '@/components/ui/badge/Badge';
 import Pagination from '@/components/tables/Pagination';
-import { Trans } from '@lingui/react';
 import { getStockTransactions } from '../../../../../services/stock-transaction.service';
 import type { StockTransaction } from '../../../../../types';
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
@@ -60,6 +59,7 @@ export default function StockAdjustmentPage() {
   const [history, setHistory] = useState<StockTransaction[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [fetchingHistory, setFetchingHistory] = useState(false);
   const [filters, setFilters] = useState<FilterValues | null>(null);
 
@@ -96,7 +96,7 @@ export default function StockAdjustmentPage() {
   const fetchHistory = async () => {
     setFetchingHistory(true);
     try {
-      const res = await getStockTransactions(currentPage, 10);
+      const res = await getStockTransactions(currentPage, itemsPerPage);
       if (res.status) {
         setHistory(res.data.data);
         setTotalPages(res.data.last_page || 1);
@@ -110,7 +110,7 @@ export default function StockAdjustmentPage() {
 
   useEffect(() => {
     fetchHistory();
-  }, [currentPage]);
+  }, [currentPage, itemsPerPage]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -247,7 +247,7 @@ export default function StockAdjustmentPage() {
 
       {totalPages > 1 && (
         <div className="mt-4 flex justify-end">
-          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} itemsPerPage={itemsPerPage} onItemsPerPageChange={(limit) => { setItemsPerPage(limit); setCurrentPage(1); }} />
         </div>
       )}
 
@@ -276,8 +276,7 @@ export default function StockAdjustmentPage() {
                 <div key={index} className="flex flex-col gap-4 p-4 border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 rounded-lg relative group">
                   {items.length > 1 && (
                     <button type="button" onClick={() => removeItem(index)} className="absolute -top-2 -right-2 bg-error-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition shadow-sm z-10">
-                      &times;
-                    </button>
+                      {/* @ts-ignore */}<Trans>&times;</Trans></button>
                   )}
 
                   {type === 'ADJUSTMENT_ADD' ? (

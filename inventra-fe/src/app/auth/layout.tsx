@@ -40,11 +40,10 @@ export default  function AuthLayout({
                       alt="Logo"
                     />
                   </Link>
-                  <h1 className="text-white text-center text-xl font-semibold mb-2">Smart inventory management
-                    for modern teams</h1>
+                  <h1 className="text-white text-center text-xl font-semibold mb-2">{/* @ts-ignore */}<Trans>Smart inventory management
+                                                      for modern teams</Trans></h1>
                   <p className="text-center text-gray-400 dark:text-white/60">
-                    Track stock in real-time, manage suppliers, and get alerts before you run out.
-                  </p>
+                    {/* @ts-ignore */}<Trans>Track stock in real-time, manage suppliers, and get alerts before you run out.</Trans></p>
                 </div>
               </div>
             </div>

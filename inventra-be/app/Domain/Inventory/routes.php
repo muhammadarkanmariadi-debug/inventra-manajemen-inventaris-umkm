@@ -26,7 +26,7 @@ Route::middleware(AuthenticateMiddleware::class)->group(function () {
     });
 
     Route::controller(LocationController::class)->prefix('locations')->group(function () {
-        Route::post('/', 'store')->middleware(PermissionMiddleware::class . ':Tambah Produk');
+        Route::post('/', 'store')->middleware([PermissionMiddleware::class . ':Tambah Produk', 'warehouse.limit']);
         Route::get('/', 'index')->middleware(PermissionMiddleware::class . ':Lihat Produk');
         Route::get('/{id}', 'show')->middleware(PermissionMiddleware::class . ':Lihat Produk');
         Route::put('/{id}', 'update')->middleware(PermissionMiddleware::class . ':Ubah Produk');

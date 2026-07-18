@@ -15,7 +15,6 @@ import Alert from '@/components/ui/alert/Alert';
 import { getFinancialCategories, createFinancialCategory, updateFinancialCategory, deleteFinancialCategory } from '../../../../../services/financial-category.service';
 import type { FinancialCategory, CreateFinancialCategoryPayload } from '../../../../../types';
 import { FilterBar, FilterValues } from '@/components/common/FilterBar';
-import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { PencilIcon, TrashIcon, DownloadIcon } from "lucide-react";
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
@@ -27,6 +26,7 @@ export default function FinancialCategories() {
   const [categories, setCategories] = useState<FinancialCategory[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<FilterValues | null>(null);
 
@@ -215,7 +215,7 @@ export default function FinancialCategories() {
 
       {totalPages > 1 && (
         <div className="mt-4 flex justify-end">
-          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} itemsPerPage={itemsPerPage} onItemsPerPageChange={(limit) => { setItemsPerPage(limit); setCurrentPage(1); }} />
         </div>
       )}
 

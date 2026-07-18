@@ -11,14 +11,14 @@ import { Modal } from '@/components/ui/modal';
 import Label from '@/components/form/Label';
 import Input from '@/components/form/input/InputField';
 import Select from '@/components/form/Select';
+import CurrencyInput from '@/components/form/input/CurrencyInput';
 import Alert from '@/components/ui/alert/Alert';
 import { getSales, createSale, deleteSale } from '../../../../../services/sale.service';
 import { getInventories } from '../../../../../services/inventory.service';
 import type { Sale, Inventory, CreateSalePayload } from '../../../../../types';
 import { FilterBar, FilterValues } from '@/components/common/FilterBar';
-import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
-import { TrashIcon, DownloadIcon } from "lucide-react";
+import { TrashIcon, DownloadIcon, TrendingUp } from "lucide-react";
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 import { Can } from '@/components/common/Can';
 import { exportToExcel } from '@/utils/exportExcel';
@@ -29,6 +29,7 @@ export default function Sales() {
   const [inventories, setInventories] = useState<Inventory[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<FilterValues | null>(null);
   const [showFormModal, setShowFormModal] = useState(false);
@@ -41,10 +42,43 @@ export default function Sales() {
     buyer_name: '', buyer_phone: '', buyer_address: ''
   });
 
+  const handleFilterChange = useCallback((vals: FilterValues) => {
+    setFilters(vals);
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const p = params.get("page");
+      if (p && !isNaN(Number(p))) {
+        setCurrentPage(Number(p));
+      } else {
+        setCurrentPage(1);
+      }
+    } else {
+      setCurrentPage(1);
+    }
+  }, []);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set("page", String(page));
+      window.history.pushState({}, '', url.toString());
+    }
+  };
+
   const fetchSales = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await getSales(currentPage);
+      const queryParams: Record<string, any> = {};
+      if (filters?.search) queryParams.search = filters.search;
+      const dateFrom = filters?.dateRanges?.['date']?.from || undefined;
+      const dateTo = filters?.dateRanges?.['date']?.to || undefined;
+      if (filters?.sorts?.['sort'] && filters.sorts['sort'].value) {
+        queryParams.sort = filters.sorts['sort'].value;
+        queryParams.order = filters.sorts['sort'].direction || 'desc';
+      }
+
+      const res = await getSales(currentPage, itemsPerPage, dateFrom, dateTo, queryParams);
 
       if (res.status) {
         setSales(res.data.data);
@@ -58,7 +92,7 @@ export default function Sales() {
     } finally {
       setLoading(false);
     }
-  }, [currentPage]);
+  }, [currentPage, itemsPerPage, filters, _]);
 
   const fetchInventories = useCallback(async () => {
     try {
@@ -133,30 +167,32 @@ export default function Sales() {
   };
 
   const filterConfig = {
-    selects: [
+    dateRanges: [
+      {
+        label: _("Tanggal Penjualan"),
+        key: 'date',
+      },
+    ],
+    sorts: [
       {
         label: _("Urutkan"),
         key: 'sort',
         options: [
-          { label: _("Default (Terbaru)"), value: 'default' },
-          { label: _("Total Terbesar"), value: 'highest_total' }
-        ]
-      }
+          { label: _("Tanggal Terbaru"), value: "created_at", direction: "desc" as const },
+          { label: _("Tanggal Terlama"), value: "created_at", direction: "asc" as const },
+          { label: _("Jumlah Terbanyak"), value: "quantity", direction: "desc" as const },
+          { label: _("Jumlah Sedikit"), value: "quantity", direction: "asc" as const },
+          { label: _("Total Tertinggi"), value: "total_price", direction: "desc" as const },
+          { label: _("Total Terendah"), value: "total_price", direction: "asc" as const },
+        ],
+      },
     ],
-    searchPlaceholder: _("Cari penjualan berdasarkan produk..."),
+    searchPlaceholder: _("Cari penjualan berdasarkan produk atau pembeli..."),
   };
 
   let filteredSales = sales.filter(sale => 
-    sale.product?.name.toLowerCase().includes((filters?.search || '').toLowerCase())
+    !filters?.search || (sale.product?.name || '').toLowerCase().includes(filters.search.toLowerCase()) || (sale.buyer_name || '').toLowerCase().includes(filters.search.toLowerCase())
   );
-
-  if (filters?.selects?.['sort']) {
-    const sortValue = filters.selects['sort'];
-    filteredSales = [...filteredSales].sort((a, b) => {
-      if (sortValue === 'highest_total') return b.total_price - a.total_price;
-      return 0;
-    });
-  }
 
   const handleExport = () => {
     const exportData = filteredSales.map(sale => ({
@@ -175,7 +211,7 @@ export default function Sales() {
 
       
       <div className='flex flex-col gap-4 mb-4'>
-        <FilterBar {...filterConfig} onFilterChange={setFilters} />
+        <FilterBar {...filterConfig} onFilterChange={handleFilterChange} useUrlSync={true} />
         <div className="flex justify-end gap-3">
           <Button size="sm" variant="outline" onClick={handleExport} className="flex items-center gap-2">
             <DownloadIcon className="w-4 h-4" /> <Trans id="Export Excel" />
@@ -194,7 +230,7 @@ export default function Sales() {
                 <TableRow>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Produk" /></TableCell>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Pembeli" /></TableCell>
-                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Qty</TableCell>
+                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">{/* @ts-ignore */}<Trans>Qty</Trans></TableCell>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Harga Jual" /></TableCell>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Total Harga" /></TableCell>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Aksi" /></TableCell>
@@ -241,9 +277,18 @@ export default function Sales() {
         </div>
       </div>
 
-      {totalPages > 1 && (
+      {(totalPages > 1 || itemsPerPage !== 10) && (
         <div className="mt-4 flex justify-end">
-          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            itemsPerPage={itemsPerPage}
+            onItemsPerPageChange={(limit) => {
+              setItemsPerPage(limit);
+              setCurrentPage(1);
+            }}
+          />
         </div>
       )}
 
@@ -268,9 +313,56 @@ export default function Sales() {
             </div>
             <div>
               <Label><Trans id="Harga Jual" /></Label>
-              <Input type="number" placeholder="0" defaultValue={formData.selling_price} onChange={(e) => setFormData({ ...formData, selling_price: Number(e.target.value) })} />
+              <CurrencyInput
+                placeholder="0"
+                value={formData.selling_price}
+                onChange={(val) => setFormData({ ...formData, selling_price: val })}
+              />
             </div>
           </div>
+
+          {/* Revenue Preview Card */}
+          {(formData.quantity > 0 && formData.selling_price > 0) && (
+            <div className="rounded-xl border border-success-200 bg-gradient-to-r from-success-50/80 via-white to-success-50/50 p-5 shadow-sm dark:border-success-500/20 dark:from-success-500/10 dark:via-gray-900 dark:to-success-500/5">
+              <div className="flex items-center justify-between border-b border-success-100 pb-3 dark:border-success-500/20">
+                <div className="flex items-center gap-2.5">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-success-500 text-white shadow-sm">
+                    <TrendingUp className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <h5 className="text-sm font-semibold text-gray-800 dark:text-white/90">
+                      <Trans id="Estimasi Pendapatan (Revenue Preview)" />
+                    </h5>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      <Trans id="Kalkulasi estimasi pendapatan sebelum disimpan" />
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-3.5 grid grid-cols-3 gap-4 text-sm">
+                <div>
+                  <span className="text-xs text-gray-500 dark:text-gray-400 block"><Trans id="Kuantitas" /></span>
+                  <span className="font-semibold text-gray-800 dark:text-white/90">
+                    {formData.quantity} <Trans id="unit" />
+                  </span>
+                </div>
+                <div>
+                  <span className="text-xs text-gray-500 dark:text-gray-400 block"><Trans id="Harga Satuan" /></span>
+                  <span className="font-semibold text-gray-800 dark:text-white/90">
+                    {formatCurrency(formData.selling_price)}
+                  </span>
+                </div>
+                <div className="text-right">
+                  <span className="text-xs text-gray-500 dark:text-gray-400 block"><Trans id="Total Pendapatan" /></span>
+                  <span className="text-xl font-bold text-success-600 dark:text-success-400">
+                    {formatCurrency(formData.quantity * formData.selling_price)}
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="border-t border-gray-200 dark:border-white/10 pt-4 mt-2">
             <h5 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3"><Trans id="Data Pembeli (Opsional)" /></h5>
             <div className="space-y-3">

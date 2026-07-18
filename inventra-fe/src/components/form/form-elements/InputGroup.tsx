@@ -5,6 +5,7 @@ import Label from "../Label";
 import Input from "../input/InputField";
 import { EnvelopeIcon } from "../../../icons";
 import PhoneInput from "../group-input/PhoneInput";
+import { Trans } from "@lingui/macro";
 
 export default function InputGroup() {
   const countries = [
@@ -19,7 +20,7 @@ export default function InputGroup() {
     <ComponentCard title="Input Group">
       <div className="space-y-6">
         <div>
-          <Label>Email</Label>
+          <Label>{/* @ts-ignore */}<Trans>Email</Trans></Label>
           <div className="relative">
             <Input
               placeholder="info@gmail.com"
@@ -32,7 +33,7 @@ export default function InputGroup() {
           </div>
         </div>
         <div>
-          <Label>Phone</Label>
+          <Label>{/* @ts-ignore */}<Trans>Phone</Trans></Label>
           <PhoneInput
             selectPosition="start"
             countries={countries}
@@ -41,7 +42,7 @@ export default function InputGroup() {
           />
         </div>{" "}
         <div>
-          <Label>Phone</Label>
+          <Label>{/* @ts-ignore */}<Trans>Phone</Trans></Label>
           <PhoneInput
             selectPosition="end"
             countries={countries}

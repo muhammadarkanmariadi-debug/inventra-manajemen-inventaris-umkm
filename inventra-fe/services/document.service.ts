@@ -24,13 +24,19 @@ export interface DocumentRecord {
 export async function getDocuments(
   page = 1,
   items = 10,
-  type?: string
+  type?: string,
+  extraParams: Record<string, any> = {}
 ): Promise<ApiResponse<PaginatedData<DocumentRecord>>> {
   const token = await getCookies("token");
-  let url = `${API_URL}/documents?page=${page}&items=${items}`;
-  if (type) url += `&type=${type}`;
+  const params = new URLSearchParams({ page: String(page), items: String(items) });
+  if (type) params.set("type", type);
+  Object.entries(extraParams).forEach(([k, v]) => {
+    if (v !== undefined && v !== null && v !== "") {
+      params.set(k, String(v));
+    }
+  });
 
-  const res = await fetch(url, {
+  const res = await fetch(`${API_URL}/documents?${params.toString()}`, {
     cache: "no-store",
     headers: {
       Accept: "application/json",

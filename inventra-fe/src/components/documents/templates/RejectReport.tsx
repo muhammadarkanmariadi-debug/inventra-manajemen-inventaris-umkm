@@ -3,6 +3,7 @@
 import React from 'react';
 import { Document, Page, View, Text } from '@react-pdf/renderer';
 import { sharedStyles, colors, getBadgeStyle, formatNumber, formatDate } from '../pdfStyles';
+import { Trans } from "@lingui/macro";
 
 // ====== Types ======
 export interface RejectItem {
@@ -53,13 +54,13 @@ const RejectReport: React.FC<{ data: RejectReportData }> = ({ data }) => (
           <Text style={sharedStyles.companyName}>{data.companyName}</Text>
           <Text style={sharedStyles.companyAddress}>{data.companyAddress}</Text>
           <Text style={sharedStyles.companyContact}>
-            Telp: {data.companyPhone} | Email: {data.companyEmail}
+            {/* @ts-ignore */}<Trans>Telp:</Trans>{data.companyPhone} {/* @ts-ignore */}<Trans>| Email:</Trans>{data.companyEmail}
           </Text>
         </View>
         <View style={sharedStyles.headerRight}>
-          <Text style={sharedStyles.docTitle}>Berita Acara Reject Barang</Text>
-          <Text style={sharedStyles.docNumber}>No: {data.documentNumber}</Text>
-          <Text style={sharedStyles.docDate}>Tanggal: {data.date}</Text>
+          <Text style={sharedStyles.docTitle}>{/* @ts-ignore */}<Trans>Berita Acara Reject Barang</Trans></Text>
+          <Text style={sharedStyles.docNumber}>{/* @ts-ignore */}<Trans>No:</Trans>{data.documentNumber}</Text>
+          <Text style={sharedStyles.docDate}>{/* @ts-ignore */}<Trans>Tanggal:</Trans>{data.date}</Text>
         </View>
       </View>
 
@@ -69,41 +70,41 @@ const RejectReport: React.FC<{ data: RejectReportData }> = ({ data }) => (
       {/* Info */}
       <View style={sharedStyles.infoSection}>
         <View style={sharedStyles.infoRow}>
-          <Text style={sharedStyles.infoLabel}>Supplier</Text>
+          <Text style={sharedStyles.infoLabel}>{/* @ts-ignore */}<Trans>Supplier</Trans></Text>
           <Text style={sharedStyles.infoValue}>{data.supplier}</Text>
         </View>
         <View style={sharedStyles.infoRow}>
-          <Text style={sharedStyles.infoLabel}>Alamat Supplier</Text>
+          <Text style={sharedStyles.infoLabel}>{/* @ts-ignore */}<Trans>Alamat Supplier</Trans></Text>
           <Text style={sharedStyles.infoValue}>{data.supplierAddress}</Text>
         </View>
         <View style={sharedStyles.infoRow}>
-          <Text style={sharedStyles.infoLabel}>No. Purchase Order</Text>
+          <Text style={sharedStyles.infoLabel}>{/* @ts-ignore */}<Trans>No. Purchase Order</Trans></Text>
           <Text style={sharedStyles.infoValue}>{data.purchaseOrder}</Text>
         </View>
         <View style={sharedStyles.infoRow}>
-          <Text style={sharedStyles.infoLabel}>Tanggal Terima</Text>
+          <Text style={sharedStyles.infoLabel}>{/* @ts-ignore */}<Trans>Tanggal Terima</Trans></Text>
           <Text style={sharedStyles.infoValue}>{data.receiveDate}</Text>
         </View>
         <View style={sharedStyles.infoRow}>
-          <Text style={sharedStyles.infoLabel}>Diperiksa oleh</Text>
+          <Text style={sharedStyles.infoLabel}>{/* @ts-ignore */}<Trans>Diperiksa oleh</Trans></Text>
           <Text style={sharedStyles.infoValue}>{data.inspectedBy} — {data.inspectedByRole}</Text>
         </View>
         <View style={sharedStyles.infoRow}>
-          <Text style={sharedStyles.infoLabel}>Lokasi Inspeksi</Text>
+          <Text style={sharedStyles.infoLabel}>{/* @ts-ignore */}<Trans>Lokasi Inspeksi</Trans></Text>
           <Text style={sharedStyles.infoValue}>{data.inspectionLocation}</Text>
         </View>
       </View>
 
       {/* Table */}
-      <Text style={sharedStyles.sectionTitle}>Detail Barang Ditolak</Text>
+      <Text style={sharedStyles.sectionTitle}>{/* @ts-ignore */}<Trans>Detail Barang Ditolak</Trans></Text>
       <View>
         <View style={sharedStyles.tableHeader}>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.no }]}>No</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.product, textAlign: 'left' }]}>Nama Barang</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.batch }]}>Kode Batch</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.qtyRecv }]}>Qty Diterima</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.qtyReject }]}>Qty Ditolak</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.reason, textAlign: 'left' }]}>Alasan Penolakan</Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.no }]}>{/* @ts-ignore */}<Trans>No</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.product, textAlign: 'left' }]}>{/* @ts-ignore */}<Trans>Nama Barang</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.batch }]}>{/* @ts-ignore */}<Trans>Kode Batch</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.qtyRecv }]}>{/* @ts-ignore */}<Trans>Qty Diterima</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.qtyReject }]}>{/* @ts-ignore */}<Trans>Qty Ditolak</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.reason, textAlign: 'left' }]}>{/* @ts-ignore */}<Trans>Alasan Penolakan</Trans></Text>
         </View>
         {data.items.map((item, idx) => (
           <View
@@ -124,7 +125,7 @@ const RejectReport: React.FC<{ data: RejectReportData }> = ({ data }) => (
       </View>
 
       {/* Follow-up */}
-      <Text style={[sharedStyles.sectionTitle, { marginTop: 16 }]}>Tindak Lanjut</Text>
+      <Text style={[sharedStyles.sectionTitle, { marginTop: 16 }]}>{/* @ts-ignore */}<Trans>Tindak Lanjut</Trans></Text>
       {data.followUpItems.map((item, idx) => (
         <Text key={idx} style={{ fontSize: 8, marginBottom: 4, paddingLeft: 12, color: colors.textDark }}>
           {idx + 1}. {item}
@@ -137,22 +138,22 @@ const RejectReport: React.FC<{ data: RejectReportData }> = ({ data }) => (
       {/* Signatures */}
       <View style={sharedStyles.signatureSection}>
         <View style={sharedStyles.signatureBlock}>
-          <Text style={sharedStyles.signatureTitle}>Dibuat oleh</Text>
+          <Text style={sharedStyles.signatureTitle}>{/* @ts-ignore */}<Trans>Dibuat oleh</Trans></Text>
           <View style={sharedStyles.signatureLine} />
           <Text style={sharedStyles.signatureName}>{data.createdByName}</Text>
         </View>
         <View style={sharedStyles.signatureBlock}>
-          <Text style={sharedStyles.signatureTitle}>Mengetahui</Text>
+          <Text style={sharedStyles.signatureTitle}>{/* @ts-ignore */}<Trans>Mengetahui</Trans></Text>
           <Text style={sharedStyles.signatureDots}>...............................</Text>
         </View>
         <View style={sharedStyles.signatureBlock}>
-          <Text style={sharedStyles.signatureTitle}>Menyetujui</Text>
+          <Text style={sharedStyles.signatureTitle}>{/* @ts-ignore */}<Trans>Menyetujui</Trans></Text>
           <Text style={sharedStyles.signatureDots}>...............................</Text>
         </View>
       </View>
 
       <Text style={sharedStyles.footer}>
-        {data.companyName} | Dokumen Resmi | {data.documentNumber}
+        {data.companyName} {/* @ts-ignore */}<Trans>| Dokumen Resmi |</Trans>{data.documentNumber}
       </Text>
     </Page>
   </Document>

@@ -43,8 +43,29 @@ class SupplierController extends Controller
     {
         try {
             $perPage = (int) $request->query('items', 10);
-            $data    = Supplier::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
-                ->paginate($perPage);
+            $query   = Supplier::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
+                ->withCount('purchases');
+
+            if ($request->filled('search')) {
+                $search = $request->query('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                      ->orWhere('phone', 'like', "%{$search}%")
+                      ->orWhere('address', 'like', "%{$search}%");
+                });
+            }
+
+            $allowedSorts = ['name', 'purchases_count', 'created_at', 'id'];
+            $sort = $request->query('sort');
+            $order = strtolower($request->query('order', 'desc')) === 'asc' ? 'asc' : 'desc';
+
+            if ($sort && in_array($sort, $allowedSorts, true)) {
+                $query->orderBy($sort, $order);
+            } else {
+                $query->orderBy('name', 'asc');
+            }
+
+            $data = $query->paginate($perPage);
 
             if ($data->isEmpty()) {
                 return ApiHelper::error('No suppliers found', 404);

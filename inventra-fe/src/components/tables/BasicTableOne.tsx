@@ -9,6 +9,7 @@ import {
 
 import Badge from "../ui/badge/Badge";
 import Image from "next/image";
+import { Trans } from "@lingui/macro";
 
 interface Order {
   id: number;
@@ -124,32 +125,27 @@ export default function BasicTableOne() {
                   isHeader
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
-                  User
-                </TableCell>
+                  {/* @ts-ignore */}<Trans>User</Trans></TableCell>
                 <TableCell
                   isHeader
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
-                  Project Name
-                </TableCell>
+                  {/* @ts-ignore */}<Trans>Project Name</Trans></TableCell>
                 <TableCell
                   isHeader
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
-                  Team
-                </TableCell>
+                  {/* @ts-ignore */}<Trans>Team</Trans></TableCell>
                 <TableCell
                   isHeader
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
-                  Status
-                </TableCell>
+                  {/* @ts-ignore */}<Trans>Status</Trans></TableCell>
                 <TableCell
                   isHeader
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
-                  Budget
-                </TableCell>
+                  {/* @ts-ignore */}<Trans>Budget</Trans></TableCell>
               </TableRow>
             </TableHeader>
 

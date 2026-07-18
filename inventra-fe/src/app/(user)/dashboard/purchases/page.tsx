@@ -11,6 +11,7 @@ import Label from '@/components/form/Label';
 import Input from '@/components/form/input/InputField';
 import Select from '@/components/form/Select';
 import TextArea from '@/components/form/input/TextArea';
+import CurrencyInput from '@/components/form/input/CurrencyInput';
 import { showError, showSuccess } from '@/lib/toast';
 import { getPurchases, createPurchase } from '../../../../../services/purchase.service';
 import { getAllSuppliers } from '../../../../../services/supplier.service';
@@ -23,7 +24,6 @@ import type {
   CreatePurchaseItemPayload,
 } from '../../../../../types';
 import { FilterBar, FilterValues } from '@/components/common/FilterBar';
-import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { Plus, Trash2, ShoppingCart, DownloadIcon } from 'lucide-react';
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
@@ -37,6 +37,7 @@ export default function Purchases() {
   const [products, setProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<FilterValues | null>(null);
   const [showFormModal, setShowFormModal] = useState(false);
@@ -52,10 +53,48 @@ export default function Purchases() {
     { product_id: 0, quantity: 1, price: 0 },
   ]);
 
+  const handleFilterChange = useCallback((vals: FilterValues) => {
+    setFilters(vals);
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const p = params.get("page");
+      if (p && !isNaN(Number(p))) {
+        setCurrentPage(Number(p));
+      } else {
+        setCurrentPage(1);
+      }
+    } else {
+      setCurrentPage(1);
+    }
+  }, []);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set("page", String(page));
+      window.history.pushState({}, '', url.toString());
+    }
+  };
+
   const fetchPurchases = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await getPurchases(currentPage);
+      const queryParams: Record<string, any> = {};
+      if (filters?.search) queryParams.search = filters.search;
+      if (filters?.selects?.['supplier']) {
+        queryParams.supplier_id = filters.selects['supplier'];
+      }
+      if (filters?.dateRanges?.['date']?.from && filters?.dateRanges?.['date']?.to) {
+        queryParams.from = filters.dateRanges['date'].from;
+        queryParams.to = filters.dateRanges['date'].to;
+      }
+      if (filters?.sorts?.['sort'] && filters.sorts['sort'].value) {
+        queryParams.sort = filters.sorts['sort'].value;
+        queryParams.order = filters.sorts['sort'].direction || 'desc';
+      }
+
+      const res = await getPurchases(currentPage, itemsPerPage, queryParams);
       if (res.status) {
         setPurchases(res.data.data);
         setTotalPages(res.data.last_page);
@@ -68,7 +107,7 @@ export default function Purchases() {
     } finally {
       setLoading(false);
     }
-  }, [currentPage]);
+  }, [currentPage, itemsPerPage, filters, _]);
 
   const fetchDropdownData = useCallback(async () => {
     try {
@@ -156,11 +195,31 @@ export default function Purchases() {
         options: suppliers.map(s => ({ label: s.name, value: String(s.id) })),
       },
     ],
+    dateRanges: [
+      {
+        label: _("Tanggal Pembelian"),
+        key: 'date',
+      },
+    ],
+    sorts: [
+      {
+        label: _("Urutkan"),
+        key: 'sort',
+        options: [
+          { label: _("Tanggal Terbaru"), value: "purchase_date", direction: "desc" as const },
+          { label: _("Tanggal Terlama"), value: "purchase_date", direction: "asc" as const },
+          { label: _("Total Tertinggi"), value: "total_amount", direction: "desc" as const },
+          { label: _("Total Terendah"), value: "total_amount", direction: "asc" as const },
+          { label: _("Waktu Dibuat (Baru)"), value: "created_at", direction: "desc" as const },
+          { label: _("Waktu Dibuat (Lama)"), value: "created_at", direction: "asc" as const },
+        ],
+      },
+    ],
     searchPlaceholder: _("Cari berdasarkan supplier..."),
   };
 
   let filteredPurchases = purchases.filter(p => {
-    const matchSearch = (p.supplier?.name || '').toLowerCase().includes((filters?.search || '').toLowerCase());
+    const matchSearch = !filters?.search || (p.supplier?.name || '').toLowerCase().includes(filters.search.toLowerCase()) || (p.notes || '').toLowerCase().includes(filters.search.toLowerCase());
     const activeSupplier = filters?.selects?.['supplier'] ?? '';
     const matchSupplier = activeSupplier === '' || String(p.supplier_id) === activeSupplier;
     return matchSearch && matchSupplier;
@@ -181,7 +240,7 @@ export default function Purchases() {
     <PermissionWrapper permission="Lihat Pembelian" breadcrumb="Pembelian">
 
       <div className="flex flex-col gap-4 mb-4">
-        <FilterBar {...filterConfig} onFilterChange={setFilters} />
+        <FilterBar {...filterConfig} onFilterChange={handleFilterChange} useUrlSync={true} />
         <div className="flex justify-end gap-3">
           <Button size="sm" variant="outline" onClick={handleExport} className="flex items-center gap-2">
             <DownloadIcon className="w-4 h-4" /> <Trans id="Export Excel" />
@@ -203,7 +262,7 @@ export default function Purchases() {
             <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
               <TableRow>
                 <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Tanggal" /></TableCell>
-                <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Supplier</TableCell>
+                <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">{/* @ts-ignore */}<Trans>Supplier</Trans></TableCell>
                 <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Total Item" /></TableCell>
                 <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Total Harga" /></TableCell>
                 <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Catatan" /></TableCell>
@@ -234,7 +293,7 @@ export default function Purchases() {
                       {purchase.supplier?.name || '-'}
                     </TableCell>
                     <TableCell className="px-4 py-3 text-start">
-                      <Badge size="sm" color="info">{purchase.items?.length || 0} item</Badge>
+                      <Badge size="sm" color="info">{purchase.items?.length || 0} {/* @ts-ignore */}<Trans>item</Trans></Badge>
                     </TableCell>
                     <TableCell className="px-4 py-3 text-gray-700 text-start text-theme-sm dark:text-gray-300 font-medium">
                       {formatCurrency(purchase.total_amount)}
@@ -258,9 +317,18 @@ export default function Purchases() {
         </div>
       </div>
 
-      {totalPages > 1 && (
+      {(totalPages > 1 || itemsPerPage !== 10) && (
         <div className="mt-4 flex justify-end">
-          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            itemsPerPage={itemsPerPage}
+            onItemsPerPageChange={(limit) => {
+              setItemsPerPage(limit);
+              setCurrentPage(1);
+            }}
+          />
         </div>
       )}
 
@@ -345,11 +413,10 @@ export default function Purchases() {
                     {/* Price */}
                     <div className="col-span-3">
                       <label className="text-xs font-medium text-gray-500 mb-1 block"><Trans id="Harga Beli" /></label>
-                      <Input
-                        type="number"
+                      <CurrencyInput
                         placeholder="0"
-                        defaultValue={item.price}
-                        onChange={(e) => updateItem(index, 'price', Number(e.target.value))}
+                        value={item.price}
+                        onChange={(val) => updateItem(index, 'price', val)}
                       />
                     </div>
                     {/* Remove */}
@@ -373,10 +440,41 @@ export default function Purchases() {
             </div>
           </div>
 
-          {/* Grand Total */}
-          <div className="flex items-center justify-between p-4 rounded-lg bg-brand-50 dark:bg-brand-500/10 border border-brand-200 dark:border-brand-500/20">
-            <span className="text-sm font-semibold text-brand-700 dark:text-brand-300"><Trans id="Total Pembelian" /></span>
-            <span className="text-lg font-bold text-brand-700 dark:text-brand-300">{formatCurrency(calculateTotal())}</span>
+          {/* Cost Preview Card */}
+          <div className="rounded-xl border border-brand-200 bg-gradient-to-r from-brand-50/80 via-white to-brand-50/50 p-5 shadow-sm dark:border-brand-500/20 dark:from-brand-500/10 dark:via-gray-900 dark:to-brand-500/5">
+            <div className="flex items-center justify-between border-b border-brand-100 pb-3 dark:border-brand-500/20">
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-500 text-white shadow-sm">
+                  <ShoppingCart className="h-4 w-4" />
+                </div>
+                <div>
+                  <h5 className="text-sm font-semibold text-gray-800 dark:text-white/90">
+                    <Trans id="Estimasi Total Pembelian (Cost Preview)" />
+                  </h5>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    <Trans id="Rincian kalkulasi tagihan pembelian sebelum disimpan" />
+                  </p>
+                </div>
+              </div>
+              <span className="rounded-full bg-brand-100 px-3 py-1 text-xs font-medium text-brand-800 dark:bg-brand-500/20 dark:text-brand-300">
+                {items.length} <Trans id="Jenis Produk" />
+              </span>
+            </div>
+
+            <div className="mt-3.5 grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <span className="text-xs text-gray-500 dark:text-gray-400 block"><Trans id="Total Kuantitas Item" /></span>
+                <span className="font-semibold text-gray-800 dark:text-white/90">
+                  {items.reduce((sum, it) => sum + (it.quantity || 0), 0)} <Trans id="unit" />
+                </span>
+              </div>
+              <div className="text-right">
+                <span className="text-xs text-gray-500 dark:text-gray-400 block"><Trans id="Estimasi Biaya (Grand Total)" /></span>
+                <span className="text-xl font-bold text-brand-600 dark:text-brand-400">
+                  {formatCurrency(calculateTotal())}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -395,7 +493,7 @@ export default function Purchases() {
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <span className="text-xs text-gray-500 block mb-1">Supplier</span>
+                <span className="text-xs text-gray-500 block mb-1">{/* @ts-ignore */}<Trans>Supplier</Trans></span>
                 <span className="font-medium text-gray-800 dark:text-white/90">{detailPurchase.supplier?.name || '-'}</span>
               </div>
               <div>
@@ -420,7 +518,7 @@ export default function Purchases() {
                     <TableCell isHeader className="px-4 py-2 font-medium text-gray-500 text-start text-xs"><Trans id="Produk" /></TableCell>
                     <TableCell isHeader className="px-4 py-2 font-medium text-gray-500 text-start text-xs"><Trans id="Jumlah" /></TableCell>
                     <TableCell isHeader className="px-4 py-2 font-medium text-gray-500 text-start text-xs"><Trans id="Harga" /></TableCell>
-                    <TableCell isHeader className="px-4 py-2 font-medium text-gray-500 text-start text-xs">Subtotal</TableCell>
+                    <TableCell isHeader className="px-4 py-2 font-medium text-gray-500 text-start text-xs">{/* @ts-ignore */}<Trans>Subtotal</Trans></TableCell>
                   </TableRow>
                 </TableHeader>
                 <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
@@ -437,7 +535,7 @@ export default function Purchases() {
             </div>
 
             <div className="flex items-center justify-between p-3 rounded-lg bg-brand-50 dark:bg-brand-500/10">
-              <span className="text-sm font-semibold text-brand-700 dark:text-brand-300">Total</span>
+              <span className="text-sm font-semibold text-brand-700 dark:text-brand-300">{/* @ts-ignore */}<Trans>Total</Trans></span>
               <span className="text-lg font-bold text-brand-700 dark:text-brand-300">{formatCurrency(detailPurchase.total_amount)}</span>
             </div>
           </div>

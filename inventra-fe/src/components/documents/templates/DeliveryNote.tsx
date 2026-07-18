@@ -3,6 +3,7 @@
 import React from 'react';
 import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
 import { sharedStyles, colors, formatNumber } from '../pdfStyles';
+import { Trans } from "@lingui/macro";
 
 // ====== Types ======
 export interface DeliveryItem {
@@ -94,64 +95,64 @@ const DeliveryNote: React.FC<{ data: DeliveryNoteData }> = ({ data }) => (
           <Text style={sharedStyles.companyName}>{data.companyName}</Text>
           <Text style={sharedStyles.companyAddress}>{data.companyAddress}</Text>
           <Text style={sharedStyles.companyContact}>
-            Telp: {data.companyPhone} | Email: {data.companyEmail}
+            {/* @ts-ignore */}<Trans>Telp:</Trans>{data.companyPhone} {/* @ts-ignore */}<Trans>| Email:</Trans>{data.companyEmail}
           </Text>
         </View>
         <View style={sharedStyles.headerRight}>
-          <Text style={sharedStyles.docTitle}>Surat Jalan</Text>
-          <Text style={sharedStyles.docNumber}>No: {data.documentNumber}</Text>
-          <Text style={sharedStyles.docDate}>Tanggal: {data.date}</Text>
+          <Text style={sharedStyles.docTitle}>{/* @ts-ignore */}<Trans>Surat Jalan</Trans></Text>
+          <Text style={sharedStyles.docNumber}>{/* @ts-ignore */}<Trans>No:</Trans>{data.documentNumber}</Text>
+          <Text style={sharedStyles.docDate}>{/* @ts-ignore */}<Trans>Tanggal:</Trans>{data.date}</Text>
         </View>
       </View>
 
       {/* Sender / Receiver box */}
       <View style={localStyles.partyBox}>
         <View style={localStyles.partySection}>
-          <Text style={localStyles.partyLabel}>Pengirim</Text>
+          <Text style={localStyles.partyLabel}>{/* @ts-ignore */}<Trans>Pengirim</Trans></Text>
           <Text style={localStyles.partyName}>{data.senderName}</Text>
           <Text style={localStyles.partyDetail}>{data.senderAddress}</Text>
-          <Text style={localStyles.partyDetail}>Telp: {data.senderPhone}</Text>
+          <Text style={localStyles.partyDetail}>{/* @ts-ignore */}<Trans>Telp:</Trans>{data.senderPhone}</Text>
         </View>
         <View style={localStyles.partyDivider} />
         <View style={localStyles.partySection}>
-          <Text style={localStyles.partyLabel}>Penerima</Text>
+          <Text style={localStyles.partyLabel}>{/* @ts-ignore */}<Trans>Penerima</Trans></Text>
           <Text style={localStyles.partyName}>{data.receiverName}</Text>
           <Text style={localStyles.partyDetail}>{data.receiverAddress}</Text>
-          <Text style={localStyles.partyDetail}>Telp: {data.receiverPhone}</Text>
+          <Text style={localStyles.partyDetail}>{/* @ts-ignore */}<Trans>Telp:</Trans>{data.receiverPhone}</Text>
         </View>
       </View>
 
       {/* Order info */}
       <View style={sharedStyles.infoSection}>
         <View style={sharedStyles.infoRow}>
-          <Text style={sharedStyles.infoLabel}>No. Order</Text>
+          <Text style={sharedStyles.infoLabel}>{/* @ts-ignore */}<Trans>No. Order</Trans></Text>
           <Text style={sharedStyles.infoValue}>{data.orderNumber}</Text>
         </View>
         <View style={sharedStyles.infoRow}>
-          <Text style={sharedStyles.infoLabel}>Pengirim</Text>
+          <Text style={sharedStyles.infoLabel}>{/* @ts-ignore */}<Trans>Pengirim</Trans></Text>
           <Text style={sharedStyles.infoValue}>{data.shippedBy} — {data.shippedByRole}</Text>
         </View>
         <View style={sharedStyles.infoRow}>
-          <Text style={sharedStyles.infoLabel}>Kendaraan</Text>
+          <Text style={sharedStyles.infoLabel}>{/* @ts-ignore */}<Trans>Kendaraan</Trans></Text>
           <Text style={sharedStyles.infoValue}>{data.vehicle}</Text>
         </View>
         <View style={sharedStyles.infoRow}>
-          <Text style={sharedStyles.infoLabel}>Tanggal Kirim</Text>
+          <Text style={sharedStyles.infoLabel}>{/* @ts-ignore */}<Trans>Tanggal Kirim</Trans></Text>
           <Text style={sharedStyles.infoValue}>{data.shipDate}</Text>
         </View>
       </View>
 
       {/* Table */}
-      <Text style={sharedStyles.sectionTitle}>Detail Barang</Text>
+      <Text style={sharedStyles.sectionTitle}>{/* @ts-ignore */}<Trans>Detail Barang</Trans></Text>
       <View>
         <View style={sharedStyles.tableHeader}>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.no }]}>No</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.code }]}>Kode Produk</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.name, textAlign: 'left' }]}>Nama Barang</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.batch }]}>Batch</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.unit }]}>Satuan</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.qty }]}>Qty Dikirim</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.notes, textAlign: 'left' }]}>Keterangan</Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.no }]}>{/* @ts-ignore */}<Trans>No</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.code }]}>{/* @ts-ignore */}<Trans>Kode Produk</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.name, textAlign: 'left' }]}>{/* @ts-ignore */}<Trans>Nama Barang</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.batch }]}>{/* @ts-ignore */}<Trans>Batch</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.unit }]}>{/* @ts-ignore */}<Trans>Satuan</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.qty }]}>{/* @ts-ignore */}<Trans>Qty Dikirim</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.notes, textAlign: 'left' }]}>{/* @ts-ignore */}<Trans>Keterangan</Trans></Text>
         </View>
 
         {data.items.map((item, idx) => (
@@ -180,32 +181,32 @@ const DeliveryNote: React.FC<{ data: DeliveryNoteData }> = ({ data }) => (
       {/* Note */}
       {data.footerNote && (
         <View style={sharedStyles.noteBox}>
-          <Text style={sharedStyles.noteText}>Catatan: {data.footerNote}</Text>
+          <Text style={sharedStyles.noteText}>{/* @ts-ignore */}<Trans>Catatan:</Trans>{data.footerNote}</Text>
         </View>
       )}
 
       {/* Signatures */}
       <View style={sharedStyles.signatureSection}>
         <View style={sharedStyles.signatureBlock}>
-          <Text style={sharedStyles.signatureTitle}>Disiapkan oleh</Text>
+          <Text style={sharedStyles.signatureTitle}>{/* @ts-ignore */}<Trans>Disiapkan oleh</Trans></Text>
           <View style={sharedStyles.signatureLine} />
           <Text style={sharedStyles.signatureName}>{data.preparedByName}</Text>
           <Text style={sharedStyles.signatureRole}>{data.preparedByRole}</Text>
         </View>
         <View style={sharedStyles.signatureBlock}>
-          <Text style={sharedStyles.signatureTitle}>Pengemudi</Text>
+          <Text style={sharedStyles.signatureTitle}>{/* @ts-ignore */}<Trans>Pengemudi</Trans></Text>
           <Text style={sharedStyles.signatureDots}>...............................</Text>
-          <Text style={sharedStyles.signatureRole}>Nama & Tanda Tangan</Text>
+          <Text style={sharedStyles.signatureRole}>{/* @ts-ignore */}<Trans>Nama & Tanda Tangan</Trans></Text>
         </View>
         <View style={sharedStyles.signatureBlock}>
-          <Text style={sharedStyles.signatureTitle}>Diterima oleh</Text>
+          <Text style={sharedStyles.signatureTitle}>{/* @ts-ignore */}<Trans>Diterima oleh</Trans></Text>
           <Text style={sharedStyles.signatureDots}>...............................</Text>
-          <Text style={sharedStyles.signatureRole}>Nama, Tanda Tangan & Stempel</Text>
+          <Text style={sharedStyles.signatureRole}>{/* @ts-ignore */}<Trans>Nama, Tanda Tangan & Stempel</Trans></Text>
         </View>
       </View>
 
       <Text style={sharedStyles.footer}>
-        {data.companyName} | Dokumen Resmi | {data.documentNumber}
+        {data.companyName} {/* @ts-ignore */}<Trans>| Dokumen Resmi |</Trans>{data.documentNumber}
       </Text>
     </Page>
   </Document>

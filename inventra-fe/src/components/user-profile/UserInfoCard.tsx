@@ -8,8 +8,11 @@ import Label from "../form/Label";
 import { useAuth } from "@/context/AuthContext";
 import { updateProfile } from "../../../services/user.service";
 import { toast } from "sonner";
+import { useTranslate } from "@/hooks/useTranslate";
+import { Trans } from "@lingui/react";
 
 export default function UserInfoCard() {
+  const { _ } = useTranslate();
   const { user, refreshProfile } = useAuth();
   const { isOpen, openModal, closeModal } = useModal();
   const [isSaving, setIsSaving] = useState(false);
@@ -34,14 +37,14 @@ export default function UserInfoCard() {
     try {
       const response = await updateProfile(formData);
       if (response.status) {
-        toast.success("Personal information updated successfully");
+        toast.success(_("Informasi pribadi berhasil diperbarui"));
         await refreshProfile();
         closeModal();
       } else {
-        toast.error(response.message || "Failed to update information");
+        toast.error(response.message || _("Gagal memperbarui informasi"));
       }
     } catch (error) {
-      toast.error("An error occurred while updating information");
+      toast.error(_("Terjadi kesalahan saat memperbarui informasi"));
     } finally {
       setIsSaving(false);
     }
@@ -52,13 +55,13 @@ export default function UserInfoCard() {
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
         <div>
           <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
-            Personal Information
+            <Trans id="Informasi Pribadi" />
           </h4>
 
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32">
             <div>
               <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                Username
+                <Trans id="Username" />
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
                 {user?.username}
@@ -67,7 +70,7 @@ export default function UserInfoCard() {
 
             <div>
               <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                Email address
+                <Trans id="Alamat Email" />
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
                 {user?.email}
@@ -76,7 +79,7 @@ export default function UserInfoCard() {
 
             <div>
               <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                Role
+                <Trans id="Peran" />
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
                 {user?.role}
@@ -104,7 +107,7 @@ export default function UserInfoCard() {
               fill=""
             />
           </svg>
-          Edit
+          <Trans id="Edit" />
         </button>
       </div>
 
@@ -112,17 +115,17 @@ export default function UserInfoCard() {
         <div className="no-scrollbar relative w-full max-w-[700px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
           <div className="px-2 pr-14">
             <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
-              Edit Personal Information
+              <Trans id="Edit Informasi Pribadi" />
             </h4>
             <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
-              Update your details to keep your profile up-to-date.
+              <Trans id="Perbarui detail Anda untuk menjaga profil tetap terkini." />
             </p>
           </div>
           <form className="flex flex-col" onSubmit={handleSave}>
             <div className="custom-scrollbar overflow-y-auto px-2 pb-3">
               <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                 <div className="col-span-2 lg:col-span-1">
-                  <Label>Username</Label>
+                  <Label><Trans id="Username" /></Label>
                   <Input
                     type="text"
                     value={formData.username}
@@ -131,7 +134,7 @@ export default function UserInfoCard() {
                 </div>
 
                 <div className="col-span-2 lg:col-span-1">
-                  <Label>Email Address</Label>
+                  <Label><Trans id="Alamat Email" /></Label>
                   <Input
                     type="email"
                     value={formData.email}
@@ -142,10 +145,10 @@ export default function UserInfoCard() {
             </div>
             <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
               <Button size="sm" variant="outline" onClick={closeModal} type="button">
-                Close
+                <Trans id="Tutup" />
               </Button>
               <Button size="sm" type="submit" disabled={isSaving}>
-                {isSaving ? "Saving..." : "Save Changes"}
+                {isSaving ? _("Menyimpan...") : _("Simpan Perubahan")}
               </Button>
             </div>
           </form>

@@ -19,7 +19,10 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Daftar halaman yang bisa diakses tanpa login
-const PUBLIC_ROUTES = ["/", "/about", "/contact"]; 
+const isPublicRoute = (path: string) => {
+  const exactRoutes = ["/", "/about", "/contact", "/pricing", "/docs", "/faq"];
+  return exactRoutes.includes(path) || path.startsWith("/docs/") || path.startsWith("/faq/");
+};
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -37,7 +40,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setRoles([]);
     setPermissions([]);
     // Hanya redirect ke signin jika bukan di halaman publik
-    if (!PUBLIC_ROUTES.includes(pathname)) {
+    if (!isPublicRoute(pathname)) {
       router.push("/auth/signin");
     }
   }, [pathname, router]);
@@ -55,7 +58,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } else {
         // Token expired atau invalid
         logout();
-        if (!PUBLIC_ROUTES.includes(pathname)) {
+        if (!isPublicRoute(pathname)) {
           toast.error(response.message || "Sesi telah berakhir");
         }
       }

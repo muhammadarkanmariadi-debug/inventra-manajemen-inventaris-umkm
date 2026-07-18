@@ -4,7 +4,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { toast } from 'sonner';
 import { askGemini } from '../../../services/dashboard.service';
 import { useLingui } from '@lingui/react';
-import { Trans } from '@lingui/react';
 
 interface Message {
   id: number;
@@ -50,6 +49,12 @@ export default function ChatbotWidget() {
       setTimeout(() => inputRef.current?.focus(), 100);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    const handleOpen = () => setIsOpen(true);
+    window.addEventListener('open-chatbot', handleOpen);
+    return () => window.removeEventListener('open-chatbot', handleOpen);
+  }, []);
 
   const sendMessage = async (question?: string) => {
     const text = question || input.trim();
@@ -140,8 +145,8 @@ export default function ChatbotWidget() {
             </svg>
           </div>
           <div>
-            <p className="text-sm font-semibold text-white">Inventra AI</p>
-            <p className="text-xs text-white/70">Asisten analitik bisnis</p>
+            <p className="text-sm font-semibold text-white">{/* @ts-ignore */}<Trans>Inventra AI</Trans></p>
+            <p className="text-xs text-white/70">{/* @ts-ignore */}<Trans>Asisten analitik bisnis</Trans></p>
           </div>
           <button
             onClick={() => setIsOpen(false)}
@@ -192,7 +197,7 @@ export default function ChatbotWidget() {
         {/* Quick Questions */}
         {messages.length <= 1 && (
           <div className="px-4 pb-2">
-            <p className="text-xs text-gray-400 mb-1.5">Pertanyaan cepat:</p>
+            <p className="text-xs text-gray-400 mb-1.5">{/* @ts-ignore */}<Trans>Pertanyaan cepat:</Trans></p>
             <div className="flex flex-wrap gap-1.5">
               {QUICK_QUESTIONS.map((q, i) => (
                 <button

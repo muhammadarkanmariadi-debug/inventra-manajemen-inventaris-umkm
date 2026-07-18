@@ -47,9 +47,30 @@ class InventoryController extends Controller
                 $query->whereDate('created_at', '<=', $request->date_to);
             }
 
-            $inventories = $query->where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
-                ->orderBy('created_at', 'desc')
-                ->paginate($request->get('items', 15));
+            if ($request->filled('category_id')) {
+                $categoryId = $request->query('category_id');
+                $query->whereHas('product', function ($q) use ($categoryId) {
+                    $q->where('category_id', $categoryId);
+                });
+            }
+
+            $query->where('bussiness_id', auth()->guard('api')->user()->bussiness_id);
+
+            $allowedSorts = ['quantity', 'expired_date', 'created_at', 'inventory_code'];
+            $sort = $request->query('sort');
+            $order = strtolower($request->query('order', 'desc')) === 'asc' ? 'asc' : 'desc';
+
+            if ($sort && in_array($sort, $allowedSorts, true)) {
+                if ($sort === 'expired_date') {
+                    $query->orderByRaw("(SELECT expired_date FROM products WHERE products.id = inventories.product_id) {$order}");
+                } else {
+                    $query->orderBy($sort, $order);
+                }
+            } else {
+                $query->orderBy('created_at', 'desc');
+            }
+
+            $inventories = $query->paginate($request->get('items', 15));
 
             return response()->json([
                 'status' => true,

@@ -6,6 +6,7 @@ import Input from '../input/InputField';
 import Select from '../Select';
 import { ChevronDownIcon, EyeCloseIcon, EyeIcon, TimeIcon } from '../../../icons';
 import DatePicker from '@/components/form/date-picker';
+import { Trans } from "@lingui/macro";
 
 export default function DefaultInputs() {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,15 +21,15 @@ export default function DefaultInputs() {
     <ComponentCard title="Default Inputs">
       <div className="space-y-6">
         <div>
-          <Label>Input</Label>
+          <Label>{/* @ts-ignore */}<Trans>Input</Trans></Label>
           <Input type="text" />
         </div>
         <div>
-          <Label>Input with Placeholder</Label>
+          <Label>{/* @ts-ignore */}<Trans>Input with Placeholder</Trans></Label>
           <Input type="text" placeholder="info@gmail.com" />
         </div>
         <div>
-          <Label>Select Input</Label>
+          <Label>{/* @ts-ignore */}<Trans>Select Input</Trans></Label>
           <div className="relative">
             <Select
             options={options}
@@ -42,7 +43,7 @@ export default function DefaultInputs() {
           </div>
         </div>
         <div>
-          <Label>Password Input</Label>
+          <Label>{/* @ts-ignore */}<Trans>Password Input</Trans></Label>
           <div className="relative">
             <Input
               type={showPassword ? "text" : "password"}
@@ -73,7 +74,7 @@ export default function DefaultInputs() {
         </div>
 
         <div>
-          <Label htmlFor="tm">Time Picker Input</Label>
+          <Label htmlFor="tm">{/* @ts-ignore */}<Trans>Time Picker Input</Trans></Label>
           <div className="relative">
             <Input
               type="time"
@@ -86,7 +87,7 @@ export default function DefaultInputs() {
           </div>
         </div>
         <div>
-          <Label htmlFor="tm">Input with Payment</Label>
+          <Label htmlFor="tm">{/* @ts-ignore */}<Trans>Input with Payment</Trans></Label>
           <div className="relative">
             <Input
               type="text"

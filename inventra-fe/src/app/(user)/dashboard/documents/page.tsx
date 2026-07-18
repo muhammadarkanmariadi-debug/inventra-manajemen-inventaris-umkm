@@ -11,6 +11,7 @@ import { useAuth } from '@/context/AuthContext';
 import PageBreadcrumb from '@/components/common/PageBreadCrumb';
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 import { Can } from '@/components/common/Can';
+import { useTranslate } from '@/hooks/useTranslate';
 
 // Template imports
 import StockMovementReport, { StockMovementReportData } from '@/components/documents/templates/StockMovementReport';
@@ -35,8 +36,6 @@ import {
   CalendarIcon,
 } from 'lucide-react';
 import DatePicker from '@/components/form/date-picker';
-
-
 type DocType = 'LPB' | 'BAR' | 'SJ' | 'LBB' | 'LRS';
 
 interface DocTypeConfig {
@@ -297,6 +296,7 @@ function mapToLRS(inventories: any[], business: any, user: any): StockRecapRepor
 
 // ====== Main Component ======
 export default function DocumentsPage() {
+  const { _ } = useTranslate();
   const { user, business } = useAuth();
   const [selectedType, setSelectedType] = useState<DocType | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -361,14 +361,14 @@ export default function DocumentsPage() {
       setPreviewUrl(url);
       setCurrentBlob(blob);
       setSelectedType(type);
-      toast.success('PDF berhasil di-generate!');
+      toast.success(_('PDF berhasil di-generate!'));
     } catch (err) {
       console.error(err);
-      toast.error('Gagal generate PDF');
+      toast.error(_('Gagal generate PDF'));
     } finally {
       setIsGenerating(false);
     }
-  }, [business, user, dateFrom, dateTo]);
+  }, [business, user, dateFrom, dateTo, _]);
 
   const saveToDatabase = useCallback(async () => {
     if (!currentBlob || !selectedType) return;
@@ -384,17 +384,17 @@ export default function DocumentsPage() {
       const res = await uploadDocument(formData);
 
       if (res.status) {
-        toast.success(`Dokumen berhasil disimpan: ${res.data.document_number}`);
+        toast.success(`${_('Dokumen berhasil disimpan:')} ${res.data.document_number}`);
       } else {
-        toast.error(res.message || 'Gagal menyimpan dokumen');
+        toast.error(res.message || _('Gagal menyimpan dokumen'));
       }
     } catch (err) {
       console.error(err);
-      toast.error('Gagal menyimpan dokumen ke server');
+      toast.error(_('Gagal menyimpan dokumen ke server'));
     } finally {
       setIsSaving(false);
     }
-  }, [currentBlob, selectedType]);
+  }, [currentBlob, selectedType, _]);
 
   const downloadPdf = useCallback(() => {
     if (!previewUrl || !selectedType) return;
@@ -418,7 +418,7 @@ export default function DocumentsPage() {
       <PageBreadcrumb pageTitle="Buat Dokumen Inventaris" />
       <div className="mb-8 mt-2">
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          Pilih jenis dokumen untuk di-generate. Dokumen akan dibuat dalam format PDF dan dapat disimpan ke database.
+          <Trans id="Pilih jenis dokumen untuk di-generate. Dokumen akan dibuat dalam format PDF dan dapat disimpan ke database." />
         </p>
       </div>
 
@@ -426,7 +426,7 @@ export default function DocumentsPage() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6 p-4 rounded-xl bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-gray-700">
         <div className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
           <CalendarIcon className="w-4 h-4 text-brand-500" />
-          Periode Dokumen
+          <Trans id="Periode Dokumen" />
         </div>
         <div className="flex items-center gap-2">
           <DatePicker
@@ -436,7 +436,7 @@ export default function DocumentsPage() {
               if (date) setDateFrom(new Date(date).toISOString().split('T')[0]);
             }}
           />
-          <span className="text-xs text-gray-400">s/d</span>
+          <span className="text-xs text-gray-400">{/* @ts-ignore */}<Trans>s/d</Trans></span>
           <DatePicker
             id="end-date"
             placeholder="dd/mm/yy"
@@ -450,7 +450,7 @@ export default function DocumentsPage() {
             onClick={() => { setDateFrom(''); setDateTo(''); }}
             className="text-xs text-gray-400 hover:text-red-500 transition-colors"
           >
-            Reset
+            <Trans id="Reset" />
           </button>
         )}
       </div>
@@ -474,10 +474,10 @@ export default function DocumentsPage() {
               <span className={dt.color}>{dt.icon}</span>
             </div>
             <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-1">
-              {dt.label}
+              {_(dt.label)}
             </h3>
             <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-              {dt.description}
+              {_(dt.description)}
             </p>
             <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
               <PlusIcon className="w-5 h-5 text-brand-500" />
@@ -491,7 +491,7 @@ export default function DocumentsPage() {
         <div className="flex items-center justify-center py-12">
           <div className="flex flex-col items-center gap-3">
             <Loader2Icon className="w-8 h-8 text-brand-500 animate-spin" />
-            <p className="text-sm text-gray-500 dark:text-gray-400">Generating dokumen PDF...</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400"><Trans id="Generating dokumen PDF..." /></p>
           </div>
         </div>
       )}
@@ -505,10 +505,10 @@ export default function DocumentsPage() {
               <EyeIcon className="w-5 h-5 text-brand-500" />
               <div>
                 <h3 className="font-semibold text-gray-900 dark:text-white">
-                  Preview: {docTypes.find(d => d.key === selectedType)?.label}
+                  {/* @ts-ignore */}<Trans>Preview:</Trans>{_(docTypes.find(d => d.key === selectedType)?.label || '')}
                 </h3>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Dokumen siap diunduh atau disimpan ke database
+                  <Trans id="Dokumen siap diunduh atau disimpan ke database" />
                 </p>
               </div>
             </div>
@@ -520,7 +520,7 @@ export default function DocumentsPage() {
                   hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
               >
                 <DownloadIcon className="w-4 h-4" />
-                Unduh PDF
+                <Trans id="Unduh PDF" />
               </button>
               <Can permission="Tambah Dokumen">
                 <button
@@ -535,7 +535,7 @@ export default function DocumentsPage() {
                   ) : (
                     <SaveIcon className="w-4 h-4" />
                   )}
-                  Simpan ke Database
+                  <Trans id="Simpan ke Database" />
                 </button>
               </Can>
               <button

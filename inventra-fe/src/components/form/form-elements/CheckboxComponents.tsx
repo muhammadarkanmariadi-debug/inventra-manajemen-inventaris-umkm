@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import ComponentCard from "../../common/ComponentCard";
 import Checkbox from "../input/Checkbox";
+import { Trans } from "@lingui/macro";
 
 export default function CheckboxComponents() {
   const [isChecked, setIsChecked] = useState(false);
@@ -13,8 +14,7 @@ export default function CheckboxComponents() {
         <div className="flex items-center gap-3">
           <Checkbox checked={isChecked} onChange={setIsChecked} />
           <span className="block text-sm font-medium text-gray-700 dark:text-gray-400">
-            Default
-          </span>
+            {/* @ts-ignore */}<Trans>Default</Trans></span>
         </div>
         <div className="flex items-center gap-3">
           <Checkbox

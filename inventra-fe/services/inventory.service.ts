@@ -2,14 +2,15 @@
 
 import { apiGet, apiPost, apiPut } from "../lib/api";
 
-export async function getInventories(params?: { search?: string; status?: string; page?: number; items?: number; date_from?: string; date_to?: string }) {
+export async function getInventories(params?: { search?: string; status?: string; page?: number; items?: number; date_from?: string; date_to?: string; category_id?: string | number; sort?: string; order?: string; [key: string]: any }) {
   const query = new URLSearchParams();
-  if (params?.search) query.set("search", params.search);
-  if (params?.status) query.set("status", params.status);
-  if (params?.page) query.set("page", String(params.page));
-  if (params?.items) query.set("items", String(params.items));
-  if (params?.date_from) query.set("date_from", params.date_from);
-  if (params?.date_to) query.set("date_to", params.date_to);
+  if (params) {
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== "") {
+        query.set(key, String(value));
+      }
+    });
+  }
   const qs = query.toString();
   return apiGet(`/inventories${qs ? `?${qs}` : ""}`);
 }

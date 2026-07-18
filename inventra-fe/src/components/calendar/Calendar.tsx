@@ -12,6 +12,7 @@ import {
 } from "@fullcalendar/core";
 import { useModal } from "@/hooks/useModal";
 import { Modal } from "@/components/ui/modal";
+import { Trans } from "@lingui/macro";
 
 interface CalendarEvent extends EventInput {
   extendedProps: {
@@ -156,16 +157,14 @@ const Calendar: React.FC = () => {
               {selectedEvent ? "Edit Event" : "Add Event"}
             </h5>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Plan your next big moment: schedule or edit an event to stay on
-              track
-            </p>
+              {/* @ts-ignore */}<Trans>Plan your next big moment: schedule or edit an event to stay on
+                                        track</Trans></p>
           </div>
           <div className="mt-8">
             <div>
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                  Event Title
-                </label>
+                  {/* @ts-ignore */}<Trans>Event Title</Trans></label>
                 <input
                   id="event-title"
                   type="text"
@@ -177,8 +176,7 @@ const Calendar: React.FC = () => {
             </div>
             <div className="mt-6">
               <label className="block mb-4 text-sm font-medium text-gray-700 dark:text-gray-400">
-                Event Color
-              </label>
+                {/* @ts-ignore */}<Trans>Event Color</Trans></label>
               <div className="flex flex-wrap items-center gap-4 sm:gap-5">
                 {Object.entries(calendarsEvents).map(([key, value]) => (
                   <div key={key} className="n-chk">
@@ -217,8 +215,7 @@ const Calendar: React.FC = () => {
 
             <div className="mt-6">
               <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                Enter Start Date
-              </label>
+                {/* @ts-ignore */}<Trans>Enter Start Date</Trans></label>
               <div className="relative">
                 <input
                   id="event-start-date"
@@ -232,8 +229,7 @@ const Calendar: React.FC = () => {
 
             <div className="mt-6">
               <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                Enter End Date
-              </label>
+                {/* @ts-ignore */}<Trans>Enter End Date</Trans></label>
               <div className="relative">
                 <input
                   id="event-end-date"
@@ -251,8 +247,7 @@ const Calendar: React.FC = () => {
               type="button"
               className="flex w-full justify-center rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] sm:w-auto"
             >
-              Close
-            </button>
+              {/* @ts-ignore */}<Trans>Close</Trans></button>
             <button
               onClick={handleAddOrUpdateEvent}
               type="button"

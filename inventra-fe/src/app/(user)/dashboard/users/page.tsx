@@ -18,7 +18,6 @@ import type { User, Role, CreateUserPayload } from '../../../../../types';
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 import { Can } from '@/components/common/Can';
 import { FilterBar, FilterValues } from '@/components/common/FilterBar';
-import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { PencilIcon, TrashIcon, DownloadIcon } from "lucide-react";
 import { exportToExcel } from '@/utils/exportExcel';
@@ -29,6 +28,7 @@ export default function Users() {
   const [roles, setRoles] = useState<Role[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<FilterValues | null>(null);
 
@@ -197,9 +197,9 @@ export default function Users() {
           <Table>
             <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
               <TableRow>
-                <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Username</TableCell>
-                <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Email</TableCell>
-                <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Roles</TableCell>
+                <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">{/* @ts-ignore */}<Trans>Username</Trans></TableCell>
+                <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">{/* @ts-ignore */}<Trans>Email</Trans></TableCell>
+                <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">{/* @ts-ignore */}<Trans>Roles</Trans></TableCell>
                 <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Aksi" /></TableCell>
               </TableRow>
             </TableHeader>
@@ -249,7 +249,7 @@ export default function Users() {
 
       {totalPages > 1 && (
         <div className="mt-4 flex justify-end">
-          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} itemsPerPage={itemsPerPage} onItemsPerPageChange={(limit) => { setItemsPerPage(limit); setCurrentPage(1); }} />
         </div>
       )}
 
@@ -259,11 +259,11 @@ export default function Users() {
         </h4>
         <div className="space-y-4">
           <div>
-            <Label>Username</Label>
+            <Label>{/* @ts-ignore */}<Trans>Username</Trans></Label>
             <Input type="text" placeholder="Username" defaultValue={formData.username} onChange={(e) => setFormData({ ...formData, username: e.target.value })} />
           </div>
           <div>
-            <Label>Email</Label>
+            <Label>{/* @ts-ignore */}<Trans>Email</Trans></Label>
             <Input type="email" placeholder="Email" defaultValue={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
           </div>
           <div>

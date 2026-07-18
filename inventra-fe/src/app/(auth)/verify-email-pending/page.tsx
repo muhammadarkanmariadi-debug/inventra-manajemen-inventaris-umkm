@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Button from "@/components/ui/button/Button";
 import { ChevronLeftIcon } from "@/icons";
+import { Trans } from "@lingui/macro";
 
 export default function VerifyEmailPendingPage() {
   return (
@@ -15,16 +16,14 @@ export default function VerifyEmailPendingPage() {
                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
             </svg>
           </div>
-          <h2 className="text-xl font-bold text-gray-800 dark:text-white">Pendaftaran Berhasil!</h2>
+          <h2 className="text-xl font-bold text-gray-800 dark:text-white">{/* @ts-ignore */}<Trans>Pendaftaran Berhasil!</Trans></h2>
           <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-            Kami telah mengirimkan email verifikasi ke alamat email Anda. 
-            Silakan periksa kotak masuk (atau folder spam) dan klik link di dalamnya untuk memverifikasi akun Anda.
-          </p>
+            {/* @ts-ignore */}<Trans>Kami telah mengirimkan email verifikasi ke alamat email Anda. 
+                                  Silakan periksa kotak masuk (atau folder spam) dan klik link di dalamnya untuk memverifikasi akun Anda.</Trans></p>
           <div className="pt-4 w-full border-t border-gray-100 dark:border-gray-700">
              <Link href="/auth/signin">
                <Button className="w-full text-sm font-medium" size="sm">
-                  Ke Halaman Login
-               </Button>
+                  {/* @ts-ignore */}<Trans>Ke Halaman Login</Trans></Button>
              </Link>
           </div>
           <Link
@@ -32,8 +31,7 @@ export default function VerifyEmailPendingPage() {
             className="inline-flex items-center text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 mt-4"
           >
             <ChevronLeftIcon />
-            Kembali ke Halaman Utama
-          </Link>
+            {/* @ts-ignore */}<Trans>Kembali ke Halaman Utama</Trans></Link>
         </div>
       </div>
     </div>

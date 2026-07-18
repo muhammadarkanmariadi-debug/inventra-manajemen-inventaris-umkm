@@ -7,6 +7,8 @@ import { Dropdown } from "../ui/dropdown/Dropdown";
 import { MoreDotIcon } from "@/icons";
 import { useState } from "react";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
+import { Trans } from "@lingui/macro";
+
 // Dynamically import the ReactApexChart component
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -78,11 +80,9 @@ export default function MonthlyTarget() {
         <div className="flex justify-between">
           <div>
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-              Monthly Target
-            </h3>
+              {/* @ts-ignore */}<Trans>Monthly Target</Trans></h3>
             <p className="mt-1 font-normal text-gray-500 text-theme-sm dark:text-gray-400">
-              Target you’ve set for each month
-            </p>
+              {/* @ts-ignore */}<Trans>Target you’ve set for each month</Trans></p>
           </div>
           <div className="relative inline-block">
             <button onClick={toggleDropdown} className="dropdown-toggle">
@@ -98,15 +98,13 @@ export default function MonthlyTarget() {
                 onItemClick={closeDropdown}
                 className="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
               >
-                View More
-              </DropdownItem>
+                {/* @ts-ignore */}<Trans>View More</Trans></DropdownItem>
               <DropdownItem
                 tag="a"
                 onItemClick={closeDropdown}
                 className="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
               >
-                Delete
-              </DropdownItem>
+                {/* @ts-ignore */}<Trans>Delete</Trans></DropdownItem>
             </Dropdown>
           </div>
         </div>
@@ -125,19 +123,16 @@ export default function MonthlyTarget() {
           </span>
         </div>
         <p className="mx-auto mt-10 w-full max-w-[380px] text-center text-sm text-gray-500 sm:text-base">
-          You earn $3287 today, it&apos;s higher than last month. Keep up your
-          good work!
-        </p>
+          {/* @ts-ignore */}<Trans>You earn $3287 today, it&apos;s higher than last month. Keep up your
+                            good work!</Trans></p>
       </div>
 
       <div className="flex items-center justify-center gap-5 px-6 py-3.5 sm:gap-8 sm:py-5">
         <div>
           <p className="mb-1 text-center text-gray-500 text-theme-xs dark:text-gray-400 sm:text-sm">
-            Target
-          </p>
+            {/* @ts-ignore */}<Trans>Target</Trans></p>
           <p className="flex items-center justify-center gap-1 text-base font-semibold text-gray-800 dark:text-white/90 sm:text-lg">
-            $20K
-            <svg
+            {/* @ts-ignore */}<Trans>$20K</Trans><svg
               width="16"
               height="16"
               viewBox="0 0 16 16"
@@ -158,11 +153,9 @@ export default function MonthlyTarget() {
 
         <div>
           <p className="mb-1 text-center text-gray-500 text-theme-xs dark:text-gray-400 sm:text-sm">
-            Revenue
-          </p>
+            {/* @ts-ignore */}<Trans>Revenue</Trans></p>
           <p className="flex items-center justify-center gap-1 text-base font-semibold text-gray-800 dark:text-white/90 sm:text-lg">
-            $20K
-            <svg
+            {/* @ts-ignore */}<Trans>$20K</Trans><svg
               width="16"
               height="16"
               viewBox="0 0 16 16"
@@ -183,11 +176,9 @@ export default function MonthlyTarget() {
 
         <div>
           <p className="mb-1 text-center text-gray-500 text-theme-xs dark:text-gray-400 sm:text-sm">
-            Today
-          </p>
+            {/* @ts-ignore */}<Trans>Today</Trans></p>
           <p className="flex items-center justify-center gap-1 text-base font-semibold text-gray-800 dark:text-white/90 sm:text-lg">
-            $20K
-            <svg
+            {/* @ts-ignore */}<Trans>$20K</Trans><svg
               width="16"
               height="16"
               viewBox="0 0 16 16"

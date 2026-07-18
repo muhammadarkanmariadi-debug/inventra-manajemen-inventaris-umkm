@@ -3,6 +3,7 @@
 import React from 'react';
 import { Document, Page, View, Text } from '@react-pdf/renderer';
 import { sharedStyles, colors, getBadgeStyle, formatNumber } from '../pdfStyles';
+import { Trans } from "@lingui/macro";
 
 // ====== Types ======
 export interface ProblematicItem {
@@ -57,28 +58,28 @@ const ProblematicGoodsReport: React.FC<{ data: ProblematicGoodsReportData }> = (
           <Text style={sharedStyles.companyName}>{data.companyName}</Text>
           <Text style={sharedStyles.companyAddress}>{data.companyAddress}</Text>
           <Text style={sharedStyles.companyContact}>
-            Telp: {data.companyPhone} | Email: {data.companyEmail}
+            {/* @ts-ignore */}<Trans>Telp:</Trans>{data.companyPhone} {/* @ts-ignore */}<Trans>| Email:</Trans>{data.companyEmail}
           </Text>
         </View>
         <View style={sharedStyles.headerRight}>
-          <Text style={sharedStyles.docTitle}>Laporan Barang Bermasalah</Text>
-          <Text style={sharedStyles.docNumber}>No: {data.documentNumber}</Text>
-          <Text style={sharedStyles.docDate}>Tanggal: {data.date}</Text>
+          <Text style={sharedStyles.docTitle}>{/* @ts-ignore */}<Trans>Laporan Barang Bermasalah</Trans></Text>
+          <Text style={sharedStyles.docNumber}>{/* @ts-ignore */}<Trans>No:</Trans>{data.documentNumber}</Text>
+          <Text style={sharedStyles.docDate}>{/* @ts-ignore */}<Trans>Tanggal:</Trans>{data.date}</Text>
         </View>
       </View>
 
       {/* Info */}
       <View style={sharedStyles.infoSection}>
         <View style={sharedStyles.infoRow}>
-          <Text style={sharedStyles.infoLabel}>Periode</Text>
+          <Text style={sharedStyles.infoLabel}>{/* @ts-ignore */}<Trans>Periode</Trans></Text>
           <Text style={sharedStyles.infoValue}>{data.period}</Text>
         </View>
         <View style={sharedStyles.infoRow}>
-          <Text style={sharedStyles.infoLabel}>Status</Text>
+          <Text style={sharedStyles.infoLabel}>{/* @ts-ignore */}<Trans>Status</Trans></Text>
           <Text style={sharedStyles.infoValue}>{data.statusFilter}</Text>
         </View>
         <View style={sharedStyles.infoRow}>
-          <Text style={sharedStyles.infoLabel}>Dicetak oleh</Text>
+          <Text style={sharedStyles.infoLabel}>{/* @ts-ignore */}<Trans>Dicetak oleh</Trans></Text>
           <Text style={sharedStyles.infoValue}>{data.printedBy} — {data.printedByRole}</Text>
         </View>
       </View>
@@ -86,14 +87,14 @@ const ProblematicGoodsReport: React.FC<{ data: ProblematicGoodsReportData }> = (
       {/* Table */}
       <View>
         <View style={sharedStyles.tableHeader}>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.no }]}>No</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.product, textAlign: 'left' }]}>Produk</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.batch }]}>Batch</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.qty }]}>Qty</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.status }]}>Status</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.reason, textAlign: 'left' }]}>Alasan</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.date }]}>Tgl Temuan</Text>
-          <Text style={[sharedStyles.tableHeaderCell, { width: colW.pic }]}>PIC</Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.no }]}>{/* @ts-ignore */}<Trans>No</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.product, textAlign: 'left' }]}>{/* @ts-ignore */}<Trans>Produk</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.batch }]}>{/* @ts-ignore */}<Trans>Batch</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.qty }]}>{/* @ts-ignore */}<Trans>Qty</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.status }]}>{/* @ts-ignore */}<Trans>Status</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.reason, textAlign: 'left' }]}>{/* @ts-ignore */}<Trans>Alasan</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.date }]}>{/* @ts-ignore */}<Trans>Tgl Temuan</Trans></Text>
+          <Text style={[sharedStyles.tableHeaderCell, { width: colW.pic }]}>{/* @ts-ignore */}<Trans>PIC</Trans></Text>
         </View>
 
         {data.items.map((item, idx) => {
@@ -125,19 +126,19 @@ const ProblematicGoodsReport: React.FC<{ data: ProblematicGoodsReportData }> = (
       <View style={sharedStyles.summaryBox}>
         <View style={sharedStyles.summaryRow}>
           <View style={sharedStyles.summaryCell}>
-            <Text style={sharedStyles.summaryLabel}>Reject</Text>
-            <Text style={[sharedStyles.summaryValue, { color: colors.accent.red }]}>{data.totalReject} batch</Text>
+            <Text style={sharedStyles.summaryLabel}>{/* @ts-ignore */}<Trans>Reject</Trans></Text>
+            <Text style={[sharedStyles.summaryValue, { color: colors.accent.red }]}>{data.totalReject} {/* @ts-ignore */}<Trans>batch</Trans></Text>
           </View>
           <View style={sharedStyles.summaryCell}>
-            <Text style={sharedStyles.summaryLabel}>On Hold</Text>
-            <Text style={[sharedStyles.summaryValue, { color: colors.accent.yellow }]}>{data.totalOnHold} batch</Text>
+            <Text style={sharedStyles.summaryLabel}>{/* @ts-ignore */}<Trans>On Hold</Trans></Text>
+            <Text style={[sharedStyles.summaryValue, { color: colors.accent.yellow }]}>{data.totalOnHold} {/* @ts-ignore */}<Trans>batch</Trans></Text>
           </View>
           <View style={sharedStyles.summaryCell}>
-            <Text style={sharedStyles.summaryLabel}>Unreleased</Text>
-            <Text style={[sharedStyles.summaryValue, { color: colors.accent.purple }]}>{data.totalUnreleased} batch</Text>
+            <Text style={sharedStyles.summaryLabel}>{/* @ts-ignore */}<Trans>Unreleased</Trans></Text>
+            <Text style={[sharedStyles.summaryValue, { color: colors.accent.purple }]}>{data.totalUnreleased} {/* @ts-ignore */}<Trans>batch</Trans></Text>
           </View>
           <View style={[sharedStyles.summaryCell, { borderRightWidth: 0 }]}>
-            <Text style={sharedStyles.summaryLabel}>Total Qty Bermasalah</Text>
+            <Text style={sharedStyles.summaryLabel}>{/* @ts-ignore */}<Trans>Total Qty Bermasalah</Trans></Text>
             <Text style={sharedStyles.summaryValue}>{data.totalQtyUnit}</Text>
           </View>
         </View>
@@ -146,25 +147,25 @@ const ProblematicGoodsReport: React.FC<{ data: ProblematicGoodsReportData }> = (
       {/* Signatures */}
       <View style={sharedStyles.signatureSection}>
         <View style={sharedStyles.signatureBlock}>
-          <Text style={sharedStyles.signatureTitle}>Dibuat oleh</Text>
+          <Text style={sharedStyles.signatureTitle}>{/* @ts-ignore */}<Trans>Dibuat oleh</Trans></Text>
           <View style={sharedStyles.signatureLine} />
           <Text style={sharedStyles.signatureName}>{data.createdByName}</Text>
           <Text style={sharedStyles.signatureRole}>{data.createdByRole}</Text>
         </View>
         <View style={sharedStyles.signatureBlock}>
-          <Text style={sharedStyles.signatureTitle}>Diperiksa oleh</Text>
+          <Text style={sharedStyles.signatureTitle}>{/* @ts-ignore */}<Trans>Diperiksa oleh</Trans></Text>
           <Text style={sharedStyles.signatureDots}>...............................</Text>
-          <Text style={sharedStyles.signatureRole}>Manajer QC</Text>
+          <Text style={sharedStyles.signatureRole}>{/* @ts-ignore */}<Trans>Manajer QC</Trans></Text>
         </View>
         <View style={sharedStyles.signatureBlock}>
-          <Text style={sharedStyles.signatureTitle}>Disetujui oleh</Text>
+          <Text style={sharedStyles.signatureTitle}>{/* @ts-ignore */}<Trans>Disetujui oleh</Trans></Text>
           <Text style={sharedStyles.signatureDots}>...............................</Text>
-          <Text style={sharedStyles.signatureRole}>Manajer Gudang</Text>
+          <Text style={sharedStyles.signatureRole}>{/* @ts-ignore */}<Trans>Manajer Gudang</Trans></Text>
         </View>
       </View>
 
       <Text style={sharedStyles.footer}>
-        {data.companyName} | Dokumen Resmi | {data.documentNumber}
+        {data.companyName} {/* @ts-ignore */}<Trans>| Dokumen Resmi |</Trans>{data.documentNumber}
       </Text>
     </Page>
   </Document>

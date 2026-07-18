@@ -63,7 +63,7 @@ export default function LandingHero() {
 
             {/* Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.08] tracking-tight text-foreground">
-              <Trans id="Kelola Inventaris{&quot; &quot;} <span className=&quot;text-brand-500 italic&quot;>Cerdas</span> untuk Bisnis Modern." />
+              <Trans id="Kelola Inventaris" /> <span className="text-brand-500 italic"><Trans id="Cerdas" /></span> <Trans id="untuk Bisnis Modern." />
             </h1>
 
             {/* Subheadline */}

@@ -3,7 +3,7 @@ import Badge from '@/components/ui/badge/Badge';
 
 export default function InventoryLogTimeline({ logs }: { logs: any[] }) {
   if (!logs || logs.length === 0) {
-    return <p className="text-sm text-gray-500">No logs found for this batch.</p>;
+    return <p className="text-sm text-gray-500"><Trans id="No logs found for this batch." /></p>;
   }
 
   return (
@@ -19,20 +19,20 @@ export default function InventoryLogTimeline({ logs }: { logs: any[] }) {
             {log.action}
           </h3>
           <time className="block mb-2 text-xs font-normal leading-none text-gray-400 dark:text-gray-500">
-            {new Date(log.created_at).toLocaleString()} by {log.user?.username || 'System'}
+            {new Date(log.created_at).toLocaleString()} <Trans id="oleh" /> {log.user?.username || 'System'}
           </time>
           <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-            <p>Quantity affected: <strong>{log.quantity}</strong></p>
+            <p><Trans id="Quantity affected:" /> <strong>{log.quantity}</strong></p>
             {log.from_status && log.to_status && (
               <p className="mt-1 flex items-center gap-2">
-                Status: <Badge size="sm" color="light">{log.from_status.name}</Badge> → <Badge size="sm" color="info">{log.to_status.name}</Badge>
+                <Trans id="Status:" /> <Badge size="sm" color="light">{log.from_status.name}</Badge> → <Badge size="sm" color="info">{log.to_status.name}</Badge>
               </p>
             )}
-            {log.notes && <p className="mt-2 italic">"{log.notes}"</p>}
+            {log.notes && <p className="mt-2 italic">{/* @ts-ignore */}<Trans>&quot;</Trans>{log.notes}{/* @ts-ignore */}<Trans>&quot;</Trans></p>}
           </div>
           {log.location && (
             <p className="mt-1 flex items-center gap-2">
-              Lokasi: <Badge size="sm" color="light">{log.location.name}</Badge>
+              <Trans id="Lokasi:" /> <Badge size="sm" color="light">{log.location.name}</Badge>
             </p>
           )}
         </div>

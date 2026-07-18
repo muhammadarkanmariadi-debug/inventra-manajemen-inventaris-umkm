@@ -20,6 +20,7 @@ class ProductRequest extends FormRequest
             'image'         => 'nullable|string',
             'sku'           => 'required|string|max:255|unique:products,sku' . ($id ? ',' . $id : ''),
             'selling_price' => 'required|numeric|min:0',
+            'stock'         => 'nullable|integer|min:0',
             'category_id'   => 'required|integer|exists:categories,id',
             'product_type'  => 'required|in:kuliner,barang',
             'unit'          => 'required|string|max:255',

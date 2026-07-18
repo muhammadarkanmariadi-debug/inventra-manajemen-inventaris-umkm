@@ -31,7 +31,7 @@ class CategoryController extends Controller
     {
         try {
             $perPage = (int) $request->query('items', 10);
-            $categories = Category::with('products')->paginate($perPage);
+            $categories = Category::with('products')->latest('id')->paginate($perPage);
 
             if ($categories->isEmpty()) {
                 return ApiHelper::error('No categories found', 404);

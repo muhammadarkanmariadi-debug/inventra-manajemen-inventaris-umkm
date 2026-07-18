@@ -155,4 +155,20 @@ Route::middleware(AuthenticateMiddleware::class)->group(function () {
         Route::put('/businesses/{id}', [SuperadminController::class, 'updateBusiness']);
         Route::delete('/businesses/{id}', [SuperadminController::class, 'deleteBusiness']);
     });
+
+    // ========== SANDBOX ROUTES ==========
+    Route::middleware(['sandbox'])->prefix('sandbox')->group(function () {
+        Route::post('/reset', [\App\Http\Controllers\SandboxController::class, 'reset']);
+    });
+
+    // ========== ERP INTEGRATION ROUTES (IDEMPOTENCY) ==========
+    Route::middleware(['idempotency'])->group(function () {
+        // Minimal viable endpoints untuk ERP
+        Route::post('/purchases', [\App\Http\Controllers\PurchaseController::class, 'store'])->middleware(PermissionMiddleware::class . ':Tambah Pembelian');
+    });
+
+    // ========== ERP INTEGRATION ROUTES (READ) ==========
+    Route::get('/products', [\App\Http\Controllers\ProductController::class, 'index'])->middleware(PermissionMiddleware::class . ':Lihat Produk');
+    Route::get('/stock', [\App\Http\Controllers\InventoryController::class, 'index'])->middleware(PermissionMiddleware::class . ':Lihat Produk');
+    Route::get('/sales', [\App\Http\Controllers\SaleController::class, 'index'])->middleware(PermissionMiddleware::class . ':Lihat Penjualan');
 });

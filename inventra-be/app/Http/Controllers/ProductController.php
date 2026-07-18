@@ -63,7 +63,7 @@ class ProductController extends Controller
             }
         }
 
-        $products = $query->paginate($perPage);
+        $products = $query->latest('id')->paginate($perPage);
 
         if ($products->isEmpty()) {
             return ApiHelper::error('No products found', 404);

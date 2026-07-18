@@ -8,7 +8,6 @@ import Pagination from '@/components/tables/Pagination';
 import Badge from '@/components/ui/badge/Badge';
 import { getLogs } from '../../../../../services/log.service';
 import type { Log } from '../../../../../types';
-import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 import { DownloadIcon } from "lucide-react";
@@ -20,6 +19,7 @@ export default function Logs() {
   const [logs, setLogs] = useState<Log[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [loading, setLoading] = useState(true);
 
   const fetchLogs = useCallback(async () => {
@@ -153,7 +153,7 @@ export default function Logs() {
 
       {totalPages > 1 && (
         <div className="mt-4 flex justify-end">
-          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} itemsPerPage={itemsPerPage} onItemsPerPageChange={(limit) => { setItemsPerPage(limit); setCurrentPage(1); }} />
         </div>
       )}
     </PermissionWrapper>

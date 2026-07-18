@@ -1,5 +1,5 @@
 
-export const statusLabels: Record<string, any> = {
+export const statusLabels: Record<string, string> = {
   UNRELEASED: "Unreleased",
   ON_HOLD: "On Hold",
   REJECT: "Rejected",
@@ -11,8 +11,22 @@ export const statusLabels: Record<string, any> = {
 
 export const getStatusTranslation = (status: string, _: any) => {
   const normalizedStatus = status.toUpperCase();
-  if (statusLabels[normalizedStatus]) {
-    return _(statusLabels[normalizedStatus]);
+  switch (normalizedStatus) {
+    case "UNRELEASED":
+      return _("Unreleased");
+    case "ON_HOLD":
+      return _("On Hold");
+    case "REJECT":
+      return _("Rejected");
+    case "READY":
+      return _("Ready");
+    case "PENDING":
+      return _("Pending");
+    case "COMPLETED":
+      return _("Completed");
+    case "FAILED":
+      return _("Failed");
+    default:
+      return status;
   }
-  return status;
 };

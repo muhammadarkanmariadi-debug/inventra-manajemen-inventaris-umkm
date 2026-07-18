@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import ComponentCard from "../../common/ComponentCard";
 import TextArea from "../input/TextArea";
 import Label from "../Label";
+import { Trans } from "@lingui/macro";
 
 export default function TextAreaInput() {
   const [message, setMessage] = useState("");
@@ -12,7 +13,7 @@ export default function TextAreaInput() {
       <div className="space-y-6">
         {/* Default TextArea */}
         <div>
-          <Label>Description</Label>
+          <Label>{/* @ts-ignore */}<Trans>Description</Trans></Label>
           <TextArea
             value={message}
             onChange={(value) => setMessage(value)}
@@ -22,13 +23,13 @@ export default function TextAreaInput() {
 
         {/* Disabled TextArea */}
         <div>
-          <Label>Description</Label>
+          <Label>{/* @ts-ignore */}<Trans>Description</Trans></Label>
           <TextArea rows={6} disabled />
         </div>
 
         {/* Error TextArea */}
         <div>
-          <Label>Description</Label>
+          <Label>{/* @ts-ignore */}<Trans>Description</Trans></Label>
           <TextArea
             rows={6}
             value={messageTwo}

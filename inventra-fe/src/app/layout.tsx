@@ -1,11 +1,10 @@
 import { Outfit, Geist } from 'next/font/google';
-import './globals.css';
-import "flatpickr/dist/flatpickr.css";
 import { ThemeProvider } from '@/context/ThemeContext';
 import { cn } from "@/lib/utils";
 import { ToastProvider } from '@/context/ToastContext';
 import { LocaleProvider } from '@/context/LocaleProvider';
-import { loadCatalog } from '@/lib/i18n';
+import { getCookies } from '../../lib/server-cookie';
+import { loadCatalog, type Locale } from '@/lib/i18n';
 import { AuthProvider } from '@/context/AuthContext';
 import { QueryProvider } from '@/shared/components/providers/query-provider';
 import { Metadata } from 'next';
@@ -28,9 +27,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  await loadCatalog("id")
+  const cookieLocale = (await getCookies("APP_LOCALE")) as Locale;
+  const initialLocale = cookieLocale || "id";
+  await loadCatalog(initialLocale);
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
+    <html lang={initialLocale} className={cn("font-sans", geist.variable)}>
       <body className={`${outfit.className} dark:bg-gray-900`}>
         <ThemeProvider>
           <QueryProvider>

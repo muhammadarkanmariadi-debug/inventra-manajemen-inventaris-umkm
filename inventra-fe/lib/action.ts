@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import {
@@ -34,12 +33,11 @@ export const post = async (
     const res = await fetch(`${API_URL}${endpoint}`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        ...(typeof payload == "string" ? { "Content-Type": "application/json" } : {}),
+        "Accept": "application/json",
         Authorization: token ? `Bearer ${token}` : ''
-        
       },
       body: typeof payload == "string" ? decryptFromClient(payload) : payload,
-
     });
 
 
@@ -72,10 +70,11 @@ export const put = async (
     const res = await fetch(`${API_URL}${endpoint}`, {
       method: "PUT",
       headers: {
+        ...(typeof payload == "string" ? { "Content-Type": "application/json" } : {}),
+        "Accept": "application/json",
         Authorization: token ? `Bearer ${token}` : ''
       },
       body: typeof payload == "string" ? decryptFromClient(payload) : payload,
-
     });
 
     const data = await res.json();
@@ -107,10 +106,9 @@ export const get = async (
     const res = await fetch(`${API_URL}${endpoint}`, {
       method: "GET",
       headers: {
+        "Accept": "application/json",
         Authorization: token ? `Bearer ${token}` : ''
       },
-
-
     });
 
      const data = await res.json();
@@ -142,10 +140,11 @@ export const del = async (
     const res = await fetch(`${API_URL}${endpoint}`, {
       method: "DELETE",
       headers: {
+        ...(typeof payload == "string" ? { "Content-Type": "application/json" } : {}),
+        "Accept": "application/json",
         Authorization: token ? `Bearer ${token}` : ''
       },
       body: typeof payload == "string" ? decryptFromClient(payload) : payload,
-
     });
 
       const data = await res.json();

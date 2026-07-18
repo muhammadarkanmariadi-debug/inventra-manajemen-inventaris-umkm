@@ -1,10 +1,13 @@
 "use client";
 import React from "react";
 import { Trans } from "@lingui/react";
+import { useTranslate } from "@/hooks/useTranslate";
 import Button from "@/components/ui/button/Button";
 import { MessageSquare, Phone, Mail, Send } from "lucide-react";
 
 export default function LandingContact() {
+  const { _ } = useTranslate();
+
   return (
     <section className="py-20 lg:py-28 px-6 lg:px-8 max-w-screen-2xl mx-auto" id="contact">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
@@ -47,7 +50,7 @@ export default function LandingContact() {
                 <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-0.5">
                   <Trans id="Email" />
                 </div>
-                <span className="text-foreground font-semibold">support@inventra.id</span>
+                <span className="text-foreground font-semibold">{/* @ts-ignore */}<Trans>support@inventra.id</Trans></span>
               </div>
             </div>
           </div>
@@ -87,11 +90,11 @@ export default function LandingContact() {
                   <Trans id="Ukuran Bisnis" />
                 </label>
                 <select className="w-full bg-background border border-border rounded-xl py-3 px-4 focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-foreground">
-                  <option><Trans id="Pilih ukuran..." /></option>
-                  <option><Trans id="1-10 karyawan" /></option>
-                  <option><Trans id="11-50 karyawan" /></option>
-                  <option><Trans id="51-200 karyawan" /></option>
-                  <option><Trans id="200+ karyawan" /></option>
+                  <option value="">{_("Pilih ukuran...")}</option>
+                  <option value="1-10">{_("1-10 karyawan")}</option>
+                  <option value="11-50">{_("11-50 karyawan")}</option>
+                  <option value="51-200">{_("51-200 karyawan")}</option>
+                  <option value="200+">{_("200+ karyawan")}</option>
                 </select>
               </div>
               <div className="space-y-1.5">
@@ -100,7 +103,7 @@ export default function LandingContact() {
                 </label>
                 <textarea
                   className="w-full bg-background border border-border rounded-xl py-3 px-4 focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-foreground placeholder:text-muted-foreground/50 resize-none"
-                  placeholder="Ceritakan tantangan inventaris Anda..."
+                  placeholder={_("Ceritakan tantangan inventaris Anda...")}
                   rows={4}
                 />
               </div>

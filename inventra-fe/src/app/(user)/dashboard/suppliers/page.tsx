@@ -14,7 +14,6 @@ import Alert from '@/components/ui/alert/Alert';
 import { getSuppliers, createSupplier, updateSupplier, deleteSupplier } from '../../../../../services/supplier.service';
 import type { Supplier, CreateSupplierPayload } from '../../../../../types';
 import { FilterBar, FilterValues } from '@/components/common/FilterBar';
-import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { PencilIcon, TrashIcon, DownloadIcon } from "lucide-react";
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
@@ -26,6 +25,7 @@ export default function Suppliers() {
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<FilterValues | null>(null);
   const [showFormModal, setShowFormModal] = useState(false);
@@ -36,10 +36,41 @@ export default function Suppliers() {
 
   const [formData, setFormData] = useState<CreateSupplierPayload>({ name: '', phone: '', address: '' });
 
+  const handleFilterChange = useCallback((vals: FilterValues) => {
+    setFilters(vals);
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const p = params.get("page");
+      if (p && !isNaN(Number(p))) {
+        setCurrentPage(Number(p));
+      } else {
+        setCurrentPage(1);
+      }
+    } else {
+      setCurrentPage(1);
+    }
+  }, []);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set("page", String(page));
+      window.history.pushState({}, '', url.toString());
+    }
+  };
+
   const fetchSuppliers = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await getSuppliers(currentPage);
+      const queryParams: Record<string, any> = {};
+      if (filters?.search) queryParams.search = filters.search;
+      if (filters?.sorts?.['sort'] && filters.sorts['sort'].value) {
+        queryParams.sort = filters.sorts['sort'].value;
+        queryParams.order = filters.sorts['sort'].direction || 'asc';
+      }
+
+      const res = await getSuppliers(currentPage, itemsPerPage, queryParams);
       if (res.status) {
         setSuppliers(res.data.data);
         setTotalPages(res.data.last_page);
@@ -52,7 +83,7 @@ export default function Suppliers() {
     } finally {
       setLoading(false);
     }
-  }, [currentPage]);
+  }, [currentPage, itemsPerPage, filters, _]);
 
   useEffect(() => { fetchSuppliers(); }, [fetchSuppliers]);
 
@@ -110,31 +141,24 @@ export default function Suppliers() {
   };
 
   const filterConfig = {
-    selects: [
+    sorts: [
       {
         label: _("Urutkan"),
         key: 'sort',
         options: [
-          { label: _("A-Z"), value: 'name_asc' },
-          { label: _("Z-A"), value: 'name_desc' }
-        ]
-      }
+          { label: _("Nama (A-Z)"), value: "name", direction: "asc" as const },
+          { label: _("Nama (Z-A)"), value: "name", direction: "desc" as const },
+          { label: _("Waktu Dibuat (Baru)"), value: "created_at", direction: "desc" as const },
+          { label: _("Waktu Dibuat (Lama)"), value: "created_at", direction: "asc" as const },
+        ],
+      },
     ],
-    searchPlaceholder: _("Cari supplier berdasarkan nama..."),
+    searchPlaceholder: _("Cari supplier berdasarkan nama atau no. telepon..."),
   };
 
-  let filteredSearch = suppliers.filter(item => {
-    return item.name.toLowerCase().includes((filters?.search || '').toLowerCase())
+  const filteredSearch = suppliers.filter(item => {
+    return !filters?.search || item.name.toLowerCase().includes(filters.search.toLowerCase()) || (item.phone || '').toLowerCase().includes(filters.search.toLowerCase());
   });
-
-  if (filters?.selects?.['sort']) {
-    const sortValue = filters.selects['sort'];
-    filteredSearch = [...filteredSearch].sort((a, b) => {
-      if (sortValue === 'name_asc') return a.name.localeCompare(b.name);
-      if (sortValue === 'name_desc') return b.name.localeCompare(a.name);
-      return 0;
-    });
-  }
 
   const handleExport = () => {
     const exportData = filteredSearch.map(sup => ({
@@ -149,7 +173,7 @@ export default function Suppliers() {
     <PermissionWrapper permission="Lihat Supplier" breadcrumb="Supplier">
 
       <div className='flex flex-col gap-4 mb-4'>
-        <FilterBar {...filterConfig} onFilterChange={setFilters} />
+        <FilterBar {...filterConfig} onFilterChange={handleFilterChange} useUrlSync={true} />
         <div className="flex justify-end gap-3">
           <Button size="sm" variant="outline" onClick={handleExport} className="flex items-center gap-2">
             <DownloadIcon className="w-4 h-4" /> <Trans id="Export Excel" />
@@ -211,7 +235,7 @@ export default function Suppliers() {
 
       {totalPages > 1 && (
         <div className="mt-4 flex justify-end">
-          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} itemsPerPage={itemsPerPage} onItemsPerPageChange={(limit) => { setItemsPerPage(limit); setCurrentPage(1); }} />
         </div>
       )}
 

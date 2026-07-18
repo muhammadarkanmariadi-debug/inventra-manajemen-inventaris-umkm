@@ -16,7 +16,6 @@ import type { Category, CreateCategoryPayload } from '../../../../../types';
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 import { Can } from '@/components/common/Can';
 import { FilterBar, FilterValues } from '@/components/common/FilterBar';
-import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { PencilIcon, TrashIcon, DownloadIcon } from "lucide-react";
 import { exportToExcel } from '@/utils/exportExcel';
@@ -25,6 +24,7 @@ export default function Categories() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<FilterValues | null>(null);
   const [showFormModal, setShowFormModal] = useState(false);
@@ -218,7 +218,7 @@ export default function Categories() {
 
         {totalPages > 1 && (
           <div className="mt-4 flex justify-end">
-            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} itemsPerPage={itemsPerPage} onItemsPerPageChange={(limit) => { setItemsPerPage(limit); setCurrentPage(1); }} />
           </div>
         )}
 

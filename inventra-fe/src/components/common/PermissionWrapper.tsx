@@ -4,6 +4,7 @@ import { useAuth } from "@/context/AuthContext";
 import React, { ReactNode, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import PageBreadCrumb from "./PageBreadCrumb";
+import { Trans } from "@lingui/react";
 
 interface PermissionWrapperProps {
   permission: string;
@@ -52,17 +53,16 @@ export function PermissionWrapper({
             </svg>
           </div>
           <h2 className="mb-2 text-2xl font-bold text-gray-800 dark:text-white/90">
-            Akses Ditolak
+            <Trans id="Akses Ditolak" />
           </h2>
           <p className="max-w-md text-gray-500 dark:text-gray-400">
-            Anda tidak memiliki izin yang diperlukan untuk mengakses halaman ini ({permission}). 
-            Silakan hubungi administrator jika Anda merasa ini adalah kesalahan.
+            <Trans id="Anda tidak memiliki izin yang diperlukan untuk mengakses halaman ini ({permission}). Silakan hubungi administrator jika Anda merasa ini adalah kesalahan." values={{ permission }} />
           </p>
           <button
             onClick={() => router.back()}
             className="mt-8 rounded-lg bg-primary px-6 py-2.5 text-sm font-medium text-white hover:bg-primary/90"
           >
-            Kembali
+            <Trans id="Kembali" />
           </button>
         </div>
       </div>

@@ -17,11 +17,9 @@ import Switch from '@/components/form/switch/Switch';
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 import { Can } from '@/components/common/Can';
 import { FilterBar, FilterValues } from '@/components/common/FilterBar';
-import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { PencilIcon, TrashIcon, EyeIcon, DownloadIcon } from "lucide-react";
 import { exportToExcel } from '@/utils/exportExcel';
-
 
 function groupPermissions(permissions: Permission[]): Record<string, Permission[]> {
   return permissions.reduce<Record<string, Permission[]>>((acc, perm) => {
@@ -38,6 +36,7 @@ export default function Roles() {
   const [roles, setRoles] = useState<Role[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<FilterValues | null>(null);
 
@@ -256,7 +255,7 @@ export default function Roles() {
             <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
               <TableRow>
                 <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Nama Role" /></TableCell>
-                <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Guard</TableCell>
+                <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">{/* @ts-ignore */}<Trans>Guard</Trans></TableCell>
                 <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Aksi" /></TableCell>
               </TableRow>
             </TableHeader>
@@ -306,7 +305,7 @@ export default function Roles() {
 
       {totalPages > 1 && (
         <div className="mt-4 flex justify-end">
-          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} itemsPerPage={itemsPerPage} onItemsPerPageChange={(limit) => { setItemsPerPage(limit); setCurrentPage(1); }} />
         </div>
       )}
 
@@ -333,7 +332,7 @@ export default function Roles() {
 
           {editingRole && Object.keys(groupedPermissions).length > 0 && (
             <div>
-              <Label>Permissions</Label>
+              <Label>{/* @ts-ignore */}<Trans>Permissions</Trans></Label>
               <div className="mt-2 max-h-72 overflow-y-auto space-y-4 pr-1">
                 {Object.entries(groupedPermissions).map(([module, perms]) => {
                   const allChecked = perms.every((p) => formData.permissions.includes(p.name));
@@ -399,7 +398,7 @@ export default function Roles() {
         className="max-w-lg p-6 lg:p-10"
       >
         <h4 className="mb-4 text-lg font-semibold text-gray-800 dark:text-white/90">
-          Detail Role: {detailRole?.name}
+          {/* @ts-ignore */}<Trans>Detail Role:</Trans>{detailRole?.name}
         </h4>
         {detailRole?.permissions && detailRole.permissions.length > 0 ? (
           <div className="space-y-3">

@@ -16,7 +16,6 @@ import {
 import LineChartOne from '@/components/charts/line/LineChartOne';
 import DatePicker from '@/components/form/date-picker';
 import Label from '@/components/form/Label';
-import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import BarChartOne from '@/components/charts/bar/BarChartOne';
 import BarChartGroup from '@/components/charts/bar/BarChartGroup';
@@ -113,7 +112,7 @@ export default function DashboardPage() {
                   {salesTrend > 0 ? <ArrowUpIcon className="w-3 h-3" /> : <ArrowDownIcon className="w-3 h-3" />}
                   {Math.abs(salesTrend).toFixed(1)}%
                 </span>
-                Lebih rendah dari bulan lalu
+                {salesTrend > 0 ? _("Lebih tinggi dari bulan lalu") : _("Lebih rendah dari bulan lalu")}
               </Badge>
             )}
           </div>
@@ -176,7 +175,7 @@ export default function DashboardPage() {
         <div className="rounded-xl shadow-lg p-4">
           <div className="flex justify-end gap-4">
             <div className="items-center gap-2 flex">
-              <Label htmlFor="start-date"><Trans id="From" /></Label>
+              <Label htmlFor="start-date"><Trans id="Dari" /></Label>
               <DatePicker
                 id="start-date"
                 placeholder="dd/mm/yy"
@@ -186,7 +185,7 @@ export default function DashboardPage() {
               />
             </div>
             <div className="items-center gap-2 flex">
-              <Label htmlFor="end-date"><Trans id="To" /></Label>
+              <Label htmlFor="end-date"><Trans id="Sampai" /></Label>
               <DatePicker
                 id="end-date"
                 placeholder="dd/mm/yy"

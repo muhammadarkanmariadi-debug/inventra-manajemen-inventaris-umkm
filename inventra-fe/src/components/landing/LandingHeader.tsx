@@ -25,21 +25,33 @@ export default function LandingHeader() {
 
 
   const NAV_LINKS = [
-    { href: "#features", label: _("Fitur") },
-    { href: "#how-it-works", label: _("Cara Kerja") },
-    { href: "#contact", label: _("Kontak") },
+    { href: "/#features", label: "Fitur", isAnchor: true },
+    { href: "/pricing", label: "Pricing", isAnchor: false },
+    { href: "/docs", label: "API Docs", isAnchor: false },
+    { href: "/faq", label: "FAQ", isAnchor: false },
+    { href: "/#contact", label: "Kontak", isAnchor: true },
   ];
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    setMobileOpen(false);
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isAnchor: boolean) => {
+    if (isAnchor) {
+      if (typeof window !== "undefined" && window.location.pathname === "/") {
+        e.preventDefault();
+        setMobileOpen(false);
+        const targetId = href.replace("/#", "#");
+        const el = document.querySelector(targetId);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        setMobileOpen(false);
+      }
+    } else {
+      setMobileOpen(false);
+    }
   };
 
   return (
@@ -72,15 +84,15 @@ export default function LandingHeader() {
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-1">
-          {NAV_LINKS.map(({ href, label }) => (
-            <a
+          {NAV_LINKS.map(({ href, label, isAnchor }) => (
+            <Link
               key={href}
               href={href}
-              onClick={(e) => handleNavClick(e, href)}
-              className="relative font-medium px-4 py-2 rounded-lg transition-all duration-200 text-muted-foreground hover:text-foreground hover:bg-accent active:scale-95"
+              onClick={(e) => handleNavClick(e, href, isAnchor)}
+              className="relative font-medium px-3.5 py-2 rounded-lg transition-all duration-200 text-muted-foreground hover:text-foreground hover:bg-accent active:scale-95 text-sm"
             >
-              <Trans id={label} />
-            </a>
+              {_(label)}
+            </Link>
           ))}
         </div>
 
@@ -138,15 +150,15 @@ export default function LandingHeader() {
           }`}
       >
         <div className="px-6 pb-6 pt-2 bg-background/95 backdrop-blur-xl border-b border-border space-y-1">
-          {NAV_LINKS.map(({ href, label }) => (
-            <a
+          {NAV_LINKS.map(({ href, label, isAnchor }) => (
+            <Link
               key={href}
               href={href}
-              onClick={(e) => handleNavClick(e, href)}
+              onClick={(e) => handleNavClick(e, href, isAnchor)}
               className="block font-medium px-4 py-3 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
             >
-              <Trans id={label} />
-            </a>
+              {_(label)}
+            </Link>
           ))}
           <div className="pt-3 border-t border-border space-y-2">
             <Link

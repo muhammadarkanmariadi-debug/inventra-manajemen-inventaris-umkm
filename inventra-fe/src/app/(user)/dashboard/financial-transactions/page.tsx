@@ -17,7 +17,6 @@ import { getFinancialTransactions, createFinancialTransaction, updateFinancialTr
 import { getAllFinancialCategories } from '../../../../../services/financial-category.service';
 import type { FinancialTransaction, FinancialCategory, CreateFinancialTransactionPayload } from '../../../../../types';
 import { FilterBar, FilterValues } from '@/components/common/FilterBar';
-import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { PencilIcon, TrashIcon, DownloadIcon } from "lucide-react";
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
@@ -30,6 +29,7 @@ export default function FinancialTransactions() {
   const [categories, setCategories] = useState<FinancialCategory[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<FilterValues | null>(null);
 
@@ -43,10 +43,49 @@ export default function FinancialTransactions() {
     financial_category_id: 0, type: 'income', amount: 0, note: '', transaction_date: '',
   });
 
+  const handleFilterChange = useCallback((vals: FilterValues) => {
+    setFilters(vals);
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const p = params.get("page");
+      if (p && !isNaN(Number(p))) {
+        setCurrentPage(Number(p));
+      } else {
+        setCurrentPage(1);
+      }
+    } else {
+      setCurrentPage(1);
+    }
+  }, []);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set("page", String(page));
+      window.history.pushState({}, '', url.toString());
+    }
+  };
+
   const fetchTransactions = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await getFinancialTransactions(currentPage);
+      const queryParams: Record<string, any> = {};
+      if (filters?.search) queryParams.search = filters.search;
+      if (filters?.tab && filters.tab !== 'all') queryParams.type = filters.tab;
+      if (filters?.selects?.['category']) {
+        queryParams.category_id = filters.selects['category'];
+      }
+      if (filters?.dateRanges?.['date']?.from && filters?.dateRanges?.['date']?.to) {
+        queryParams.from = filters.dateRanges['date'].from;
+        queryParams.to = filters.dateRanges['date'].to;
+      }
+      if (filters?.sorts?.['sort'] && filters.sorts['sort'].value) {
+        queryParams.sort = filters.sorts['sort'].value;
+        queryParams.order = filters.sorts['sort'].direction || 'desc';
+      }
+
+      const res = await getFinancialTransactions(currentPage, itemsPerPage, queryParams);
       if (res.status) {
         setTransactions(res.data.data);
         setTotalPages(res.data.last_page);
@@ -59,7 +98,7 @@ export default function FinancialTransactions() {
     } finally {
       setLoading(false);
     }
-  }, [currentPage]);
+  }, [currentPage, itemsPerPage, filters, _]);
 
   const fetchCategories = useCallback(async () => {
     try {
@@ -159,12 +198,32 @@ export default function FinancialTransactions() {
         options: categories.map(c => ({ label: c.name, value: String(c.id) }))
       }
     ],
+    dateRanges: [
+      {
+        label: _("Tanggal Transaksi"),
+        key: "date",
+      },
+    ],
+    sorts: [
+      {
+        label: _("Urutkan"),
+        key: "sort",
+        options: [
+          { label: _("Tanggal Terbaru"), value: "transaction_date", direction: "desc" as const },
+          { label: _("Tanggal Terlama"), value: "transaction_date", direction: "asc" as const },
+          { label: _("Nominal Terbesar"), value: "amount", direction: "desc" as const },
+          { label: _("Nominal Terkecil"), value: "amount", direction: "asc" as const },
+          { label: _("Waktu Dibuat (Baru)"), value: "created_at", direction: "desc" as const },
+          { label: _("Waktu Dibuat (Lama)"), value: "created_at", direction: "asc" as const },
+        ],
+      },
+    ],
     searchPlaceholder: _("Cari transaksi berdasarkan catatan atau tipe..."),
   };
 
   const filteredTransactions = transactions.filter(tx => {
-    const matchSearch = tx.note?.toLowerCase().includes((filters?.search || '').toLowerCase()) ||
-      (filters?.search ? tx.type.toLowerCase().includes(filters?.search.toLowerCase()) : true);
+    const matchSearch = !filters?.search || tx.note?.toLowerCase().includes(filters.search.toLowerCase()) ||
+      tx.type.toLowerCase().includes(filters.search.toLowerCase());
     
     const matchTab = !filters?.tab || filters.tab === 'all' || tx.type === filters.tab;
     const matchCat = !filters?.selects?.['category'] || String(tx.financial_category_id) === filters.selects['category'];
@@ -187,7 +246,7 @@ export default function FinancialTransactions() {
 
 
       <div className='flex flex-col gap-4 mb-4'>
-        <FilterBar {...filterConfig} onFilterChange={setFilters} />
+        <FilterBar {...filterConfig} onFilterChange={handleFilterChange} useUrlSync={true} />
         <div className="flex justify-end gap-3">
           <Button size="sm" variant="outline" onClick={handleExport} className="flex items-center gap-2">
             <DownloadIcon className="w-4 h-4" /> <Trans id="Export Excel" />
@@ -261,7 +320,7 @@ export default function FinancialTransactions() {
 
       {totalPages > 1 && (
         <div className="mt-4 flex justify-end">
-          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} itemsPerPage={itemsPerPage} onItemsPerPageChange={(limit) => { setItemsPerPage(limit); setCurrentPage(1); }} />
         </div>
       )}
 

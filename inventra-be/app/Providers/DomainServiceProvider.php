@@ -34,6 +34,7 @@ class DomainServiceProvider extends ServiceProvider
             'Purchase',
             'Auth',
             'Notification',
+            'Subscription',
         ];
 
         foreach ($domains as $domain) {

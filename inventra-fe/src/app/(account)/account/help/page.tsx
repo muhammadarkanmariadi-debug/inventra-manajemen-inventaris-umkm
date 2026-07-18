@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
-import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 
 const faqs = [
@@ -50,7 +49,7 @@ export default function HelpPage() {
                 className="w-full px-6 py-4 text-left bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition flex justify-between items-center"
                 onClick={() => toggleAccordion(index)}
               >
-                <span className="font-medium text-gray-900 dark:text-white">{faq.question}</span>
+                <span className="font-medium text-gray-900 dark:text-white">{_(faq.question)}</span>
                 <svg
                   className={`w-5 h-5 text-gray-500 transform transition-transform ${openIndex === index ? "rotate-180" : ""}`}
                   fill="none"
@@ -62,7 +61,7 @@ export default function HelpPage() {
               </button>
               {openIndex === index && (
                 <div className="px-6 py-4 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-                  {faq.answer}
+                  {_(faq.answer)}
                 </div>
               )}
             </div>

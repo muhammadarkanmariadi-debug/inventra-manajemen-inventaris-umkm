@@ -2,6 +2,7 @@
 import React from "react";
 import ComponentCard from "../../common/ComponentCard";
 import { useDropzone } from "react-dropzone";
+import { Trans } from "@lingui/macro";
 
 const DropzoneComponent: React.FC = () => {
   const onDrop = (acceptedFiles: File[]) => {
@@ -60,12 +61,10 @@ const DropzoneComponent: React.FC = () => {
             </h4>
 
             <span className=" text-center mb-5 block w-full max-w-[290px] text-sm text-gray-700 dark:text-gray-400">
-              Drag and drop your PNG, JPG, WebP, SVG images here or browse
-            </span>
+              {/* @ts-ignore */}<Trans>Drag and drop your PNG, JPG, WebP, SVG images here or browse</Trans></span>
 
             <span className="font-medium underline text-theme-sm text-brand-500">
-              Browse File
-            </span>
+              {/* @ts-ignore */}<Trans>Browse File</Trans></span>
           </div>
         </form>
       </div>

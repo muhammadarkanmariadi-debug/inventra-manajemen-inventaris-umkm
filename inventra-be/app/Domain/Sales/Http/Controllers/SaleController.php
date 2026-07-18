@@ -44,14 +44,37 @@ class SaleController extends Controller
             $query   = Sale::where('bussiness_id', auth()->guard('api')->user()->bussiness_id)
                 ->with('product');
 
-            if ($request->has('date_from') && $request->date_from) {
-                $query->whereDate('created_at', '>=', $request->date_from);
-            }
-            if ($request->has('date_to') && $request->date_to) {
-                $query->whereDate('created_at', '<=', $request->date_to);
+            if ($request->filled('search')) {
+                $search = $request->query('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('buyer_name', 'like', "%{$search}%")
+                      ->orWhereHas('product', function ($q2) use ($search) {
+                          $q2->where('name', 'like', "%{$search}%");
+                      });
+                });
             }
 
-            $data = $query->orderBy('created_at', 'desc')->paginate($perPage);
+            $from = $request->query('from', $request->query('date_from'));
+            $to = $request->query('to', $request->query('date_to'));
+            if ($from && $to) {
+                $query->whereBetween('created_at', [$from . ' 00:00:00', $to . ' 23:59:59']);
+            } elseif ($from) {
+                $query->where('created_at', '>=', $from . ' 00:00:00');
+            } elseif ($to) {
+                $query->where('created_at', '<=', $to . ' 23:59:59');
+            }
+
+            $allowedSorts = ['quantity', 'total_price', 'created_at', 'id'];
+            $sort = $request->query('sort');
+            $order = strtolower($request->query('order', 'desc')) === 'asc' ? 'asc' : 'desc';
+
+            if ($sort && in_array($sort, $allowedSorts, true)) {
+                $query->orderBy($sort, $order);
+            } else {
+                $query->orderBy('created_at', 'desc');
+            }
+
+            $data = $query->paginate($perPage);
 
             if ($data->isEmpty()) {
                 return ApiHelper::error('No sales found', 404);

@@ -6,6 +6,7 @@ import { useState } from "react";
 import { MoreDotIcon } from "@/icons";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
+import { Trans } from "@lingui/macro";
 
 export default function DemographicCard() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,11 +24,9 @@ export default function DemographicCard() {
       <div className="flex justify-between">
         <div>
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-            Customers Demographic
-          </h3>
+            {/* @ts-ignore */}<Trans>Customers Demographic</Trans></h3>
           <p className="mt-1 text-gray-500 text-theme-sm dark:text-gray-400">
-            Number of customer based on country
-          </p>
+            {/* @ts-ignore */}<Trans>Number of customer based on country</Trans></p>
         </div>
 
         <div className="relative inline-block">
@@ -43,14 +42,12 @@ export default function DemographicCard() {
               onItemClick={closeDropdown}
               className="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
             >
-              View More
-            </DropdownItem>
+              {/* @ts-ignore */}<Trans>View More</Trans></DropdownItem>
             <DropdownItem
               onItemClick={closeDropdown}
               className="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
             >
-              Delete
-            </DropdownItem>
+              {/* @ts-ignore */}<Trans>Delete</Trans></DropdownItem>
           </Dropdown>
         </div>
       </div>
@@ -77,11 +74,9 @@ export default function DemographicCard() {
             </div>
             <div>
               <p className="font-semibold text-gray-800 text-theme-sm dark:text-white/90">
-                USA
-              </p>
+                {/* @ts-ignore */}<Trans>USA</Trans></p>
               <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
-                2,379 Customers
-              </span>
+                {/* @ts-ignore */}<Trans>2,379 Customers</Trans></span>
             </div>
           </div>
 
@@ -108,11 +103,9 @@ export default function DemographicCard() {
             </div>
             <div>
               <p className="font-semibold text-gray-800 text-theme-sm dark:text-white/90">
-                France
-              </p>
+                {/* @ts-ignore */}<Trans>France</Trans></p>
               <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
-                589 Customers
-              </span>
+                {/* @ts-ignore */}<Trans>589 Customers</Trans></span>
             </div>
           </div>
 

@@ -21,11 +21,38 @@ class DocumentController extends Controller
         $perPage = (int) $request->query('items', 10);
 
         $query = Document::where('bussiness_id', $bussinessId)
-            ->with('generatedBy')
-            ->orderBy('created_at', 'desc');
+            ->with('generatedBy');
 
-        if ($request->has('type')) {
+        if ($request->filled('type')) {
             $query->where('type', $request->query('type'));
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->query('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('document_number', 'like', "%{$search}%");
+            });
+        }
+
+        $from = $request->query('from', $request->query('date_from'));
+        $to = $request->query('to', $request->query('date_to'));
+        if ($from && $to) {
+            $query->whereBetween('created_at', [$from . ' 00:00:00', $to . ' 23:59:59']);
+        } elseif ($from) {
+            $query->where('created_at', '>=', $from . ' 00:00:00');
+        } elseif ($to) {
+            $query->where('created_at', '<=', $to . ' 23:59:59');
+        }
+
+        $allowedSorts = ['created_at', 'title', 'document_number', 'id'];
+        $sort = $request->query('sort');
+        $order = strtolower($request->query('order', 'desc')) === 'asc' ? 'asc' : 'desc';
+
+        if ($sort && in_array($sort, $allowedSorts, true)) {
+            $query->orderBy($sort, $order);
+        } else {
+            $query->orderBy('created_at', 'desc');
         }
 
         $documents = $query->paginate($perPage);

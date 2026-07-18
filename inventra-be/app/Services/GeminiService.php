@@ -45,7 +45,7 @@ class GeminiService
         Jawaban:
         ";
 
-            return Gemini::generativeModel(model: 'gemini-2.5-flash')->generateContent($prompt);
+            return Gemini::generativeModel(model: 'gemini-1.5-flash')->generateContent($prompt);
         } catch (\Exception $e) {
             Log::error("Gemini Error: " . $e->getMessage());
             return "Maaf, sistem AI sedang mengalami gangguan.";
@@ -68,7 +68,7 @@ class GeminiService
     Format jawaban:
     - poin poin
     ";
-        return Gemini::generativeModel(model: 'gemini-2.5-flash')->generateContent($prompt);
+        return Gemini::generativeModel(model: 'gemini-1.5-flash')->generateContent($prompt);
     }
 
     public function analyzeSales($sales)
@@ -89,7 +89,7 @@ class GeminiService
     Jawaban harus ringkas dan actionable.
     ";
 
-        return Gemini::generativeModel(model: 'gemini-2.5-flash')->generateContent($prompt);
+        return Gemini::generativeModel(model: 'gemini-1.5-flash')->generateContent($prompt);
     }
 
     public function analyzeFinancial($data)
@@ -109,6 +109,6 @@ class GeminiService
     Jawaban singkat dan jelas.
     ";
 
-        return Gemini::generativeModel(model: 'gemini-2.5-flash')->generateContent($prompt);
+        return Gemini::generativeModel(model: 'gemini-1.5-flash')->generateContent($prompt);
     }
 }

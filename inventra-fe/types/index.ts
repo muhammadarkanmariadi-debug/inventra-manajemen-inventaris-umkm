@@ -40,6 +40,7 @@ export interface CreateProductPayload {
   image?: string | null;
   sku: string;
   selling_price: number;
+  stock?: number;
   category_id: number;
   product_type: "kuliner" | "barang";
   unit: string;

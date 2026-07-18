@@ -107,4 +107,10 @@ AI_AGENT_PROMPT.md
 
 /qa-automation/node_modules
 /qa-automation/test-results
-    
+
+/skills
+
+/inventra-fe/.env.*
+/inventra-be/.env.*
+
+/screenshots

@@ -5,14 +5,16 @@ import { getProfile } from './services/user.service';
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get('token')?.value;
   const { pathname } = request.nextUrl;
-  // 1. Cek Token Terlebih Dahulu
-  if (pathname.startsWith('/')) {
+  // Daftar route publik yang harus dibypass middleware
+  const publicRoutes = ['/auth/signin', '/auth/signup', '/docs', '/api', '/_next', '/favicon.ico'];
+  const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route)) || pathname === '/';
+
+  if (isPublicRoute) {
     return NextResponse.next();
-  } else if (!token) {
-    if (!request.nextUrl.pathname.startsWith('/auth/signin')) {
-      return NextResponse.redirect(new URL('/auth/signin', request.url));
-    }
-    return NextResponse.next();
+  }
+
+  if (!token) {
+    return NextResponse.redirect(new URL('/auth/signin', request.url));
   }
 
   try {

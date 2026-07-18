@@ -18,7 +18,6 @@ import { getInventories, getInventory } from '../../../../../services/inventory.
 import DeliveryNote, { DeliveryNoteData } from '@/components/documents/templates/DeliveryNote';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
-import { Trans } from '@lingui/react';
 import { useTranslate } from '@/hooks/useTranslate';
 import { getStatusTranslation } from '@/utils/statusTranslations';
 import { FileTextIcon, DownloadIcon } from 'lucide-react';
@@ -62,13 +61,14 @@ export default function InventoriesPage() {
   const [inventories, setInventories] = useState<InventoryItem[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(50);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<FilterValues | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [detailItem, setDetailItem] = useState<InventoryItem | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
 
-  const filterConfig: Required<Pick<FilterBarProps, "tabs" | "selects" | "searchPlaceholder">> = {
+  const filterConfig: Required<Pick<FilterBarProps, "tabs" | "selects" | "sorts" | "searchPlaceholder">> = {
     tabs: [
       { label: _("Semua"), value: "" },
       { label: _("Unreleased"), value: "UNRELEASED" },
@@ -77,7 +77,45 @@ export default function InventoriesPage() {
       { label: _("Reject"), value: "REJECT" },
     ],
     selects: [],
+    sorts: [
+      {
+        label: _("Urutkan"),
+        key: "sort",
+        options: [
+          { label: _("Tanggal Terbaru"), value: "created_at", direction: "desc" },
+          { label: _("Tanggal Terlama"), value: "created_at", direction: "asc" },
+          { label: _("Jumlah Terbanyak"), value: "quantity", direction: "desc" },
+          { label: _("Jumlah Sedikit"), value: "quantity", direction: "asc" },
+          { label: _("Kedaluwarsa (Terdekat)"), value: "expired_date", direction: "asc" },
+          { label: _("Kedaluwarsa (Terlama)"), value: "expired_date", direction: "desc" },
+        ],
+      },
+    ],
     searchPlaceholder: _("Cari kode inventaris atau produk..."),
+  };
+
+  const handleFilterChange = useCallback((vals: FilterValues) => {
+    setFilters(vals);
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const p = params.get("page");
+      if (p && !isNaN(Number(p))) {
+        setCurrentPage(Number(p));
+      } else {
+        setCurrentPage(1);
+      }
+    } else {
+      setCurrentPage(1);
+    }
+  }, []);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set("page", String(page));
+      window.history.pushState({}, '', url.toString());
+    }
   };
 
   const [qrModalOpen, setQrModalOpen] = useState(false);
@@ -94,7 +132,15 @@ export default function InventoriesPage() {
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await getInventories({ page: currentPage, items: 50 });
+      const queryParams: Record<string, any> = { page: currentPage, items: itemsPerPage };
+      if (filters?.search) queryParams.search = filters.search;
+      if (filters?.tab) queryParams.status = filters.tab;
+      if (filters?.sorts?.['sort'] && filters.sorts['sort'].value) {
+        queryParams.sort = filters.sorts['sort'].value;
+        queryParams.order = filters.sorts['sort'].direction || 'desc';
+      }
+
+      const res = await getInventories(queryParams);
       setInventories(res.data?.data || []);
       setTotalPages(res.data?.last_page || 1);
     } catch (err: any) {
@@ -102,7 +148,7 @@ export default function InventoriesPage() {
     } finally {
       setLoading(false);
     }
-  }, [currentPage]);
+  }, [currentPage, itemsPerPage, filters, _]);
 
   useEffect(() => {
     fetchData();
@@ -210,8 +256,10 @@ export default function InventoriesPage() {
         <FilterBar
           tabs={filterConfig.tabs}
           selects={filterConfig.selects}
+          sorts={filterConfig.sorts}
           searchPlaceholder={filterConfig.searchPlaceholder}
-          onFilterChange={setFilters}
+          onFilterChange={handleFilterChange}
+          useUrlSync={true}
         />
         <div className="flex justify-end gap-3 mb-2">
           <Button size="sm" variant="outline" onClick={handleExport} className="flex items-center gap-2">
@@ -240,13 +288,13 @@ export default function InventoriesPage() {
                       <TableCell className="px-5 py-8 text-center text-gray-500" colSpan={7}>
                         <div className="flex items-center justify-center">
                           <svg className="animate-spin h-5 w-5 mr-2 text-brand-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
-                          Memuat data...
+                          <Trans id="Memuat data..." />
                         </div>
                       </TableCell>
                     </TableRow>
                   ) : filtered.length === 0 ? (
                     <TableRow>
-                      <TableCell className="px-5 py-8 text-center text-gray-500" colSpan={7}>Tidak ada data inventaris.</TableCell>
+                      <TableCell className="px-5 py-8 text-center text-gray-500" colSpan={7}><Trans id="Tidak ada data inventaris." /></TableCell>
                     </TableRow>
                   ) : (
                     filtered.map(inv => (
@@ -268,8 +316,8 @@ export default function InventoriesPage() {
                         <TableCell className="px-4 py-3 text-start">
                           <div className="flex items-center gap-2">
                         
-                            <button onClick={() => router.push(`/dashboard/scan?code=${inv.inventory_code}`)} className="text-brand-500 hover:text-brand-700 text-sm">Scan</button>
-                            <button onClick={() => { setQrCodeData({ code: inv.inventory_code, title: `QR Inventaris`, subtitle: `Produk: ${inv.product?.name || '-'}` }); setQrModalOpen(true); }} className="text-gray-500 hover:text-gray-700 text-sm border border-gray-200 px-2 py-0.5 rounded ml-1">Cetak QR</button>
+                            <button onClick={() => router.push(`/dashboard/scan?code=${inv.inventory_code}`)} className="text-brand-500 hover:text-brand-700 text-sm"><Trans id="Scan" /></button>
+                            <button onClick={() => { setQrCodeData({ code: inv.inventory_code, title: _("QR Inventaris"), subtitle: `${_("Produk")}: ${inv.product?.name || '-'}` }); setQrModalOpen(true); }} className="text-gray-500 hover:text-gray-700 text-sm border border-gray-200 px-2 py-0.5 rounded ml-1"><Trans id="Cetak QR" /></button>
                             <button
                               onClick={() => openSJModal(inv)}
                               className="p-1.5 text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 border border-green-200 dark:border-green-700 rounded"
@@ -288,9 +336,18 @@ export default function InventoriesPage() {
           </div>
         </div>
 
-        {totalPages > 1 && (
+        {(totalPages > 1 || itemsPerPage !== 50) && (
           <div className="mt-4 flex justify-end">
-            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+              itemsPerPage={itemsPerPage}
+              onItemsPerPageChange={(limit) => {
+                setItemsPerPage(limit);
+                setCurrentPage(1);
+              }}
+            />
           </div>
         )}
       </div>
@@ -306,25 +363,25 @@ export default function InventoriesPage() {
       {/* Detail Modal */}
       <Modal isOpen={showDetailModal} onClose={() => { setShowDetailModal(false); setDetailItem(null); }} className="max-w-xl">
         <div className="p-5">
-          <h4 className="mb-4 text-lg font-semibold text-gray-800 dark:text-white">Detail Inventaris</h4>
+          <h4 className="mb-4 text-lg font-semibold text-gray-800 dark:text-white"><Trans id="Detail Inventaris" /></h4>
           {detailLoading ? (
             <div className="flex items-center justify-center py-8">
               <svg className="animate-spin h-5 w-5 mr-2 text-brand-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
-              Memuat...
+              <Trans id="Memuat..." />
             </div>
           ) : detailItem ? (
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Kode</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400"><Trans id="Kode" /></p>
                   <p className="font-mono font-semibold text-gray-800 dark:text-white">{detailItem.inventory_code}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Produk</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400"><Trans id="Produk" /></p>
                   <p className="font-semibold text-gray-800 dark:text-white">{detailItem.product?.name || '-'}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Jumlah</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400"><Trans id="Jumlah" /></p>
                   <p className="font-semibold text-gray-800 dark:text-white">{detailItem.quantity}</p>
                 </div>
                 <div>
@@ -332,11 +389,11 @@ export default function InventoriesPage() {
                   <Badge color={getStatusColor(detailItem.status?.code)}>{detailItem.status?.code ? getStatusTranslation(detailItem.status.code, _) : '-'}</Badge>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Lokasi</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400"><Trans id="Lokasi" /></p>
                   <p className="text-gray-700 dark:text-gray-300">{detailItem.location?.name || '-'}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Dibuat</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400"><Trans id="Dibuat" /></p>
                   <p className="text-gray-700 dark:text-gray-300">{new Date(detailItem.created_at).toLocaleString('id-ID')}</p>
                 </div>
               </div>
@@ -344,7 +401,7 @@ export default function InventoriesPage() {
            
             </div>
           ) : (
-            <p className="text-red-500">Gagal memuat detail.</p>
+            <p className="text-red-500"><Trans id="Gagal memuat detail." /></p>
           )}
         </div>
       </Modal>
@@ -357,7 +414,7 @@ export default function InventoriesPage() {
         {sjItem && (
           <div className="mb-4 p-3 bg-gray-50 dark:bg-white/5 rounded-lg">
             <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{sjItem.product?.name || '-'}</p>
-            <p className="text-xs text-gray-500">Batch: {sjItem.inventory_code} &middot; Qty: {sjItem.quantity}</p>
+            <p className="text-xs text-gray-500">{/* @ts-ignore */}<Trans>Batch:</Trans>{sjItem.inventory_code} {/* @ts-ignore */}<Trans>&middot; Qty:</Trans>{sjItem.quantity}</p>
           </div>
         )}
         <div className="space-y-4">

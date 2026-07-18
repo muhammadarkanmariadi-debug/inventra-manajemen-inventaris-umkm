@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { SalesRecord, PredictionResult, DefectRecord, DefectPredictionResponse } from '../types';
+import { PREDICTION_API_URL } from '../global';
 
-const PREDICTION_API_URL = 'http://ai-stock-prediction:8001';
 
 /**
  * Prediksi stok dan penjualan untuk satu data poin (single record).

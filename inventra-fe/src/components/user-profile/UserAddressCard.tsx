@@ -10,8 +10,11 @@ import { updateBusiness } from "../../../services/user.service";
 import { toast } from "sonner";
 import { CldImage, CldUploadWidget, CloudinaryUploadWidgetInfo } from "next-cloudinary";
 import { CloudUpload } from "lucide-react";
+import { useTranslate } from "@/hooks/useTranslate";
+import { Trans } from "@lingui/react";
 
 export default function UserAddressCard() {
+  const { _ } = useTranslate();
   const { business, refreshProfile } = useAuth();
   const { isOpen, openModal, closeModal } = useModal();
   const [isSaving, setIsSaving] = useState(false);
@@ -50,14 +53,14 @@ export default function UserAddressCard() {
     try {
       const response = await updateBusiness(business.id, formData);
       if (response.status) {
-        toast.success("Business information updated successfully");
+        toast.success(_("Informasi bisnis berhasil diperbarui"));
         await refreshProfile();
         closeModal();
       } else {
-        toast.error(response.message || "Failed to update business");
+        toast.error(response.message || _("Gagal memperbarui informasi bisnis"));
       }
     } catch (error) {
-      toast.error("An error occurred while updating business");
+      toast.error(_("Terjadi kesalahan saat memperbarui informasi bisnis"));
     } finally {
       setIsSaving(false);
     }
@@ -69,22 +72,22 @@ export default function UserAddressCard() {
         <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div>
             <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
-              Business Information
+              <Trans id="Informasi Bisnis" />
             </h4>
 
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32">
               <div>
                 <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                  Business Name
+                  <Trans id="Nama Bisnis" />
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  {business?.name || "No Business Linked"}
+                  {business?.name || _("Belum Ada Bisnis Terhubung")}
                 </p>
               </div>
 
               <div>
                 <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                  Address
+                  <Trans id="Alamat" />
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
                   {business?.address || "-"}
@@ -93,7 +96,7 @@ export default function UserAddressCard() {
 
               <div>
                 <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                  Phone
+                  <Trans id="Telepon" />
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
                   {business?.phone || "-"}
@@ -102,7 +105,7 @@ export default function UserAddressCard() {
 
               <div>
                 <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                  Website
+                  <Trans id="Website" />
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
                   {business?.website || "-"}
@@ -110,14 +113,14 @@ export default function UserAddressCard() {
               </div>
               <div>
                 <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                  Description
+                  <Trans id="Deskripsi" />
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
                   {business?.description || "-"}
                 </p>
                 <div>
                   <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                    Logo
+                    <Trans id="Logo" />
                   </p>
                   <CldImage className="dark:hidden" alt="image" width={200} height={200} src={business?.logo || "new"} />
                   <CldImage className="dark:block hidden" alt="image" width={200} height={200} src={business?.logo_dark || "new"} />
@@ -145,7 +148,7 @@ export default function UserAddressCard() {
                 fill=""
               />
             </svg>
-            Edit
+            <Trans id="Edit" />
           </button>
         </div>
       </div>
@@ -153,17 +156,17 @@ export default function UserAddressCard() {
         <div className="relative w-full p-4 overflow-y-auto bg-white no-scrollbar rounded-3xl dark:bg-gray-900 lg:p-11">
           <div className="px-2 pr-14">
             <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
-              Edit Business Details
+              <Trans id="Edit Detail Bisnis" />
             </h4>
             <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
-              Update your business information.
+              <Trans id="Perbarui informasi bisnis Anda." />
             </p>
           </div>
           <form className="flex flex-col" onSubmit={handleSave}>
             <div className="px-2 overflow-y-auto custom-scrollbar">
               <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                 <div>
-                  <Label>Business Name</Label>
+                  <Label><Trans id="Nama Bisnis" /></Label>
                   <Input
                     type="text"
                     value={formData.name}
@@ -172,7 +175,7 @@ export default function UserAddressCard() {
                 </div>
 
                 <div>
-                  <Label>Phone</Label>
+                  <Label><Trans id="Telepon" /></Label>
                   <Input
                     type="text"
                     value={formData.phone}
@@ -181,7 +184,7 @@ export default function UserAddressCard() {
                 </div>
 
                 <div className="lg:col-span-2">
-                  <Label>Address</Label>
+                  <Label><Trans id="Alamat" /></Label>
                   <Input
                     type="text"
                     value={formData.address}
@@ -190,7 +193,7 @@ export default function UserAddressCard() {
                 </div>
 
                 <div className="lg:col-span-2">
-                  <Label>Website</Label>
+                  <Label><Trans id="Website" /></Label>
                   <Input
                     type="text"
                     value={formData.website}
@@ -198,7 +201,7 @@ export default function UserAddressCard() {
                   />
                 </div>
                 <div className="lg:col-span-2">
-                  <Label>Description</Label>
+                  <Label><Trans id="Deskripsi" /></Label>
                   <Input
                     type="text-area"
                     value={formData.description}
@@ -223,7 +226,7 @@ export default function UserAddressCard() {
                         onClick={() => open()}
                       >
                         <CloudUpload className="w-full h-full" />
-                        <span>  Upload Logo Bisnis Anda untuk mode terang</span>
+                        <span> <Trans id="Upload Logo Bisnis Anda untuk mode terang" /></span>
                       </button>
                     );
                   }}
@@ -244,7 +247,7 @@ export default function UserAddressCard() {
                         onClick={() => open()}
                       >
                         <CloudUpload className="w-full h-full" />
-                        <span>  Upload Logo Bisnis Anda untuk mode gelap</span>
+                        <span> <Trans id="Upload Logo Bisnis Anda untuk mode gelap" /></span>
                       </button>
                     );
                   }}
@@ -253,10 +256,10 @@ export default function UserAddressCard() {
             </div>
             <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
               <Button size="sm" variant="outline" onClick={closeModal} type="button">
-                Close
+                <Trans id="Tutup" />
               </Button>
               <Button size="sm" type="submit" disabled={isSaving}>
-                {isSaving ? "Saving..." : "Save Changes"}
+                {isSaving ? _("Menyimpan...") : _("Simpan Perubahan")}
               </Button>
             </div>
           </form>

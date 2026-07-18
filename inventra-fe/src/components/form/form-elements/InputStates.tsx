@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import ComponentCard from "../../common/ComponentCard";
 import Input from "../input/InputField";
 import Label from "../Label";
+import { Trans } from "@lingui/macro";
 
 export default function InputStates() {
   const [email, setEmail] = useState("");
@@ -29,7 +30,7 @@ export default function InputStates() {
       <div className="space-y-5 sm:space-y-6">
         {/* Error Input */}
         <div>
-          <Label>Email</Label>
+          <Label>{/* @ts-ignore */}<Trans>Email</Trans></Label>
           <Input
             type="email"
             defaultValue={email}
@@ -42,7 +43,7 @@ export default function InputStates() {
 
         {/* Success Input */}
         <div>
-          <Label>Email</Label>
+          <Label>{/* @ts-ignore */}<Trans>Email</Trans></Label>
           <Input
             type="email"
             defaultValue={email}
@@ -55,7 +56,7 @@ export default function InputStates() {
 
         {/* Disabled Input */}
         <div>
-          <Label>Email</Label>
+          <Label>{/* @ts-ignore */}<Trans>Email</Trans></Label>
           <Input
             type="text"
             defaultValue="disabled@example.com"

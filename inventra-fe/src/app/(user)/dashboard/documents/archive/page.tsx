@@ -23,8 +23,11 @@ import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 import { Can } from '@/components/common/Can';
 import { Table, TableHeader, TableBody, TableRow, TableCell } from '@/components/ui/table';
 import Badge from '@/components/ui/badge/Badge';
+import { useTranslate } from '@/hooks/useTranslate';
 import Pagination from '@/components/tables/Pagination';
 import { exportToExcel } from '@/utils/exportExcel';
+import { FilterBar, FilterValues, FilterBarProps } from '@/components/common/FilterBar';
+import { Trans } from '@lingui/react';
 
 const typeLabels: Record<string, string> = {
   LPB: 'Laporan Pergerakan Barang',
@@ -43,19 +46,85 @@ const typeColors: Record<string, "info" | "error" | "success" | "warning" | "pri
 };
 
 export default function DocumentArchivePage() {
+  const { _ } = useTranslate();
   const [documents, setDocuments] = useState<DocumentRecord[]>([]);
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [total, setTotal] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
-  const [filterType, setFilterType] = useState<string>('');
+  const [filters, setFilters] = useState<FilterValues | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [downloadingId, setDownloadingId] = useState<number | null>(null);
+
+  const filterConfig: Required<Pick<FilterBarProps, "tabs" | "selects" | "dateRanges" | "sorts" | "searchPlaceholder">> = {
+    tabs: [
+      { label: _("Semua Tipe"), value: "" },
+      { label: _("Laporan Pergerakan Barang (LPB)"), value: "LPB" },
+      { label: _("Berita Acara Reject (BAR)"), value: "BAR" },
+      { label: _("Surat Jalan (SJ)"), value: "SJ" },
+      { label: _("Laporan Barang Bermasalah (LBB)"), value: "LBB" },
+      { label: _("Laporan Rekap Stok (LRS)"), value: "LRS" },
+    ],
+    selects: [],
+    dateRanges: [
+      { label: _("Tanggal Dibuat"), key: "date" }
+    ],
+    sorts: [
+      {
+        label: _("Urutkan"),
+        key: "sort",
+        options: [
+          { label: _("Waktu Dibuat (Baru)"), value: "created_at", direction: "desc" },
+          { label: _("Waktu Dibuat (Lama)"), value: "created_at", direction: "asc" },
+          { label: _("Nomor Dokumen (A-Z)"), value: "document_number", direction: "asc" },
+          { label: _("Nomor Dokumen (Z-A)"), value: "document_number", direction: "desc" },
+        ],
+      },
+    ],
+    searchPlaceholder: _("Cari nomor atau judul dokumen..."),
+  };
+
+  const handleFilterChange = useCallback((vals: FilterValues) => {
+    setFilters(vals);
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const p = params.get("page");
+      if (p && !isNaN(Number(p))) {
+        setPage(Number(p));
+      } else {
+        setPage(1);
+      }
+    } else {
+      setPage(1);
+    }
+  }, []);
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set("page", String(newPage));
+      window.history.pushState({}, '', url.toString());
+    }
+  };
 
   const fetchDocuments = useCallback(async () => {
     setIsLoading(true);
     try {
-      const res = await getDocuments(page, 10, filterType || undefined);
+      const extraParams: Record<string, any> = {};
+      if (filters?.search) extraParams.search = filters.search;
+      if (filters?.dateRanges?.['date']?.from && filters?.dateRanges?.['date']?.to) {
+        extraParams.from = filters.dateRanges['date'].from;
+        extraParams.to = filters.dateRanges['date'].to;
+      }
+      if (filters?.sorts?.['sort'] && filters.sorts['sort'].value) {
+        extraParams.sort = filters.sorts['sort'].value;
+        extraParams.order = filters.sorts['sort'].direction || 'desc';
+      }
+
+      const typeParam = filters?.tab ? filters.tab : undefined;
+      const res = await getDocuments(page, itemsPerPage, typeParam, extraParams);
       if (res.status && res.data) {
         setDocuments(res.data.data || []);
         setLastPage(res.data.last_page);
@@ -65,29 +134,29 @@ export default function DocumentArchivePage() {
       }
     } catch (err) {
       console.error(err);
-      toast.error('Gagal memuat dokumen');
+      toast.error(_('Gagal memuat dokumen'));
     } finally {
       setIsLoading(false);
     }
-  }, [page, filterType]);
+  }, [page, itemsPerPage, filters, _]);
 
   useEffect(() => {
     fetchDocuments();
   }, [fetchDocuments]);
 
   const handleDelete = async (id: number) => {
-    if (!confirm('Hapus dokumen ini? File PDF akan dihapus dari server.')) return;
+    if (!confirm(_('Hapus dokumen ini? File PDF akan dihapus dari server.'))) return;
     setDeletingId(id);
     try {
       const res = await deleteDocument(id);
       if (res.status) {
-        toast.success('Dokumen berhasil dihapus');
+        toast.success(_('Dokumen berhasil dihapus'));
         fetchDocuments();
       } else {
-        toast.error(res.message || 'Gagal menghapus');
+        toast.error(res.message || _('Gagal menghapus'));
       }
     } catch {
-      toast.error('Gagal menghapus dokumen');
+      toast.error(_('Gagal menghapus dokumen'));
     } finally {
       setDeletingId(null);
     }
@@ -103,9 +172,9 @@ export default function DocumentArchivePage() {
       a.download = `${doc.document_number}.pdf`;
       a.click();
       URL.revokeObjectURL(url);
-      toast.success('Dokumen berhasil diunduh');
+      toast.success(_('Dokumen berhasil diunduh'));
     } catch {
-      toast.error('Gagal mengunduh dokumen');
+      toast.error(_('Gagal mengunduh dokumen'));
     } finally {
       setDownloadingId(null);
     }
@@ -128,36 +197,19 @@ export default function DocumentArchivePage() {
       <PageBreadcrumb pageTitle="Arsip Dokumen" />
 
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-3 mb-6">
-        <div className="relative flex-1 max-w-xs">
-          <FilterIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-          <select
-            value={filterType}
-            onChange={(e) => { setFilterType(e.target.value); setPage(1); }}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700
-              bg-white dark:bg-gray-800 text-sm text-gray-700 dark:text-gray-200
-              focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none
-              appearance-none cursor-pointer"
-          >
-            <option value="">Semua Tipe</option>
-            <option value="LPB">Laporan Pergerakan Barang</option>
-            <option value="BAR">Berita Acara Reject</option>
-            <option value="SJ">Surat Jalan</option>
-            <option value="LBB">Laporan Barang Bermasalah</option>
-            <option value="LRS">Laporan Rekap Stok</option>
-          </select>
-        </div>
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col gap-4 mb-6">
+        <FilterBar {...filterConfig} onFilterChange={handleFilterChange} useUrlSync={true} />
+        <div className="flex items-center justify-between gap-3">
           <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1">
             <FileTextIcon className="w-4 h-4" />
-            Total: {total} dokumen
+            <Trans id="Total:" /> {total} <Trans id="dokumen" />
           </div>
           <button
             onClick={handleExport}
             className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-700"
             title="Export ke Excel"
           >
-            <DownloadIcon className="w-4 h-4" /> Export Excel
+            <DownloadIcon className="w-4 h-4" /> <Trans id="Export Excel" />
           </button>
         </div>
       </div>
@@ -170,11 +222,11 @@ export default function DocumentArchivePage() {
             <Table>
               <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
                 <TableRow>
-                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">No. Dokumen</TableCell>
-                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Tipe</TableCell>
-                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Judul</TableCell>
-                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Dibuat</TableCell>
-                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-end text-theme-xs dark:text-gray-400">Aksi</TableCell>
+                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="No. Dokumen" /></TableCell>
+                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Tipe" /></TableCell>
+                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Judul" /></TableCell>
+                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Dibuat" /></TableCell>
+                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-end text-theme-xs dark:text-gray-400"><Trans id="Aksi" /></TableCell>
                 </TableRow>
               </TableHeader>
               <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
@@ -191,7 +243,7 @@ export default function DocumentArchivePage() {
                     <TableCell className="px-5 py-12 text-center text-gray-400 dark:text-gray-500" colSpan={5}>
                       <div className="flex flex-col items-center justify-center">
                         <FileTextIcon className="w-12 h-12 mb-3" />
-                        <p className="text-sm">Belum ada dokumen yang dibuat</p>
+                        <p className="text-sm"><Trans id="Belum ada dokumen yang dibuat" /></p>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -203,7 +255,7 @@ export default function DocumentArchivePage() {
                       </TableCell>
                       <TableCell className="px-5 py-4 text-start">
                         <Badge variant="light" color={typeColors[doc.type] as any || 'light'}>
-                          {typeLabels[doc.type] || doc.type}
+                          {_(typeLabels[doc.type] || doc.type)}
                         </Badge>
                       </TableCell>
                       <TableCell className="px-5 py-4 text-start text-sm text-gray-700 dark:text-gray-300">
@@ -262,7 +314,7 @@ export default function DocumentArchivePage() {
 
       {lastPage > 1 && (
         <div className="mt-4 flex justify-end">
-          <Pagination currentPage={page} totalPages={lastPage} onPageChange={setPage} />
+          <Pagination currentPage={page} totalPages={lastPage} onPageChange={handlePageChange} itemsPerPage={itemsPerPage} onItemsPerPageChange={(limit) => { setItemsPerPage(limit); setPage(1); }} />
         </div>
       )}
     </div>

@@ -14,7 +14,12 @@ class LocationController extends Controller
     public function index(Request $request)
     {
         try {
+            $user = auth()->guard('api')->user();
             $query = Location::withCount('inventories');
+
+            if ($user && $user->role !== 'SUPERADMIN' && $user->bussiness_id) {
+                $query->where('bussiness_id', $user->bussiness_id);
+            }
 
             if ($request->has('search') && $request->search) {
                 $query->where('name', 'like', "%{$request->search}%");
@@ -36,7 +41,13 @@ class LocationController extends Controller
     public function store(LocationRequest $request)
     {
         try {
-            $location = Location::create($request->validated());
+            $user = auth()->guard('api')->user();
+            $data = $request->validated();
+            if ($user && $user->bussiness_id) {
+                $data['bussiness_id'] = $user->bussiness_id;
+            }
+
+            $location = Location::create($data);
 
             event(new LoggingEvent('Location ' . $location->name . ' created successfully.', 'locations'));
 
@@ -53,7 +64,12 @@ class LocationController extends Controller
     public function show($id)
     {
         try {
-            $location = Location::withCount('inventories')->with('inventories.product', 'inventories.status')->find($id);
+            $user = auth()->guard('api')->user();
+            $query = Location::withCount('inventories')->with('inventories.product', 'inventories.status')->where('id', $id);
+            if ($user && $user->role !== 'SUPERADMIN' && $user->bussiness_id) {
+                $query->where('bussiness_id', $user->bussiness_id);
+            }
+            $location = $query->first();
 
             if (!$location) {
                 return response()->json([
@@ -75,7 +91,12 @@ class LocationController extends Controller
     public function update(LocationRequest $request, $id)
     {
         try {
-            $location = Location::find($id);
+            $user = auth()->guard('api')->user();
+            $query = Location::where('id', $id);
+            if ($user && $user->role !== 'SUPERADMIN' && $user->bussiness_id) {
+                $query->where('bussiness_id', $user->bussiness_id);
+            }
+            $location = $query->first();
 
             if (!$location) {
                 return response()->json([
@@ -101,7 +122,12 @@ class LocationController extends Controller
     public function destroy($id)
     {
         try {
-            $location = Location::withCount('inventories')->find($id);
+            $user = auth()->guard('api')->user();
+            $query = Location::withCount('inventories')->where('id', $id);
+            if ($user && $user->role !== 'SUPERADMIN' && $user->bussiness_id) {
+                $query->where('bussiness_id', $user->bussiness_id);
+            }
+            $location = $query->first();
 
             if (!$location) {
                 return response()->json([

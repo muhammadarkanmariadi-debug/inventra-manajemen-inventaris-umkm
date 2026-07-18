@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
@@ -13,6 +12,8 @@ import {
 } from "../icons/index";
 import { useAuth } from "@/context/AuthContext";
 import { Building2, Settings, User, UserCircle, Users, ArrowLeft } from "lucide-react";
+import { useTranslate } from "@/hooks/useTranslate";
+import { Trans } from "@lingui/react";
 
 type NavItem = {
   name: string;
@@ -22,30 +23,32 @@ type NavItem = {
   subItems?: { name: string; path: string; pro?: boolean; new?: boolean; permission?: string }[];
 };
 
-const adminNavItems: NavItem[] = [
+const getAdminNavItems = (_: any): NavItem[] => [
   {
     icon: <Building2 className="w-5 h-5" />,
-    name: "Semua Bisnis",
+    name: _("Semua Bisnis"),
     path: "/admin/businesses",
   },
   {
     icon: <Users className="w-5 h-5" />,
-    name: "Semua Pengguna",
+    name: _("Semua Pengguna"),
     path: "/admin/users",
   },
   {
     icon: <Settings className="w-5 h-5" />,
-    name: "Pengaturan",
+    name: _("Pengaturan"),
     path: "/account/settings",
   },
   {
     icon: <UserCircle className="w-5 h-5" />,
-    name: "Edit Profil",
+    name: _("Edit Profil"),
     path: "/account/profile",
   },
 ];
 
 const AdminSidebar: React.FC = () => {
+  const { _ } = useTranslate();
+  const adminNavItems = getAdminNavItems(_);
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const pathname = usePathname();
 
@@ -102,7 +105,7 @@ const AdminSidebar: React.FC = () => {
           <div className="flex flex-col gap-4">
             <div>
               <h2 className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${!isExpanded && !isHovered ? "lg:justify-center" : "justify-start"}`}>
-                {isExpanded || isHovered || isMobileOpen ? "SaaS Admin" : <HorizontaLDots />}
+                {isExpanded || isHovered || isMobileOpen ? <Trans id="SaaS Admin" /> : <HorizontaLDots />}
               </h2>
               {renderMenuItems(adminNavItems)}
             </div>
@@ -124,7 +127,7 @@ const AdminSidebar: React.FC = () => {
             </span>
             {(isExpanded || isHovered || isMobileOpen) && (
               <span className="text-sm">
-                Kembali ke Beranda
+                <Trans id="Kembali ke Beranda" />
               </span>
             )}
           </Link>

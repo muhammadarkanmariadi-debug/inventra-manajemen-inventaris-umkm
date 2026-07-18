@@ -7,6 +7,7 @@ import {
 } from "../ui/table";
 import Badge from "../ui/badge/Badge";
 import Image from "next/image";
+import { Trans } from "@lingui/macro";
 
 // Define the TypeScript interface for the table rows
 interface Product {
@@ -75,8 +76,7 @@ export default function RecentOrders() {
       <div className="flex flex-col gap-2 mb-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-            Recent Orders
-          </h3>
+            {/* @ts-ignore */}<Trans>Recent Orders</Trans></h3>
         </div>
 
         <div className="flex items-center gap-3">
@@ -116,11 +116,9 @@ export default function RecentOrders() {
                 strokeWidth="1.5"
               />
             </svg>
-            Filter
-          </button>
+            {/* @ts-ignore */}<Trans>Filter</Trans></button>
           <button className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-theme-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
-            See all
-          </button>
+            {/* @ts-ignore */}<Trans>See all</Trans></button>
         </div>
       </div>
       <div className="max-w-full overflow-x-auto">
@@ -132,26 +130,22 @@ export default function RecentOrders() {
                 isHeader
                 className="py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
               >
-                Products
-              </TableCell>
+                {/* @ts-ignore */}<Trans>Products</Trans></TableCell>
               <TableCell
                 isHeader
                 className="py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
               >
-                Category
-              </TableCell>
+                {/* @ts-ignore */}<Trans>Category</Trans></TableCell>
               <TableCell
                 isHeader
                 className="py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
               >
-                Price
-              </TableCell>
+                {/* @ts-ignore */}<Trans>Price</Trans></TableCell>
               <TableCell
                 isHeader
                 className="py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
               >
-                Status
-              </TableCell>
+                {/* @ts-ignore */}<Trans>Status</Trans></TableCell>
             </TableRow>
           </TableHeader>
 

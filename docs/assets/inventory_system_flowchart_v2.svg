@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 850" width="100%" height="100%" style="background-color: #0d1117; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <!-- Definitions for gradients and shadows -->
+  <defs>
+    <linearGradient id="grad-master" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1f6feb" />
+      <stop offset="100%" stop-color="#0d419d" />
+    </linearGradient>
+    <linearGradient id="grad-purchase" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#238636" />
+      <stop offset="100%" stop-color="#115822" />
+    </linearGradient>
+    <linearGradient id="grad-qc" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d29922" />
+      <stop offset="100%" stop-color="#9e6a03" />
+    </linearGradient>
+    <linearGradient id="grad-warehouse" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8957e5" />
+      <stop offset="100%" stop-color="#6132bc" />
+    </linearGradient>
+    <linearGradient id="grad-sales" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#da3633" />
+      <stop offset="100%" stop-color="#9e1c1a" />
+    </linearGradient>
+    <linearGradient id="grad-ai" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f78166" />
+      <stop offset="100%" stop-color="#c93c1e" />
+    </linearGradient>
+    <linearGradient id="grad-report" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#316dca" />
+      <stop offset="100%" stop-color="#183b72" />
+    </linearGradient>
+    
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#58a6ff" />
+    </marker>
+    <marker id="arrow-qc" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#e3b341" />
+    </marker>
+  </defs>
+
+  <!-- Title Section -->
+  <rect x="30" y="25" width="940" height="70" rx="12" fill="#161b22" stroke="#30363d" stroke-width="2" filter="url(#shadow)" />
+  <text x="500" y="55" fill="#ffffff" font-size="22" font-weight="800" text-anchor="middle" letter-spacing="0.5">ARSITEKTUR &amp; ALUR SISTEM INVENTRA ERP</text>
+  <text x="500" y="78" fill="#8b949e" font-size="13" font-weight="500" text-anchor="middle">Siklus Terintegrasi: Supplier → Batch Tracking → Quality Control → Gudang → Penjualan &amp; Analitik AI</text>
+
+  <!-- ZONE 1: MASTER DATA -->
+  <g transform="translate(50, 130)">
+    <rect x="0" y="0" width="260" height="150" rx="12" fill="#161b22" stroke="#30363d" stroke-width="2" filter="url(#shadow)" />
+    <rect x="0" y="0" width="260" height="38" rx="12" fill="url(#grad-master)" />
+    <text x="130" y="24" fill="#ffffff" font-size="14" font-weight="700" text-anchor="middle">1. MASTER DATA &amp; KATEGORI</text>
+    
+    <rect x="20" y="52" width="220" height="36" rx="6" fill="#21262d" stroke="#388bfd" stroke-width="1" />
+    <text x="130" y="75" fill="#c9d1d9" font-size="12" font-weight="600" text-anchor="middle">Manajemen Supplier &amp; Mitra</text>
+
+    <rect x="20" y="98" width="220" height="36" rx="6" fill="#21262d" stroke="#388bfd" stroke-width="1" />
+    <text x="130" y="121" fill="#c9d1d9" font-size="12" font-weight="600" text-anchor="middle">Katalog Produk &amp; Multi-SKU</text>
+  </g>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M 310 205 L 360 205" stroke="#58a6ff" stroke-width="3" fill="none" marker-end="url(#arrow)" />
+
+  <!-- ZONE 2: PEMBELIAN & BATCH -->
+  <g transform="translate(370, 130)">
+    <rect x="0" y="0" width="260" height="150" rx="12" fill="#161b22" stroke="#30363d" stroke-width="2" filter="url(#shadow)" />
+    <rect x="0" y="0" width="260" height="38" rx="12" fill="url(#grad-purchase)" />
+    <text x="130" y="24" fill="#ffffff" font-size="14" font-weight="700" text-anchor="middle">2. PEMBELIAN &amp; BATCH</text>
+    
+    <rect x="20" y="52" width="220" height="36" rx="6" fill="#21262d" stroke="#3fb950" stroke-width="1" />
+    <text x="130" y="75" fill="#c9d1d9" font-size="12" font-weight="600" text-anchor="middle">Purchase Order (PO) Masuk</text>
+
+    <rect x="20" y="98" width="220" height="36" rx="6" fill="#21262d" stroke="#3fb950" stroke-width="1" />
+    <text x="130" y="121" fill="#c9d1d9" font-size="12" font-weight="600" text-anchor="middle">Auto-Generate Batch ID &amp; QR</text>
+  </g>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M 630 205 L 680 205" stroke="#58a6ff" stroke-width="3" fill="none" marker-end="url(#arrow)" />
+
+  <!-- ZONE 3: QUALITY CONTROL -->
+  <g transform="translate(690, 130)">
+    <rect x="0" y="0" width="260" height="150" rx="12" fill="#161b22" stroke="#30363d" stroke-width="2" filter="url(#shadow)" />
+    <rect x="0" y="0" width="260" height="38" rx="12" fill="url(#grad-qc)" />
+    <text x="130" y="24" fill="#ffffff" font-size="14" font-weight="700" text-anchor="middle">3. QUALITY CONTROL (QC)</text>
+    
+    <rect x="15" y="52" width="110" height="36" rx="6" fill="#21262d" stroke="#e3b341" stroke-width="1" />
+    <text x="70" y="75" fill="#e3b341" font-size="11" font-weight="700" text-anchor="middle">UNRELEASED</text>
+
+    <rect x="135" y="52" width="110" height="36" rx="6" fill="#21262d" stroke="#58a6ff" stroke-width="1" />
+    <text x="190" y="75" fill="#58a6ff" font-size="11" font-weight="700" text-anchor="middle">AVAILABLE ✓</text>
+
+    <rect x="15" y="98" width="110" height="36" rx="6" fill="#21262d" stroke="#db6d28" stroke-width="1" />
+    <text x="70" y="121" fill="#db6d28" font-size="11" font-weight="700" text-anchor="middle">ON HOLD ⏳</text>
+
+    <rect x="135" y="98" width="110" height="36" rx="6" fill="#21262d" stroke="#f85149" stroke-width="1" />
+    <text x="190" y="121" fill="#f85149" font-size="11" font-weight="700" text-anchor="middle">REJECT ✕</text>
+  </g>
+
+  <!-- Arrow QC down to Warehouse -->
+  <path d="M 820 280 L 820 325 L 500 325 L 500 350" stroke="#58a6ff" stroke-width="3" fill="none" marker-end="url(#arrow)" />
+
+  <!-- ZONE 4: GUDANG & STOK MULTI-LOKASI -->
+  <g transform="translate(300, 360)">
+    <rect x="0" y="0" width="400" height="170" rx="12" fill="#161b22" stroke="#30363d" stroke-width="2" filter="url(#shadow)" />
+    <rect x="0" y="0" width="400" height="38" rx="12" fill="url(#grad-warehouse)" />
+    <text x="200" y="24" fill="#ffffff" font-size="14" font-weight="700" text-anchor="middle">4. MANAJEMEN GUDANG &amp; INVENTARIS MULTI-LOKASI</text>
+    
+    <rect x="20" y="55" width="170" height="42" rx="6" fill="#21262d" stroke="#a371f7" stroke-width="1" />
+    <text x="105" y="75" fill="#c9d1d9" font-size="12" font-weight="600" text-anchor="middle">Stok Real-Time per Batch</text>
+    <text x="105" y="90" fill="#8b949e" font-size="10" text-anchor="middle">Pelacakan Rak &amp; Zona</text>
+
+    <rect x="210" y="55" width="170" height="42" rx="6" fill="#21262d" stroke="#a371f7" stroke-width="1" />
+    <text x="295" y="75" fill="#c9d1d9" font-size="12" font-weight="600" text-anchor="middle">Mutasi Antar Gudang</text>
+    <text x="295" y="90" fill="#8b949e" font-size="10" text-anchor="middle">Transfer Internal &amp; Transit</text>
+
+    <rect x="20" y="110" width="360" height="42" rx="6" fill="#21262d" stroke="#a371f7" stroke-width="1" />
+    <text x="200" y="130" fill="#c9d1d9" font-size="12" font-weight="600" text-anchor="middle">Stock Adjustment &amp; Stock Opname</text>
+    <text x="200" y="145" fill="#8b949e" font-size="10" text-anchor="middle">Koreksi Selisih Fisik vs Sistem &amp; Audit Log</text>
+  </g>
+
+  <!-- Arrow Warehouse to Sales -->
+  <path d="M 500 530 L 500 560 L 250 560 L 250 590" stroke="#58a6ff" stroke-width="3" fill="none" marker-end="url(#arrow)" />
+  
+  <!-- Arrow Warehouse to AI -->
+  <path d="M 500 530 L 500 560 L 750 560 L 750 590" stroke="#58a6ff" stroke-width="3" fill="none" marker-end="url(#arrow)" />
+
+  <!-- ZONE 5: PENJUALAN & DOKUMEN -->
+  <g transform="translate(70, 600)">
+    <rect x="0" y="0" width="360" height="170" rx="12" fill="#161b22" stroke="#30363d" stroke-width="2" filter="url(#shadow)" />
+    <rect x="0" y="0" width="360" height="38" rx="12" fill="url(#grad-sales)" />
+    <text x="180" y="24" fill="#ffffff" font-size="14" font-weight="700" text-anchor="middle">5. PENJUALAN &amp; DOKUMEN OPERASIONAL</text>
+    
+    <rect x="20" y="55" width="320" height="42" rx="6" fill="#21262d" stroke="#f85149" stroke-width="1" />
+    <text x="180" y="75" fill="#c9d1d9" font-size="12" font-weight="600" text-anchor="middle">Sales Order &amp; Pengeluaran Batch (FIFO/FEFO)</text>
+    <text x="180" y="90" fill="#8b949e" font-size="10" text-anchor="middle">Alokasi Stok Khusus Batch Berstatus Available</text>
+
+    <rect x="20" y="110" width="155" height="42" rx="6" fill="#21262d" stroke="#f85149" stroke-width="1" />
+    <text x="97" y="130" fill="#c9d1d9" font-size="11" font-weight="600" text-anchor="middle">Auto Surat Jalan</text>
+    <text x="97" y="145" fill="#8b949e" font-size="10" text-anchor="middle">Cetak PDF Terstandar</text>
+
+    <rect x="185" y="110" width="155" height="42" rx="6" fill="#21262d" stroke="#f85149" stroke-width="1" />
+    <text x="262" y="130" fill="#c9d1d9" font-size="11" font-weight="600" text-anchor="middle">Berita Acara Reject</text>
+    <text x="262" y="145" fill="#8b949e" font-size="10" text-anchor="middle">Dokumentasi Audit Kualitas</text>
+  </g>
+
+  <!-- ZONE 6: AI FORECASTING -->
+  <g transform="translate(570, 600)">
+    <rect x="0" y="0" width="360" height="170" rx="12" fill="#161b22" stroke="#30363d" stroke-width="2" filter="url(#shadow)" />
+    <rect x="0" y="0" width="360" height="38" rx="12" fill="url(#grad-ai)" />
+    <text x="180" y="24" fill="#ffffff" font-size="14" font-weight="700" text-anchor="middle">6. PREDIKSI AI &amp; ANALITIK (PROPHET)</text>
+    
+    <rect x="20" y="55" width="320" height="42" rx="6" fill="#21262d" stroke="#f78166" stroke-width="1" />
+    <text x="180" y="75" fill="#c9d1d9" font-size="12" font-weight="600" text-anchor="middle">AI Stock Forecasting &amp; Tren Penjualan</text>
+    <text x="180" y="90" fill="#8b949e" font-size="10" text-anchor="middle">Analisis Historis untuk Pencegahan Overstock/Understock</text>
+
+    <rect x="20" y="110" width="320" height="42" rx="6" fill="#21262d" stroke="#f78166" stroke-width="1" />
+    <text x="180" y="130" fill="#c9d1d9" font-size="12" font-weight="600" text-anchor="middle">Early Warning System &amp; AI Chatbot Assistant</text>
+    <text x="180" y="145" fill="#8b949e" font-size="10" text-anchor="middle">Notifikasi Stok Minimum, Expired, &amp; Batch Reject</text>
+  </g>
+
+  <!-- Bottom Connecting Line between Sales and AI/Report -->
+  <path d="M 430 685 L 570 685" stroke="#30363d" stroke-width="2" stroke-dasharray="6,6" />
+
+  <!-- ZONE 7: LAPORAN & KEUANGAN (Footer Bar) -->
+  <rect x="70" y="790" width="860" height="40" rx="8" fill="#1f242d" stroke="#388bfd" stroke-width="1.5" />
+  <text x="500" y="815" fill="#58a6ff" font-size="13" font-weight="700" text-anchor="middle">7. LAPORAN PERIODIK &amp; MONITORING KEUANGAN: Rekapitulasi Stok, Arus Kas Masuk/Keluar, &amp; Ekspor Excel (.xlsx) / PDF</text>
+</svg>

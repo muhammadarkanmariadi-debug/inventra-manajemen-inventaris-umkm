@@ -20,6 +20,8 @@ import { useAuth } from "@/context/AuthContext";
 import SidebarWidget from "./SidebarWidget";
 import { ChartAreaIcon, Settings, ShoppingCartIcon, LayersIcon, FileTextIcon, User, ArrowLeft } from "lucide-react";
 import { CldImage } from "next-cloudinary";
+import { useTranslate } from "@/hooks/useTranslate";
+import { Trans } from "@lingui/react";
 
 type NavItem = {
   name: string;
@@ -29,10 +31,10 @@ type NavItem = {
   subItems?: { name: string; path: string; pro?: boolean; new?: boolean; permission?: string }[];
 };
 
-const navItems: NavItem[] = [
+const getNavItems = (_: any): NavItem[] => [
   {
     icon: <GridIcon />,
-    name: "Dashboard",
+    name: _("Dashboard"),
     path: "/dashboard",
     permission: "Lihat Dashboard",
   },
@@ -40,72 +42,72 @@ const navItems: NavItem[] = [
   // 📦 MANAJEMEN KATALOG / PRODUK
   {
     icon: <LayersIcon />,
-    name: "Katalog Produk",
+    name: _("Katalog Produk"),
     subItems: [
-      { name: "Data Produk", path: "/dashboard/products", permission: "Lihat Produk" },
-      { name: "Kategori Produk", path: "/dashboard/categories", permission: "Lihat Kategori" },
-      { name: "Lokasi Penyimpanan", path: "/dashboard/locations", permission: "Lihat Produk" },
+      { name: _("Data Produk"), path: "/dashboard/products", permission: "Lihat Produk" },
+      { name: _("Kategori Produk"), path: "/dashboard/categories", permission: "Lihat Kategori" },
+      { name: _("Lokasi Penyimpanan"), path: "/dashboard/locations", permission: "Lihat Produk" },
     ],
   },
 
   // 🟨 INVENTARIS & STOK
   {
     icon: <BoxCubeIcon />,
-    name: "Kontrol Stok",
+    name: _("Kontrol Stok"),
     subItems: [
-      { name: "Data Stok Inventaris", path: "/dashboard/inventories", permission: "Lihat Produk" },
-      { name: "Penyesuaian Stok", path: "/dashboard/stock-adjustment", permission: "Lihat Transaksi Stok" },
-      { name: "QC Scanner (QR)", path: "/dashboard/scan", permission: "Lihat Produk" },
+      { name: _("Data Stok Inventaris"), path: "/dashboard/inventories", permission: "Lihat Produk" },
+      { name: _("Penyesuaian Stok"), path: "/dashboard/stock-adjustment", permission: "Lihat Transaksi Stok" },
+      { name: _("QC Scanner (QR)"), path: "/dashboard/scan", permission: "Lihat Produk" },
     ],
   },
 
   // 🔄 ARUS BARANG / TRANSAKSI
   {
     icon: <ShoppingCartIcon />,
-    name: "Arus Barang",
+    name: _("Arus Barang"),
     subItems: [
-      { name: "Penjualan (Keluar)", path: "/dashboard/sales", permission: "Lihat Penjualan" },
-      { name: "Pembelian (Masuk)", path: "/dashboard/purchases", permission: "Lihat Pembelian" },
-      { name: "Data Supplier", path: "/dashboard/suppliers", permission: "Lihat Supplier" },
+      { name: _("Penjualan (Keluar)"), path: "/dashboard/sales", permission: "Lihat Penjualan" },
+      { name: _("Pembelian (Masuk)"), path: "/dashboard/purchases", permission: "Lihat Pembelian" },
+      { name: _("Data Supplier"), path: "/dashboard/suppliers", permission: "Lihat Supplier" },
     ],
   },
 
   // 💰 KEUANGAN
   {
     icon: <DollarLineIcon />,
-    name: "Keuangan",
+    name: _("Keuangan"),
     subItems: [
-      { name: "Transaksi Keuangan", path: "/dashboard/financial-transactions", permission: "Lihat Transaksi Keuangan" },
-      { name: "Kategori Keuangan", path: "/dashboard/financial-categories", permission: "Lihat Kategori Keuangan" },
+      { name: _("Transaksi Keuangan"), path: "/dashboard/financial-transactions", permission: "Lihat Transaksi Keuangan" },
+      { name: _("Kategori Keuangan"), path: "/dashboard/financial-categories", permission: "Lihat Kategori Keuangan" },
     ],
   },
 
   // 📄 DOKUMEN INVENTARIS
   {
     icon: <FileTextIcon />,
-    name: "Dokumen",
+    name: _("Dokumen"),
     subItems: [
-      { name: "Buat Dokumen", path: "/dashboard/documents", new: true, permission: "Tambah Dokumen" },
-      { name: "Arsip Dokumen", path: "/dashboard/documents/archive", permission: "Lihat Dokumen" },
+      { name: _("Buat Dokumen"), path: "/dashboard/documents", new: true, permission: "Tambah Dokumen" },
+      { name: _("Arsip Dokumen"), path: "/dashboard/documents/archive", permission: "Lihat Dokumen" },
     ],
   },
 
   // 🤖 AI & ANALITIK
   {
     icon: <Robot />,
-    name: "Analitik dan Histori",
+    name: _("Analitik dan Histori"),
     subItems: [
-      { name: "Prediksi Cerdas", path: "/dashboard/stock-prediction", permission: "Lihat Transaksi Stok" },
-      { name: "Log Event", path: "/dashboard/logs", permission: "Lihat Log" },
+      { name: _("Prediksi Cerdas"), path: "/dashboard/stock-prediction", permission: "Lihat Transaksi Stok" },
+      { name: _("Log Event"), path: "/dashboard/logs", permission: "Lihat Log" },
     ],
   },
   {
     icon: <User />,
-    name: "Manajemen pengguna",
+    name: _("Manajemen pengguna"),
     subItems: [
  
-      { name: "Pengguna & Tim", path: "/dashboard/users", permission: "Lihat Pengguna" },
-      { name: "Peran / Jabatan", path: "/dashboard/roles", permission: "Lihat Peran" },
+      { name: _("Pengguna & Tim"), path: "/dashboard/users", permission: "Lihat Pengguna" },
+      { name: _("Peran / Jabatan"), path: "/dashboard/roles", permission: "Lihat Peran" },
      
   
     ],
@@ -114,18 +116,21 @@ const navItems: NavItem[] = [
   // ⚙️ MANAJEMEN & PENGATURAN
   {
     icon: <Settings />,
-    name: "Akun & Pengaturan",
+    name: _("Akun & Pengaturan"),
     subItems: [
-      { name: "Profil Akun", path: "/account/profile" },
-
-      { name: "Pengaturan ", path: "/account/settings" },
-      { name: "Bantuan & FAQ", path: "/account/help" },
+      { name: _("Profil Akun"), path: "/account/profile" },
+      { name: _("Langganan & Billing"), path: "/dashboard/settings/billing", new: true },
+      { name: _("Pengaturan "), path: "/account/settings" },
+      { name: _("Bantuan & FAQ"), path: "/faq" },
     ],
   },
 ];
-const othersItems: NavItem[] = [];
+const getOthersItems = (_: any): NavItem[] => [];
 
 const AppSidebar: React.FC = () => {
+  const { _ } = useTranslate();
+  const navItems = getNavItems(_);
+  const othersItems = getOthersItems(_);
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const pathname = usePathname();
   const { hasPermission } = useAuth();
@@ -292,7 +297,7 @@ const AppSidebar: React.FC = () => {
     if (!submenuMatched) {
       setOpenSubmenu(null);
     }
-  }, [pathname, isActive]);
+  }, [pathname, isActive, navItems, othersItems]);
 
   useEffect(() => {
     // Set the height of the submenu items when the submenu is opened
@@ -322,7 +327,7 @@ const AppSidebar: React.FC = () => {
   const { business } = useAuth()
   return (
     <aside
-      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
+      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-[999999] border-r border-gray-200 pointer-events-auto
         ${isExpanded || isMobileOpen
           ? "w-[290px]"
           : isHovered
@@ -387,7 +392,7 @@ const AppSidebar: React.FC = () => {
                   }`}
               >
                 {isExpanded || isHovered || isMobileOpen ? (
-                  "Menu"
+                  <Trans id="Menu" />
                 ) : (
                   <HorizontaLDots />
                 )}
@@ -412,7 +417,7 @@ const AppSidebar: React.FC = () => {
             </span>
             {(isExpanded || isHovered || isMobileOpen) && (
               <span className="text-sm">
-                Kembali ke Beranda
+                <Trans id="Kembali ke Beranda" />
               </span>
             )}
           </Link>

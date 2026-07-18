@@ -13,13 +13,12 @@ import { predictBatch } from '../../../../../services/prediction.service';
 import { getProducts } from '../../../../../services/product.service';
 import type { Product, PredictionResult, SalesRecord } from '../../../../../types';
 import { FilterBar, FilterValues } from '@/components/common/FilterBar';
-import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { apiGet } from '../../../../../lib/api';
 import { PermissionWrapper } from '@/components/common/PermissionWrapper';
 import { DownloadIcon } from "lucide-react";
 import { exportToExcel } from '@/utils/exportExcel';
-
+import { FeatureGate } from '@/components/subscription/FeatureGate';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 const STOCK_STATUS_COLOR: Record<string, 'error' | 'warning' | 'info' | 'success' | 'light'> = {
@@ -62,7 +61,7 @@ export default function StockPrediction() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [_]);
 
   useEffect(() => {
     fetchProducts();
@@ -134,13 +133,26 @@ export default function StockPrediction() {
       { label: _("Rendah"), value: 'low' },
       { label: _("Aman"), value: 'safe' },
     ],
-    searchPlaceholder: _("Cari produk..."),
+    sorts: [
+      {
+        label: _("Urutkan"),
+        key: "sort",
+        options: [
+          { label: _("Urgensi Stok (Default)"), value: "urgency" },
+          { label: _("Stok Terendah"), value: "stock_asc" },
+          { label: _("Stok Tertinggi"), value: "stock_desc" },
+          { label: _("Nama (A-Z)"), value: "name_asc" },
+          { label: _("Nama (Z-A)"), value: "name_desc" },
+        ],
+      },
+    ],
+    searchPlaceholder: _("Cari produk berdasarkan nama atau SKU..."),
   };
 
-  const filteredSortedProducts = sortedProducts.filter((product) => {
-    const matchSearch = product.name
+  let filteredSortedProducts = sortedProducts.filter((product) => {
+    const matchSearch = !filters?.search || product.name
       .toLowerCase()
-      .includes((filters?.search || '').toLowerCase());
+      .includes(filters.search.toLowerCase()) || product.sku.toLowerCase().includes(filters.search.toLowerCase());
     let matchTab = true;
     if (filters?.tab && filters?.tab !== 'all') {
       const s = product.stock;
@@ -150,6 +162,19 @@ export default function StockPrediction() {
     }
     return matchSearch && matchTab;
   });
+
+  if (filters?.sorts?.['sort'] && filters.sorts['sort'].value) {
+    const sortVal = filters.sorts['sort'].value;
+    if (sortVal === 'stock_asc') {
+      filteredSortedProducts = [...filteredSortedProducts].sort((a, b) => a.stock - b.stock);
+    } else if (sortVal === 'stock_desc') {
+      filteredSortedProducts = [...filteredSortedProducts].sort((a, b) => b.stock - a.stock);
+    } else if (sortVal === 'name_asc') {
+      filteredSortedProducts = [...filteredSortedProducts].sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortVal === 'name_desc') {
+      filteredSortedProducts = [...filteredSortedProducts].sort((a, b) => b.name.localeCompare(a.name));
+    }
+  }
 
   const handleExport = () => {
     const exportData = filteredSortedProducts.map(product => {
@@ -229,7 +254,7 @@ export default function StockPrediction() {
 
       {/* Filter + Stock Table */}
       <div className="flex flex-col gap-4 mb-4">
-        <FilterBar {...filterConfig} onFilterChange={setFilters} />
+        <FilterBar {...filterConfig} onFilterChange={setFilters} useUrlSync={true} />
         <div className="flex justify-end gap-3">
           <Button size="sm" variant="outline" onClick={handleExport} className="flex items-center gap-2">
             <DownloadIcon className="w-4 h-4" /> <Trans id="Export Excel" />
@@ -249,10 +274,10 @@ export default function StockPrediction() {
               <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
                 <TableRow>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Produk" /></TableCell>
-                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">SKU</TableCell>
+                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">{/* @ts-ignore */}<Trans>SKU</Trans></TableCell>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Kategori" /></TableCell>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Stok" /></TableCell>
-                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Status</TableCell>
+                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">{/* @ts-ignore */}<Trans>Status</Trans></TableCell>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Tipe" /></TableCell>
                 </TableRow>
               </TableHeader>
@@ -309,11 +334,18 @@ export default function StockPrediction() {
       </div>
 
       {/* FastAPI Prediction Section */}
-      <div className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03] mb-6">
-        <div className="mb-5">
-          <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-            <Trans id="Prediksi Stok (FastAPI)" />
-          </h4>
+      <FeatureGate
+        featureKey="ai_forecasting"
+        addonSlug="ai_forecasting"
+        planRequired="Enterprise"
+        title="Prediksi Stok Cerdas (AI) Terkunci"
+        description="Fitur analitik tren masa depan berbasis model linear regression dan prophet membutuhkan Add-on AI Forecasting atau paket Enterprise."
+      >
+        <div className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03] mb-6">
+          <div className="mb-5">
+            <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90">
+              <Trans id="Prediksi Stok (FastAPI)" />
+            </h4>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             <Trans id="Prediksi tren penjualan menggunakan Linear Regression + Prophet berdasarkan data transaksi 30 hari terakhir." />
           </p>
@@ -418,7 +450,7 @@ export default function StockPrediction() {
                   <p className="text-2xl font-bold text-gray-800 dark:text-white/90">{result.average_daily_sales}</p>
                 </div>
                 <div className="rounded-xl border border-gray-100 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800/50">
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Status Stok</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{/* @ts-ignore */}<Trans>Status Stok</Trans></p>
                   <div className="mt-1">
                     <Badge size="sm" color={statusColor}>{result.stock_status.status}</Badge>
                   </div>
@@ -430,7 +462,7 @@ export default function StockPrediction() {
                     <Badge size="sm" color={trendColor}>{result.linear_regression.trend}</Badge>
                   </div>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                    R² {result.linear_regression.r_squared} · Slope {result.linear_regression.slope}
+                    {/* @ts-ignore */}<Trans>R²</Trans>{result.linear_regression.r_squared} {/* @ts-ignore */}<Trans>· Slope</Trans>{result.linear_regression.slope}
                   </p>
                 </div>
               </div>
@@ -487,12 +519,13 @@ export default function StockPrediction() {
           );
         })}
 
-        {!predicting && predResults.length === 0 && !predError && (
-          <div className="flex items-center justify-center py-8 text-gray-400 text-sm">
-            <Trans id='Pilih produk lalu klik "Jalankan Prediksi" untuk melihat hasil prediksi.' />
-          </div>
-        )}
-      </div>
+          {!predicting && predResults.length === 0 && !predError && (
+            <div className="flex items-center justify-center py-8 text-gray-400 text-sm">
+              <Trans id='Pilih produk lalu klik "Jalankan Prediksi" untuk melihat hasil prediksi.' />
+            </div>
+          )}
+        </div>
+      </FeatureGate>
 
     </PermissionWrapper>
   );

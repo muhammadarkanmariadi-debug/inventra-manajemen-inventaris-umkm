@@ -4,6 +4,7 @@ import Button from "@/components/ui/button/Button";
 import { BoxIcon } from "@/icons";
 import { Metadata } from "next";
 import React from "react";
+import { Trans } from "@lingui/macro";
 
 export const metadata: Metadata = {
   title: "Next.js Buttons | TailAdmin - Next.js Dashboard Template",
@@ -20,33 +21,27 @@ export default function Buttons() {
         <ComponentCard title="Primary Button">
           <div className="flex items-center gap-5">
             <Button size="sm" variant="primary">
-              Button Text
-            </Button>
+              {/* @ts-ignore */}<Trans>Button Text</Trans></Button>
             <Button size="md" variant="primary">
-              Button Text
-            </Button>
+              {/* @ts-ignore */}<Trans>Button Text</Trans></Button>
           </div>
         </ComponentCard>
         {/* Primary Button with Start Icon */}
         <ComponentCard title="Primary Button with Left Icon">
           <div className="flex items-center gap-5">
             <Button size="sm" variant="primary" startIcon={<BoxIcon />}>
-              Button Text
-            </Button>
+              {/* @ts-ignore */}<Trans>Button Text</Trans></Button>
             <Button size="md" variant="primary" startIcon={<BoxIcon />}>
-              Button Text
-            </Button>
+              {/* @ts-ignore */}<Trans>Button Text</Trans></Button>
           </div>
         </ComponentCard>{" "}
         {/* Primary Button with Start Icon */}
         <ComponentCard title="Primary Button with Right Icon">
           <div className="flex items-center gap-5">
             <Button size="sm" variant="primary" endIcon={<BoxIcon />}>
-              Button Text
-            </Button>
+              {/* @ts-ignore */}<Trans>Button Text</Trans></Button>
             <Button size="md" variant="primary" endIcon={<BoxIcon />}>
-              Button Text
-            </Button>
+              {/* @ts-ignore */}<Trans>Button Text</Trans></Button>
           </div>
         </ComponentCard>
         {/* Outline Button */}
@@ -54,33 +49,27 @@ export default function Buttons() {
           <div className="flex items-center gap-5">
             {/* Outline Button */}
             <Button size="sm" variant="outline">
-              Button Text
-            </Button>
+              {/* @ts-ignore */}<Trans>Button Text</Trans></Button>
             <Button size="md" variant="outline">
-              Button Text
-            </Button>
+              {/* @ts-ignore */}<Trans>Button Text</Trans></Button>
           </div>
         </ComponentCard>
         {/* Outline Button with Start Icon */}
         <ComponentCard title="Outline Button with Left Icon">
           <div className="flex items-center gap-5">
             <Button size="sm" variant="outline" startIcon={<BoxIcon />}>
-              Button Text
-            </Button>
+              {/* @ts-ignore */}<Trans>Button Text</Trans></Button>
             <Button size="md" variant="outline" startIcon={<BoxIcon />}>
-              Button Text
-            </Button>
+              {/* @ts-ignore */}<Trans>Button Text</Trans></Button>
           </div>
         </ComponentCard>{" "}
         {/* Outline Button with Start Icon */}
         <ComponentCard title="Outline Button with Right Icon">
           <div className="flex items-center gap-5">
             <Button size="sm" variant="outline" endIcon={<BoxIcon />}>
-              Button Text
-            </Button>
+              {/* @ts-ignore */}<Trans>Button Text</Trans></Button>
             <Button size="md" variant="outline" endIcon={<BoxIcon />}>
-              Button Text
-            </Button>
+              {/* @ts-ignore */}<Trans>Button Text</Trans></Button>
           </div>
         </ComponentCard>
       </div>

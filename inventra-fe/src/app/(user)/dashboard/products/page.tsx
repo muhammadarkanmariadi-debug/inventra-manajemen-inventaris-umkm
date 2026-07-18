@@ -11,6 +11,7 @@ import { Modal } from '@/components/ui/modal';
 import Label from '@/components/form/Label';
 import Input from '@/components/form/input/InputField';
 import Select from '@/components/form/Select';
+import CurrencyInput from '@/components/form/input/CurrencyInput';
 import Alert from '@/components/ui/alert/Alert';
 import MultiSelect from '@/components/form/MultiSelect';
 import { getProducts, createProduct, updateProduct, deleteProduct } from '../../../../../services/product.service';
@@ -20,7 +21,6 @@ import { Search } from 'lucide-react';
 import SearchBar from '@/components/form/input/SearchBar';
 import { FilterBar, FilterBarProps, FilterValues } from '@/components/common/FilterBar';
 import { PrintableQRModal } from '@/components/common/PrintableQRModal';
-import { Trans } from '@lingui/react';
 import { useLingui } from '@lingui/react';
 import { CldUploadWidget, CloudinaryUploadWidgetInfo } from 'next-cloudinary';
 import { CloudUpload, PencilIcon, TrashIcon, EyeIcon, QrCodeIcon, DownloadIcon } from "lucide-react";
@@ -37,6 +37,7 @@ export default function Products() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState<FilterValues | null>(null);
@@ -57,7 +58,7 @@ export default function Products() {
     setCategories(res.data.data)
   }
 
-  const filterConfig: Required<Pick<FilterBarProps, "tabs" | "selects" | "searchPlaceholder">> = {
+  const filterConfig: Required<Pick<FilterBarProps, "tabs" | "selects" | "sorts" | "searchPlaceholder">> = {
     tabs: [
       { label: _("Barang"), value: "Barang" },
       { label: _("Kuliner"), value: "Kuliner" }
@@ -66,21 +67,61 @@ export default function Products() {
       {
         label: _("Kategori"),
         key: "category",
-        options: categories.map((item) => {
-          return { label: item.name, value: item.name }
-        }),
+        options: categories.map((item) => ({
+          label: item.name,
+          value: item.id.toString()
+        })),
       },
-
+    ],
+    sorts: [
+      {
+        label: _("Urutkan"),
+        key: "sort",
+        options: [
+          { label: _("Terbaru"), value: "created_at", direction: "desc" },
+          { label: _("Terlama"), value: "created_at", direction: "asc" },
+          { label: _("Nama (A-Z)"), value: "name", direction: "asc" },
+          { label: _("Nama (Z-A)"), value: "name", direction: "desc" },
+          { label: _("Harga Tertinggi"), value: "price", direction: "desc" },
+          { label: _("Harga Terendah"), value: "price", direction: "asc" },
+          { label: _("Stok Terbanyak"), value: "stock", direction: "desc" },
+          { label: _("Stok Sedikit"), value: "stock", direction: "asc" },
+        ],
+      },
     ],
     searchPlaceholder: _("Cari produk..."),
   };
 
+  const handleFilterChange = useCallback((vals: FilterValues) => {
+    setFilters(vals);
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const p = params.get("page");
+      if (p && !isNaN(Number(p))) {
+        setCurrentPage(Number(p));
+      } else {
+        setCurrentPage(1);
+      }
+    } else {
+      setCurrentPage(1);
+    }
+  }, []);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set("page", String(page));
+      window.history.pushState({}, '', url.toString());
+    }
+  };
 
   const [formData, setFormData] = useState<CreateProductPayload>({
     name: '',
     image: '',
     sku: '',
     selling_price: 0,
+    stock: 0,
     category_id: 0,
     product_type: 'barang',
     unit: '',
@@ -90,7 +131,24 @@ export default function Products() {
   const fetchProducts = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await getProducts(currentPage);
+      const queryParams: Record<string, any> = {};
+      if (filters?.search) queryParams.search = filters.search;
+      if (filters?.tab) queryParams.product_type = filters.tab.toLowerCase();
+      if (filters?.selects?.['category']) {
+        const val = filters.selects['category'];
+        const foundCat = categories.find(c => String(c.id) === String(val) || c.name === val);
+        if (foundCat) {
+          queryParams.category_id = foundCat.id;
+        } else if (!isNaN(Number(val)) && val !== '') {
+          queryParams.category_id = Number(val);
+        }
+      }
+      if (filters?.sorts?.['sort'] && filters.sorts['sort'].value) {
+        queryParams.sort = filters.sorts['sort'].value;
+        queryParams.order = filters.sorts['sort'].direction || 'desc';
+      }
+
+      const res = await getProducts(currentPage, itemsPerPage, queryParams);
 
       if (res.status) {
         setProducts(res.data.data);
@@ -104,7 +162,7 @@ export default function Products() {
     } finally {
       setLoading(false);
     }
-  }, [currentPage]);
+  }, [currentPage, itemsPerPage, filters, categories, _]);
 
 
 
@@ -135,7 +193,7 @@ export default function Products() {
 
   const resetForm = () => {
     setFormData({
-      name: '', sku: '', image: '', selling_price: 0,
+      name: '', sku: '', image: '', selling_price: 0, stock: 0,
       category_id: 0, product_type: 'barang', unit: '',
       expired_date: null,
     });
@@ -160,6 +218,7 @@ export default function Products() {
       image: product.image || '',
       sku: product.sku,
       selling_price: product.selling_price,
+      stock: product.stock,
       category_id: product.category_id,
       product_type: product.product_type,
       unit: product.unit,
@@ -221,15 +280,15 @@ export default function Products() {
 
 
   const prod = products.filter((item) => {
-    const matchSearch = item.name
+    const matchSearch = !filters?.search || item.name
       .toLowerCase()
-      .includes((filters?.search || '').toLowerCase());
+      .includes(filters.search.toLowerCase()) || item.sku.toLowerCase().includes(filters.search.toLowerCase());
 
     const activeCategory = filters?.selects?.['category'] ?? '';
-    const matchCategory = activeCategory === '' || item.category?.name === activeCategory;
+    const matchCategory = activeCategory === '' || String(item.category?.id) === String(activeCategory) || item.category?.name === activeCategory;
 
     const activeTab = filters?.tab ?? 'Barang';
-    const matchTab = item.product_type.toLowerCase() === activeTab.toLowerCase();
+    const matchTab = activeTab === '' || item.product_type.toLowerCase() === activeTab.toLowerCase();
 
     return matchSearch && matchCategory && matchTab;
   });
@@ -253,8 +312,10 @@ export default function Products() {
         <FilterBar
           tabs={filterConfig.tabs}
           selects={filterConfig.selects}
+          sorts={filterConfig.sorts}
           searchPlaceholder={filterConfig.searchPlaceholder}
-          onFilterChange={setFilters}
+          onFilterChange={handleFilterChange}
+          useUrlSync={true}
         />
         <div className="mb-4 flex justify-end gap-3">
           <Button size="sm" variant="outline" onClick={handleExport} className="flex items-center gap-2">
@@ -273,7 +334,7 @@ export default function Products() {
               <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
                 <TableRow>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Nama" /></TableCell>
-                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">SKU</TableCell>
+                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">{/* @ts-ignore */}<Trans>SKU</Trans></TableCell>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Harga Jual" /></TableCell>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Stok" /></TableCell>
                   <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"><Trans id="Kategori" /></TableCell>
@@ -304,7 +365,7 @@ export default function Products() {
                           {product.image ? (
                             <Image src={product.image} alt={product.name} width={40} height={40} className="rounded-md object-cover w-10 h-10 border border-gray-200" />
                           ) : (
-                            <div className="w-10 h-10 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md flex items-center justify-center text-gray-500 text-[10px] leading-tight text-center px-1">No<br/>Img</div>
+                            <div className="w-10 h-10 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md flex items-center justify-center text-gray-500 text-[10px] leading-tight text-center px-1">{/* @ts-ignore */}<Trans>No</Trans><br/>{/* @ts-ignore */}<Trans>Img</Trans></div>
                           )}
                           <span className="font-medium text-gray-800 text-theme-sm dark:text-white/90">{product.name}</span>
                         </div>
@@ -344,9 +405,18 @@ export default function Products() {
           </div>
         </div>
 
-      {totalPages > 1 && (
+      {(totalPages > 1 || itemsPerPage !== 10) && (
         <div className="mt-4 flex justify-end">
-          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            itemsPerPage={itemsPerPage}
+            onItemsPerPageChange={(limit) => {
+              setItemsPerPage(limit);
+              setCurrentPage(1);
+            }}
+          />
         </div>
       )}
 
@@ -397,12 +467,20 @@ export default function Products() {
             <Input type="text" placeholder={_("Nama produk")} defaultValue={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
           </div>
           <div>
-            <Label>SKU</Label>
+            <Label>{/* @ts-ignore */}<Trans>SKU</Trans></Label>
             <Input type="text" placeholder="SKU" defaultValue={formData.sku} onChange={(e) => setFormData({ ...formData, sku: e.target.value })} />
           </div>
-          <div>
-            <Label><Trans id="Harga Jual" /></Label>
-            <Input type="number" placeholder="0" defaultValue={formData.selling_price} onChange={(e) => setFormData({ ...formData, selling_price: Number(e.target.value) })} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <Label><Trans id="Harga Jual" /></Label>
+              <CurrencyInput placeholder="0" value={formData.selling_price} onChange={(val) => setFormData({ ...formData, selling_price: val })} />
+            </div>
+            {!editingProduct && (
+              <div>
+                <Label><Trans id="Stok Awal" /></Label>
+                <Input type="number" placeholder="0" defaultValue={formData.stock || 0} onChange={(e) => setFormData({ ...formData, stock: Number(e.target.value) })} />
+              </div>
+            )}
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>

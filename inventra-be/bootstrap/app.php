@@ -19,6 +19,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \App\Http\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+            'plan.feature' => \App\Http\Middleware\EnsurePlanFeature::class,
+            'warehouse.limit' => \App\Http\Middleware\EnsureWarehouseLimit::class,
+            'idempotency' => \App\Http\Middleware\EnsureIdempotency::class,
+            'sandbox' => \App\Http\Middleware\EnsureSandbox::class,
         ]);
         $middleware->prepend(HandleCors::class);
     })

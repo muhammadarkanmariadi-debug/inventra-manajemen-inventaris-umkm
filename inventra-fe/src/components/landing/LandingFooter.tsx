@@ -7,22 +7,22 @@ import Image from "next/image";
 import { Globe, AtSign, MessageCircle } from "lucide-react";
 
 const PRODUCT_LINKS = [
-  { label: "Fitur", href: "#features" },
-  { label: "Cara Kerja", href: "#how-it-works" },
-  { label: "Harga", href: "#pricing" },
-  { label: "Dokumentasi", href: "#docs" },
+  { label: "Fitur", href: "/#features" },
+  { label: "Cara Kerja", href: "/#how-it-works" },
+  { label: "Harga", href: "/pricing" },
+  { label: "Dokumentasi API", href: "/docs" },
 ];
 
 const SUPPORT_LINKS = [
-  { label: "Pusat Bantuan", href: "#help" },
-  { label: "Kontak", href: "#contact" },
-  { label: "Status Sistem", href: "#status" },
+  { label: "Pusat Bantuan / FAQ", href: "/faq" },
+  { label: "Kontak", href: "/contact" },
+  { label: "Status Sistem", href: "/#status" },
 ];
 
 const LEGAL_LINKS = [
-  { label: "Privasi", href: "#privacy" },
-  { label: "Syarat & Ketentuan", href: "#terms" },
-  { label: "Cookie", href: "#cookies" },
+  { label: "Privasi", href: "/#privacy" },
+  { label: "Syarat & Ketentuan", href: "/#terms" },
+  { label: "Cookie", href: "/#cookies" },
 ];
 
 export default function LandingFooter() {
@@ -80,12 +80,12 @@ export default function LandingFooter() {
             <ul className="space-y-3">
               {PRODUCT_LINKS.map(({ label, href }) => (
                 <li key={href}>
-                  <a
+                  <Link
                     href={href}
                     className="text-muted-foreground hover:text-brand-500 transition-colors text-sm"
                   >
                     {_(label)}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -99,12 +99,12 @@ export default function LandingFooter() {
             <ul className="space-y-3">
               {SUPPORT_LINKS.map(({ label, href }) => (
                 <li key={href}>
-                  <a
+                  <Link
                     href={href}
                     className="text-muted-foreground hover:text-brand-500 transition-colors text-sm"
                   >
                     {_(label)}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

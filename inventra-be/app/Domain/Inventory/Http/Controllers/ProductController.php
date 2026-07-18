@@ -50,11 +50,73 @@ class ProductController extends Controller
             $perPage = (int) $request->query('items', 10);
             $query = Product::where('bussiness_id', auth()->guard('api')->user()->bussiness_id);
 
-            if ($request->has('include')) {
-                $includes = explode(',', $request->query('include'));
-                if (in_array('category', $includes)) {
-                    $query->with('category');
+            // Always include category if requested or by default for UI consistency
+            $includes = $request->has('include') ? explode(',', $request->query('include')) : ['category'];
+            if (in_array('category', $includes)) {
+                $query->with('category');
+            }
+
+            // Compute total_stock via subquery for accurate stock filtering and sorting
+            $query->withSum(['inventories as total_stock' => function ($q) {
+                $q->whereHas('status', function ($sq) {
+                    $sq->where('is_usable', true);
+                });
+            }], 'quantity');
+
+            // Search filter
+            if ($request->filled('search')) {
+                $search = $request->query('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                      ->orWhere('sku', 'like', "%{$search}%");
+                });
+            }
+
+            // Category filter
+            if ($request->filled('category_id')) {
+                $query->where('category_id', $request->query('category_id'));
+            } elseif ($request->filled('category')) {
+                $query->where('category_id', $request->query('category'));
+            }
+
+            // Product type filter
+            if ($request->filled('product_type') && in_array($request->query('product_type'), ['kuliner', 'barang'], true)) {
+                $query->where('product_type', $request->query('product_type'));
+            } elseif ($request->filled('type') && in_array(strtolower($request->query('type')), ['kuliner', 'barang'], true)) {
+                $query->where('product_type', strtolower($request->query('type')));
+            }
+
+            // Stock status filter
+            if ($request->filled('stock_status')) {
+                $stockStatus = strtolower($request->query('stock_status'));
+                if ($stockStatus === 'habis' || $stockStatus === 'out_of_stock' || $stockStatus === '0') {
+                    $query->havingRaw('COALESCE(total_stock, 0) <= 0');
+                } elseif ($stockStatus === 'kritis' || $stockStatus === 'critical') {
+                    $query->havingRaw('COALESCE(total_stock, 0) > 0 AND COALESCE(total_stock, 0) <= 5');
+                } elseif ($stockStatus === 'rendah' || $stockStatus === 'low') {
+                    $query->havingRaw('COALESCE(total_stock, 0) > 5 AND COALESCE(total_stock, 0) <= 15');
+                } elseif ($stockStatus === 'sedang' || $stockStatus === 'medium') {
+                    $query->havingRaw('COALESCE(total_stock, 0) > 15 AND COALESCE(total_stock, 0) <= 50');
+                } elseif ($stockStatus === 'aman' || $stockStatus === 'safe') {
+                    $query->havingRaw('COALESCE(total_stock, 0) > 50');
                 }
+            }
+
+            // Sorting with strict allow-list validation
+            $allowedSorts = ['name', 'sku', 'selling_price', 'price', 'stock', 'created_at', 'expired_date'];
+            $sort = $request->query('sort');
+            $order = strtolower($request->query('order', 'desc')) === 'asc' ? 'asc' : 'desc';
+
+            if ($sort && in_array($sort, $allowedSorts, true)) {
+                if ($sort === 'price') {
+                    $query->orderBy('selling_price', $order);
+                } elseif ($sort === 'stock') {
+                    $query->orderByRaw("COALESCE(total_stock, 0) {$order}");
+                } else {
+                    $query->orderBy($sort, $order);
+                }
+            } else {
+                $query->latest('id');
             }
 
             $products = $query->paginate($perPage);

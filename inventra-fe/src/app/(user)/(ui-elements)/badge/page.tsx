@@ -3,6 +3,7 @@ import Badge from "@/components/ui/badge/Badge";
 import { PlusIcon } from "@/icons";
 import { Metadata } from "next";
 import React from "react";
+import { Trans } from "@lingui/macro";
 
 export const metadata: Metadata = {
   title: "Next.js Badge | TailAdmin - Next.js Dashboard Template",
@@ -19,33 +20,25 @@ export default function BadgePage() {
         <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
           <div className="px-6 py-5">
             <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
-              With Light Background
-            </h3>
+              {/* @ts-ignore */}<Trans>With Light Background</Trans></h3>
           </div>
           <div className="p-6 border-t border-gray-100 dark:border-gray-800 xl:p-10">
             <div className="flex flex-wrap gap-4 sm:items-center sm:justify-center">
               {/* Light Variant */}
               <Badge variant="light" color="primary">
-                Primary
-              </Badge>
+                {/* @ts-ignore */}<Trans>Primary</Trans></Badge>
               <Badge variant="light" color="success">
-                Success
-              </Badge>{" "}
+                {/* @ts-ignore */}<Trans>Success</Trans></Badge>{" "}
               <Badge variant="light" color="error">
-                Error
-              </Badge>{" "}
+                {/* @ts-ignore */}<Trans>Error</Trans></Badge>{" "}
               <Badge variant="light" color="warning">
-                Warning
-              </Badge>{" "}
+                {/* @ts-ignore */}<Trans>Warning</Trans></Badge>{" "}
               <Badge variant="light" color="info">
-                Info
-              </Badge>
+                {/* @ts-ignore */}<Trans>Info</Trans></Badge>
               <Badge variant="light" color="light">
-                Light
-              </Badge>
+                {/* @ts-ignore */}<Trans>Light</Trans></Badge>
               <Badge variant="light" color="dark">
-                Dark
-              </Badge>
+                {/* @ts-ignore */}<Trans>Dark</Trans></Badge>
             </div>
           </div>
         </div>
@@ -53,33 +46,25 @@ export default function BadgePage() {
         <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
           <div className="px-6 py-5">
             <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
-              With Solid Background
-            </h3>
+              {/* @ts-ignore */}<Trans>With Solid Background</Trans></h3>
           </div>
           <div className="p-6 border-t border-gray-100 dark:border-gray-800 xl:p-10">
             <div className="flex flex-wrap gap-4 sm:items-center sm:justify-center">
               {/* Light Variant */}
               <Badge variant="solid" color="primary">
-                Primary
-              </Badge>
+                {/* @ts-ignore */}<Trans>Primary</Trans></Badge>
               <Badge variant="solid" color="success">
-                Success
-              </Badge>{" "}
+                {/* @ts-ignore */}<Trans>Success</Trans></Badge>{" "}
               <Badge variant="solid" color="error">
-                Error
-              </Badge>{" "}
+                {/* @ts-ignore */}<Trans>Error</Trans></Badge>{" "}
               <Badge variant="solid" color="warning">
-                Warning
-              </Badge>{" "}
+                {/* @ts-ignore */}<Trans>Warning</Trans></Badge>{" "}
               <Badge variant="solid" color="info">
-                Info
-              </Badge>
+                {/* @ts-ignore */}<Trans>Info</Trans></Badge>
               <Badge variant="solid" color="light">
-                Light
-              </Badge>
+                {/* @ts-ignore */}<Trans>Light</Trans></Badge>
               <Badge variant="solid" color="dark">
-                Dark
-              </Badge>
+                {/* @ts-ignore */}<Trans>Dark</Trans></Badge>
             </div>
           </div>
         </div>
@@ -87,32 +72,24 @@ export default function BadgePage() {
         <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
           <div className="px-6 py-5">
             <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
-              Light Background with Left Icon
-            </h3>
+              {/* @ts-ignore */}<Trans>Light Background with Left Icon</Trans></h3>
           </div>
           <div className="p-6 border-t border-gray-100 dark:border-gray-800 xl:p-10">
             <div className="flex flex-wrap gap-4 sm:items-center sm:justify-center">
               <Badge variant="light" color="primary" startIcon={<PlusIcon />}>
-                Primary
-              </Badge>
+                {/* @ts-ignore */}<Trans>Primary</Trans></Badge>
               <Badge variant="light" color="success" startIcon={<PlusIcon />}>
-                Success
-              </Badge>{" "}
+                {/* @ts-ignore */}<Trans>Success</Trans></Badge>{" "}
               <Badge variant="light" color="error" startIcon={<PlusIcon />}>
-                Error
-              </Badge>{" "}
+                {/* @ts-ignore */}<Trans>Error</Trans></Badge>{" "}
               <Badge variant="light" color="warning" startIcon={<PlusIcon />}>
-                Warning
-              </Badge>{" "}
+                {/* @ts-ignore */}<Trans>Warning</Trans></Badge>{" "}
               <Badge variant="light" color="info" startIcon={<PlusIcon />}>
-                Info
-              </Badge>
+                {/* @ts-ignore */}<Trans>Info</Trans></Badge>
               <Badge variant="light" color="light" startIcon={<PlusIcon />}>
-                Light
-              </Badge>
+                {/* @ts-ignore */}<Trans>Light</Trans></Badge>
               <Badge variant="light" color="dark" startIcon={<PlusIcon />}>
-                Dark
-              </Badge>
+                {/* @ts-ignore */}<Trans>Dark</Trans></Badge>
             </div>
           </div>
         </div>
@@ -120,32 +97,24 @@ export default function BadgePage() {
         <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
           <div className="px-6 py-5">
             <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
-              Solid Background with Left Icon
-            </h3>
+              {/* @ts-ignore */}<Trans>Solid Background with Left Icon</Trans></h3>
           </div>
           <div className="p-6 border-t border-gray-100 dark:border-gray-800 xl:p-10">
             <div className="flex flex-wrap gap-4 sm:items-center sm:justify-center">
               <Badge variant="solid" color="primary" startIcon={<PlusIcon />}>
-                Primary
-              </Badge>
+                {/* @ts-ignore */}<Trans>Primary</Trans></Badge>
               <Badge variant="solid" color="success" startIcon={<PlusIcon />}>
-                Success
-              </Badge>{" "}
+                {/* @ts-ignore */}<Trans>Success</Trans></Badge>{" "}
               <Badge variant="solid" color="error" startIcon={<PlusIcon />}>
-                Error
-              </Badge>{" "}
+                {/* @ts-ignore */}<Trans>Error</Trans></Badge>{" "}
               <Badge variant="solid" color="warning" startIcon={<PlusIcon />}>
-                Warning
-              </Badge>{" "}
+                {/* @ts-ignore */}<Trans>Warning</Trans></Badge>{" "}
               <Badge variant="solid" color="info" startIcon={<PlusIcon />}>
-                Info
-              </Badge>
+                {/* @ts-ignore */}<Trans>Info</Trans></Badge>
               <Badge variant="solid" color="light" startIcon={<PlusIcon />}>
-                Light
-              </Badge>
+                {/* @ts-ignore */}<Trans>Light</Trans></Badge>
               <Badge variant="solid" color="dark" startIcon={<PlusIcon />}>
-                Dark
-              </Badge>
+                {/* @ts-ignore */}<Trans>Dark</Trans></Badge>
             </div>
           </div>
         </div>
@@ -153,32 +122,24 @@ export default function BadgePage() {
         <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
           <div className="px-6 py-5">
             <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
-              Light Background with Right Icon
-            </h3>
+              {/* @ts-ignore */}<Trans>Light Background with Right Icon</Trans></h3>
           </div>
           <div className="p-6 border-t border-gray-100 dark:border-gray-800 xl:p-10">
             <div className="flex flex-wrap gap-4 sm:items-center sm:justify-center">
               <Badge variant="light" color="primary" endIcon={<PlusIcon />}>
-                Primary
-              </Badge>
+                {/* @ts-ignore */}<Trans>Primary</Trans></Badge>
               <Badge variant="light" color="success" endIcon={<PlusIcon />}>
-                Success
-              </Badge>{" "}
+                {/* @ts-ignore */}<Trans>Success</Trans></Badge>{" "}
               <Badge variant="light" color="error" endIcon={<PlusIcon />}>
-                Error
-              </Badge>{" "}
+                {/* @ts-ignore */}<Trans>Error</Trans></Badge>{" "}
               <Badge variant="light" color="warning" endIcon={<PlusIcon />}>
-                Warning
-              </Badge>{" "}
+                {/* @ts-ignore */}<Trans>Warning</Trans></Badge>{" "}
               <Badge variant="light" color="info" endIcon={<PlusIcon />}>
-                Info
-              </Badge>
+                {/* @ts-ignore */}<Trans>Info</Trans></Badge>
               <Badge variant="light" color="light" endIcon={<PlusIcon />}>
-                Light
-              </Badge>
+                {/* @ts-ignore */}<Trans>Light</Trans></Badge>
               <Badge variant="light" color="dark" endIcon={<PlusIcon />}>
-                Dark
-              </Badge>
+                {/* @ts-ignore */}<Trans>Dark</Trans></Badge>
             </div>
           </div>
         </div>
@@ -186,32 +147,24 @@ export default function BadgePage() {
         <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
           <div className="px-6 py-5">
             <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
-              Solid Background with Right Icon
-            </h3>
+              {/* @ts-ignore */}<Trans>Solid Background with Right Icon</Trans></h3>
           </div>
           <div className="p-6 border-t border-gray-100 dark:border-gray-800 xl:p-10">
             <div className="flex flex-wrap gap-4 sm:items-center sm:justify-center">
               <Badge variant="solid" color="primary" endIcon={<PlusIcon />}>
-                Primary
-              </Badge>
+                {/* @ts-ignore */}<Trans>Primary</Trans></Badge>
               <Badge variant="solid" color="success" endIcon={<PlusIcon />}>
-                Success
-              </Badge>{" "}
+                {/* @ts-ignore */}<Trans>Success</Trans></Badge>{" "}
               <Badge variant="solid" color="error" endIcon={<PlusIcon />}>
-                Error
-              </Badge>{" "}
+                {/* @ts-ignore */}<Trans>Error</Trans></Badge>{" "}
               <Badge variant="solid" color="warning" endIcon={<PlusIcon />}>
-                Warning
-              </Badge>{" "}
+                {/* @ts-ignore */}<Trans>Warning</Trans></Badge>{" "}
               <Badge variant="solid" color="info" endIcon={<PlusIcon />}>
-                Info
-              </Badge>
+                {/* @ts-ignore */}<Trans>Info</Trans></Badge>
               <Badge variant="solid" color="light" endIcon={<PlusIcon />}>
-                Light
-              </Badge>
+                {/* @ts-ignore */}<Trans>Light</Trans></Badge>
               <Badge variant="solid" color="dark" endIcon={<PlusIcon />}>
-                Dark
-              </Badge>
+                {/* @ts-ignore */}<Trans>Dark</Trans></Badge>
             </div>
           </div>
         </div>

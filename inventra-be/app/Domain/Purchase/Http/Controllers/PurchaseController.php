@@ -40,18 +40,37 @@ class PurchaseController extends Controller
             $businessId = auth()->guard('api')->user()->bussiness_id;
 
             $query = Purchase::where('bussiness_id', $businessId)
-                ->with(['supplier', 'items.product'])
-                ->orderBy('purchase_date', 'desc');
+                ->with(['supplier', 'items.product']);
 
-            if ($request->has('supplier_id')) {
+            if ($request->filled('search')) {
+                $search = $request->query('search');
+                $query->whereHas('supplier', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                });
+            }
+
+            if ($request->filled('supplier_id')) {
                 $query->where('supplier_id', $request->query('supplier_id'));
             }
 
-            if ($request->has('from') && $request->has('to')) {
-                $query->whereBetween('purchase_date', [
-                    $request->query('from'),
-                    $request->query('to'),
-                ]);
+            $from = $request->query('from', $request->query('date_from'));
+            $to = $request->query('to', $request->query('date_to'));
+            if ($from && $to) {
+                $query->whereBetween('purchase_date', [$from, $to]);
+            } elseif ($from) {
+                $query->whereDate('purchase_date', '>=', $from);
+            } elseif ($to) {
+                $query->whereDate('purchase_date', '<=', $to);
+            }
+
+            $allowedSorts = ['purchase_date', 'total_amount', 'created_at', 'id'];
+            $sort = $request->query('sort');
+            $order = strtolower($request->query('order', 'desc')) === 'asc' ? 'asc' : 'desc';
+
+            if ($sort && in_array($sort, $allowedSorts, true)) {
+                $query->orderBy($sort, $order);
+            } else {
+                $query->orderBy('purchase_date', 'desc');
             }
 
             $purchases = $query->paginate($perPage);

@@ -6,14 +6,12 @@ import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import Button from "@/components/ui/button/Button";
 import Alert from "@/components/ui/alert/Alert";
 import { updateProfile } from "../../../../../services/user.service";
-import { Trans } from '@lingui/react';
-import { useLingui } from '@lingui/react';
+import { Trans, useLingui } from '@lingui/react';
 import { useTheme, COLOR_THEME_OPTIONS, type ColorTheme } from "@/context/ThemeContext";
 import { useToast } from "@/context/ToastContext";
 import Select from "@/components/form/Select";
-
-
-type SettingsTab = "security" | "appearance";
+import { Key, Copy, Check, ShieldCheck, Terminal, AlertCircle } from "lucide-react";
+type SettingsTab = "security" | "appearance" | "api_access";
 
 export default function SettingsPage() {
   const { _ } = useLingui();
@@ -24,6 +22,47 @@ export default function SettingsPage() {
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+
+  // State untuk API Key & OAuth2 Client Credentials
+  const [apiKeys, setApiKeys] = useState<{ id: string; name: string; key: string; clientId: string; clientSecret: string; createdAt: string }[]>([
+    {
+      id: "key-1",
+      name: "Default Live API Key",
+      key: "inv_live_9a8b7c6d5e4f3a2b1c0d",
+      clientId: "client_live_abc123456789",
+      clientSecret: "secret_live_987654321xyzabcdef",
+      createdAt: "2026-07-01",
+    }
+  ]);
+  const [newKeyName, setNewKeyName] = useState("");
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const handleGenerateKey = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newKeyName.trim()) {
+      toast.error(_("Silakan masukkan label aplikasi/konektor Anda."));
+      return;
+    }
+    const randomSuffix = Math.random().toString(36).substring(2, 12);
+    const newEntry = {
+      id: `key-${Date.now()}`,
+      name: newKeyName.trim(),
+      key: `inv_live_${randomSuffix}${Math.random().toString(36).substring(2, 10)}`,
+      clientId: `client_live_${randomSuffix}`,
+      clientSecret: `secret_live_${Math.random().toString(36).substring(2, 15)}`,
+      createdAt: new Date().toISOString().split("T")[0],
+    };
+    setApiKeys([newEntry, ...apiKeys]);
+    setNewKeyName("");
+    toast.success(_("API Key & Client Secret baru berhasil dibuat!"));
+  };
+
+  const handleCopy = (text: string, id: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    toast.success(_("Berhasil disalin ke clipboard"));
+    setTimeout(() => setCopiedId(null), 2000);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,6 +107,7 @@ export default function SettingsPage() {
   const tabs: { id: SettingsTab; label: string }[] = [
     { id: "security", label: _("Keamanan") },
     { id: "appearance", label: _("Tampilan") },
+    { id: "api_access", label: _("Developer & Akses API") },
   ];
   const position = [
     'top-left', 'top-right', 'top-center', 'bottom-left', 'bottom-right', 'bottom-center'
@@ -258,6 +298,111 @@ export default function SettingsPage() {
                       </button>
                     );
                   })}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "api_access" && (
+            <div className="space-y-6">
+              <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-3 bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-xl border border-blue-500/20">
+                    <Key className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
+                      <Trans id="Kredensial & API Key Developer" />
+                    </h3>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      <Trans id="Kelola kunci otentikasi (X-Inventra-Key) dan kredensial OAuth2 Client untuk integrasi ERP eksternal." />
+                    </p>
+                  </div>
+                </div>
+
+                <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/50 rounded-xl p-4 text-xs text-blue-800 dark:text-blue-300 mb-6 flex items-start gap-2.5">
+                  <ShieldCheck className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+                  <div>
+                    <strong>{/* @ts-ignore */}Penting:</strong> {/* @ts-ignore */}Simpan `client_secret` dan API Key Anda dengan rahasia di server backend Anda. Jangan pernah membagikan atau menanamkan kredensial ini langsung di aplikasi frontend publik atau repositori GitHub.</div>
+                </div>
+
+                {/* Generate New Key Form */}
+                <form onSubmit={handleGenerateKey} className="mb-8 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/60 border border-gray-200 dark:border-gray-800">
+                  <h4 className="text-sm font-semibold text-gray-800 dark:text-white mb-3 flex items-center gap-2">
+                    <Terminal className="w-4 h-4 text-brand-500" /> {/* @ts-ignore */}Buat Kredensial Baru</h4>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <input
+                      type="text"
+                      value={newKeyName}
+                      onChange={(e) => setNewKeyName(e.target.value)}
+                      placeholder={_("Nama label aplikasi / konektor (mis. SAP Connector)")}
+                      className="flex-1 rounded-lg border border-gray-300 bg-white px-3.5 py-2 text-sm text-gray-800 focus:border-brand-500 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-white/90"
+                    />
+                    <Button type="submit">
+                      <Trans id="Generate Key" />
+                    </Button>
+                  </div>
+                </form>
+
+                {/* List of Keys */}
+                <div className="space-y-4">
+                  <h4 className="text-sm font-semibold text-gray-800 dark:text-white">{/* @ts-ignore */}Daftar Kredensial Aktif</h4>
+                  {apiKeys.map((item) => (
+                    <div key={item.id} className="p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/40 space-y-3">
+                      <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
+                        <div>
+                          <span className="font-semibold text-sm text-gray-900 dark:text-white">{item.name}</span>
+                          <span className="ml-2 text-xs text-gray-400">({item.createdAt})</span>
+                        </div>
+                        <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                          {/* @ts-ignore */}Active</span>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-mono">
+                        <div className="p-2.5 rounded-lg bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700/60 flex items-center justify-between gap-2">
+                          <div className="truncate">
+                            <span className="text-[10px] text-gray-400 block font-sans">{/* @ts-ignore */}Header X-Inventra-Key:</span>
+                            <span className="text-gray-800 dark:text-gray-200 truncate block">{item.key}</span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy(item.key, `${item.id}-key`)}
+                            className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-gray-500 hover:text-gray-800 dark:hover:text-white shrink-0 transition-colors"
+                          >
+                            {copiedId === `${item.id}-key` ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                          </button>
+                        </div>
+
+                        <div className="p-2.5 rounded-lg bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700/60 flex items-center justify-between gap-2">
+                          <div className="truncate">
+                            <span className="text-[10px] text-gray-400 block font-sans">{/* @ts-ignore */}OAuth2 client_id:</span>
+                            <span className="text-gray-800 dark:text-gray-200 truncate block">{item.clientId}</span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy(item.clientId, `${item.id}-client`)}
+                            className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-gray-500 hover:text-gray-800 dark:hover:text-white shrink-0 transition-colors"
+                          >
+                            {copiedId === `${item.id}-client` ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                          </button>
+                        </div>
+
+                        <div className="p-2.5 rounded-lg bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700/60 flex items-center justify-between gap-2">
+                          <div className="truncate">
+                            <span className="text-[10px] text-gray-400 block font-sans">{/* @ts-ignore */}OAuth2 client_secret:</span>
+                            <span className="text-gray-800 dark:text-gray-200 truncate block">{item.clientSecret}</span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy(item.clientSecret, `${item.id}-secret`)}
+                            className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-gray-500 hover:text-gray-800 dark:hover:text-white shrink-0 transition-colors"
+                          >
+                            {copiedId === `${item.id}-secret` ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
