@@ -113,4 +113,6 @@ AI_AGENT_PROMPT.md
 /inventra-fe/.env.*
 /inventra-be/.env.*
 
-/screenshots
+screenshots
+
+.vscode
