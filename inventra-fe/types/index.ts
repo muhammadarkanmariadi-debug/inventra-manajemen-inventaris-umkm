@@ -1,0 +1,346 @@
+// ========== API Response Types ==========
+
+export interface ApiResponse<T = any> {
+  status: boolean;
+  message: string;
+  data: T;
+}
+
+export interface PaginatedData<T> {
+  current_page: number;
+  data: T[];
+  last_page: number;
+  per_page: number;
+  total: number;
+  from: number;
+  to: number;
+}
+
+
+
+export interface Product {
+  id: number;
+  name: string;
+  image?: string | null;
+  sku: string;
+  selling_price: number;
+  stock: number;
+  category_id: number;
+  product_type: "kuliner" | "barang";
+  unit: string;
+  expired_date: string | null;
+  bussiness_id: number;
+  created_at: string;
+  updated_at: string;
+  category?: Category;
+}
+
+export interface CreateProductPayload {
+  name: string;
+  image?: string | null;
+  sku: string;
+  selling_price: number;
+  stock?: number;
+  category_id: number;
+  product_type: "kuliner" | "barang";
+  unit: string;
+  expired_date?: string | null;
+}
+
+export interface Category {
+  id: number;
+  name: string;
+  description: string | null;
+  bussiness_id: number;
+  created_at: string;
+  updated_at: string;
+  products?: Product[];
+}
+
+export interface CreateCategoryPayload {
+  name: string;
+  description?: string;
+}
+
+export interface Business {
+  id: number;
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+  website: string | null;
+  logo: string | null;
+  logo_dark: string | null;
+  description: string | null;
+  status: "active" | "inactive";
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Supplier {
+  id: number;
+  name: string;
+  address?: string;
+  phone?: string;
+  bussiness_id: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CreateSupplierPayload {
+  name: string;
+  address?: string;
+  phone?: string;
+}
+
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  image: string | null;
+  role: "SUPERADMIN" | "USER";
+  bussiness_id: number | null;
+  created_at: string;
+  updated_at: string;
+  roles?: Role[];
+  business?: Business;
+}
+
+export interface CreateUserPayload {
+  username: string;
+  email: string;
+  password: string;
+  roles: string[];
+}
+
+export interface Role {
+  id: number;
+  name: string;
+  guard_name: string;
+  created_at: string;
+  updated_at: string;
+  permissions?: Permission[];
+}
+
+export interface CreateRolePayload {
+  name: string;
+  permissions: string[];
+}
+
+export interface Permission {
+  id: number;
+  name: string;
+  guard_name: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CreatePermissionPayload {
+  name: string;
+  guard_name: string;
+}
+
+export interface Sale {
+  id: number;
+  product_id: number;
+  inventory_id?: number;
+  quantity: number;
+  selling_price: number;
+  total_price: number;
+  buyer_name?: string | null;
+  buyer_phone?: string | null;
+  buyer_address?: string | null;
+  bussiness_id: number;
+  created_at: string;
+  updated_at: string;
+  product?: Product;
+  inventory?: Inventory;
+}
+
+export interface CreateSalePayload {
+  inventory_id: number;
+  quantity: number;
+  selling_price: number;
+  buyer_name?: string;
+  buyer_phone?: string;
+  buyer_address?: string;
+}
+
+export interface Inventory {
+  id: number;
+  inventory_code: string;
+  product_id: number;
+  current_status_id: number;
+  quantity: number;
+  location_id: number | null;
+  created_at: string;
+  updated_at: string;
+  product?: Product;
+}
+
+export interface StockTransaction {
+  id: number;
+  product_id: number;
+  quantity: number;
+  type: "IN" | "OUT" | "ADJUST";
+  note: string | null;
+  bussiness_id: number;
+  user_id: number;
+  created_at: string;
+  updated_at: string;
+  product?: Product;
+}
+
+export interface StockTransactionItem {
+  product_id: number;
+  quantity: number;
+  type: "IN" | "OUT" | "ADJUST";
+  note?: string;
+}
+
+export interface CreateStockTransactionPayload {
+  transactions: StockTransactionItem[];
+}
+
+export interface FinancialCategory {
+  id: number;
+  name: string;
+  type: "income" | "expense";
+  bussiness_id: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CreateFinancialCategoryPayload {
+  name: string;
+  type: "income" | "expense";
+}
+
+export interface FinancialTransaction {
+  id: number;
+  financial_category_id: number;
+  type: "income" | "expense";
+  amount: number;
+  note: string | null;
+  transaction_date: string;
+  bussiness_id: number;
+  created_at: string;
+  updated_at: string;
+  financial_category?: FinancialCategory;
+}
+
+export interface CreateFinancialTransactionPayload {
+  financial_category_id: number;
+  type: "income" | "expense";
+  amount: number;
+  note?: string;
+  transaction_date: string;
+}
+
+// ========== Purchase Types ==========
+
+export interface Purchase {
+  id: number;
+  supplier_id: number;
+  bussiness_id: number;
+  purchase_date: string;
+  total_amount: number;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+  supplier?: Supplier;
+  items?: PurchaseItem[];
+}
+
+export interface PurchaseItem {
+  id: number;
+  purchase_id: number;
+  product_id: number;
+  quantity: number;
+  price: number;
+  subtotal: number;
+  created_at: string;
+  updated_at: string;
+  product?: Product;
+}
+
+export interface CreatePurchasePayload {
+  supplier_id: number;
+  purchase_date: string;
+  notes?: string;
+  items: CreatePurchaseItemPayload[];
+}
+
+export interface CreatePurchaseItemPayload {
+  product_id: number;
+  quantity: number;
+  price: number;
+}
+
+// ========== AI Prediction Types (FastAPI) ==========
+
+export interface SalesRecord {
+  product_id: number;
+  stock: number;
+  sales: number;
+}
+
+export interface ProphetForecast {
+  ds: string;
+  yhat: number;
+  yhat_lower: number;
+  yhat_upper: number;
+}
+
+export interface StockStatus {
+  status: 'CRITICAL' | 'LOW' | 'WARNING' | 'SAFE' | 'UNKNOWN';
+  message: string;
+  reorder_point: number;
+  days_until_stockout: number;
+}
+
+export interface LinearRegressionResult {
+  next_period_sales: number;
+  trend: 'NAIK' | 'TURUN' | 'STABIL' | 'INSUFFICIENT_DATA';
+  slope: number;
+  r_squared: number;
+  confidence: 'TINGGI' | 'SEDANG' | 'RENDAH' | 'LOW';
+}
+
+export interface PredictionResult {
+  product_id: number;
+  current_stock: number;
+  total_sales: number;
+  average_daily_sales: number;
+  stock_status: StockStatus;
+  linear_regression: LinearRegressionResult;
+  prophet_forecast: ProphetForecast[];
+  recommendation: string;
+}
+
+export interface DefectRecord {
+  product_id: number;
+  total_unreleased: number;
+  total_rejected: number;
+  current_unreleased_stock: number;
+}
+
+export interface DefectPredictionResponse {
+  product_id: number;
+  historical_reject_rate: number;
+  projected_defects: number;
+  qc_recommendation: string;
+  risk_level: 'HIGH' | 'MEDIUM' | 'LOW' | 'UNKNOWN';
+}
+
+
+export interface Log {
+  id: number;
+  message: string;
+  categories: string;
+  user_id: number;
+  bussiness_id: number;
+  created_at: string;
+  updated_at: string;
+  user?: User;
+}

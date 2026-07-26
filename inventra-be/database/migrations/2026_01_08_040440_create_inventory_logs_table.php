@@ -1,0 +1,28 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    public function up(): void
+    {
+        Schema::create('inventory_logs', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('inventory_id')->constrained('inventories')->cascadeOnDelete();
+            $table->foreignId('from_status_id')->nullable()->constrained('inventory_statuses')->nullOnDelete();
+            $table->foreignId('to_status_id')->constrained('inventory_statuses')->restrictOnDelete();
+            $table->string('action')->index(); // SCAN, QC_PASS, REJECT, MOVE, etc.
+            $table->integer('quantity');
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->text('notes')->nullable();
+            $table->foreignId('location_id')->nullable()->constrained('locations')->nullOnDelete();
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('inventory_logs');
+    }
+};
